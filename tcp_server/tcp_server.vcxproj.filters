@@ -56,9 +56,6 @@
     <Filter Include="src\customer\module">
       <UniqueIdentifier>{0e111177-0bd4-48b4-a35d-4e30a5102577}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\customer\util">
-      <UniqueIdentifier>{0391bd81-160d-495d-a210-92138494112f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\customer\module\item">
       <UniqueIdentifier>{cf937418-8458-457d-a054-2145347881fc}</UniqueIdentifier>
     </Filter>
@@ -97,6 +94,24 @@
     </Filter>
     <Filter Include="src\framework\base">
       <UniqueIdentifier>{27baabd9-8375-4f5a-b4ce-09137a4f3589}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\customer\module\util">
+      <UniqueIdentifier>{0391bd81-160d-495d-a210-92138494112f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\framework\network\protobuf">
+      <UniqueIdentifier>{10dd5c0e-040c-4f16-8886-b6812ce1f2e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\framework\network\protobuf\io">
+      <UniqueIdentifier>{c1e664c8-ec04-4d99-a146-ab8bc25ab27a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\framework\network\protobuf\stubs">
+      <UniqueIdentifier>{76381f74-4e12-4087-a2e9-93c7b6764654}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\framework\network\protocol">
+      <UniqueIdentifier>{6bbdd40b-81a1-4906-916e-6590383a05ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\framework\network\msg">
+      <UniqueIdentifier>{a810bd0d-537f-4409-8417-e450d617c0c0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -535,6 +550,189 @@
     <ClInclude Include="src\framework\base\log_headers.h">
       <Filter>src\framework\base</Filter>
     </ClInclude>
+    <ClInclude Include="src\framework\network\google\protobuf\io\coded_stream.h">
+      <Filter>src\framework\network\protobuf\io</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\google\protobuf\io\coded_stream_inl.h">
+      <Filter>src\framework\network\protobuf\io</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\google\protobuf\io\gzip_stream.h">
+      <Filter>src\framework\network\protobuf\io</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\google\protobuf\io\package_info.h">
+      <Filter>src\framework\network\protobuf\io</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\google\protobuf\io\printer.h">
+      <Filter>src\framework\network\protobuf\io</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\google\protobuf\io\strtod.h">
+      <Filter>src\framework\network\protobuf\io</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\google\protobuf\io\tokenizer.h">
+      <Filter>src\framework\network\protobuf\io</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\google\protobuf\io\zero_copy_stream.h">
+      <Filter>src\framework\network\protobuf\io</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\google\protobuf\io\zero_copy_stream_impl.h">
+      <Filter>src\framework\network\protobuf\io</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\google\protobuf\io\zero_copy_stream_impl_lite.h">
+      <Filter>src\framework\network\protobuf\io</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\google\protobuf\stubs\atomicops.h">
+      <Filter>src\framework\network\protobuf\stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\google\protobuf\stubs\atomicops_internals_arm64_gcc.h">
+      <Filter>src\framework\network\protobuf\stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\google\protobuf\stubs\atomicops_internals_arm_gcc.h">
+      <Filter>src\framework\network\protobuf\stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\google\protobuf\stubs\atomicops_internals_arm_qnx.h">
+      <Filter>src\framework\network\protobuf\stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\google\protobuf\stubs\atomicops_internals_atomicword_compat.h">
+      <Filter>src\framework\network\protobuf\stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\google\protobuf\stubs\atomicops_internals_generic_gcc.h">
+      <Filter>src\framework\network\protobuf\stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\google\protobuf\stubs\atomicops_internals_macosx.h">
+      <Filter>src\framework\network\protobuf\stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\google\protobuf\stubs\atomicops_internals_mips_gcc.h">
+      <Filter>src\framework\network\protobuf\stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\google\protobuf\stubs\atomicops_internals_pnacl.h">
+      <Filter>src\framework\network\protobuf\stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\google\protobuf\stubs\atomicops_internals_solaris.h">
+      <Filter>src\framework\network\protobuf\stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\google\protobuf\stubs\atomicops_internals_tsan.h">
+      <Filter>src\framework\network\protobuf\stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\google\protobuf\stubs\atomicops_internals_x86_gcc.h">
+      <Filter>src\framework\network\protobuf\stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\google\protobuf\stubs\atomicops_internals_x86_msvc.h">
+      <Filter>src\framework\network\protobuf\stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\google\protobuf\stubs\common.h">
+      <Filter>src\framework\network\protobuf\stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\google\protobuf\stubs\hash.h">
+      <Filter>src\framework\network\protobuf\stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\google\protobuf\stubs\map_util.h">
+      <Filter>src\framework\network\protobuf\stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\google\protobuf\stubs\once.h">
+      <Filter>src\framework\network\protobuf\stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\google\protobuf\stubs\platform_macros.h">
+      <Filter>src\framework\network\protobuf\stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\google\protobuf\stubs\shared_ptr.h">
+      <Filter>src\framework\network\protobuf\stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\google\protobuf\stubs\stl_util.h">
+      <Filter>src\framework\network\protobuf\stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\google\protobuf\stubs\stringprintf.h">
+      <Filter>src\framework\network\protobuf\stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\google\protobuf\stubs\strutil.h">
+      <Filter>src\framework\network\protobuf\stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\google\protobuf\stubs\substitute.h">
+      <Filter>src\framework\network\protobuf\stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\google\protobuf\stubs\template_util.h">
+      <Filter>src\framework\network\protobuf\stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\google\protobuf\stubs\type_traits.h">
+      <Filter>src\framework\network\protobuf\stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\google\protobuf\config.h">
+      <Filter>src\framework\network\protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\google\protobuf\descriptor.h">
+      <Filter>src\framework\network\protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\google\protobuf\descriptor.pb.h">
+      <Filter>src\framework\network\protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\google\protobuf\descriptor_database.h">
+      <Filter>src\framework\network\protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\google\protobuf\dynamic_message.h">
+      <Filter>src\framework\network\protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\google\protobuf\extension_set.h">
+      <Filter>src\framework\network\protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\google\protobuf\generated_enum_reflection.h">
+      <Filter>src\framework\network\protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\google\protobuf\generated_message_reflection.h">
+      <Filter>src\framework\network\protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\google\protobuf\generated_message_util.h">
+      <Filter>src\framework\network\protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\google\protobuf\message.h">
+      <Filter>src\framework\network\protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\google\protobuf\message_lite.h">
+      <Filter>src\framework\network\protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\google\protobuf\package_info.h">
+      <Filter>src\framework\network\protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\google\protobuf\reflection_ops.h">
+      <Filter>src\framework\network\protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\google\protobuf\repeated_field.h">
+      <Filter>src\framework\network\protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\google\protobuf\service.h">
+      <Filter>src\framework\network\protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\google\protobuf\text_format.h">
+      <Filter>src\framework\network\protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\google\protobuf\unknown_field_set.h">
+      <Filter>src\framework\network\protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\google\protobuf\wire_format.h">
+      <Filter>src\framework\network\protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\google\protobuf\wire_format_lite.h">
+      <Filter>src\framework\network\protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\google\protobuf\wire_format_lite_inl.h">
+      <Filter>src\framework\network\protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\google\protobuf\io\zlib.h">
+      <Filter>src\framework\network\protobuf\io</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\protocol\login_msg_protocol.pb.h">
+      <Filter>src\framework\network\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\msg\msg_id.h">
+      <Filter>src\framework\network\msg</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\msg\msg_manager.h">
+      <Filter>src\framework\network\msg</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\msg\msg.h">
+      <Filter>src\framework\network\msg</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\msg\msg_type.h">
+      <Filter>src\framework\network\msg</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -569,6 +767,111 @@
     </ClCompile>
     <ClCompile Include="src\framework\log\log.cc">
       <Filter>src\framework\log</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\network\google\protobuf\io\coded_stream.cc">
+      <Filter>src\framework\network\protobuf\io</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\network\google\protobuf\io\gzip_stream.cc">
+      <Filter>src\framework\network\protobuf\io</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\network\google\protobuf\io\printer.cc">
+      <Filter>src\framework\network\protobuf\io</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\network\google\protobuf\io\strtod.cc">
+      <Filter>src\framework\network\protobuf\io</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\network\google\protobuf\io\tokenizer.cc">
+      <Filter>src\framework\network\protobuf\io</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\network\google\protobuf\io\zero_copy_stream.cc">
+      <Filter>src\framework\network\protobuf\io</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\network\google\protobuf\io\zero_copy_stream_impl.cc">
+      <Filter>src\framework\network\protobuf\io</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\network\google\protobuf\io\zero_copy_stream_impl_lite.cc">
+      <Filter>src\framework\network\protobuf\io</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\network\google\protobuf\stubs\atomicops_internals_x86_gcc.cc">
+      <Filter>src\framework\network\protobuf\stubs</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\network\google\protobuf\stubs\atomicops_internals_x86_msvc.cc">
+      <Filter>src\framework\network\protobuf\stubs</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\network\google\protobuf\stubs\common.cc">
+      <Filter>src\framework\network\protobuf\stubs</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\network\google\protobuf\stubs\once.cc">
+      <Filter>src\framework\network\protobuf\stubs</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\network\google\protobuf\stubs\stringprintf.cc">
+      <Filter>src\framework\network\protobuf\stubs</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\network\google\protobuf\stubs\structurally_valid.cc">
+      <Filter>src\framework\network\protobuf\stubs</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\network\google\protobuf\stubs\strutil.cc">
+      <Filter>src\framework\network\protobuf\stubs</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\network\google\protobuf\stubs\substitute.cc">
+      <Filter>src\framework\network\protobuf\stubs</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\network\google\protobuf\descriptor.cc">
+      <Filter>src\framework\network\protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\network\google\protobuf\descriptor.pb.cc">
+      <Filter>src\framework\network\protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\network\google\protobuf\descriptor_database.cc">
+      <Filter>src\framework\network\protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\network\google\protobuf\dynamic_message.cc">
+      <Filter>src\framework\network\protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\network\google\protobuf\extension_set.cc">
+      <Filter>src\framework\network\protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\network\google\protobuf\extension_set_heavy.cc">
+      <Filter>src\framework\network\protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\network\google\protobuf\generated_message_reflection.cc">
+      <Filter>src\framework\network\protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\network\google\protobuf\generated_message_util.cc">
+      <Filter>src\framework\network\protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\network\google\protobuf\message.cc">
+      <Filter>src\framework\network\protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\network\google\protobuf\message_lite.cc">
+      <Filter>src\framework\network\protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\network\google\protobuf\reflection_ops.cc">
+      <Filter>src\framework\network\protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\network\google\protobuf\repeated_field.cc">
+      <Filter>src\framework\network\protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\network\google\protobuf\service.cc">
+      <Filter>src\framework\network\protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\network\google\protobuf\text_format.cc">
+      <Filter>src\framework\network\protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\network\google\protobuf\unknown_field_set.cc">
+      <Filter>src\framework\network\protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\network\google\protobuf\wire_format.cc">
+      <Filter>src\framework\network\protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\network\google\protobuf\wire_format_lite.cc">
+      <Filter>src\framework\network\protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\network\protocol\login_msg_protocol.pb.cc">
+      <Filter>src\framework\network\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\network\msg\msg_manager.cc">
+      <Filter>src\framework\network\msg</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

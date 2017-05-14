@@ -25,6 +25,8 @@ struct evconnlistener;
 
 namespace gamer {
 
+struct Msg;
+
 class NetworkManager {
   public:
 	NetworkManager& operator=(const NetworkManager&) = delete;
@@ -36,6 +38,8 @@ class NetworkManager {
 	static NetworkManager* instance();
 
 	void InitSocket();
+
+    //bool Send(void* ctx, size_t ctxlen, const MsgResponseCallback& cb);
 
   private:
 	NetworkManager();
@@ -58,11 +62,16 @@ class NetworkManager {
 
 	void InitIPAndPort();
 
+    static void ParseBuffer(char* buf, gamer::Msg& msg);
+
 	struct event_base* evbase_;
 	struct evconnlistener* connlistener_;
 
 	std::string ip_;
 	int port_;
+
+    static const int MAX_BUFFER_LEN = 4096;
+    //MsgResponseCallback request_callback_;
 }; // namespace gamer
 
 } // namespace gamer

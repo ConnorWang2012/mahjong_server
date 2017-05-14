@@ -24,6 +24,8 @@ modification:
 #include "event2/listener.h"
 
 #include "framework/base/log_headers.h"
+#include "protocol/login_msg_protocol.pb.h"
+#include "msg/msg_manager.h"
 
 namespace gamer {
 
@@ -85,6 +87,34 @@ void NetworkManager::InitSocket() {
 	event_base_dispatch(evbase_);
 }
 
+//bool NetworkManager::Send(void* ctx, size_t ctxlen, const MsgResponseCallback& cb)
+//{
+    //if (nullptr == ctx)
+    //{
+    //    printf("[NetworkManager::send] context invalid");
+    //    return false;
+    //}
+
+    //if (ctxlen > NetworkManager::MAX_BUFFER_LEN)
+    //{
+    //    printf("[NetworkManager::send] context len invalid");
+    //    return false;
+    //}
+
+    //if (evbase_)
+    //{
+    //    auto ret = bufferevent_write(evbase_, ctx, ctxlen);
+    //    if (0 == ret)
+    //    {
+    //        request_callback_ = cb;
+    //        return true;
+    //    }
+    //}
+
+    //return false;
+//}
+
+
 void NetworkManager::OnConnAccept(struct evconnlistener* listener, 
 								  evutil_socket_t fd,
                                   struct socketaddr* address,
@@ -130,20 +160,33 @@ void NetworkManager::OnBuffereventArrive(struct bufferevent* bev, short event, v
 }
 
 void NetworkManager::OnBuffereventRead(struct bufferevent* bev, void* ctx) {
-	// This callback is invoked when there is data to read on bev.
-	auto input = bufferevent_get_input(bev);
-	auto output = bufferevent_get_output(bev);
+    // This callback is invoked when there is data to read on bev.
+    auto input = bufferevent_get_input(bev);
 
-	//if (my_n < 5) {
-	//	my_n++;
-		char buf[4096] = { 0 };
-		size_t n = evbuffer_get_length(input);
-		//if (evbuffer_remove(input, buf, n) > 0 ) { // read and remove
-		if (evbuffer_copyout(input, buf, n) > 0 ) {  // read only
-			printf("read data from client : %s", buf);
-			//evbuffer_add_printf(output, "client msg %d", my_n);
-		}
-	//}
+    auto buf_len = evbuffer_get_length(input);
+    if (buf_len <= 0)
+    {
+        printf("[NetworkManager::onBufferRead] buffer len is 0");
+        return;
+    }
+
+    char buf[NetworkManager::MAX_BUFFER_LEN] = { 0 };
+    if (evbuffer_remove(input, buf, buf_len) <= 0)
+    {
+        printf("[NetworkManager::onBufferRead] read buffer failed");
+        return;
+    }
+
+    gamer::Msg msg = { 0, 0, 0, nullptr };
+    NetworkManager::ParseBuffer(buf, msg);
+
+    MsgManager::getInstance()->onMsgReceived(msg);
+    //printf("read data from client, msgid : %d\n", msgid);
+    //char buf2[4096] = { 0 };
+    //memcpy(buf2, buf + 8, 6);
+    //gamer::protocol::Msg msg;
+    //msg.ParseFromArray(buf2, 6);
+    //printf("read data from client, msgid : %d\n", msg.msg_id());
 }
 
 void NetworkManager::OnBuffereventWrite(struct bufferevent* bev, void* ctx) {
@@ -156,6 +199,18 @@ void NetworkManager::InitIPAndPort() {
 	// TODO : init from cfg
 	ip_ = "127.0.0.1";
 	port_ = 4994;
+}
+
+void NetworkManager::ParseBuffer(char* buf, gamer::Msg& msg)
+{
+    memcpy(&msg.total_len, buf, sizeof(unsigned int));
+    memcpy(&msg.type, buf + sizeof(unsigned int), sizeof(unsigned int));
+    memcpy(&msg.id, buf + sizeof(unsigned int) * 2, sizeof(unsigned int));
+    auto msg_header_len = sizeof(unsigned int) * 3;
+    if (msg.total_len > msg_header_len)
+    {
+        memcpy(&msg.context, buf + msg_header_len, msg.total_len - msg_header_len);
+    }
 }
 
 } // namespace gamer
