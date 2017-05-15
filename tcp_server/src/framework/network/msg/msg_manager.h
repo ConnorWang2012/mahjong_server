@@ -20,30 +20,34 @@ modification:
 
 #include "msg.h"
 
-namespace gamer
-{
+struct bufferevent;
 
-class MsgManager
-{
-public:
+namespace gamer {
+	
+class MsgManager {
+  public:
 	MsgManager& operator=(const MsgManager&) = delete;
 
 	MsgManager(const MsgManager&) = delete;
 
 	void *operator new(std::size_t) = delete;
 	
-	static MsgManager* getInstance();
+	static MsgManager* instance();
 
-    bool sendMsg(const Msg& msg, const MsgResponseCallback& response_cb);
+    bool SendMsg(const Msg& msg);
 
-private:
+  private:
     std::unordered_map<std::string, MsgResponseCallback> msg_response_callbacks_;
 
     MsgManager();
 
-    void dealWithLoginMsg(const Msg& msg);
+	bool SendMsg(const Msg& msg, struct bufferevent* bev);
 
-    void onMsgReceived(const Msg& msg);
+	void PackMsg(const Msg& msg, char* buf, msg_header_t& len);
+
+    void DealWithLoginMsg(const Msg& msg, struct bufferevent* bev);
+
+    void OnMsgReceived(const Msg& msg, struct bufferevent* bev);
 
     friend class NetworkManager;
 

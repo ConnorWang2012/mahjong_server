@@ -19,6 +19,8 @@ modification:
 
 #include "event2/util.h"
 
+#include "base/macros.h"
+
 struct bufferevent;
 struct event_base;
 struct evconnlistener;
@@ -39,14 +41,14 @@ class NetworkManager {
 
 	void InitSocket();
 
-    //bool Send(void* ctx, size_t ctxlen, const MsgResponseCallback& cb);
+    bool Send(struct bufferevent* bev, void* ctx, size_t ctxlen);
 
   private:
 	NetworkManager();
 
 	NetworkManager(const std::string& ip, int port);
 
-	static void OnConnAccept(struct evconnlistener* listener, 
+	static void OnConnAccepted(struct evconnlistener* listener, 
 		                     evutil_socket_t fd,
 	                         struct socketaddr* addr, 
 							 int socklen, 
@@ -54,7 +56,7 @@ class NetworkManager {
 
 	static void OnConnErrorOccur(struct evconnlistener* listener, void* ctx);
 
-	static void OnBuffereventArrive(struct bufferevent* bev, short event, void* ctx);
+	static void OnBuffereventReceived(struct bufferevent* bev, short event, void* ctx);
 
 	static void OnBuffereventRead(struct bufferevent* bev, void* ctx);
 
@@ -62,7 +64,7 @@ class NetworkManager {
 
 	void InitIPAndPort();
 
-    static void ParseBuffer(char* buf, gamer::Msg& msg);
+    void ParseBuffer(char* buf, gamer::Msg& msg);
 
 	struct event_base* evbase_;
 	struct evconnlistener* connlistener_;
@@ -71,7 +73,6 @@ class NetworkManager {
 	int port_;
 
     static const int MAX_BUFFER_LEN = 4096;
-    //MsgResponseCallback request_callback_;
 }; // namespace gamer
 
 } // namespace gamer

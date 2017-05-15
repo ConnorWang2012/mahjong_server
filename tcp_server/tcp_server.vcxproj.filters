@@ -107,11 +107,11 @@
     <Filter Include="src\framework\network\protobuf\stubs">
       <UniqueIdentifier>{76381f74-4e12-4087-a2e9-93c7b6764654}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\framework\network\protocol">
-      <UniqueIdentifier>{6bbdd40b-81a1-4906-916e-6590383a05ce}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\framework\network\msg">
       <UniqueIdentifier>{a810bd0d-537f-4409-8417-e450d617c0c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\framework\network\msg\protocol">
+      <UniqueIdentifier>{30afc320-f4c8-4f73-9760-0df91dc0ce27}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -718,9 +718,6 @@
     <ClInclude Include="src\framework\network\google\protobuf\io\zlib.h">
       <Filter>src\framework\network\protobuf\io</Filter>
     </ClInclude>
-    <ClInclude Include="src\framework\network\protocol\login_msg_protocol.pb.h">
-      <Filter>src\framework\network\protocol</Filter>
-    </ClInclude>
     <ClInclude Include="src\framework\network\msg\msg_id.h">
       <Filter>src\framework\network\msg</Filter>
     </ClInclude>
@@ -732,6 +729,9 @@
     </ClInclude>
     <ClInclude Include="src\framework\network\msg\msg_type.h">
       <Filter>src\framework\network\msg</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\msg\protocol\my_login_msg_protocol.pb.h">
+      <Filter>src\framework\network\msg\protocol</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -867,11 +867,11 @@
     <ClCompile Include="src\framework\network\google\protobuf\wire_format_lite.cc">
       <Filter>src\framework\network\protobuf</Filter>
     </ClCompile>
-    <ClCompile Include="src\framework\network\protocol\login_msg_protocol.pb.cc">
-      <Filter>src\framework\network\protocol</Filter>
-    </ClCompile>
     <ClCompile Include="src\framework\network\msg\msg_manager.cc">
       <Filter>src\framework\network\msg</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\network\msg\protocol\my_login_msg_protocol.pb.cc">
+      <Filter>src\framework\network\msg\protocol</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

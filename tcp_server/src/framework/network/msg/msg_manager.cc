@@ -14,63 +14,80 @@ modification:
 
 #include "msg_manager.h"
 
-#include "msg_type.h"
-#include "network_manager.h"
+#include "event2/bufferevent.h"
 
-namespace gamer
-{
+#include "msg/msg_type.h"
+#include "msg/msg_id.h"
+#include "msg/protocol/my_login_msg_protocol.pb.h"
+#include "event/event_manager.h"
+#include "network/network_manager.h"
 
-MsgManager::MsgManager()
-{
+namespace gamer {
+
+MsgManager::MsgManager() {
 
 }
 
-MsgManager* MsgManager::getInstance()
-{
+MsgManager* MsgManager::instance() {
 	static MsgManager s_msg_mgr; 
 	return &s_msg_mgr;
 }
 
-bool MsgManager::sendMsg(const Msg& msg, const MsgResponseCallback& response_cb)
-{
-    char buf[MsgManager::MAX_MSG_LEN] = { 0 };
-    auto len_total = sizeof(unsigned int) * 3;
-    auto len_data = 0;
-    //snprintf(buf, sizeof(buf), "%d%d%d%s", msg.type, msg.id, msg.context);    
-    if (msg.context)
-    {
-        len_data = strlen((char*)msg.context);
-        len_total += len_data;
-    }
-    
-    memcpy(buf, &len_total, sizeof(unsigned int));
-    memcpy(buf + sizeof(unsigned int), &msg.type, sizeof(unsigned int));
-    memcpy(buf + sizeof(unsigned int) * 2, &msg.id, sizeof(unsigned int));
-    if (len_data > 0)
-    {
-        memcpy(buf + sizeof(unsigned int) * 3, msg.context, len_data);
-    }
+bool MsgManager::SendMsg(const Msg& msg) {
 
-    //char tmp[8]; // ugly TODO : use c++11 constexpress
-    //snprintf(tmp, sizeof(tmp), "%d%d", msg.type, msg.id);
-    //msg_response_callbacks_.insert(std::make_pair(tmp, response_cb));
-
-    //return NetworkManager::instance()->send(buf, len_total);
     return true;
 }
 
-void MsgManager::dealWithLoginMsg(const Msg& msg)
-{
-    printf("msg callback msg_type : %d, msg_id : %d", msg.type, msg.id);
+bool MsgManager::SendMsg(const Msg& msg, struct bufferevent* bev) {
+	char buf[MsgManager::MAX_MSG_LEN] = { 0 };
+	msg_header_t len = 0;
+	this->PackMsg(msg, buf, len);
+	return NetworkManager::instance()->Send(bev, buf, len);
 }
 
-void MsgManager::onMsgReceived(const Msg& msg)
-{
-    switch ((MsgTypes)msg.type)
-    {
-    case MsgTypes::C2S_MSG_TYPE_LOGIN:
-        {
-            this->dealWithLoginMsg(msg);
+void MsgManager::PackMsg(const Msg& msg, char* buf, msg_header_t& len) {
+	auto len_total = gamer::msg_header_len();
+	auto len_data = 0;  
+	if (msg.context) {
+		len_data = strlen((char*)msg.context);
+		len_total += len_data;
+	}
+
+	len = len_total;
+
+	memcpy(buf, &len_total, sizeof(msg_header_t));
+	memcpy(buf + sizeof(msg_header_t), &msg.type, sizeof(msg_header_t));
+	memcpy(buf + sizeof(msg_header_t) * 2, &msg.id, sizeof(msg_header_t));
+	if (len_data > 0) {
+		memcpy(buf + gamer::msg_header_len(), msg.context, len_data);
+	}
+}
+
+void MsgManager::DealWithLoginMsg(const Msg& msg, struct bufferevent* bev) {
+    printf("[MsgManager::DealWithLoginMsg] msg_type : %d, msg_id : %d", msg.type, msg.id);
+	switch ((MsgIDs)msg.id) {
+	case MsgIDs::MSG_ID_LOGIN_MY: {
+			if (msg.context) {
+				char buf[MsgManager::MAX_MSG_LEN] = { 0 };
+				auto len = msg.total_len - gamer::msg_header_len();
+				memcpy(buf, msg.context, len);
+				protocol::MyLoginMsgProtocol ptotocol;
+				ptotocol.ParseFromArray(buf, len);
+				// TODO : verify password
+				gamer::Msg msg = { gamer::msg_header_len(), 2017, 2018, nullptr };
+				this->SendMsg(msg, bev);
+			}
+		}
+		break;
+	default:
+		break;
+	}
+}
+
+void MsgManager::OnMsgReceived(const Msg& msg, struct bufferevent* bev) {
+    switch ((MsgTypes)msg.type) {
+    case MsgTypes::C2S_MSG_TYPE_LOGIN: {
+            this->DealWithLoginMsg(msg, bev);
         }
         break;
     default:

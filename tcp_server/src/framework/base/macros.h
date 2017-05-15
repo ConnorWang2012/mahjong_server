@@ -37,7 +37,6 @@ namespace gamer {
 #define LOGERROR(format, ...)   gamer::log::printferr(format, ##__VA_ARGS__)
 #define LOGGREEN(format, ...)   gamer::log::printfgreen(format, ##__VA_ARGS__)
 #endif
-
 } // namespace gamer
 
 #endif // CONNOR_GAME_SRC_MACROS_H_

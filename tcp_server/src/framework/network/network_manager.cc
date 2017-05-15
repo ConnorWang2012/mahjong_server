@@ -24,7 +24,7 @@ modification:
 #include "event2/listener.h"
 
 #include "framework/base/log_headers.h"
-#include "protocol/login_msg_protocol.pb.h"
+#include "msg/msg.h"
 #include "msg/msg_manager.h"
 
 namespace gamer {
@@ -68,7 +68,7 @@ void NetworkManager::InitSocket() {
 
 	if (nullptr == connlistener_) {
 		connlistener_ = evconnlistener_new_bind(evbase_,
-			(evconnlistener_cb)OnConnAccept,
+			(evconnlistener_cb)OnConnAccepted,
 			NULL,
 			LEV_OPT_CLOSE_ON_FREE | LEV_OPT_REUSEABLE,
 			-1,
@@ -87,45 +87,42 @@ void NetworkManager::InitSocket() {
 	event_base_dispatch(evbase_);
 }
 
-//bool NetworkManager::Send(void* ctx, size_t ctxlen, const MsgResponseCallback& cb)
-//{
-    //if (nullptr == ctx)
-    //{
-    //    printf("[NetworkManager::send] context invalid");
-    //    return false;
-    //}
+bool NetworkManager::Send(struct bufferevent* bev, void* ctx, size_t ctxlen) {
+	if (nullptr == ctx)
+	{
+		printf("[NetworkManager::send] context invalid");
+		return false;
+	}
 
-    //if (ctxlen > NetworkManager::MAX_BUFFER_LEN)
-    //{
-    //    printf("[NetworkManager::send] context len invalid");
-    //    return false;
-    //}
+	if (ctxlen > NetworkManager::MAX_BUFFER_LEN)
+	{
+		printf("[NetworkManager::send] context len invalid");
+		return false;
+	}
 
-    //if (evbase_)
-    //{
-    //    auto ret = bufferevent_write(evbase_, ctx, ctxlen);
-    //    if (0 == ret)
-    //    {
-    //        request_callback_ = cb;
-    //        return true;
-    //    }
-    //}
+	if (bev)
+	{
+		auto ret = bufferevent_write(bev, ctx, ctxlen);
+		if (0 == ret)
+		{
+			return true;
+		}
+	}
 
-    //return false;
-//}
+	return false;
+}
 
-
-void NetworkManager::OnConnAccept(struct evconnlistener* listener, 
-								  evutil_socket_t fd,
-                                  struct socketaddr* address,
-								  int socklen,
-                                  void* ctx) {
+void NetworkManager::OnConnAccepted(struct evconnlistener* listener, 
+								    evutil_socket_t fd,
+                                    struct socketaddr* address,
+								    int socklen,
+                                    void* ctx) {
 	// We got a new connection! Set up a bufferevent for it.
 	LOGGREEN("[NetworkManager::InitSocket] one client connected");
 	auto base = evconnlistener_get_base(listener);
 	//int ret = evutil_make_socket_nonblocking(fd);
 	auto bev = bufferevent_socket_new(base, fd, BEV_OPT_CLOSE_ON_FREE);
-	bufferevent_setcb(bev, OnBuffereventRead, OnBuffereventWrite, OnBuffereventArrive, NULL);
+	bufferevent_setcb(bev, OnBuffereventRead, OnBuffereventWrite, OnBuffereventReceived, NULL);
 	bufferevent_enable(bev, EV_READ | EV_WRITE);
 }
 
@@ -137,7 +134,7 @@ void NetworkManager::OnConnErrorOccur(struct evconnlistener* listener, void* ctx
 	event_base_loopexit(base, NULL);
 }
 
-void NetworkManager::OnBuffereventArrive(struct bufferevent* bev, short event, void* ctx) {
+void NetworkManager::OnBuffereventReceived(struct bufferevent* bev, short event, void* ctx) {
 	if (event & BEV_EVENT_ERROR) {
 		LOGERROR("[NetworkManager::OnBuffereventArrive] error from bufferevent!");
 	}
@@ -164,9 +161,9 @@ void NetworkManager::OnBuffereventRead(struct bufferevent* bev, void* ctx) {
     auto input = bufferevent_get_input(bev);
 
     auto buf_len = evbuffer_get_length(input);
-    if (buf_len <= 0)
+    if (buf_len <= 0 || buf_len > NetworkManager::MAX_BUFFER_LEN)
     {
-        printf("[NetworkManager::onBufferRead] buffer len is 0");
+        printf("[NetworkManager::onBufferRead] buffer len is invalid");
         return;
     }
 
@@ -178,9 +175,9 @@ void NetworkManager::OnBuffereventRead(struct bufferevent* bev, void* ctx) {
     }
 
     gamer::Msg msg = { 0, 0, 0, nullptr };
-    NetworkManager::ParseBuffer(buf, msg);
+    NetworkManager::instance()->ParseBuffer(buf, msg);
 
-    MsgManager::getInstance()->onMsgReceived(msg);
+    MsgManager::instance()->OnMsgReceived(msg, bev);
     //printf("read data from client, msgid : %d\n", msgid);
     //char buf2[4096] = { 0 };
     //memcpy(buf2, buf + 8, 6);
@@ -201,15 +198,14 @@ void NetworkManager::InitIPAndPort() {
 	port_ = 4994;
 }
 
-void NetworkManager::ParseBuffer(char* buf, gamer::Msg& msg)
-{
-    memcpy(&msg.total_len, buf, sizeof(unsigned int));
-    memcpy(&msg.type, buf + sizeof(unsigned int), sizeof(unsigned int));
-    memcpy(&msg.id, buf + sizeof(unsigned int) * 2, sizeof(unsigned int));
-    auto msg_header_len = sizeof(unsigned int) * 3;
-    if (msg.total_len > msg_header_len)
-    {
-        memcpy(&msg.context, buf + msg_header_len, msg.total_len - msg_header_len);
+void NetworkManager::ParseBuffer(char* buf, gamer::Msg& msg) {
+    memcpy(&msg.total_len, buf, sizeof(msg_header_t));
+    memcpy(&msg.type, buf + sizeof(msg_header_t), sizeof(msg_header_t));
+    memcpy(&msg.id, buf + sizeof(msg_header_t) * 2, sizeof(msg_header_t));
+    if (msg.total_len > gamer::msg_header_len()) {
+        memcpy(&msg.context, 
+			   buf + gamer::msg_header_len(), 
+			   msg.total_len - gamer::msg_header_len());
     }
 }
 

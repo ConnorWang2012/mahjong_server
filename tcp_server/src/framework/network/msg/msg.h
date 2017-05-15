@@ -20,15 +20,31 @@ modification:
 namespace gamer
 {
 
-typedef std::function<void(unsigned int, unsigned int, void*)> MsgResponseCallback;
+#ifdef _WIN64
+	typedef __int64         intptr_t;
+#else
+	typedef int             intptr_t;
+#endif
+
+#ifdef _WIN32
+#define socket_t			intptr_t
+#else
+#define socket_t			int
+#endif
+
+#define msg_header_t		unsigned int
+
+typedef std::function<void(msg_header_t, msg_header_t, void*)> MsgResponseCallback;
 
 struct Msg
 {
-    unsigned int total_len;
-    unsigned int type;
-    unsigned int id;
+	msg_header_t total_len;
+	msg_header_t type;
+	msg_header_t id;
     void* context;
 };
+
+constexpr msg_header_t msg_header_len() {  return sizeof(msg_header_t) * 3; }
 
 } // namespace gamer
 
