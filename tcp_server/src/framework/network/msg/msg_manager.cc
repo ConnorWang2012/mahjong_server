@@ -67,16 +67,19 @@ void MsgManager::DealWithLoginMsg(const Msg& msg, struct bufferevent* bev) {
     printf("[MsgManager::DealWithLoginMsg] msg_type : %d, msg_id : %d", msg.type, msg.id);
 	switch ((MsgIDs)msg.id) {
 	case MsgIDs::MSG_ID_LOGIN_MY: {
-			if (msg.context) {
-				char buf[MsgManager::MAX_MSG_LEN] = { 0 };
-				auto len = msg.total_len - gamer::msg_header_len();
-				memcpy(buf, msg.context, len);
-				protocol::MyLoginMsgProtocol ptotocol;
-				ptotocol.ParseFromArray(buf, len);
-				// TODO : verify password
-				gamer::Msg msg = { gamer::msg_header_len(), 2017, 2018, nullptr };
-				this->SendMsg(msg, bev);
-			}
+            // TODO : verify password
+            char buf[MsgManager::MAX_MSG_LEN] = { 0 };
+            protocol::MyLoginMsgProtocol proto;
+            proto.set_account("2017");
+            proto.set_password(2018);
+            proto.set_code(2020);
+            proto.SerializeToArray(buf, proto.ByteSize());
+
+            auto len_total = gamer::msg_header_len() + proto.ByteSize();
+            gamer::Msg msg = { len_total, 
+                (msg_header_t)MsgTypes::C2S_MSG_TYPE_LOGIN,
+                (msg_header_t)MsgIDs::MSG_ID_LOGIN_MY, buf }; 
+            this->SendMsg(msg, bev);
 		}
 		break;
 	default:

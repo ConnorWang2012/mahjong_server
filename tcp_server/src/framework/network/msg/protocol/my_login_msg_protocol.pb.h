@@ -110,12 +110,21 @@ class MyLoginMsgProtocol : public ::google::protobuf::Message {
   inline ::google::protobuf::int32 password() const;
   inline void set_password(::google::protobuf::int32 value);
 
+  // optional int32 code = 3 [default = 0];
+  inline bool has_code() const;
+  inline void clear_code();
+  static const int kCodeFieldNumber = 3;
+  inline ::google::protobuf::int32 code() const;
+  inline void set_code(::google::protobuf::int32 value);
+
   // @@protoc_insertion_point(class_scope:gamer.protocol.MyLoginMsgProtocol)
  private:
   inline void set_has_account();
   inline void clear_has_account();
   inline void set_has_password();
   inline void clear_has_password();
+  inline void set_has_code();
+  inline void clear_has_code();
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
@@ -123,6 +132,7 @@ class MyLoginMsgProtocol : public ::google::protobuf::Message {
   mutable int _cached_size_;
   ::std::string* account_;
   ::google::protobuf::int32 password_;
+  ::google::protobuf::int32 code_;
   friend void  protobuf_AddDesc_my_5flogin_5fmsg_5fprotocol_2eproto();
   friend void protobuf_AssignDesc_my_5flogin_5fmsg_5fprotocol_2eproto();
   friend void protobuf_ShutdownFile_my_5flogin_5fmsg_5fprotocol_2eproto();
@@ -235,6 +245,30 @@ inline void MyLoginMsgProtocol::set_password(::google::protobuf::int32 value) {
   set_has_password();
   password_ = value;
   // @@protoc_insertion_point(field_set:gamer.protocol.MyLoginMsgProtocol.password)
+}
+
+// optional int32 code = 3 [default = 0];
+inline bool MyLoginMsgProtocol::has_code() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void MyLoginMsgProtocol::set_has_code() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void MyLoginMsgProtocol::clear_has_code() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void MyLoginMsgProtocol::clear_code() {
+  code_ = 0;
+  clear_has_code();
+}
+inline ::google::protobuf::int32 MyLoginMsgProtocol::code() const {
+  // @@protoc_insertion_point(field_get:gamer.protocol.MyLoginMsgProtocol.code)
+  return code_;
+}
+inline void MyLoginMsgProtocol::set_code(::google::protobuf::int32 value) {
+  set_has_code();
+  code_ = value;
+  // @@protoc_insertion_point(field_set:gamer.protocol.MyLoginMsgProtocol.code)
 }
 
 

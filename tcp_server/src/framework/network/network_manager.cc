@@ -88,23 +88,19 @@ void NetworkManager::InitSocket() {
 }
 
 bool NetworkManager::Send(struct bufferevent* bev, void* ctx, size_t ctxlen) {
-	if (nullptr == ctx)
-	{
+	if (nullptr == ctx) {
 		printf("[NetworkManager::send] context invalid");
 		return false;
 	}
 
-	if (ctxlen > NetworkManager::MAX_BUFFER_LEN)
-	{
+	if (ctxlen > NetworkManager::MAX_BUFFER_LEN) {
 		printf("[NetworkManager::send] context len invalid");
 		return false;
 	}
 
-	if (bev)
-	{
+	if (bev) {
 		auto ret = bufferevent_write(bev, ctx, ctxlen);
-		if (0 == ret)
-		{
+		if (0 == ret) {
 			return true;
 		}
 	}
@@ -161,29 +157,20 @@ void NetworkManager::OnBuffereventRead(struct bufferevent* bev, void* ctx) {
     auto input = bufferevent_get_input(bev);
 
     auto buf_len = evbuffer_get_length(input);
-    if (buf_len <= 0 || buf_len > NetworkManager::MAX_BUFFER_LEN)
-    {
+    if (buf_len <= 0 || buf_len > NetworkManager::MAX_BUFFER_LEN) {
         printf("[NetworkManager::onBufferRead] buffer len is invalid");
         return;
     }
 
     char buf[NetworkManager::MAX_BUFFER_LEN] = { 0 };
-    if (evbuffer_remove(input, buf, buf_len) <= 0)
-    {
+    if (evbuffer_remove(input, buf, buf_len) <= 0) {
         printf("[NetworkManager::onBufferRead] read buffer failed");
         return;
     }
 
     gamer::Msg msg = { 0, 0, 0, nullptr };
     NetworkManager::instance()->ParseBuffer(buf, msg);
-
     MsgManager::instance()->OnMsgReceived(msg, bev);
-    //printf("read data from client, msgid : %d\n", msgid);
-    //char buf2[4096] = { 0 };
-    //memcpy(buf2, buf + 8, 6);
-    //gamer::protocol::Msg msg;
-    //msg.ParseFromArray(buf2, 6);
-    //printf("read data from client, msgid : %d\n", msg.msg_id());
 }
 
 void NetworkManager::OnBuffereventWrite(struct bufferevent* bev, void* ctx) {
@@ -203,9 +190,7 @@ void NetworkManager::ParseBuffer(char* buf, gamer::Msg& msg) {
     memcpy(&msg.type, buf + sizeof(msg_header_t), sizeof(msg_header_t));
     memcpy(&msg.id, buf + sizeof(msg_header_t) * 2, sizeof(msg_header_t));
     if (msg.total_len > gamer::msg_header_len()) {
-        memcpy(&msg.context, 
-			   buf + gamer::msg_header_len(), 
-			   msg.total_len - gamer::msg_header_len());
+        msg.context = buf + gamer::msg_header_len();
     }
 }
 
