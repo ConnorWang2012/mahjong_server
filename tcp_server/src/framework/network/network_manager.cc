@@ -168,7 +168,7 @@ void NetworkManager::OnBuffereventRead(struct bufferevent* bev, void* ctx) {
         return;
     }
 
-    gamer::Msg msg = { 0, 0, 0, nullptr };
+    gamer::ClientMsg msg = { 0, 0, 0, nullptr };
     NetworkManager::instance()->ParseBuffer(buf, msg);
     MsgManager::instance()->OnMsgReceived(msg, bev);
 }
@@ -185,12 +185,12 @@ void NetworkManager::InitIPAndPort() {
 	port_ = 4994;
 }
 
-void NetworkManager::ParseBuffer(char* buf, gamer::Msg& msg) {
+void NetworkManager::ParseBuffer(char* buf, gamer::ClientMsg& msg) {
     memcpy(&msg.total_len, buf, sizeof(msg_header_t));
     memcpy(&msg.type, buf + sizeof(msg_header_t), sizeof(msg_header_t));
     memcpy(&msg.id, buf + sizeof(msg_header_t) * 2, sizeof(msg_header_t));
-    if (msg.total_len > gamer::msg_header_len()) {
-        msg.context = buf + gamer::msg_header_len();
+    if (msg.total_len > gamer::client_msg_header_len()) {
+        msg.context = buf + gamer::client_msg_header_len();
     }
 }
 

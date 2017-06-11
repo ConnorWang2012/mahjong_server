@@ -107,11 +107,14 @@
     <Filter Include="src\framework\network\protobuf\stubs">
       <UniqueIdentifier>{76381f74-4e12-4087-a2e9-93c7b6764654}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\framework\network\msg">
-      <UniqueIdentifier>{a810bd0d-537f-4409-8417-e450d617c0c0}</UniqueIdentifier>
+    <Filter Include="src\customer\module\msg">
+      <UniqueIdentifier>{e5dea8cb-5892-4208-8f9d-b0001adf9637}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\framework\network\msg\protocol">
-      <UniqueIdentifier>{30afc320-f4c8-4f73-9760-0df91dc0ce27}</UniqueIdentifier>
+    <Filter Include="src\customer\module\msg\protocol">
+      <UniqueIdentifier>{2639cb48-fb23-4443-94b8-e6f58929e2bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\customer\module\test">
+      <UniqueIdentifier>{c9c286a3-2eb9-4fa9-b641-b1a3326d358a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -718,20 +721,56 @@
     <ClInclude Include="src\framework\network\google\protobuf\io\zlib.h">
       <Filter>src\framework\network\protobuf\io</Filter>
     </ClInclude>
-    <ClInclude Include="src\framework\network\msg\msg_id.h">
-      <Filter>src\framework\network\msg</Filter>
+    <ClInclude Include="src\customer\msg\protocol\my_login_msg_protocol.pb.h">
+      <Filter>src\customer\module\msg\protocol</Filter>
     </ClInclude>
-    <ClInclude Include="src\framework\network\msg\msg_manager.h">
-      <Filter>src\framework\network\msg</Filter>
+    <ClInclude Include="src\customer\msg\msg.h">
+      <Filter>src\customer\module\msg</Filter>
     </ClInclude>
-    <ClInclude Include="src\framework\network\msg\msg.h">
-      <Filter>src\framework\network\msg</Filter>
+    <ClInclude Include="src\customer\msg\msg_id.h">
+      <Filter>src\customer\module\msg</Filter>
     </ClInclude>
-    <ClInclude Include="src\framework\network\msg\msg_type.h">
-      <Filter>src\framework\network\msg</Filter>
+    <ClInclude Include="src\customer\msg\msg_manager.h">
+      <Filter>src\customer\module\msg</Filter>
     </ClInclude>
-    <ClInclude Include="src\framework\network\msg\protocol\my_login_msg_protocol.pb.h">
-      <Filter>src\framework\network\msg\protocol</Filter>
+    <ClInclude Include="src\customer\msg\msg_type.h">
+      <Filter>src\customer\module\msg</Filter>
+    </ClInclude>
+    <ClInclude Include="src\customer\msg\protocol\personal_info_msg_protocol.pb.h">
+      <Filter>src\customer\module\msg\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="src\customer\msg\protocol\game_start_msg_protocol.pb.h">
+      <Filter>src\customer\module\msg\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="src\customer\test\test_shuffle_algorithm.h">
+      <Filter>src\customer\module\test</Filter>
+    </ClInclude>
+    <ClInclude Include="src\customer\room\room_manager.h">
+      <Filter>src\customer\module\room</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\base\basic_manager.h">
+      <Filter>src\framework\base</Filter>
+    </ClInclude>
+    <ClInclude Include="src\customer\room\room_protocol.h">
+      <Filter>src\customer\module\room</Filter>
+    </ClInclude>
+    <ClInclude Include="src\customer\room\room.h">
+      <Filter>src\customer\module\room</Filter>
+    </ClInclude>
+    <ClInclude Include="src\customer\msg\protocol\room_msg_protocol.pb.h">
+      <Filter>src\customer\module\msg\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="src\customer\msg\protocol\create_room_msg_protocol.pb.h">
+      <Filter>src\customer\module\msg\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\algorithm.h">
+      <Filter>src\framework\util</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\util.h">
+      <Filter>src\framework\util</Filter>
+    </ClInclude>
+    <ClInclude Include="src\customer\msg\msg_code.h">
+      <Filter>src\customer\module\msg</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -867,11 +906,29 @@
     <ClCompile Include="src\framework\network\google\protobuf\wire_format_lite.cc">
       <Filter>src\framework\network\protobuf</Filter>
     </ClCompile>
-    <ClCompile Include="src\framework\network\msg\msg_manager.cc">
-      <Filter>src\framework\network\msg</Filter>
+    <ClCompile Include="src\customer\msg\protocol\my_login_msg_protocol.pb.cc">
+      <Filter>src\customer\module\msg\protocol</Filter>
     </ClCompile>
-    <ClCompile Include="src\framework\network\msg\protocol\my_login_msg_protocol.pb.cc">
-      <Filter>src\framework\network\msg\protocol</Filter>
+    <ClCompile Include="src\customer\msg\msg_manager.cc">
+      <Filter>src\customer\module\msg</Filter>
+    </ClCompile>
+    <ClCompile Include="src\customer\msg\protocol\game_start_msg_protocol.pb.cc">
+      <Filter>src\customer\module\msg\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="src\customer\msg\protocol\personal_info_msg_protocol.pb.cc">
+      <Filter>src\customer\module\msg\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="src\customer\msg\protocol\room_msg_protocol.pb.cc">
+      <Filter>src\customer\module\msg\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="src\customer\room\room.cc">
+      <Filter>src\customer\module\room</Filter>
+    </ClCompile>
+    <ClCompile Include="src\customer\msg\protocol\create_room_msg_protocol.pb.cc">
+      <Filter>src\customer\module\msg\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="src\customer\room\room_manager.cc">
+      <Filter>src\customer\module\room</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -21,7 +21,6 @@
 #include "command.h"
 #include "event.h"
 #include "event_listener.h"
-//#include "lua_bind_helper.h"
 #include "framework/base/macros.h"
 
 namespace {

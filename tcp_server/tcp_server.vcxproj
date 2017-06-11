@@ -91,7 +91,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_WINSOCK_DEPRECATED_NO_WARNINGS;CONNOR_GAME_DEBUG;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS_DEBUG;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)libevent\src;$(SolutionDir)libevent\src\compat;$(SolutionDir)libevent\src\include;$(SolutionDir)libevent\src\include\event2;$(SolutionDir)libevent\src\include\openssl;$(SolutionDir)libevent\src\WIN32-Code;$(SolutionDir)libevent\src\WIN32-Code\nmake;$(SolutionDir)libevent\src\WIN32-Code\nmake\event2;$(SolutionDir)tcp_server\src;$(SolutionDir)tcp_server\src\framework;$(SolutionDir)tcp_server\src\framework\network;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)libevent\src;$(SolutionDir)libevent\src\compat;$(SolutionDir)libevent\src\include;$(SolutionDir)libevent\src\include\event2;$(SolutionDir)libevent\src\include\openssl;$(SolutionDir)libevent\src\WIN32-Code;$(SolutionDir)libevent\src\WIN32-Code\nmake;$(SolutionDir)libevent\src\WIN32-Code\nmake\event2;$(SolutionDir)tcp_server\src;$(SolutionDir)tcp_server\src\customer;$(SolutionDir)tcp_server\src\framework;$(SolutionDir)tcp_server\src\framework\network;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -295,6 +295,21 @@
     <ClInclude Include="..\libevent\src\include\openssl\x509_vfy.h" />
     <ClInclude Include="..\libevent\src\include\openssl\__DECC_INCLUDE_EPILOGUE.H" />
     <ClInclude Include="..\libevent\src\include\openssl\__DECC_INCLUDE_PROLOGUE.H" />
+    <ClInclude Include="src\customer\msg\msg.h" />
+    <ClInclude Include="src\customer\msg\msg_code.h" />
+    <ClInclude Include="src\customer\msg\msg_id.h" />
+    <ClInclude Include="src\customer\msg\msg_manager.h" />
+    <ClInclude Include="src\customer\msg\msg_type.h" />
+    <ClInclude Include="src\customer\msg\protocol\create_room_msg_protocol.pb.h" />
+    <ClInclude Include="src\customer\msg\protocol\game_start_msg_protocol.pb.h" />
+    <ClInclude Include="src\customer\msg\protocol\my_login_msg_protocol.pb.h" />
+    <ClInclude Include="src\customer\msg\protocol\personal_info_msg_protocol.pb.h" />
+    <ClInclude Include="src\customer\msg\protocol\room_msg_protocol.pb.h" />
+    <ClInclude Include="src\customer\room\room.h" />
+    <ClInclude Include="src\customer\room\room_manager.h" />
+    <ClInclude Include="src\customer\room\room_protocol.h" />
+    <ClInclude Include="src\customer\test\test_shuffle_algorithm.h" />
+    <ClInclude Include="src\framework\base\basic_manager.h" />
     <ClInclude Include="src\framework\base\common.h" />
     <ClInclude Include="src\framework\base\log_headers.h" />
     <ClInclude Include="src\framework\base\macros.h" />
@@ -363,17 +378,22 @@
     <ClInclude Include="src\framework\network\google\protobuf\wire_format.h" />
     <ClInclude Include="src\framework\network\google\protobuf\wire_format_lite.h" />
     <ClInclude Include="src\framework\network\google\protobuf\wire_format_lite_inl.h" />
-    <ClInclude Include="src\framework\network\msg\msg.h" />
-    <ClInclude Include="src\framework\network\msg\msg_id.h" />
-    <ClInclude Include="src\framework\network\msg\msg_manager.h" />
-    <ClInclude Include="src\framework\network\msg\msg_type.h" />
-    <ClInclude Include="src\framework\network\msg\protocol\my_login_msg_protocol.pb.h" />
     <ClInclude Include="src\framework\network\network_manager.h" />
     <ClInclude Include="src\framework\service\runtime\server.h" />
     <ClInclude Include="src\framework\service\runtime\server_protocal.h" />
+    <ClInclude Include="src\framework\util\algorithm.h" />
+    <ClInclude Include="src\framework\util\util.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\customer\msg\msg_manager.cc" />
+    <ClCompile Include="src\customer\msg\protocol\create_room_msg_protocol.pb.cc" />
+    <ClCompile Include="src\customer\msg\protocol\game_start_msg_protocol.pb.cc" />
+    <ClCompile Include="src\customer\msg\protocol\my_login_msg_protocol.pb.cc" />
+    <ClCompile Include="src\customer\msg\protocol\personal_info_msg_protocol.pb.cc" />
+    <ClCompile Include="src\customer\msg\protocol\room_msg_protocol.pb.cc" />
+    <ClCompile Include="src\customer\room\room.cc" />
+    <ClCompile Include="src\customer\room\room_manager.cc" />
     <ClCompile Include="src\framework\event\command.cc" />
     <ClCompile Include="src\framework\event\command_listener.cc" />
     <ClCompile Include="src\framework\event\command_manager.cc" />
@@ -415,8 +435,6 @@
     <ClCompile Include="src\framework\network\google\protobuf\unknown_field_set.cc" />
     <ClCompile Include="src\framework\network\google\protobuf\wire_format.cc" />
     <ClCompile Include="src\framework\network\google\protobuf\wire_format_lite.cc" />
-    <ClCompile Include="src\framework\network\msg\msg_manager.cc" />
-    <ClCompile Include="src\framework\network\msg\protocol\my_login_msg_protocol.pb.cc" />
     <ClCompile Include="src\framework\network\network_manager.cc" />
     <ClCompile Include="src\framework\service\runtime\server.cc" />
   </ItemGroup>

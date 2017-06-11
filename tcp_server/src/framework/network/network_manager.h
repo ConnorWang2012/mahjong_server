@@ -27,7 +27,7 @@ struct evconnlistener;
 
 namespace gamer {
 
-struct Msg;
+struct ClientMsg;
 
 class NetworkManager {
   public:
@@ -64,7 +64,7 @@ class NetworkManager {
 
 	void InitIPAndPort();
 
-    void ParseBuffer(char* buf, gamer::Msg& msg);
+    void ParseBuffer(char* buf, gamer::ClientMsg& msg);
 
 	struct event_base* evbase_;
 	struct evconnlistener* connlistener_;
