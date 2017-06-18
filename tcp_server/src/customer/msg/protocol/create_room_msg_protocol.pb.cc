@@ -35,10 +35,12 @@ void protobuf_AssignDesc_create_5froom_5fmsg_5fprotocol_2eproto() {
       "create_room_msg_protocol.proto");
   GOOGLE_CHECK(file != NULL);
   CreateRoomMsgProtocol_descriptor_ = file->message_type(0);
-  static const int CreateRoomMsgProtocol_offsets_[3] = {
+  static const int CreateRoomMsgProtocol_offsets_[5] = {
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(CreateRoomMsgProtocol, room_owner_id_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(CreateRoomMsgProtocol, rounds_num_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(CreateRoomMsgProtocol, players_num_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(CreateRoomMsgProtocol, room_cards_num_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(CreateRoomMsgProtocol, room_id_),
   };
   CreateRoomMsgProtocol_reflection_ =
     new ::google::protobuf::internal::GeneratedMessageReflection(
@@ -82,9 +84,10 @@ void protobuf_AddDesc_create_5froom_5fmsg_5fprotocol_2eproto() {
 
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
     "\n\036create_room_msg_protocol.proto\022\016gamer."
-    "protocol\"[\n\025CreateRoomMsgProtocol\022\022\n\nrou"
-    "nds_num\030\001 \002(\005\022\023\n\013players_num\030\002 \002(\005\022\031\n\016ro"
-    "om_cards_num\030\003 \001(\005:\0010", 141);
+    "protocol\"\206\001\n\025CreateRoomMsgProtocol\022\025\n\rro"
+    "om_owner_id\030\001 \002(\005\022\022\n\nrounds_num\030\002 \002(\005\022\023\n"
+    "\013players_num\030\003 \002(\005\022\031\n\016room_cards_num\030\004 \001"
+    "(\005:\0010\022\022\n\007room_id\030\005 \001(\005:\0010", 185);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "create_room_msg_protocol.proto", &protobuf_RegisterTypes);
   CreateRoomMsgProtocol::default_instance_ = new CreateRoomMsgProtocol();
@@ -102,9 +105,11 @@ struct StaticDescriptorInitializer_create_5froom_5fmsg_5fprotocol_2eproto {
 // ===================================================================
 
 #ifndef _MSC_VER
+const int CreateRoomMsgProtocol::kRoomOwnerIdFieldNumber;
 const int CreateRoomMsgProtocol::kRoundsNumFieldNumber;
 const int CreateRoomMsgProtocol::kPlayersNumFieldNumber;
 const int CreateRoomMsgProtocol::kRoomCardsNumFieldNumber;
+const int CreateRoomMsgProtocol::kRoomIdFieldNumber;
 #endif  // !_MSC_VER
 
 CreateRoomMsgProtocol::CreateRoomMsgProtocol()
@@ -125,9 +130,11 @@ CreateRoomMsgProtocol::CreateRoomMsgProtocol(const CreateRoomMsgProtocol& from)
 
 void CreateRoomMsgProtocol::SharedCtor() {
   _cached_size_ = 0;
+  room_owner_id_ = 0;
   rounds_num_ = 0;
   players_num_ = 0;
   room_cards_num_ = 0;
+  room_id_ = 0;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -173,7 +180,9 @@ void CreateRoomMsgProtocol::Clear() {
     ::memset(&first, 0, n);                                \
   } while (0)
 
-  ZR_(rounds_num_, room_cards_num_);
+  if (_has_bits_[0 / 32] & 31) {
+    ZR_(room_owner_id_, room_id_);
+  }
 
 #undef OFFSET_OF_FIELD_
 #undef ZR_
@@ -192,9 +201,24 @@ bool CreateRoomMsgProtocol::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // required int32 rounds_num = 1;
+      // required int32 room_owner_id = 1;
       case 1: {
         if (tag == 8) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &room_owner_id_)));
+          set_has_room_owner_id();
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(16)) goto parse_rounds_num;
+        break;
+      }
+
+      // required int32 rounds_num = 2;
+      case 2: {
+        if (tag == 16) {
+         parse_rounds_num:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
                  input, &rounds_num_)));
@@ -202,13 +226,13 @@ bool CreateRoomMsgProtocol::MergePartialFromCodedStream(
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(16)) goto parse_players_num;
+        if (input->ExpectTag(24)) goto parse_players_num;
         break;
       }
 
-      // required int32 players_num = 2;
-      case 2: {
-        if (tag == 16) {
+      // required int32 players_num = 3;
+      case 3: {
+        if (tag == 24) {
          parse_players_num:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
@@ -217,18 +241,33 @@ bool CreateRoomMsgProtocol::MergePartialFromCodedStream(
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(24)) goto parse_room_cards_num;
+        if (input->ExpectTag(32)) goto parse_room_cards_num;
         break;
       }
 
-      // optional int32 room_cards_num = 3 [default = 0];
-      case 3: {
-        if (tag == 24) {
+      // optional int32 room_cards_num = 4 [default = 0];
+      case 4: {
+        if (tag == 32) {
          parse_room_cards_num:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
                  input, &room_cards_num_)));
           set_has_room_cards_num();
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(40)) goto parse_room_id;
+        break;
+      }
+
+      // optional int32 room_id = 5 [default = 0];
+      case 5: {
+        if (tag == 40) {
+         parse_room_id:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &room_id_)));
+          set_has_room_id();
         } else {
           goto handle_unusual;
         }
@@ -261,19 +300,29 @@ failure:
 void CreateRoomMsgProtocol::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
   // @@protoc_insertion_point(serialize_start:gamer.protocol.CreateRoomMsgProtocol)
-  // required int32 rounds_num = 1;
+  // required int32 room_owner_id = 1;
+  if (has_room_owner_id()) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(1, this->room_owner_id(), output);
+  }
+
+  // required int32 rounds_num = 2;
   if (has_rounds_num()) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(1, this->rounds_num(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(2, this->rounds_num(), output);
   }
 
-  // required int32 players_num = 2;
+  // required int32 players_num = 3;
   if (has_players_num()) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(2, this->players_num(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(3, this->players_num(), output);
   }
 
-  // optional int32 room_cards_num = 3 [default = 0];
+  // optional int32 room_cards_num = 4 [default = 0];
   if (has_room_cards_num()) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(3, this->room_cards_num(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(4, this->room_cards_num(), output);
+  }
+
+  // optional int32 room_id = 5 [default = 0];
+  if (has_room_id()) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(5, this->room_id(), output);
   }
 
   if (!unknown_fields().empty()) {
@@ -286,19 +335,29 @@ void CreateRoomMsgProtocol::SerializeWithCachedSizes(
 ::google::protobuf::uint8* CreateRoomMsgProtocol::SerializeWithCachedSizesToArray(
     ::google::protobuf::uint8* target) const {
   // @@protoc_insertion_point(serialize_to_array_start:gamer.protocol.CreateRoomMsgProtocol)
-  // required int32 rounds_num = 1;
+  // required int32 room_owner_id = 1;
+  if (has_room_owner_id()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(1, this->room_owner_id(), target);
+  }
+
+  // required int32 rounds_num = 2;
   if (has_rounds_num()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(1, this->rounds_num(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(2, this->rounds_num(), target);
   }
 
-  // required int32 players_num = 2;
+  // required int32 players_num = 3;
   if (has_players_num()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(2, this->players_num(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(3, this->players_num(), target);
   }
 
-  // optional int32 room_cards_num = 3 [default = 0];
+  // optional int32 room_cards_num = 4 [default = 0];
   if (has_room_cards_num()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(3, this->room_cards_num(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(4, this->room_cards_num(), target);
+  }
+
+  // optional int32 room_id = 5 [default = 0];
+  if (has_room_id()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(5, this->room_id(), target);
   }
 
   if (!unknown_fields().empty()) {
@@ -313,25 +372,39 @@ int CreateRoomMsgProtocol::ByteSize() const {
   int total_size = 0;
 
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    // required int32 rounds_num = 1;
+    // required int32 room_owner_id = 1;
+    if (has_room_owner_id()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::Int32Size(
+          this->room_owner_id());
+    }
+
+    // required int32 rounds_num = 2;
     if (has_rounds_num()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::Int32Size(
           this->rounds_num());
     }
 
-    // required int32 players_num = 2;
+    // required int32 players_num = 3;
     if (has_players_num()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::Int32Size(
           this->players_num());
     }
 
-    // optional int32 room_cards_num = 3 [default = 0];
+    // optional int32 room_cards_num = 4 [default = 0];
     if (has_room_cards_num()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::Int32Size(
           this->room_cards_num());
+    }
+
+    // optional int32 room_id = 5 [default = 0];
+    if (has_room_id()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::Int32Size(
+          this->room_id());
     }
 
   }
@@ -361,6 +434,9 @@ void CreateRoomMsgProtocol::MergeFrom(const ::google::protobuf::Message& from) {
 void CreateRoomMsgProtocol::MergeFrom(const CreateRoomMsgProtocol& from) {
   GOOGLE_CHECK_NE(&from, this);
   if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (from.has_room_owner_id()) {
+      set_room_owner_id(from.room_owner_id());
+    }
     if (from.has_rounds_num()) {
       set_rounds_num(from.rounds_num());
     }
@@ -369,6 +445,9 @@ void CreateRoomMsgProtocol::MergeFrom(const CreateRoomMsgProtocol& from) {
     }
     if (from.has_room_cards_num()) {
       set_room_cards_num(from.room_cards_num());
+    }
+    if (from.has_room_id()) {
+      set_room_id(from.room_id());
     }
   }
   mutable_unknown_fields()->MergeFrom(from.unknown_fields());
@@ -387,16 +466,18 @@ void CreateRoomMsgProtocol::CopyFrom(const CreateRoomMsgProtocol& from) {
 }
 
 bool CreateRoomMsgProtocol::IsInitialized() const {
-  if ((_has_bits_[0] & 0x00000003) != 0x00000003) return false;
+  if ((_has_bits_[0] & 0x00000007) != 0x00000007) return false;
 
   return true;
 }
 
 void CreateRoomMsgProtocol::Swap(CreateRoomMsgProtocol* other) {
   if (other != this) {
+    std::swap(room_owner_id_, other->room_owner_id_);
     std::swap(rounds_num_, other->rounds_num_);
     std::swap(players_num_, other->players_num_);
     std::swap(room_cards_num_, other->room_cards_num_);
+    std::swap(room_id_, other->room_id_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     _unknown_fields_.Swap(&other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);

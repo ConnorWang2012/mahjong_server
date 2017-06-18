@@ -23,19 +23,65 @@ modification:
 
 namespace gamer {
 
-class RoomManager : public BasicManager<RoomManager> {
+template<typename Player>
+class RoomManager : public BasicManager<RoomManager<Player>> {
   public:
-    void AddRoom(Room* room);
+    void AddRoom(Room<Player>* room);
 
-    void RemoveRoom(Room* room);
+    void RemoveRoom(Room<Player>* room);
 
     void RemoveRoom(int room_id);
+
+    Room<Player>* GetRoom(int room_id);
 
     int GenerateRoomID();
 
   private:
-    std::unordered_map<int, Room*> rooms_; // key is room id
+    std::unordered_map<int, Room<Player>*> rooms_; // key is room id
 };
+
+template<typename Player>
+void gamer::RoomManager<Player>::AddRoom(Room<Player>* room) {
+    if (nullptr == room)
+        return;
+
+    auto room_id = room->get_create_room_msg_protocol()->room_id();
+    if (rooms_.find(room_id) == rooms_.end()) {
+        rooms_.insert(std::make_pair(room_id, room));
+    }
+}
+
+template<typename Player>
+void gamer::RoomManager<Player>::RemoveRoom(int room_id) {
+}
+
+template<typename Player>
+void gamer::RoomManager<Player>::RemoveRoom(Room<Player>* room) {
+
+}
+
+template<typename Player>
+gamer::Room<Player>* gamer::RoomManager<Player>::GetRoom(int room_id) {
+    auto itr = rooms_.find(room_id);
+    if (itr != rooms_.end()) {
+        return itr->second;
+    }
+    return nullptr;
+}
+
+template<typename Player>
+int gamer::RoomManager<Player>::GenerateRoomID() {
+    auto try_count = 5;
+    auto count = 0;
+    while (count < try_count) {
+        auto r = gamer::GenerateRandom(0, 999999);
+        if (rooms_.find(r) == rooms_.end()) {
+            return r;
+        }
+        ++count;
+    }
+    return -1;
+}
 
 } // namespace gamer
 

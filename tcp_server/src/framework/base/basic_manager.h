@@ -24,13 +24,13 @@ namespace gamer {
 template <typename Drived>
 class BasicManager {
   public:
-    BasicManager& operator=(const BasicManager&) = delete;
+      BasicManager& operator=(const BasicManager&) = delete;
 
-    BasicManager(const BasicManager&) = delete;
+      BasicManager(const BasicManager&) = delete;
 
-    BasicManager() = default;
+      BasicManager() = default;
 
-    void *operator new(std::size_t) = delete;
+      void *operator new(std::size_t) = delete;
 
     static Drived* instance() {
         static typename Drived s_mgr;

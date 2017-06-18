@@ -83,6 +83,8 @@ class MsgManager {
 
     void DealWithStartGameMsg(const ClientMsg& msg, struct bufferevent* bev);
 
+    void SendStartGameMsgForError(msg_header_t error_code, struct bufferevent* bev);
+
     void OnMsgReceived(const ClientMsg& msg, struct bufferevent* bev);
 
     friend class NetworkManager;

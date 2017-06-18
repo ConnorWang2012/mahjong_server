@@ -25,6 +25,8 @@ modification:
 #include "msg/protocol/create_room_msg_protocol.pb.h"
 #include "msg/protocol/game_start_msg_protocol.pb.h"
 #include "network/network_manager.h"
+#include "player/player.h"
+#include "room/card_constants.h"
 #include "room/room_manager.h"
 
 namespace gamer {
@@ -132,7 +134,10 @@ bool MsgManager::PackMsg(msg_header_t msg_type,
     memcpy(buf + sizeof(msg_header_t) * 2, &msg_id, sizeof(msg_header_t));
     memcpy(buf + sizeof(msg_header_t) * 3, &msg_code, sizeof(msg_header_t));
 
-    return msg.SerializeToArray(buf + gamer::server_msg_header_len(), msg.ByteSize());
+    if (msg.ByteSize() > 0) {
+        return msg.SerializeToArray(buf + gamer::server_msg_header_len(), msg.ByteSize());
+    }
+    return true;
 }
 
 bool MsgManager::ParseMsg(const ClientMsg& msg, google::protobuf::Message& proto) {
@@ -140,9 +145,7 @@ bool MsgManager::ParseMsg(const ClientMsg& msg, google::protobuf::Message& proto
         return false;
 
     auto len = msg.total_len - gamer::client_msg_header_len();
-    proto.ParseFromArray(msg.context, len);
-
-    return true;
+    return proto.ParseFromArray(msg.context, len);
 }
 
 void MsgManager::DealWithLoginMsg(const ClientMsg& msg, struct bufferevent* bev) {
@@ -154,20 +157,16 @@ void MsgManager::DealWithLoginMsg(const ClientMsg& msg, struct bufferevent* bev)
 
 void MsgManager::DealWithMgLoginMsg(const ClientMsg& msg, struct bufferevent* bev) {
     // TODO : verify password
-    char buf[MsgManager::MAX_MSG_LEN] = { 0 };
     protocol::MyLoginMsgProtocol proto;
     proto.set_account("2017");
     proto.set_password(2018);
     proto.set_code(2020);
-    proto.SerializeToArray(buf, proto.ByteSize());
 
-    auto len_total = gamer::server_msg_header_len() + proto.ByteSize();
-    gamer::ServerMsg msg2 = { len_total,
-        (msg_header_t)MsgTypes::C2S_MSG_TYPE_LOGIN,
-        (msg_header_t)MsgIDs::MSG_ID_LOGIN_MY,
-        (msg_header_t)MsgCodes::MSG_RESPONSE_CODE_SUCCESS,
-        buf };
-    this->SendMsg(msg2, bev);
+    this->SendMsg((msg_header_t)MsgTypes::S2C_MSG_TYPE_LOGIN,
+                  (msg_header_t)MsgIDs::MSG_ID_LOGIN_MY,
+                  (msg_header_t)MsgCodes::MSG_RESPONSE_CODE_SUCCESS,
+                  proto,
+                  bev);
 }
 
 void MsgManager::DealWithRoomMsg(const ClientMsg& msg, struct bufferevent* bev) {
@@ -180,15 +179,16 @@ void MsgManager::DealWithRoomMsg(const ClientMsg& msg, struct bufferevent* bev) 
 void MsgManager::DealWithCreateRoomMsg(const ClientMsg& msg, struct bufferevent* bev) {
     protocol::CreateRoomMsgProtocol proto;
     if (this->ParseMsg(msg, proto)) {
-        auto room_mgr = RoomManager::instance();
+        auto room_mgr = RoomManager<Player>::instance();
         auto room_id = room_mgr->GenerateRoomID();
         if (-1 == room_id) {
             // TODO : log 
         }
         else {
-            auto room = Room::Create(room_id, proto);
+            auto room = Room<Player>::Create(room_id, proto);
             room_mgr->AddRoom(room);
             
+            proto.set_room_id(room_id);
             auto msg_code = (msg_header_t)MsgCodes::MSG_RESPONSE_CODE_SUCCESS;
             this->SendMsg(msg.type, msg.id, msg_code, proto, bev);
         }        
@@ -196,25 +196,122 @@ void MsgManager::DealWithCreateRoomMsg(const ClientMsg& msg, struct bufferevent*
 }
 
 void MsgManager::DealWithStartGameMsg(const ClientMsg& msg, struct bufferevent* bev) {
-    std::vector<int> vec = { 11, 12, 13, 14, 15, 16, 17, 18, 19, 
-                             21, 22, 23, 24, 25, 26, 27, 28, 29,
-                             31, 32, 33, 34, 35, 36, 37, 38, 39,
-                             41, 42, 43, 44, 45, 46, 47,
-                             51, 52, 53, 54, 55, 56, 57, 58 };
+    // 1.verify client msg
+    protocol::GameStartMsgProtocol proto_client;
+    auto ret = this->ParseMsg(msg, proto_client);
+    if (!ret) {
+        // TODO : log
+        this->SendStartGameMsgForError((msg_header_t)MsgCodes::MSG_RESPONSE_CODE_FAILED1, bev); // TODO : specify error code
+        return;
+    }
+
+    // 2.verify room id and room owner id
+    auto room_id = proto_client.room_id();   
+    auto room = RoomManager<Player>::instance()->GetRoom(room_id);
+    protocol::CreateRoomMsgProtocol* create_room_msg_proto;
+    if (nullptr == room) {
+        // TODO : log
+        this->SendStartGameMsgForError((msg_header_t)MsgCodes::MSG_RESPONSE_CODE_FAILED1, bev); // TODO : specify error code
+        return;
+    }
+    else {
+        create_room_msg_proto = room->get_create_room_msg_protocol();
+        auto room_owner_id_client = proto_client.room_owner_id();
+        auto room_owner_id_server = create_room_msg_proto->room_owner_id();
+        if (room_owner_id_server != room_owner_id_client) {
+            // TODO : log
+            this->SendStartGameMsgForError((msg_header_t)MsgCodes::MSG_RESPONSE_CODE_FAILED1, bev); // TODO : specify error code
+            return;
+        }
+    }
+
+    // 3.verify room player num
+    if (room->cur_players_num() < room->get_game_start_msg_protocol().players_num()) {
+        // TODO : log
+        this->SendStartGameMsgForError((msg_header_t)MsgCodes::MSG_RESPONSE_CODE_FAILED1, bev); // TODO : specify error code
+        return;
+    }
+
+    int buf[CardConstants::TOTAL_CARDS_NUM] = { 
+                     11, 12, 13, 14, 15, 16, 17, 18, 19,
+                     11, 12, 13, 14, 15, 16, 17, 18, 19,
+                     11, 12, 13, 14, 15, 16, 17, 18, 19,
+                     11, 12, 13, 14, 15, 16, 17, 18, 19,
+                
+                     21, 22, 23, 24, 25, 26, 27, 28, 29,
+                     21, 22, 23, 24, 25, 26, 27, 28, 29,
+                     21, 22, 23, 24, 25, 26, 27, 28, 29,
+                     21, 22, 23, 24, 25, 26, 27, 28, 29,
+
+                     31, 32, 33, 34, 35, 36, 37, 38, 39,
+                     31, 32, 33, 34, 35, 36, 37, 38, 39,
+                     31, 32, 33, 34, 35, 36, 37, 38, 39,
+                     31, 32, 33, 34, 35, 36, 37, 38, 39,
+
+                     41, 42, 43, 44, 45, 46, 47,
+                     41, 42, 43, 44, 45, 46, 47,
+                     41, 42, 43, 44, 45, 46, 47,
+                     41, 42, 43, 44, 45, 46, 47,
+                     
+                     51, 52, 53, 54, 55, 56, 57, 58 };
+    auto vec = std::vector<int>(buf, buf + CardConstants::TOTAL_CARDS_NUM - 1);
     gamer::Shuffle(vec);
 
-    char buf[MsgManager::MAX_MSG_LEN] = { 0 };
-    protocol::GameStartMsgProtocol proto;
+    protocol::GameStartMsgProtocol proto_server;
+    // room common
+    auto room_owner_id = create_room_msg_proto->room_owner_id();
+    auto players_num = create_room_msg_proto->players_num();
+    proto_server.set_room_id(room_id);
+    proto_server.set_room_owner_id(room_owner_id);
+    proto_server.set_players_num(players_num);
+    proto_server.set_cur_round(1); // TODO : 1 is not right allways
+    proto_server.set_total_round(create_room_msg_proto->rounds_num()); // TODO : rounds_num replace by total_round
+    proto_server.set_remain_cards_num(CardConstants::TOTAL_CARDS_NUM - 
+        players_num * CardConstants::ONE_PLAYER_CARD_NUM - 1);
+    proto_server.set_cur_acting_player_id(room_owner_id);
+    proto_server.set_cur_action_id(0); // TODO : 
+    proto_server.set_banker_id(room_owner_id); // not right allways
+    proto_server.set_banker_is_same_time(0); // not right allways
 
-    proto.SerializeToArray(buf, proto.ByteSize());
+    // room player
+    auto players = room->players();
+    auto itr_player = players->begin();
+    auto card_index = 0;
+    for (auto i = 0; i < players_num; i++) {
+        auto player_cards = proto_server.add_player_cards();
+        //player_cards->set_player_id(itr_player->first);
+        player_cards->set_player_id(i);
+        for (auto j = 0; j <= CardConstants::ONE_PLAYER_CARD_NUM; j++) {
+            auto card = vec.at(card_index);
+            player_cards->add_invisible_hand_cards(card);
 
-    auto len_total = gamer::server_msg_header_len() + proto.ByteSize();
-    gamer::ServerMsg msg2 = { len_total,
-        (msg_header_t)MsgTypes::C2S_MSG_TYPE_LOGIN,
-        (msg_header_t)MsgIDs::MSG_ID_LOGIN_MY,
-        (msg_header_t)MsgCodes::MSG_RESPONSE_CODE_SUCCESS,
-        buf };
-    this->SendMsg(msg2, bev);
+            if (card >= CardConstants::CARD_VALUE_SEASON_OR_FLOWER_1 &&
+                card <= CardConstants::CARD_VALUE_SEASON_OR_FLOWER_4) {
+                player_cards->add_flower_cards(card);
+            } else if (card > CardConstants::CARD_VALUE_SEASON_OR_FLOWER_4) {
+                player_cards->add_season_cards(card);
+            }
+            // TODO : visible cards and waiting cards
+            ++card_index;
+        }
+
+        //++itr_player;
+    }
+
+    this->SendMsg((msg_header_t)MsgTypes::S2C_MSG_TYPE_ROOM,
+                  (msg_header_t)MsgIDs::MSG_ID_ROOM_START_GAME,
+                  (msg_header_t)MsgCodes::MSG_RESPONSE_CODE_SUCCESS,
+                  proto_server,
+                  bev);
+}
+
+void MsgManager::SendStartGameMsgForError(msg_header_t error_code, struct bufferevent* bev) {
+    protocol::GameStartMsgProtocol proto_empty;
+    this->SendMsg((msg_header_t)MsgTypes::S2C_MSG_TYPE_ROOM,
+                  (msg_header_t)MsgIDs::MSG_ID_ROOM_START_GAME,
+                  error_code, 
+                  proto_empty,
+                  bev);
 }
 
 void MsgManager::OnMsgReceived(const ClientMsg& msg, struct bufferevent* bev) {
