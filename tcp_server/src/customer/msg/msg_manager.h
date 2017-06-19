@@ -43,16 +43,16 @@ class MsgManager {
 	
 	static MsgManager* instance();
 
-    bool SendMsg(const ServerMsg& msg, struct bufferevent* bev);
+    bool SendMsg(const ServerMsg& msg, bufferevent* bev);
 
     bool SendMsg(msg_header_t msg_type,
                  msg_header_t msg_id,
                  msg_header_t msg_code,
                  const google::protobuf::Message& msg, 
-                 struct bufferevent* bev);
+                 bufferevent* bev);
 
   private:
-    typedef std::function<void(const ClientMsg&, struct bufferevent* bev)> MsgHandler;
+    typedef std::function<void(const ClientMsg&, bufferevent* bev)> MsgHandler;
 
     MsgManager();
 
@@ -73,24 +73,26 @@ class MsgManager {
 
     bool ParseMsg(const ClientMsg& msg, google::protobuf::Message& proto);
 
-    void DealWithLoginMsg(const ClientMsg& msg, struct bufferevent* bev);
+    void DealWithLoginMsg(const ClientMsg& msg, bufferevent* bev);
 
-    void DealWithMgLoginMsg(const ClientMsg& msg, struct bufferevent* bev);
+    void DealWithMgLoginMsg(const ClientMsg& msg, bufferevent* bev);
     
-    void DealWithRoomMsg(const ClientMsg& msg, struct bufferevent* bev);
+    void DealWithRoomMsg(const ClientMsg& msg, bufferevent* bev);
 
-    void DealWithCreateRoomMsg(const ClientMsg& msg, struct bufferevent* bev);
+    void DealWithCreateRoomMsg(const ClientMsg& msg, bufferevent* bev);
 
-    void DealWithStartGameMsg(const ClientMsg& msg, struct bufferevent* bev);
+    void DealWithStartGameMsg(const ClientMsg& msg, bufferevent* bev);
 
-    void SendStartGameMsgForError(msg_header_t error_code, struct bufferevent* bev);
+	void SendMsgForError(msg_header_t error_code, const ClientMsg& msg, bufferevent* bev);
 
-    void OnMsgReceived(const ClientMsg& msg, struct bufferevent* bev);
+    void OnMsgReceived(const ClientMsg& msg, bufferevent* bev);
 
     friend class NetworkManager;
 
     std::unordered_map<int, MsgHandler> msg_handlers_;    // key is MsgIDs
     std::unordered_map<int, MsgHandler> msg_dispatchers_; // key is MsgTypes
+
+	std::unordered_map<std::string, bufferevent*> bufferevents_; // key is user account
 
     static const int MAX_MSG_LEN = 4096;
 };

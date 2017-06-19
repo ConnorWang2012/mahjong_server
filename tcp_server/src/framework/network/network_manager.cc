@@ -69,7 +69,7 @@ void NetworkManager::InitSocket() {
 	if (nullptr == connlistener_) {
 		connlistener_ = evconnlistener_new_bind(evbase_,
 			(evconnlistener_cb)OnConnAccepted,
-			NULL,
+			nullptr,
 			LEV_OPT_CLOSE_ON_FREE | LEV_OPT_REUSEABLE,
 			-1,
 			(struct sockaddr*)&sin,
@@ -116,9 +116,8 @@ void NetworkManager::OnConnAccepted(struct evconnlistener* listener,
 	// We got a new connection! Set up a bufferevent for it.
 	LOGGREEN("[NetworkManager::InitSocket] one client connected");
 	auto base = evconnlistener_get_base(listener);
-	//int ret = evutil_make_socket_nonblocking(fd);
 	auto bev = bufferevent_socket_new(base, fd, BEV_OPT_CLOSE_ON_FREE);
-	bufferevent_setcb(bev, OnBuffereventRead, OnBuffereventWrite, OnBuffereventReceived, NULL);
+	bufferevent_setcb(bev, OnBuffereventRead, OnBuffereventWrite, OnBuffereventReceived, nullptr);
 	bufferevent_enable(bev, EV_READ | EV_WRITE);
 }
 
@@ -127,7 +126,7 @@ void NetworkManager::OnConnErrorOccur(struct evconnlistener* listener, void* ctx
 	int err = EVUTIL_SOCKET_ERROR();
 	//fprintf(stderr, "Got an error %d (%s) on the listener. "
 	//	"Shutting down.", err, evutil_socket_error_to_string(err));
-	event_base_loopexit(base, NULL);
+	event_base_loopexit(base, nullptr);
 }
 
 void NetworkManager::OnBuffereventReceived(struct bufferevent* bev, short event, void* ctx) {
@@ -141,7 +140,7 @@ void NetworkManager::OnBuffereventReceived(struct bufferevent* bev, short event,
 
 	if (event & BEV_EVENT_CONNECTED) {
 		LOGGREEN("[NetworkManager::OnBuffereventArrive] client connected");
-		//write_cb(bev, NULL);
+		//write_cb(bev, nullptr);
 		//char msg[] = "client connected";
 		//bufferevent_write(bev, msg, sizeof(msg));
 		auto input = bufferevent_get_input(bev);
@@ -158,13 +157,13 @@ void NetworkManager::OnBuffereventRead(struct bufferevent* bev, void* ctx) {
 
     auto buf_len = evbuffer_get_length(input);
     if (buf_len <= 0 || buf_len > NetworkManager::MAX_BUFFER_LEN) {
-        printf("[NetworkManager::onBufferRead] buffer len is invalid");
+		LOGERROR("[NetworkManager::onBufferRead] buffer len is invalid");
         return;
     }
 
     char buf[NetworkManager::MAX_BUFFER_LEN] = { 0 };
     if (evbuffer_remove(input, buf, buf_len) <= 0) {
-        printf("[NetworkManager::onBufferRead] read buffer failed");
+		LOGERROR("[NetworkManager::onBufferRead] read buffer failed");
         return;
     }
 

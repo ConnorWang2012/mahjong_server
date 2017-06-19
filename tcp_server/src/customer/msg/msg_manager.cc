@@ -70,7 +70,7 @@ void MsgManager::AddMsgHandlers() {
         CALLBACK_SELECTOR_2(MsgManager::DealWithStartGameMsg, this)));
 }
 
-bool MsgManager::SendMsg(const ServerMsg& msg, struct bufferevent* bev) {
+bool MsgManager::SendMsg(const ServerMsg& msg, bufferevent* bev) {
 	char buf[MsgManager::MAX_MSG_LEN] = { 0 };
 	msg_header_t len = 0;
     if (this->PackMsg(msg, buf, len)){
@@ -83,7 +83,7 @@ bool MsgManager::SendMsg(msg_header_t msg_type,
                          msg_header_t msg_id,
                          msg_header_t msg_code,
                          const google::protobuf::Message& msg,
-                         struct bufferevent* bev) {
+                         bufferevent* bev) {
     char buf[MsgManager::MAX_MSG_LEN] = { 0 };
     msg_header_t len = 0;
     auto ok = this->PackMsg(msg_type, msg_id, msg_code, msg, buf, len);
@@ -148,15 +148,30 @@ bool MsgManager::ParseMsg(const ClientMsg& msg, google::protobuf::Message& proto
     return proto.ParseFromArray(msg.context, len);
 }
 
-void MsgManager::DealWithLoginMsg(const ClientMsg& msg, struct bufferevent* bev) {
+void MsgManager::DealWithLoginMsg(const ClientMsg& msg, bufferevent* bev) {
     auto itr = msg_handlers_.find((int)msg.id);
     if (itr != msg_handlers_.end()) {
         itr->second(msg, bev);
     }
 }
 
-void MsgManager::DealWithMgLoginMsg(const ClientMsg& msg, struct bufferevent* bev) {
-    // TODO : verify password
+void MsgManager::DealWithMgLoginMsg(const ClientMsg& msg, bufferevent* bev) {
+    // TODO : verify account and password
+	protocol::MyLoginMsgProtocol proto_client;
+	auto ret = this->ParseMsg(msg, proto_client);
+	if ( !ret ) {
+		// TODO : log
+		// TODO : specify error code
+		auto error_code = (msg_header_t)MsgCodes::MSG_RESPONSE_CODE_FAILED1;
+		this->SendMsgForError(error_code, msg, bev);
+		return;
+	}
+
+	// if login succeed, keep the bev for sending msg
+	if (bufferevents_.find(proto_client.account()) == bufferevents_.end()) {
+		bufferevents_.insert(std::make_pair(proto_client.account(), bev));
+	}
+
     protocol::MyLoginMsgProtocol proto;
     proto.set_account("2017");
     proto.set_password(2018);
@@ -169,14 +184,14 @@ void MsgManager::DealWithMgLoginMsg(const ClientMsg& msg, struct bufferevent* be
                   bev);
 }
 
-void MsgManager::DealWithRoomMsg(const ClientMsg& msg, struct bufferevent* bev) {
+void MsgManager::DealWithRoomMsg(const ClientMsg& msg, bufferevent* bev) {
     auto itr = msg_handlers_.find((int)msg.id);
     if (itr != msg_handlers_.end()) {
         itr->second(msg, bev);
     }
 }
 
-void MsgManager::DealWithCreateRoomMsg(const ClientMsg& msg, struct bufferevent* bev) {
+void MsgManager::DealWithCreateRoomMsg(const ClientMsg& msg, bufferevent* bev) {
     protocol::CreateRoomMsgProtocol proto;
     if (this->ParseMsg(msg, proto)) {
         auto room_mgr = RoomManager<Player>::instance();
@@ -195,13 +210,13 @@ void MsgManager::DealWithCreateRoomMsg(const ClientMsg& msg, struct bufferevent*
     }
 }
 
-void MsgManager::DealWithStartGameMsg(const ClientMsg& msg, struct bufferevent* bev) {
+void MsgManager::DealWithStartGameMsg(const ClientMsg& msg, bufferevent* bev) {
     // 1.verify client msg
     protocol::GameStartMsgProtocol proto_client;
     auto ret = this->ParseMsg(msg, proto_client);
-    if (!ret) {
+    if ( !ret ) {
         // TODO : log
-        this->SendStartGameMsgForError((msg_header_t)MsgCodes::MSG_RESPONSE_CODE_FAILED1, bev); // TODO : specify error code
+        this->SendMsgForError((msg_header_t)MsgCodes::MSG_RESPONSE_CODE_FAILED1, msg, bev); // TODO : specify error code
         return;
     }
 
@@ -211,7 +226,7 @@ void MsgManager::DealWithStartGameMsg(const ClientMsg& msg, struct bufferevent* 
     protocol::CreateRoomMsgProtocol* create_room_msg_proto;
     if (nullptr == room) {
         // TODO : log
-        this->SendStartGameMsgForError((msg_header_t)MsgCodes::MSG_RESPONSE_CODE_FAILED1, bev); // TODO : specify error code
+		this->SendMsgForError((msg_header_t)MsgCodes::MSG_RESPONSE_CODE_FAILED1, msg, bev); // TODO : specify error code
         return;
     }
     else {
@@ -220,7 +235,7 @@ void MsgManager::DealWithStartGameMsg(const ClientMsg& msg, struct bufferevent* 
         auto room_owner_id_server = create_room_msg_proto->room_owner_id();
         if (room_owner_id_server != room_owner_id_client) {
             // TODO : log
-            this->SendStartGameMsgForError((msg_header_t)MsgCodes::MSG_RESPONSE_CODE_FAILED1, bev); // TODO : specify error code
+			this->SendMsgForError((msg_header_t)MsgCodes::MSG_RESPONSE_CODE_FAILED1, msg, bev); // TODO : specify error code
             return;
         }
     }
@@ -228,7 +243,7 @@ void MsgManager::DealWithStartGameMsg(const ClientMsg& msg, struct bufferevent* 
     // 3.verify room player num
     if (room->cur_players_num() < room->get_game_start_msg_protocol().players_num()) {
         // TODO : log
-        this->SendStartGameMsgForError((msg_header_t)MsgCodes::MSG_RESPONSE_CODE_FAILED1, bev); // TODO : specify error code
+		this->SendMsgForError((msg_header_t)MsgCodes::MSG_RESPONSE_CODE_FAILED1, msg, bev); // TODO : specify error code
         return;
     }
 
@@ -305,16 +320,16 @@ void MsgManager::DealWithStartGameMsg(const ClientMsg& msg, struct bufferevent* 
                   bev);
 }
 
-void MsgManager::SendStartGameMsgForError(msg_header_t error_code, struct bufferevent* bev) {
-    protocol::GameStartMsgProtocol proto_empty;
-    this->SendMsg((msg_header_t)MsgTypes::S2C_MSG_TYPE_ROOM,
-                  (msg_header_t)MsgIDs::MSG_ID_ROOM_START_GAME,
-                  error_code, 
-                  proto_empty,
-                  bev);
+void MsgManager::SendMsgForError(msg_header_t error_code, const ClientMsg& msg, bufferevent* bev) {
+	gamer::ServerMsg server_msg = { gamer::server_msg_header_len(),
+									msg.type,
+									msg.id,
+									error_code,
+									msg.context };
+	this->SendMsg(server_msg, bev);
 }
 
-void MsgManager::OnMsgReceived(const ClientMsg& msg, struct bufferevent* bev) {
+void MsgManager::OnMsgReceived(const ClientMsg& msg, bufferevent* bev) {
     auto itr = msg_dispatchers_.find((int)msg.type);
     if (itr != msg_dispatchers_.end()) {
         itr->second(msg, bev);
