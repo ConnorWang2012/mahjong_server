@@ -172,15 +172,13 @@ void MsgManager::DealWithMgLoginMsg(const ClientMsg& msg, bufferevent* bev) {
 		bufferevents_.insert(std::make_pair(proto_client.account(), bev));
 	}
 
-    protocol::MyLoginMsgProtocol proto;
-    proto.set_account("2017");
-    proto.set_password(2018);
-    proto.set_code(2020);
+    // TODO : get player id from cache
+    proto_client.set_player_id(2020);
 
     this->SendMsg((msg_header_t)MsgTypes::S2C_MSG_TYPE_LOGIN,
                   (msg_header_t)MsgIDs::MSG_ID_LOGIN_MY,
                   (msg_header_t)MsgCodes::MSG_RESPONSE_CODE_SUCCESS,
-                  proto,
+                  proto_client,
                   bev);
 }
 
