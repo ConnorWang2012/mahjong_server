@@ -26,7 +26,7 @@ namespace gamer {
 static void Shuffle(std::vector<int>& cards) {
     auto n = (int)cards.size();
     for (auto i = 0; i < n; i++) {
-        int j = gamer::GenerateRandom(0, i); 
+        int j = gamer::GenerateRandom<int>(0, i); 
         std::swap(cards[i], cards[j]);
     }
 }

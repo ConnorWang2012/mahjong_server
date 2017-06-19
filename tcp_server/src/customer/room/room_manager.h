@@ -74,7 +74,7 @@ int gamer::RoomManager<Player>::GenerateRoomID() {
     auto try_count = 5;
     auto count = 0;
     while (count < try_count) {
-        auto r = gamer::GenerateRandom(0, 999999);
+        auto r = gamer::GenerateRandom<int>(0, 999999);
         if (rooms_.find(r) == rooms_.end()) {
             return r;
         }
