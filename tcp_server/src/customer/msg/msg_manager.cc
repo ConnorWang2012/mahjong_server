@@ -16,6 +16,7 @@ modification:
 
 #include "event2/bufferevent.h"		  // libevent
 
+#include "cache/cache_manager.h"
 #include "event/event_manager.h"
 #include "framework/util/algorithm.h"
 #include "framework/base/log_headers.h"
@@ -157,9 +158,8 @@ void MsgManager::DealWithLoginMsg(const ClientMsg& msg, bufferevent* bev) {
 }
 
 void MsgManager::DealWithMgLoginMsg(const ClientMsg& msg, bufferevent* bev) {
-    // TODO : verify account and password
-	protocol::MyLoginMsgProtocol proto_client;
-	auto ret = this->ParseMsg(msg, proto_client);
+	protocol::MyLoginMsgProtocol login_proto_client;
+	auto ret = this->ParseMsg(msg, login_proto_client);
 	if ( !ret ) {
 		// TODO : log
 		// TODO : specify error code
@@ -168,20 +168,72 @@ void MsgManager::DealWithMgLoginMsg(const ClientMsg& msg, bufferevent* bev) {
 		return;
 	}
 
-	//auto cached_proto = 
+    // check account and password
+    if ("" == login_proto_client.account() || 0 == login_proto_client.password()) {
+        // TODO : log
+        // TODO : specify error code
+        auto error_code = (msg_header_t)MsgCodes::MSG_RESPONSE_CODE_FAILED1;
+        this->SendMsgForError(error_code, msg, bev);
+        return;
+    }
 
-    // TODO : get player id from cache
-    proto_client.set_player_id(2020);
+    std::string player_msg = "";
+    CacheManager::instance()->GetCachedData(login_proto_client.account(), player_msg);
+    protocol::MyLoginMsgProtocol login_proto_server;
+    auto player_id = 0;
+    if ("" == player_msg) { // first login
+        login_proto_server.set_account(login_proto_client.account());
+        login_proto_server.set_password(login_proto_client.password());
 
-	// if login succeed, keep the bev for sending msg
-	if (bufferevents_.find(proto_client.player_id()) == bufferevents_.end()) {
-		bufferevents_.insert(std::make_pair(proto_client.player_id(), bev));
+        auto player_proto = new protocol::PlayerMsgProtocol;
+        login_proto_server.set_allocated_player(player_proto);
+        player_id = gamer::GenerateRandom<int>(1000000, 2000000); // TODO : verify player id
+        player_proto->set_player_id(player_id); 
+        player_proto->set_game_currency(5000);
+        player_proto->set_nick_name(login_proto_client.account());
+        player_proto->set_level(1);
+        player_proto->set_level_name("junior");
+
+        auto str_login = login_proto_server.SerializeAsString();
+        if ("" == str_login) {
+            // TODO : log
+            // TODO : specify error code
+            auto error_code = (msg_header_t)MsgCodes::MSG_RESPONSE_CODE_FAILED1;
+            this->SendMsgForError(error_code, msg, bev);
+            return;
+        } else {
+            CacheManager::instance()->CacheData(login_proto_client.account(), str_login);
+        }
+        
+    } else { // not first login
+        auto ret = login_proto_server.ParseFromString(player_msg);
+        if ( !ret ) {
+            // TODO : log
+            // TODO : specify error code
+            auto error_code = (msg_header_t)MsgCodes::MSG_RESPONSE_CODE_FAILED1;
+            this->SendMsgForError(error_code, msg, bev);
+            return;
+        } else {
+            // verify server password
+            if (login_proto_server.password() != login_proto_client.password()) {
+                // TODO : specify error code
+                auto error_code = (msg_header_t)MsgCodes::MSG_RESPONSE_CODE_FAILED1;
+                this->SendMsgForError(error_code, msg, bev);
+                return;
+            }
+        }
+    }
+
+	// login succeed, keep the bev for sending msg
+	if (bufferevents_.find(player_id) == bufferevents_.end()) {
+		bufferevents_.insert(std::make_pair(player_id, bev));
 	}
 
+    // send login succeed msg
     this->SendMsg((msg_header_t)MsgTypes::S2C_MSG_TYPE_LOGIN,
                   (msg_header_t)MsgIDs::MSG_ID_LOGIN_MY,
                   (msg_header_t)MsgCodes::MSG_RESPONSE_CODE_SUCCESS,
-                  proto_client,
+                  login_proto_client,
                   bev);
 }
 

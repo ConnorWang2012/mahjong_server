@@ -33,7 +33,7 @@ class BasicManager {
       void *operator new(std::size_t) = delete;
 
     static Drived* instance() {
-        static typename Drived s_mgr;
+        static Drived s_mgr;
         return &s_mgr;
     }
 };

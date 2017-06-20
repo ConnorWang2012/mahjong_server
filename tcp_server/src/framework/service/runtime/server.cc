@@ -14,8 +14,8 @@ modification:
 
 #include "server.h"
 
-#include "framework/cache/cache_manager.h"
 #include "framework/network/network_manager.h"
+//#include "framework/cache/cache_manager.h"
 
 namespace gamer {
 
@@ -25,7 +25,7 @@ Server* Server::instance() {
 }
 
 void Server::Start() {
-	CacheManager::instance()->Init();
+    //CacheManager::instance()->Init(); // why here will crash
 	NetworkManager::instance()->InitSocket();
 }
 

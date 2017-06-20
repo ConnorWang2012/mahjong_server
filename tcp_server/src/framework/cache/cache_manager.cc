@@ -32,12 +32,17 @@ void gamer::CacheManager::Init() {
 }
 
 void CacheManager::GetCachedData(const std::string& key, std::string& value) {
-	redis_client_.get(key, [&](cpp_redis::reply& reply) {
-		if (reply.is_string()) {
-			value = reply.as_string();
-		}
-	});
-	redis_client_.sync_commit();
+    redis_client_.get(key, [&](cpp_redis::reply& reply) {
+        if (reply.is_string()) {
+            value = reply.as_string();
+        }
+    });
+    redis_client_.sync_commit();
+}
+
+void CacheManager::CacheData(const std::string& key, const std::string& value) {
+    redis_client_.set(key, value);
+    redis_client_.sync_commit();
 }
 
 inline cpp_redis::redis_client& CacheManager::redis_client() {

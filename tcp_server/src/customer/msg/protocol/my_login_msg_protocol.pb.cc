@@ -38,7 +38,7 @@ void protobuf_AssignDesc_my_5flogin_5fmsg_5fprotocol_2eproto() {
   static const int MyLoginMsgProtocol_offsets_[3] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(MyLoginMsgProtocol, account_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(MyLoginMsgProtocol, password_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(MyLoginMsgProtocol, player_id_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(MyLoginMsgProtocol, player_),
   };
   MyLoginMsgProtocol_reflection_ =
     new ::google::protobuf::internal::GeneratedMessageReflection(
@@ -80,11 +80,13 @@ void protobuf_AddDesc_my_5flogin_5fmsg_5fprotocol_2eproto() {
   already_here = true;
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
+  ::gamer::protocol::protobuf_AddDesc_player_5fmsg_5fprotocol_2eproto();
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
     "\n\033my_login_msg_protocol.proto\022\016gamer.pro"
-    "tocol\"M\n\022MyLoginMsgProtocol\022\017\n\007account\030\001"
-    " \002(\t\022\020\n\010password\030\002 \002(\005\022\024\n\tplayer_id\030\003 \001("
-    "\005:\0010", 124);
+    "tocol\032\031player_msg_protocol.proto\"j\n\022MyLo"
+    "ginMsgProtocol\022\017\n\007account\030\001 \002(\t\022\020\n\010passw"
+    "ord\030\002 \002(\005\0221\n\006player\030\003 \001(\0132!.gamer.protoc"
+    "ol.PlayerMsgProtocol", 180);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "my_login_msg_protocol.proto", &protobuf_RegisterTypes);
   MyLoginMsgProtocol::default_instance_ = new MyLoginMsgProtocol();
@@ -104,7 +106,7 @@ struct StaticDescriptorInitializer_my_5flogin_5fmsg_5fprotocol_2eproto {
 #ifndef _MSC_VER
 const int MyLoginMsgProtocol::kAccountFieldNumber;
 const int MyLoginMsgProtocol::kPasswordFieldNumber;
-const int MyLoginMsgProtocol::kPlayerIdFieldNumber;
+const int MyLoginMsgProtocol::kPlayerFieldNumber;
 #endif  // !_MSC_VER
 
 MyLoginMsgProtocol::MyLoginMsgProtocol()
@@ -114,6 +116,7 @@ MyLoginMsgProtocol::MyLoginMsgProtocol()
 }
 
 void MyLoginMsgProtocol::InitAsDefaultInstance() {
+  player_ = const_cast< ::gamer::protocol::PlayerMsgProtocol*>(&::gamer::protocol::PlayerMsgProtocol::default_instance());
 }
 
 MyLoginMsgProtocol::MyLoginMsgProtocol(const MyLoginMsgProtocol& from)
@@ -128,7 +131,7 @@ void MyLoginMsgProtocol::SharedCtor() {
   _cached_size_ = 0;
   account_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   password_ = 0;
-  player_id_ = 0;
+  player_ = NULL;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -142,6 +145,7 @@ void MyLoginMsgProtocol::SharedDtor() {
     delete account_;
   }
   if (this != default_instance_) {
+    delete player_;
   }
 }
 
@@ -167,28 +171,17 @@ MyLoginMsgProtocol* MyLoginMsgProtocol::New() const {
 }
 
 void MyLoginMsgProtocol::Clear() {
-#define OFFSET_OF_FIELD_(f) (reinterpret_cast<char*>(      \
-  &reinterpret_cast<MyLoginMsgProtocol*>(16)->f) - \
-   reinterpret_cast<char*>(16))
-
-#define ZR_(first, last) do {                              \
-    size_t f = OFFSET_OF_FIELD_(first);                    \
-    size_t n = OFFSET_OF_FIELD_(last) - f + sizeof(last);  \
-    ::memset(&first, 0, n);                                \
-  } while (0)
-
   if (_has_bits_[0 / 32] & 7) {
-    ZR_(password_, player_id_);
     if (has_account()) {
       if (account_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
         account_->clear();
       }
     }
+    password_ = 0;
+    if (has_player()) {
+      if (player_ != NULL) player_->::gamer::protocol::PlayerMsgProtocol::Clear();
+    }
   }
-
-#undef OFFSET_OF_FIELD_
-#undef ZR_
-
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
   mutable_unknown_fields()->Clear();
 }
@@ -230,18 +223,16 @@ bool MyLoginMsgProtocol::MergePartialFromCodedStream(
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(24)) goto parse_player_id;
+        if (input->ExpectTag(26)) goto parse_player;
         break;
       }
 
-      // optional int32 player_id = 3 [default = 0];
+      // optional .gamer.protocol.PlayerMsgProtocol player = 3;
       case 3: {
-        if (tag == 24) {
-         parse_player_id:
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 input, &player_id_)));
-          set_has_player_id();
+        if (tag == 26) {
+         parse_player:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+               input, mutable_player()));
         } else {
           goto handle_unusual;
         }
@@ -289,9 +280,10 @@ void MyLoginMsgProtocol::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt32(2, this->password(), output);
   }
 
-  // optional int32 player_id = 3 [default = 0];
-  if (has_player_id()) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(3, this->player_id(), output);
+  // optional .gamer.protocol.PlayerMsgProtocol player = 3;
+  if (has_player()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      3, this->player(), output);
   }
 
   if (!unknown_fields().empty()) {
@@ -320,9 +312,11 @@ void MyLoginMsgProtocol::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(2, this->password(), target);
   }
 
-  // optional int32 player_id = 3 [default = 0];
-  if (has_player_id()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(3, this->player_id(), target);
+  // optional .gamer.protocol.PlayerMsgProtocol player = 3;
+  if (has_player()) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      WriteMessageNoVirtualToArray(
+        3, this->player(), target);
   }
 
   if (!unknown_fields().empty()) {
@@ -351,11 +345,11 @@ int MyLoginMsgProtocol::ByteSize() const {
           this->password());
     }
 
-    // optional int32 player_id = 3 [default = 0];
-    if (has_player_id()) {
+    // optional .gamer.protocol.PlayerMsgProtocol player = 3;
+    if (has_player()) {
       total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::Int32Size(
-          this->player_id());
+        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+          this->player());
     }
 
   }
@@ -391,8 +385,8 @@ void MyLoginMsgProtocol::MergeFrom(const MyLoginMsgProtocol& from) {
     if (from.has_password()) {
       set_password(from.password());
     }
-    if (from.has_player_id()) {
-      set_player_id(from.player_id());
+    if (from.has_player()) {
+      mutable_player()->::gamer::protocol::PlayerMsgProtocol::MergeFrom(from.player());
     }
   }
   mutable_unknown_fields()->MergeFrom(from.unknown_fields());
@@ -413,6 +407,9 @@ void MyLoginMsgProtocol::CopyFrom(const MyLoginMsgProtocol& from) {
 bool MyLoginMsgProtocol::IsInitialized() const {
   if ((_has_bits_[0] & 0x00000003) != 0x00000003) return false;
 
+  if (has_player()) {
+    if (!this->player().IsInitialized()) return false;
+  }
   return true;
 }
 
@@ -420,7 +417,7 @@ void MyLoginMsgProtocol::Swap(MyLoginMsgProtocol* other) {
   if (other != this) {
     std::swap(account_, other->account_);
     std::swap(password_, other->password_);
-    std::swap(player_id_, other->player_id_);
+    std::swap(player_, other->player_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     _unknown_fields_.Swap(&other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);
