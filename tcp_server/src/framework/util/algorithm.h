@@ -15,8 +15,6 @@ modification:
 #ifndef CONNOR_GAME_SRC_ALGORITHM_H_
 #define CONNOR_GAME_SRC_ALGORITHM_H_
 
-#include <functional>
-#include <random>
 #include <vector>
 
 #include "util/util.h"

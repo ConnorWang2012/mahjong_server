@@ -91,7 +91,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_WINSOCK_DEPRECATED_NO_WARNINGS;CONNOR_GAME_DEBUG;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS_DEBUG;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)libevent\src;$(SolutionDir)libevent\src\compat;$(SolutionDir)libevent\src\include;$(SolutionDir)libevent\src\include\event2;$(SolutionDir)libevent\src\include\openssl;$(SolutionDir)libevent\src\WIN32-Code;$(SolutionDir)libevent\src\WIN32-Code\nmake;$(SolutionDir)libevent\src\WIN32-Code\nmake\event2;$(SolutionDir)tcp_server\src;$(SolutionDir)tcp_server\src\customer;$(SolutionDir)tcp_server\src\framework;$(SolutionDir)tcp_server\src\framework\network;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)cpp_redis\src\include;$(SolutionDir)libevent\src;$(SolutionDir)libevent\src\compat;$(SolutionDir)libevent\src\include;$(SolutionDir)libevent\src\include\event2;$(SolutionDir)libevent\src\include\openssl;$(SolutionDir)libevent\src\WIN32-Code;$(SolutionDir)libevent\src\WIN32-Code\nmake;$(SolutionDir)libevent\src\WIN32-Code\nmake\event2;$(SolutionDir)tcp_server\src;$(SolutionDir)tcp_server\src\customer;$(SolutionDir)tcp_server\src\framework;$(SolutionDir)tcp_server\src\framework\network;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -316,6 +316,7 @@
     <ClInclude Include="src\framework\base\common.h" />
     <ClInclude Include="src\framework\base\log_headers.h" />
     <ClInclude Include="src\framework\base\macros.h" />
+    <ClInclude Include="src\framework\cache\cache_manager.h" />
     <ClInclude Include="src\framework\event\command.h" />
     <ClInclude Include="src\framework\event\command_listener.h" />
     <ClInclude Include="src\framework\event\command_manager.h" />
@@ -395,6 +396,7 @@
     <ClCompile Include="src\customer\msg\protocol\my_login_msg_protocol.pb.cc" />
     <ClCompile Include="src\customer\msg\protocol\player_cards_msg_protocol.pb.cc" />
     <ClCompile Include="src\customer\msg\protocol\player_msg_protocol.pb.cc" />
+    <ClCompile Include="src\framework\cache\cache_manager.cc" />
     <ClCompile Include="src\framework\event\command.cc" />
     <ClCompile Include="src\framework\event\command_listener.cc" />
     <ClCompile Include="src\framework\event\command_manager.cc" />

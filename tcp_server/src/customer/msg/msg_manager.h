@@ -92,7 +92,7 @@ class MsgManager {
     std::unordered_map<int, MsgHandler> msg_handlers_;    // key is MsgIDs
     std::unordered_map<int, MsgHandler> msg_dispatchers_; // key is MsgTypes
 
-	std::unordered_map<std::string, bufferevent*> bufferevents_; // key is user account
+	std::unordered_map<int, bufferevent*> bufferevents_; // key is player id
 
     static const int MAX_MSG_LEN = 4096;
 };

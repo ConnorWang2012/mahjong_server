@@ -14,10 +14,11 @@ modification:
 
 #include "msg_manager.h"
 
-#include "event2/bufferevent.h"
+#include "event2/bufferevent.h"		  // libevent
 
 #include "event/event_manager.h"
 #include "framework/util/algorithm.h"
+#include "framework/base/log_headers.h"
 #include "msg/msg_type.h"
 #include "msg/msg_id.h"
 #include "msg/msg_code.h"
@@ -167,13 +168,15 @@ void MsgManager::DealWithMgLoginMsg(const ClientMsg& msg, bufferevent* bev) {
 		return;
 	}
 
-	// if login succeed, keep the bev for sending msg
-	if (bufferevents_.find(proto_client.account()) == bufferevents_.end()) {
-		bufferevents_.insert(std::make_pair(proto_client.account(), bev));
-	}
+	//auto cached_proto = 
 
     // TODO : get player id from cache
     proto_client.set_player_id(2020);
+
+	// if login succeed, keep the bev for sending msg
+	if (bufferevents_.find(proto_client.player_id()) == bufferevents_.end()) {
+		bufferevents_.insert(std::make_pair(proto_client.player_id(), bev));
+	}
 
     this->SendMsg((msg_header_t)MsgTypes::S2C_MSG_TYPE_LOGIN,
                   (msg_header_t)MsgIDs::MSG_ID_LOGIN_MY,
@@ -239,7 +242,7 @@ void MsgManager::DealWithStartGameMsg(const ClientMsg& msg, bufferevent* bev) {
     }
 
     // 3.verify room player num
-    if (room->cur_players_num() < room->get_game_start_msg_protocol().players_num()) {
+    if (room->cur_players_num() != room->get_game_start_msg_protocol().players_num()) {
         // TODO : log
 		this->SendMsgForError((msg_header_t)MsgCodes::MSG_RESPONSE_CODE_FAILED1, msg, bev); // TODO : specify error code
         return;
@@ -292,9 +295,11 @@ void MsgManager::DealWithStartGameMsg(const ClientMsg& msg, bufferevent* bev) {
     auto card_index = 0;
     for (auto i = 0; i < players_num; i++) {
         auto player_cards = proto_server.add_player_cards();
-        //player_cards->set_player_id(itr_player->first);
-        player_cards->set_player_id(i);
-        for (auto j = 0; j <= CardConstants::ONE_PLAYER_CARD_NUM; j++) {
+		auto player_id = itr_player->first;
+        player_cards->set_player_id(player_id);
+		auto card_num = (player_id == room_owner_id) ? (CardConstants::ONE_PLAYER_CARD_NUM + 1) : 
+			CardConstants::ONE_PLAYER_CARD_NUM;
+        for (auto j = 0; j <= card_num; j++) {
             auto card = vec.at(card_index);
             player_cards->add_invisible_hand_cards(card);
 
@@ -308,14 +313,20 @@ void MsgManager::DealWithStartGameMsg(const ClientMsg& msg, bufferevent* bev) {
             ++card_index;
         }
 
-        //++itr_player;
+        ++itr_player;
     }
 
-    this->SendMsg((msg_header_t)MsgTypes::S2C_MSG_TYPE_ROOM,
-                  (msg_header_t)MsgIDs::MSG_ID_ROOM_START_GAME,
-                  (msg_header_t)MsgCodes::MSG_RESPONSE_CODE_SUCCESS,
-                  proto_server,
-                  bev);
+	// send msg to all players in the room
+	for (auto itr = players->begin(); itr != players->end(); itr++) {
+		auto bev_itr = bufferevents_.find(itr->first);
+		if (bev_itr != bufferevents_.end() && nullptr != bev_itr->second) {
+			this->SendMsg((msg_header_t)MsgTypes::S2C_MSG_TYPE_ROOM,
+						  (msg_header_t)MsgIDs::MSG_ID_ROOM_START_GAME,
+						  (msg_header_t)MsgCodes::MSG_RESPONSE_CODE_SUCCESS,
+						  proto_server,
+						  bev_itr->second);
+		}
+	}
 }
 
 void MsgManager::SendMsgForError(msg_header_t error_code, const ClientMsg& msg, bufferevent* bev) {
