@@ -24,6 +24,8 @@ class CacheManager : public BasicManager<CacheManager> {
   public:
 	void Init();
 
+	void GetCachedData(const std::string& key, std::string& value);
+
 	inline cpp_redis::redis_client& redis_client();
 
   private:

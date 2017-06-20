@@ -26,7 +26,6 @@ modification:
 #include "framework/base/log_headers.h"
 #include "msg/msg.h"
 #include "msg/msg_manager.h"
-#include "cache/cache_manager.h"
 
 namespace gamer {
 
@@ -52,7 +51,7 @@ void NetworkManager::InitSocket() {
 	WSADATA wsadata;
 	WSAStartup(0x0201, &wsadata);
 #endif
-	CacheManager::instance()->Init();
+	
 	if (nullptr == evbase_) {
 		evbase_ = event_base_new();
 	}
