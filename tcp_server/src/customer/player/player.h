@@ -22,23 +22,26 @@ namespace gamer {
 
 class Player : public PlayerProtocol {
   public:
-    virtual bool is_online() const override;
+	Player& operator=(const Player&) = delete;
 
-    inline protocol::PlayerMsgProtocol* get_player_msg_protocol();
+	Player(const Player&) = delete;
+
+	Player();
+
+	static Player* Create();
+
+	virtual void set_player_id(int player_id) override;
+
+	virtual int player_id() const override;
+
+	virtual void set_is_online(bool online) override;
+
+    virtual bool is_online() const override;
 
   private:
     bool is_online_;
-    
-    protocol::PlayerMsgProtocol play_msg_proto_;
+	int player_id_;
 };
-
-bool Player::is_online() const {
-    return is_online_;
-}
-
-gamer::protocol::PlayerMsgProtocol* Player::get_player_msg_protocol() {
-    return &play_msg_proto_;
-}
 
 } // namespace gamer
 

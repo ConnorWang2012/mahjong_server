@@ -159,8 +159,7 @@ void MsgManager::DealWithLoginMsg(const ClientMsg& msg, bufferevent* bev) {
 
 void MsgManager::DealWithMgLoginMsg(const ClientMsg& msg, bufferevent* bev) {
 	protocol::MyLoginMsgProtocol login_proto_client;
-	auto ret = this->ParseMsg(msg, login_proto_client);
-	if ( !ret ) {
+	if ( !this->ParseMsg(msg, login_proto_client)) {
 		// TODO : log
 		// TODO : specify error code
 		auto error_code = (msg_header_t)MsgCodes::MSG_RESPONSE_CODE_FAILED1;
@@ -206,8 +205,7 @@ void MsgManager::DealWithMgLoginMsg(const ClientMsg& msg, bufferevent* bev) {
         }
         
     } else { // not first login
-        auto ret = login_proto_server.ParseFromString(player_msg);
-        if ( !ret ) {
+        if ( !login_proto_server.ParseFromString(player_msg)) {
             // TODO : log
             // TODO : specify error code
             auto error_code = (msg_header_t)MsgCodes::MSG_RESPONSE_CODE_FAILED1;
@@ -251,9 +249,10 @@ void MsgManager::DealWithCreateRoomMsg(const ClientMsg& msg, bufferevent* bev) {
         auto room_id = room_mgr->GenerateRoomID();
         if (-1 == room_id) {
             // TODO : log 
-        }
-        else {
+        } else {
             auto room = Room<Player>::Create(room_id, proto);
+			auto player = Player::Create();
+			room->AddPlayer(proto.room_owner_id(), player);
             room_mgr->AddRoom(room);
             
             proto.set_room_id(room_id);
@@ -266,8 +265,7 @@ void MsgManager::DealWithCreateRoomMsg(const ClientMsg& msg, bufferevent* bev) {
 void MsgManager::DealWithStartGameMsg(const ClientMsg& msg, bufferevent* bev) {
     // 1.verify client msg
     protocol::GameStartMsgProtocol proto_client;
-    auto ret = this->ParseMsg(msg, proto_client);
-    if ( !ret ) {
+    if ( !this->ParseMsg(msg, proto_client)) {
         // TODO : log
         this->SendMsgForError((msg_header_t)MsgCodes::MSG_RESPONSE_CODE_FAILED1, msg, bev); // TODO : specify error code
         return;

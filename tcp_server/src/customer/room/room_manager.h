@@ -17,6 +17,7 @@ modification:
 
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
 
 #include "base/basic_manager.h"
 #include "room/room.h"
@@ -36,8 +37,11 @@ class RoomManager : public BasicManager<RoomManager<Player>> {
 
     int GenerateRoomID();
 
+	int GenerateRoundID();
+
   private:
     std::unordered_map<int, Room<Player>*> rooms_; // key is room id
+	std::unordered_set<int> round_ids_; // for all room
 };
 
 template<typename Player>
@@ -74,13 +78,27 @@ int gamer::RoomManager<Player>::GenerateRoomID() {
     auto try_count = 5;
     auto count = 0;
     while (count < try_count) {
-        auto r = gamer::GenerateRandom<int>(0, 999999);
+        auto r = gamer::GenerateRandom<int>(0, 999999); // TODO : cfg the range
         if (rooms_.find(r) == rooms_.end()) {
             return r;
         }
         ++count;
     }
     return -1;
+}
+
+template<typename Player> 
+int RoomManager<Player>::GenerateRoundID() {
+	auto try_count = 5;
+	auto count = 0;
+	while (count < try_count) {
+		auto r = gamer::GenerateRandom<int>(0, 999999); // TODO : cfg the range
+		if (rooms_.find(r) == rooms_.end()) {
+			return r;
+		}
+		++count;
+	}
+	return -1;
 }
 
 } // namespace gamer

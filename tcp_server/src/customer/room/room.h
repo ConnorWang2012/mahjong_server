@@ -57,7 +57,7 @@ class Room : public RoomProtocol<Player> {
     protocol::GameStartMsgProtocol room_msg_proto_;
     protocol::CreateRoomMsgProtocol create_room_msg_proto_;
 
-    std::unordered_map<int, typename Player*> players_;
+    std::unordered_map<int, Player*> players_;
 
     std::vector<int> all_cards_;
 };

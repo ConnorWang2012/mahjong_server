@@ -21,9 +21,15 @@ namespace gamer {
 
 class PlayerProtocol {
   public:
-    virtual bool is_online() const = 0;
+	virtual ~PlayerProtocol() {};
 
-  private:
+	virtual void set_player_id(int player_id) = 0;
+
+	virtual int player_id() const = 0;
+
+	virtual void set_is_online(bool online) = 0;
+
+	virtual bool is_online() const = 0;
 };
 
 } // namespace gamer

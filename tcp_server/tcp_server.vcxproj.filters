@@ -936,6 +936,9 @@
     <ClCompile Include="src\framework\cache\cache_manager.cc">
       <Filter>src\framework\cache</Filter>
     </ClCompile>
+    <ClCompile Include="src\customer\player\player.cc">
+      <Filter>src\customer\player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\cpp_redis\src\include\tacopie\tacopie">
