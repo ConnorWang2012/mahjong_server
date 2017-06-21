@@ -56,11 +56,23 @@ class MsgManager {
 
     MsgManager();
 
-    void Init();
+	void Init();
 
-    void AddMsgDispatchers();
+	void AddMsgDispatchers();
 
-    void AddMsgHandlers();
+	void AddMsgHandlers();
+
+	void OnMsgReceived(const ClientMsg& msg, bufferevent* bev);
+
+	void DealWithLoginMsg(const ClientMsg& msg, bufferevent* bev);
+
+	void DealWithRoomMsg(const ClientMsg& msg, bufferevent* bev);
+
+	void DealWithMgLoginMsg(const ClientMsg& msg, bufferevent* bev);
+
+	void DealWithCreateRoomMsg(const ClientMsg& msg, bufferevent* bev);
+
+	void DealWithStartGameMsg(const ClientMsg& msg, bufferevent* bev);
 
 	bool PackMsg(const ServerMsg& msg, char* buf, msg_header_t& len);
 
@@ -71,21 +83,9 @@ class MsgManager {
                  char* buf,
                  msg_header_t& len);
 
-    bool ParseMsg(const ClientMsg& msg, google::protobuf::Message& proto);
-
-    void DealWithLoginMsg(const ClientMsg& msg, bufferevent* bev);
-
-    void DealWithMgLoginMsg(const ClientMsg& msg, bufferevent* bev);
-    
-    void DealWithRoomMsg(const ClientMsg& msg, bufferevent* bev);
-
-    void DealWithCreateRoomMsg(const ClientMsg& msg, bufferevent* bev);
-
-    void DealWithStartGameMsg(const ClientMsg& msg, bufferevent* bev);
+    bool ParseMsg(const ClientMsg& msg, google::protobuf::Message* proto);
 
 	void SendMsgForError(msg_header_t error_code, const ClientMsg& msg, bufferevent* bev);
-
-    void OnMsgReceived(const ClientMsg& msg, bufferevent* bev);
 
     friend class NetworkManager;
 
