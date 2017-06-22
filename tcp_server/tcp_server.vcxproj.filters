@@ -113,6 +113,9 @@
     <Filter Include="src\customer\util">
       <UniqueIdentifier>{0391bd81-160d-495d-a210-92138494112f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\customer\data">
+      <UniqueIdentifier>{90f95790-7f04-4804-a49b-9ec7b2f1872e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\libevent\src\include\evrpc.h">
@@ -781,6 +784,9 @@
     <ClInclude Include="src\framework\cache\cache_manager.h">
       <Filter>src\framework\cache</Filter>
     </ClInclude>
+    <ClInclude Include="src\customer\data\data_manager.h">
+      <Filter>src\customer\data</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -938,6 +944,9 @@
     </ClCompile>
     <ClCompile Include="src\customer\player\player.cc">
       <Filter>src\customer\player</Filter>
+    </ClCompile>
+    <ClCompile Include="src\customer\data\data_manager.cc">
+      <Filter>src\customer\data</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

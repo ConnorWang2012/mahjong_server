@@ -16,8 +16,8 @@ modification:
 
 #include "event2/bufferevent.h"		  // libevent
 
-#include "cache/cache_manager.h"
 #include "event/event_manager.h"
+#include "data/data_manager.h"
 #include "framework/util/algorithm.h"
 #include "framework/base/log_headers.h"
 #include "msg/msg_type.h"
@@ -136,7 +136,7 @@ void MsgManager::DealWithMgLoginMsg(const ClientMsg& msg, bufferevent* bev) {
 	}
 
 	std::string player_msg = "";
-	CacheManager::instance()->GetCachedData(login_proto_client.account(), player_msg);
+	DataManager::instance()->GetPlayerPersonalData(login_proto_client.account(), player_msg);
 	protocol::MyLoginMsgProtocol login_proto_server;
 	auto player_id = 0;
 	if ("" == player_msg) { // first login
@@ -145,7 +145,7 @@ void MsgManager::DealWithMgLoginMsg(const ClientMsg& msg, bufferevent* bev) {
 
 		auto player_proto = new protocol::PlayerMsgProtocol;
 		login_proto_server.set_allocated_player(player_proto);
-		player_id = CacheManager::instance()->GeneratePlayerID();
+		player_id = DataManager::instance()->GeneratePlayerID();
 		player_proto->set_player_id(player_id);
 		player_proto->set_game_currency(5000); // TODO : cfg
 		player_proto->set_nick_name(login_proto_client.account());
@@ -161,7 +161,7 @@ void MsgManager::DealWithMgLoginMsg(const ClientMsg& msg, bufferevent* bev) {
 			return;
 		}
 		else {
-			CacheManager::instance()->CacheData(login_proto_client.account(), login_info);
+			DataManager::instance()->SetPlayerPersonalData(login_proto_client.account(), login_info);
 		}
 
 	}
@@ -191,10 +191,10 @@ void MsgManager::DealWithMgLoginMsg(const ClientMsg& msg, bufferevent* bev) {
 
 	// send login succeed msg
 	this->SendMsg((msg_header_t)MsgTypes::S2C_MSG_TYPE_LOGIN,
-		(msg_header_t)MsgIDs::MSG_ID_LOGIN_MY,
-		(msg_header_t)MsgCodes::MSG_RESPONSE_CODE_SUCCESS,
-		login_proto_client,
-		bev);
+				  (msg_header_t)MsgIDs::MSG_ID_LOGIN_MY,
+				  (msg_header_t)MsgCodes::MSG_RESPONSE_CODE_SUCCESS,
+				  login_proto_client,
+				  bev);
 }
 
 void MsgManager::DealWithCreateRoomMsg(const ClientMsg& msg, bufferevent* bev) {
@@ -295,7 +295,7 @@ void MsgManager::DealWithStartGameMsg(const ClientMsg& msg, bufferevent* bev) {
 	proto_server.set_banker_id(room_owner_id); // not right allways
 	proto_server.set_banker_is_same_time(0); // not right allways
 
-											 // room player
+	// room player
 	auto players = room->players();
 	auto itr_player = players->begin();
 	auto card_index = 0;
@@ -323,15 +323,41 @@ void MsgManager::DealWithStartGameMsg(const ClientMsg& msg, bufferevent* bev) {
 		++itr_player;
 	}
 
-	// send msg to all players in the room
+	// cache game start data
+	auto value = proto_server.SerializeAsString();
+	if ("" != value) {
+		DataManager::instance()->SetGameStartData(room_id, proto_server.cur_round(), value);
+	}
+
+	// send msg to all players in the room 
+	// 1.backup all player cards
+	std::unordered_map<int, protocol::PlayerCardsMsgProtocol*> player_cards;
+	for (auto i = 0; i < proto_server.player_cards_size(); i++) {
+		auto playercards = protocol::PlayerCardsMsgProtocol(proto_server.player_cards(i));
+		int playerid = playercards.player_id();
+		player_cards.insert(std::make_pair(playerid, &playercards));
+	}
+
+	// 2.clear all player cards
+	proto_server.clear_player_cards();
+
+	// 3.send msg to all player with their cards(not contain other player cards)
 	for (auto itr = players->begin(); itr != players->end(); itr++) {
-		auto bev_itr = bufferevents_.find(itr->first);
-		if (bev_itr != bufferevents_.end() && nullptr != bev_itr->second) {
-			this->SendMsg((msg_header_t)MsgTypes::S2C_MSG_TYPE_ROOM,
-				(msg_header_t)MsgIDs::MSG_ID_ROOM_START_GAME,
-				(msg_header_t)MsgCodes::MSG_RESPONSE_CODE_SUCCESS,
-				proto_server,
-				bev_itr->second);
+		auto player_id = itr->first;
+		auto bev_itr = bufferevents_.find(player_id);
+		if (bev_itr != bufferevents_.end()) {
+			auto cards_itr = player_cards.find(player_id);
+			if (cards_itr != player_cards.end()) {
+				auto cards = proto_server.mutable_player_cards(0);
+				cards = cards_itr->second;
+				this->SendMsg((msg_header_t)MsgTypes::S2C_MSG_TYPE_ROOM,
+							  (msg_header_t)MsgIDs::MSG_ID_ROOM_START_GAME,
+							  (msg_header_t)MsgCodes::MSG_RESPONSE_CODE_SUCCESS,
+							  proto_server,
+							  bev_itr->second);
+			}
+		} else {
+			// TODO : log
 		}
 	}
 }

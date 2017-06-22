@@ -295,6 +295,7 @@
     <ClInclude Include="..\libevent\src\include\openssl\x509_vfy.h" />
     <ClInclude Include="..\libevent\src\include\openssl\__DECC_INCLUDE_EPILOGUE.H" />
     <ClInclude Include="..\libevent\src\include\openssl\__DECC_INCLUDE_PROLOGUE.H" />
+    <ClInclude Include="src\customer\data\data_manager.h" />
     <ClInclude Include="src\customer\msg\msg.h" />
     <ClInclude Include="src\customer\msg\msg_code.h" />
     <ClInclude Include="src\customer\msg\msg_id.h" />
@@ -390,6 +391,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\customer\data\data_manager.cc" />
     <ClCompile Include="src\customer\msg\msg_manager.cc" />
     <ClCompile Include="src\customer\msg\protocol\create_room_msg_protocol.pb.cc" />
     <ClCompile Include="src\customer\msg\protocol\game_start_msg_protocol.pb.cc" />
