@@ -185,6 +185,7 @@ void MsgManager::DealWithMgLoginMsg(const ClientMsg& msg, bufferevent* bev) {
 	}
 
 	// login succeed, keep the bev for sending msg
+    player_id = (0 == player_id) ? login_proto_server.player().player_id() : player_id;
 	if (bufferevents_.find(player_id) == bufferevents_.end()) {
 		bufferevents_.insert(std::make_pair(player_id, bev));
 	}
@@ -208,6 +209,7 @@ void MsgManager::DealWithCreateRoomMsg(const ClientMsg& msg, bufferevent* bev) {
 		else {
 			auto room = Room<Player>::Create(room_id, proto);
 			auto player = Player::Create();
+            player->set_player_id(proto.room_owner_id());
 			room->AddPlayer(proto.room_owner_id(), player);
 			room_mgr->AddRoom(room);
 
@@ -248,7 +250,7 @@ void MsgManager::DealWithStartGameMsg(const ClientMsg& msg, bufferevent* bev) {
 	}
 
 	// 3.verify room player num
-	if (room->cur_players_num() != room->get_game_start_msg_protocol().players_num()) {
+	if (room->cur_players_num() != room->get_create_room_msg_protocol()->players_num()) {
 		// TODO : log
 		this->SendMsgForError((msg_header_t)MsgCodes::MSG_RESPONSE_CODE_FAILED1, msg, bev); // TODO : specify error code
 		return;

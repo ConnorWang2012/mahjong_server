@@ -24,8 +24,8 @@ namespace gamer {
 
 void gamer::CacheManager::Init() {
 #ifdef _WIN32
-	WSADATA wsadata;
-	WSAStartup(0x0201, &wsadata);
+    WSADATA wsadata;
+    WSAStartup(0x0201, &wsadata);
 #endif
 
 	if ( !redis_client_.is_connected() ) {
