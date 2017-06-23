@@ -332,35 +332,50 @@ void MsgManager::DealWithStartGameMsg(const ClientMsg& msg, bufferevent* bev) {
 	}
 
 	// send msg to all players in the room 
-	// 1.backup all player cards
-	std::unordered_map<int, protocol::PlayerCardsMsgProtocol*> player_cards;
+	// 1.prepare all player game start data
+	std::unordered_map<int, protocol::GameStartMsgProtocol> game_start_protos;
+	game_start_protos.insert(std::make_pair(proto_server.room_owner_id(),
+		protocol::GameStartMsgProtocol(proto_server)));
 	for (auto i = 0; i < proto_server.player_cards_size(); i++) {
-		auto playercards = protocol::PlayerCardsMsgProtocol(proto_server.player_cards(i));
-		int playerid = playercards.player_id();
-		player_cards.insert(std::make_pair(playerid, &playercards));
+		auto player_id = proto_server.player_cards(i).player_id();
+		if (player_id != proto_server.room_owner_id()) {
+			game_start_protos.insert(std::make_pair(player_id, 
+				protocol::GameStartMsgProtocol(proto_server)));
+		}
 	}
 
-	// 2.clear all player cards
-	proto_server.clear_player_cards();
+	// 2.remove other player invisible hand cards except self
+	for (auto it = game_start_protos.begin(); it != game_start_protos.end(); it++) {
+		auto player_cards = it->second.mutable_player_cards();
+		for (auto i = 0; i < it->second.player_cards_size(); i++) {
+			if (it->first != it->second.player_cards(i).player_id()){
+				it->second.mutable_player_cards(i)->clear_invisible_hand_cards();
+			}
+		}
+	}
 
-	// 3.send msg to all player with their cards(not contain other player cards)
+	// 3.send msg(not contain other player invisible cards) to all player
 	for (auto itr = players->begin(); itr != players->end(); itr++) {
 		auto player_id = itr->first;
 		auto bev_itr = bufferevents_.find(player_id);
 		if (bev_itr != bufferevents_.end()) {
-			auto cards_itr = player_cards.find(player_id);
-			if (cards_itr != player_cards.end()) {
-				auto cards = proto_server.mutable_player_cards(0);
-				cards = cards_itr->second;
+			auto game_start_itr = game_start_protos.find(player_id);
+			if (game_start_itr != game_start_protos.end()) {
 				this->SendMsg((msg_header_t)MsgTypes::S2C_MSG_TYPE_ROOM,
 							  (msg_header_t)MsgIDs::MSG_ID_ROOM_START_GAME,
 							  (msg_header_t)MsgCodes::MSG_RESPONSE_CODE_SUCCESS,
-							  proto_server,
+							  game_start_itr->second,
 							  bev_itr->second);
 			}
 		} else {
 			// TODO : log
 		}
+	}
+
+	// 4.release allocated
+	for (auto itr = game_start_protos.begin(); itr != game_start_protos.end(); itr++) {
+		auto player_cards = itr->second.mutable_player_cards();
+		player_cards->DeleteSubrange(0, itr->second.player_cards_size());
 	}
 }
 
