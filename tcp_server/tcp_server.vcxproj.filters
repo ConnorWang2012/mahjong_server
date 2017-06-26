@@ -787,6 +787,12 @@
     <ClInclude Include="src\framework\cache\cache_proxy.h">
       <Filter>src\framework\cache</Filter>
     </ClInclude>
+    <ClInclude Include="src\customer\msg\protocol\room_operation_msg_protocol.pb.h">
+      <Filter>src\customer\msg\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="src\customer\player\player_manager.h">
+      <Filter>src\customer\player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -947,6 +953,12 @@
     </ClCompile>
     <ClCompile Include="src\framework\cache\cache_proxy.cc">
       <Filter>src\framework\cache</Filter>
+    </ClCompile>
+    <ClCompile Include="src\customer\msg\protocol\room_operation_msg_protocol.pb.cc">
+      <Filter>src\customer\msg\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="src\customer\player\player_manager.cc">
+      <Filter>src\customer\player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
