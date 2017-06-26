@@ -33,6 +33,10 @@ class DataManager : public BasicManager<DataManager> {
 
 	void GetPlayerPersonalData(const std::string& player_account, std::string& serialized_data);
 
+	void SetCreateRoomData(int room_id, const std::string& serialized_data);
+
+	void GetCreateRoomData(int room_id, std::string& serialized_data);
+
 	void SetGameStartData(int room_id, int round, const std::string& serialized_data);
 
 	void GetGameStartData(int room_id, int round, std::string& serialized_data);

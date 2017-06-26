@@ -14,12 +14,12 @@ modification:
 
 #include "data_manager.h"
 
-#include "framework/cache/cache_manager.h"
+#include "framework/cache/cache_proxy.h"
 
 namespace gamer {
 
 DataManager::DataManager() {
-	redis_client_ = CacheManager::instance()->redis_client();
+	redis_client_ = CacheProxy::instance()->redis_client();
 }
 
 void DataManager::SetPlayerPersonalData(const std::string& player_account, 
@@ -31,6 +31,22 @@ void DataManager::SetPlayerPersonalData(const std::string& player_account,
 void DataManager::GetPlayerPersonalData(const std::string& player_account, 
 										std::string& serialized_data) {
 	redis_client_->get(player_account, [&](cpp_redis::reply& reply) {
+		if (reply.is_string()) {
+			serialized_data = reply.as_string();
+		}
+	});
+	redis_client_->sync_commit();
+}
+
+void DataManager::SetCreateRoomData(int room_id, const std::string& serialized_data) {
+	auto key = "room.create:" + std::to_string(room_id);
+	redis_client_->set(key, serialized_data);
+	redis_client_->sync_commit();
+}
+
+void DataManager::GetCreateRoomData(int room_id, std::string& serialized_data) {
+	auto key = "room.create:" + std::to_string(room_id);
+	redis_client_->get(key, [&](cpp_redis::reply& reply) {
 		if (reply.is_string()) {
 			serialized_data = reply.as_string();
 		}
@@ -70,4 +86,4 @@ void DataManager::UpdateAvailablePlayerID() {
 	redis_client_->sync_commit();
 }
 
-}
+} // namespace gamer

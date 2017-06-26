@@ -781,11 +781,11 @@
     <ClInclude Include="src\customer\msg\protocol\player_cards_msg_protocol.pb.h">
       <Filter>src\customer\msg\protocol</Filter>
     </ClInclude>
-    <ClInclude Include="src\framework\cache\cache_manager.h">
-      <Filter>src\framework\cache</Filter>
-    </ClInclude>
     <ClInclude Include="src\customer\data\data_manager.h">
       <Filter>src\customer\data</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\cache\cache_proxy.h">
+      <Filter>src\framework\cache</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -939,14 +939,14 @@
     <ClCompile Include="src\customer\msg\protocol\player_cards_msg_protocol.pb.cc">
       <Filter>src\customer\msg\protocol</Filter>
     </ClCompile>
-    <ClCompile Include="src\framework\cache\cache_manager.cc">
-      <Filter>src\framework\cache</Filter>
-    </ClCompile>
     <ClCompile Include="src\customer\player\player.cc">
       <Filter>src\customer\player</Filter>
     </ClCompile>
     <ClCompile Include="src\customer\data\data_manager.cc">
       <Filter>src\customer\data</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\cache\cache_proxy.cc">
+      <Filter>src\framework\cache</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

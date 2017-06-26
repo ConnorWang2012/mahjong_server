@@ -317,7 +317,7 @@
     <ClInclude Include="src\framework\base\common.h" />
     <ClInclude Include="src\framework\base\log_headers.h" />
     <ClInclude Include="src\framework\base\macros.h" />
-    <ClInclude Include="src\framework\cache\cache_manager.h" />
+    <ClInclude Include="src\framework\cache\cache_proxy.h" />
     <ClInclude Include="src\framework\event\command.h" />
     <ClInclude Include="src\framework\event\command_listener.h" />
     <ClInclude Include="src\framework\event\command_manager.h" />
@@ -399,7 +399,7 @@
     <ClCompile Include="src\customer\msg\protocol\player_cards_msg_protocol.pb.cc" />
     <ClCompile Include="src\customer\msg\protocol\player_msg_protocol.pb.cc" />
     <ClCompile Include="src\customer\player\player.cc" />
-    <ClCompile Include="src\framework\cache\cache_manager.cc" />
+    <ClCompile Include="src\framework\cache\cache_proxy.cc" />
     <ClCompile Include="src\framework\event\command.cc" />
     <ClCompile Include="src\framework\event\command_listener.cc" />
     <ClCompile Include="src\framework\event\command_manager.cc" />

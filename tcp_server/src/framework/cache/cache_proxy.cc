@@ -12,7 +12,7 @@ author:
 modification:
 ********************************************************************************/
 
-#include "cache_manager.h"
+#include "cache_proxy.h"
 
 #ifdef _WIN32
 #include <WinSock2.h>
@@ -22,7 +22,7 @@ modification:
 
 namespace gamer {
 
-void gamer::CacheManager::Init() {
+void gamer::CacheProxy::Init() {
 #ifdef _WIN32
     WSADATA wsadata;
     WSAStartup(0x0201, &wsadata);

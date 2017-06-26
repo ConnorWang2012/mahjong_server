@@ -37,10 +37,10 @@ MsgManager::MsgManager() {
     this->Init();
 }
 
-MsgManager* MsgManager::instance() {
-	static MsgManager s_msg_mgr; 
-	return &s_msg_mgr;
-}
+//MsgManager* MsgManager::instance() {
+//	static MsgManager s_msg_mgr; 
+//	return &s_msg_mgr;
+//}
 
 bool MsgManager::SendMsg(const ServerMsg& msg, bufferevent* bev) {
 	char buf[MsgManager::MAX_MSG_LEN] = { 0 };
@@ -200,24 +200,38 @@ void MsgManager::DealWithMgLoginMsg(const ClientMsg& msg, bufferevent* bev) {
 
 void MsgManager::DealWithCreateRoomMsg(const ClientMsg& msg, bufferevent* bev) {
 	protocol::CreateRoomMsgProtocol proto;
-	if (this->ParseMsg(msg, &proto)) {
-		auto room_mgr = RoomManager<Player>::instance();
-		auto room_id = room_mgr->GenerateRoomID();
-		if (-1 == room_id) {
-			// TODO : log 
-		}
-		else {
-			auto room = Room<Player>::Create(room_id, proto);
-			auto player = Player::Create();
-            player->set_player_id(proto.room_owner_id());
+	if ( !this->ParseMsg(msg, &proto) ) {
+		// TODO : log
+		this->SendMsgForError((int)MsgCodes::MSG_RESPONSE_CODE_FAILED1, msg, bev);
+		return;
+	}
+
+	auto room_mgr = RoomManager<Player>::instance();
+	auto room_id = room_mgr->GenerateRoomID();
+	if (-1 == room_id) {
+		// TODO : log 
+		return;
+	} else {
+		proto.set_room_id(room_id);
+		auto msg_code = (msg_header_t)MsgCodes::MSG_RESPONSE_CODE_SUCCESS;
+		auto ret = this->SendMsg(msg.type, msg.id, msg_code, proto, bev);
+
+		// save data
+		if ( !ret) { 
+			// TODO : log
+			return;
+		} else {
+			auto room = Room<Player>::Create(room_id);
+			auto player = Player::Create(proto.room_owner_id());
 			room->AddPlayer(proto.room_owner_id(), player);
 			room_mgr->AddRoom(room);
 
-			proto.set_room_id(room_id);
-			auto msg_code = (msg_header_t)MsgCodes::MSG_RESPONSE_CODE_SUCCESS;
-			this->SendMsg(msg.type, msg.id, msg_code, proto, bev);
+			auto serialized_str = proto.SerializeAsString();
+			if ("" != serialized_str) {
+				DataManager::instance()->SetCreateRoomData(room_id, serialized_str);
+			}
 		}
-	}
+	}	
 }
 
 void MsgManager::DealWithStartGameMsg(const ClientMsg& msg, bufferevent* bev) {
@@ -232,25 +246,34 @@ void MsgManager::DealWithStartGameMsg(const ClientMsg& msg, bufferevent* bev) {
 	// 2.verify room id and room owner id
 	auto room_id = proto_client.room_id();
 	auto room = RoomManager<Player>::instance()->GetRoom(room_id);
-	protocol::CreateRoomMsgProtocol* create_room_msg_proto;
+	protocol::CreateRoomMsgProtocol create_room_msg_proto;
 	if (nullptr == room) {
 		// TODO : log
 		this->SendMsgForError((msg_header_t)MsgCodes::MSG_RESPONSE_CODE_FAILED1, msg, bev); // TODO : specify error code
 		return;
 	}
-	else {
-		create_room_msg_proto = room->get_create_room_msg_protocol();
-		auto room_owner_id_client = proto_client.room_owner_id();
-		auto room_owner_id_server = create_room_msg_proto->room_owner_id();
-		if (room_owner_id_server != room_owner_id_client) {
+
+	std::string serialized_str = "";
+	DataManager::instance()->GetCreateRoomData(room_id, serialized_str);
+	if ("" != serialized_str) {
+		auto ret = create_room_msg_proto.ParseFromString(serialized_str);
+		if ( !ret) {
 			// TODO : log
 			this->SendMsgForError((msg_header_t)MsgCodes::MSG_RESPONSE_CODE_FAILED1, msg, bev); // TODO : specify error code
 			return;
 		}
 	}
 
+	auto room_owner_id_client = proto_client.room_owner_id();
+	auto room_owner_id_server = create_room_msg_proto.room_owner_id();
+	if (room_owner_id_server != room_owner_id_client) {
+		// TODO : log
+		this->SendMsgForError((msg_header_t)MsgCodes::MSG_RESPONSE_CODE_FAILED1, msg, bev); // TODO : specify error code
+		return;
+	}
+
 	// 3.verify room player num
-	if (room->cur_players_num() != room->get_create_room_msg_protocol()->players_num()) {
+	if (room->cur_players_num() != create_room_msg_proto.players_num()) {
 		// TODO : log
 		this->SendMsgForError((msg_header_t)MsgCodes::MSG_RESPONSE_CODE_FAILED1, msg, bev); // TODO : specify error code
 		return;
@@ -283,13 +306,13 @@ void MsgManager::DealWithStartGameMsg(const ClientMsg& msg, bufferevent* bev) {
 
 	protocol::GameStartMsgProtocol proto_server;
 	// room common
-	auto room_owner_id = create_room_msg_proto->room_owner_id();
-	auto players_num = create_room_msg_proto->players_num();
+	auto room_owner_id = create_room_msg_proto.room_owner_id();
+	auto players_num = create_room_msg_proto.players_num();
 	proto_server.set_room_id(room_id);
 	proto_server.set_room_owner_id(room_owner_id);
 	proto_server.set_players_num(players_num);
 	proto_server.set_cur_round(1); // TODO : 1 is not right allways
-	proto_server.set_total_round(create_room_msg_proto->rounds_num()); // TODO : rounds_num replace by total_round
+	proto_server.set_total_round(create_room_msg_proto.rounds_num()); // TODO : rounds_num replace by total_round
 	proto_server.set_remain_cards_num(CardConstants::TOTAL_CARDS_NUM -
 		players_num * CardConstants::ONE_PLAYER_CARD_NUM - 1);
 	proto_server.set_cur_acting_player_id(room_owner_id);

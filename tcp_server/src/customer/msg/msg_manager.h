@@ -18,6 +18,7 @@ modification:
 #include <string>
 #include <unordered_map>
 
+#include "base/basic_manager.h"
 #include "base/macros.h"
 #include "msg/msg.h"
 
@@ -33,15 +34,17 @@ struct bufferevent;
 
 namespace gamer {
 	
-class MsgManager {
+class MsgManager : public BasicManager<MsgManager> {
   public:
-	MsgManager& operator=(const MsgManager&) = delete;
+	MsgManager();
 
-	MsgManager(const MsgManager&) = delete;
+	//MsgManager& operator=(const MsgManager&) = delete;
 
-	void *operator new(std::size_t) = delete;
-	
-	static MsgManager* instance();
+	//MsgManager(const MsgManager&) = delete;
+
+	//void *operator new(std::size_t) = delete;
+	//
+	//static MsgManager* instance();
 
     bool SendMsg(const ServerMsg& msg, bufferevent* bev);
 
@@ -53,8 +56,6 @@ class MsgManager {
 
   private:
     typedef std::function<void(const ClientMsg&, bufferevent* bev)> MsgHandler;
-
-    MsgManager();
 
 	void Init();
 

@@ -19,6 +19,7 @@ modification:
 
 #include "event2/util.h"
 
+#include "base/basic_manager.h"
 #include "base/macros.h"
 
 struct bufferevent;
@@ -29,23 +30,23 @@ namespace gamer {
 
 struct ClientMsg;
 
-class NetworkManager {
+class NetworkManager : public BasicManager<NetworkManager> {
   public:
-	NetworkManager& operator=(const NetworkManager&) = delete;
+	NetworkManager();
 
-	NetworkManager(const NetworkManager&) = delete;
+	//NetworkManager& operator=(const NetworkManager&) = delete;
 
-	void *operator new(std::size_t) = delete;
+	//NetworkManager(const NetworkManager&) = delete;
 
-	static NetworkManager* instance();
+	//void *operator new(std::size_t) = delete;
+
+	//static NetworkManager* instance();
 
 	void InitSocket();
 
     bool Send(struct bufferevent* bev, void* ctx, size_t ctxlen);
 
   private:
-	NetworkManager();
-
 	NetworkManager(const std::string& ip, int port);
 
 	static void OnConnAccepted(struct evconnlistener* listener, 

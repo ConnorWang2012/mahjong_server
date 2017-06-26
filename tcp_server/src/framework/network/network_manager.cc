@@ -24,7 +24,7 @@ modification:
 #include "event2/listener.h"
 
 #include "framework/base/log_headers.h"
-#include "framework/cache/cache_manager.h"
+#include "framework/cache/cache_proxy.h"
 #include "msg/msg.h"
 #include "msg/msg_manager.h"
 
@@ -40,10 +40,10 @@ NetworkManager::NetworkManager(const std::string& ip, int port)
 	,connlistener_(nullptr) {
 }
 
-NetworkManager* NetworkManager::instance() {
-	static NetworkManager s_network_mgr;
-	return &s_network_mgr;
-}
+//NetworkManager* NetworkManager::instance() {
+//	static NetworkManager s_network_mgr;
+//	return &s_network_mgr;
+//}
 
 void NetworkManager::InitSocket() {
 	struct sockaddr_in sin;
@@ -53,8 +53,7 @@ void NetworkManager::InitSocket() {
 	WSAStartup(0x0201, &wsadata);
 #endif
 	
-    CacheManager::instance()->Init(); // TODO : do it in somewhere ?
-
+    CacheProxy::instance()->Init(); // TODO : do it in somewhere ?
 	if (nullptr == evbase_) {
 		evbase_ = event_base_new();
 	}

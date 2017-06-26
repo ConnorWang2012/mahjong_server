@@ -49,7 +49,7 @@ void gamer::RoomManager<Player>::AddRoom(Room<Player>* room) {
     if (nullptr == room)
         return;
 
-    auto room_id = room->get_create_room_msg_protocol()->room_id();
+    auto room_id = room->room_id();
     if (rooms_.find(room_id) == rooms_.end()) {
         rooms_.insert(std::make_pair(room_id, room));
     }
