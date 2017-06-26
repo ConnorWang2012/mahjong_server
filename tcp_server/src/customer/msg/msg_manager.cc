@@ -282,8 +282,15 @@ void MsgManager::DealWithPlayerJoinRoomMsg(const ClientMsg& msg, bufferevent* be
 		return;
 	}
 
-	auto player = Player::Create(player_id);
-	player->set_is_online(true);
+	// check whether player online
+	auto player = PlayerManager::instance()->GetOnlinePlayer(player_id);
+	if (nullptr == player) {
+		// TODO : log
+		// TODO : specify error code
+		auto error_code = (msg_header_t)MsgCodes::MSG_RESPONSE_CODE_FAILED1;
+		this->SendMsgForError(error_code, msg, bev);
+		return;
+	}
 	room->AddPlayer(player_id, player);
 
 	// send join succeed msg to all players in the room
@@ -301,6 +308,49 @@ void MsgManager::DealWithPlayerJoinRoomMsg(const ClientMsg& msg, bufferevent* be
 }
 
 void MsgManager::DealWithPlayerLeaveRoomMsg(const ClientMsg& msg, bufferevent* bev) {
+	protocol::RoomOperationMsgProtocol proto_client;
+	if (!this->ParseMsg(msg, &proto_client)) {
+		// TODO : log
+		// TODO : specify error code
+		auto error_code = (msg_header_t)MsgCodes::MSG_RESPONSE_CODE_FAILED1;
+		this->SendMsgForError(error_code, msg, bev);
+		return;
+	}
+
+	// find room
+	auto room = RoomManager<Player>::instance()->GetRoom(proto_client.room_id());
+	if (nullptr == room) {
+		// TODO : log
+		// TODO : specify error code
+		auto error_code = (msg_header_t)MsgCodes::MSG_RESPONSE_CODE_FAILED1;
+		this->SendMsgForError(error_code, msg, bev);
+		return;
+	}
+
+	// check whether player in any other room
+	auto player_id = proto_client.player_id();
+	if ( !RoomManager<Player>::instance()->IsPlayerInRoom(player_id) ) {
+		// TODO : log
+		// TODO : specify error code
+		auto error_code = (msg_header_t)MsgCodes::MSG_RESPONSE_CODE_FAILED1;
+		this->SendMsgForError(error_code, msg, bev);
+		return;
+	}
+
+	// send join succeed msg to all players in the room
+	auto players = room->players();
+	for (auto itr = players->begin(); itr != players->end(); itr++) {
+		auto bev = PlayerManager::instance()->GetOnlinePlayerBufferevent(itr->first);
+		if (nullptr != bev) {
+			this->SendMsg((msg_header_t)MsgTypes::S2C_MSG_TYPE_ROOM,
+				(msg_header_t)MsgIDs::MSG_ID_ROOM_PLAYER_JOIN,
+				(msg_header_t)MsgCodes::MSG_RESPONSE_CODE_SUCCESS,
+				proto_client,
+				bev);
+		}
+	}
+
+	room->RomovePlayer(player_id);
 }
 
 void MsgManager::DealWithStartGameMsg(const ClientMsg& msg, bufferevent* bev) {

@@ -31,6 +31,8 @@ class PlayerManager : public BasicManager<PlayerManager> {
 
 	void AddOnlinePlayer(int player_id, Player* player, bufferevent* bev);
 
+	void RemoveOnlinePlayer(int player_id);
+
 	Player* GetOnlinePlayer(int player_id);
 
 	bufferevent* GetOnlinePlayerBufferevent(int player_id);

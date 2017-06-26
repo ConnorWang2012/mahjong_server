@@ -30,6 +30,18 @@ void PlayerManager::AddOnlinePlayer(int player_id, Player* player, bufferevent* 
 	}
 }
 
+void PlayerManager::RemoveOnlinePlayer(int player_id) {
+	auto itr = online_players_.find(player_id);
+	if ( itr != online_players_.end()) {
+		online_players_.erase(itr);
+	}
+
+	auto it = bufferevents_.find(player_id);
+	if ( it != bufferevents_.end()) {
+		bufferevents_.erase(it);
+	}
+}
+
 Player* PlayerManager::GetOnlinePlayer(int player_id) {
 	auto itr = online_players_.find(player_id);
 	if (itr != online_players_.end()) {

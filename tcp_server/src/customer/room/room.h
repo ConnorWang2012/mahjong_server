@@ -100,7 +100,10 @@ void gamer::Room<Player>::AddPlayer(int player_id, Player* player) {
 
 template<typename Player>
 void gamer::Room<Player>::RomovePlayer(int player_id) {
-
+	auto itr = players_.find(player_id);
+	if (itr != players_.end()) {
+		players_.erase(itr);
+	}
 }
 
 template<typename Player>
