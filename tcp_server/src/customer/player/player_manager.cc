@@ -17,37 +17,13 @@ modification:
 namespace gamer {
 
 bool PlayerManager::IsPlayerOnline(int player_id) const {
-	return online_players_.find(player_id) != online_players_.end();
+	return bufferevents_.find(player_id) != bufferevents_.end();
 }
 
-void PlayerManager::AddOnlinePlayer(int player_id, Player* player, bufferevent* bev) {
-	if (nullptr != player && online_players_.find(player_id) == online_players_.end()) {
-		online_players_.insert(std::make_pair(player_id, player));
-	}
-
-	if (nullptr != player && bufferevents_.find(player_id) == bufferevents_.end()) {
+void PlayerManager::AddOnlinePlayerBufferevent(int player_id, bufferevent* bev) {
+	if (bufferevents_.find(player_id) == bufferevents_.end()) {
 		bufferevents_.insert(std::make_pair(player_id, bev));
 	}
-}
-
-void PlayerManager::RemoveOnlinePlayer(int player_id) {
-	auto itr = online_players_.find(player_id);
-	if ( itr != online_players_.end()) {
-		online_players_.erase(itr);
-	}
-
-	auto it = bufferevents_.find(player_id);
-	if ( it != bufferevents_.end()) {
-		bufferevents_.erase(it);
-	}
-}
-
-Player* PlayerManager::GetOnlinePlayer(int player_id) {
-	auto itr = online_players_.find(player_id);
-	if (itr != online_players_.end()) {
-		return itr->second;
-	}
-	return nullptr;
 }
 
 bufferevent* PlayerManager::GetOnlinePlayerBufferevent(int player_id) {
@@ -56,6 +32,27 @@ bufferevent* PlayerManager::GetOnlinePlayerBufferevent(int player_id) {
 		return itr->second;
 	}
 	return nullptr;
+}
+
+void PlayerManager::AddOnlinePlayer(int player_id, Player* player) {
+	if (players_.find(player_id) == players_.end()) {
+		players_.insert(std::make_pair(player_id, player));
+	}
+}
+
+Player* PlayerManager::GetOnlinePlayer(int player_id) {
+	auto itr = players_.find(player_id);
+	if (itr != players_.end()) {
+		return itr->second;
+	}
+	return nullptr;
+}
+
+void PlayerManager::RemoveOnlinePlayer(int player_id) {
+	auto it = bufferevents_.find(player_id);
+	if ( it != bufferevents_.end()) {
+		bufferevents_.erase(it);
+	}
 }
 
 } // namespace gamer

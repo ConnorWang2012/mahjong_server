@@ -736,9 +736,6 @@
     <ClInclude Include="src\customer\msg\msg_type.h">
       <Filter>src\customer\msg</Filter>
     </ClInclude>
-    <ClInclude Include="src\customer\msg\protocol\game_start_msg_protocol.pb.h">
-      <Filter>src\customer\msg\protocol</Filter>
-    </ClInclude>
     <ClInclude Include="src\customer\test\test_shuffle_algorithm.h">
       <Filter>src\customer\test</Filter>
     </ClInclude>
@@ -792,6 +789,12 @@
     </ClInclude>
     <ClInclude Include="src\customer\player\player_manager.h">
       <Filter>src\customer\player</Filter>
+    </ClInclude>
+    <ClInclude Include="src\customer\msg\protocol\play_card_msg_protocol.pb.h">
+      <Filter>src\customer\msg\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="src\customer\msg\protocol\room_msg_protocol.pb.h">
+      <Filter>src\customer\msg\protocol</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -933,9 +936,6 @@
     <ClCompile Include="src\customer\msg\msg_manager.cc">
       <Filter>src\customer\msg</Filter>
     </ClCompile>
-    <ClCompile Include="src\customer\msg\protocol\game_start_msg_protocol.pb.cc">
-      <Filter>src\customer\msg\protocol</Filter>
-    </ClCompile>
     <ClCompile Include="src\customer\msg\protocol\create_room_msg_protocol.pb.cc">
       <Filter>src\customer\msg\protocol</Filter>
     </ClCompile>
@@ -959,6 +959,12 @@
     </ClCompile>
     <ClCompile Include="src\customer\player\player_manager.cc">
       <Filter>src\customer\player</Filter>
+    </ClCompile>
+    <ClCompile Include="src\customer\msg\protocol\play_card_msg_protocol.pb.cc">
+      <Filter>src\customer\msg\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="src\customer\msg\protocol\room_msg_protocol.pb.cc">
+      <Filter>src\customer\msg\protocol</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

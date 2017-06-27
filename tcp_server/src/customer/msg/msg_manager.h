@@ -57,6 +57,18 @@ class MsgManager : public BasicManager<MsgManager> {
   private:
     typedef std::function<void(const ClientMsg&, bufferevent* bev)> MsgHandler;
 
+	enum PlayCardOperationIDs {
+		DISCARD,
+		MELD_CARD_0,			// give up
+		MELD_CARD_1,			// chi
+		MELD_CARD_2,			// peng
+		MELD_CARD_3,			// peng + gang
+		MELD_CARD_4,			// ming gang
+		MELD_CARD_5,			// an gang
+		MELD_CARD_6,			// hu
+		MELD_CARD_7,			// zi mo
+	};
+
 	void Init();
 
 	void AddMsgDispatchers();
@@ -78,6 +90,8 @@ class MsgManager : public BasicManager<MsgManager> {
 	void DealWithPlayerLeaveRoomMsg(const ClientMsg& msg, bufferevent* bev);
 
 	void DealWithStartGameMsg(const ClientMsg& msg, bufferevent* bev);
+
+	void DealWithPlayCardMsg(const ClientMsg& msg, bufferevent* bev);
 
 	bool PackMsg(const ServerMsg& msg, char* buf, msg_header_t& len);
 

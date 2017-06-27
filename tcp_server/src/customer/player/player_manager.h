@@ -29,16 +29,19 @@ class PlayerManager : public BasicManager<PlayerManager> {
   public:
 	bool IsPlayerOnline(int player_id) const;
 
-	void AddOnlinePlayer(int player_id, Player* player, bufferevent* bev);
-
-	void RemoveOnlinePlayer(int player_id);
-
-	Player* GetOnlinePlayer(int player_id);
+	void AddOnlinePlayerBufferevent(int player_id, bufferevent* bev); // not keep the ownership 
 
 	bufferevent* GetOnlinePlayerBufferevent(int player_id);
 
+	void AddOnlinePlayer(int player_id, Player* player); // keep the ownership
+
+	Player* GetOnlinePlayer(int player_id); // still keep the ownership
+
+	void RemoveOnlinePlayer(int player_id);
+
   private:
-	std::unordered_map<int, Player*> online_players_;
+	std::unordered_map<int, Player*> players_; // key is player id
+
 	std::unordered_map<int, bufferevent*> bufferevents_; // key is player id
 };
 
