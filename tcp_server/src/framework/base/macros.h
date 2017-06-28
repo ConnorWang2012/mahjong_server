@@ -12,8 +12,8 @@
  modification:
  ********************************************************************************/
 
-#ifndef CONNOR_GAME_SRC_MACROS_H_
-#define CONNOR_GAME_SRC_MACROS_H_
+#ifndef CONNOR_GAME_SRC_FRAMEWORK_MACROS_H_
+#define CONNOR_GAME_SRC_FRAMEWORK_MACROS_H_
 
 namespace gamer {
 
@@ -39,4 +39,4 @@ namespace gamer {
 #endif
 } // namespace gamer
 
-#endif // CONNOR_GAME_SRC_MACROS_H_
+#endif // CONNOR_GAME_SRC_FRAMEWORK_MACROS_H_

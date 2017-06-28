@@ -12,8 +12,8 @@ author:
 modification:
 ********************************************************************************/
 
-#ifndef CONNOR_GAME_SRC_NETWORK_MANAGER_H_
-#define CONNOR_GAME_SRC_NETWORK_MANAGER_H_
+#ifndef CONNOR_GAME_SRC_FRAMEWORK_NETWORK_MANAGER_H_
+#define CONNOR_GAME_SRC_FRAMEWORK_NETWORK_MANAGER_H_
 
 #include <string>
 
@@ -78,4 +78,4 @@ class NetworkManager : public BasicManager<NetworkManager> {
 
 } // namespace gamer
 
-#endif // CONNOR_GAME_SRC_NETWORK_MANAGER_H_
+#endif // CONNOR_GAME_SRC_FRAMEWORK_NETWORK_MANAGER_H_

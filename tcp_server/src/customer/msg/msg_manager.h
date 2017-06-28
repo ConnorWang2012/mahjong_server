@@ -65,8 +65,9 @@ class MsgManager : public BasicManager<MsgManager> {
 		MELD_CARD_3,			// peng + gang
 		MELD_CARD_4,			// ming gang
 		MELD_CARD_5,			// an gang
-		MELD_CARD_6,			// hu
-		MELD_CARD_7,			// zi mo
+		MELD_CARD_6,			// bu hua
+		MELD_CARD_7,			// hu
+		MELD_CARD_8,			// zi mo
 	};
 
 	void Init();

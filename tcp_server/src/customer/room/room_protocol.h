@@ -27,7 +27,6 @@ class RoomProtocol {
     virtual void DissolveRoom(int room_id) = 0;
 
     virtual void AddPlayer(int player_id, Player* player) = 0;
-	//virtual void AddPlayer(int player_id) = 0;
 
     virtual void RomovePlayer(int player_id) = 0;    
 
@@ -35,8 +34,9 @@ class RoomProtocol {
 
 	virtual inline int room_id() const = 0;
 
+	virtual inline Player* player(int player_id) = 0;
+
     virtual inline std::unordered_map<int, Player*>* players() = 0;
-	//virtual inline std::unordered_set<int> players() = 0;
 
     virtual inline bool is_player_in_room(int player_id) const = 0;
 

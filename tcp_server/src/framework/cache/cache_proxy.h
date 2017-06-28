@@ -12,8 +12,8 @@ author:
 modification:
 ********************************************************************************/
 
-#ifndef CONNOR_GAME_SRC_CACHE_PROXY_H_
-#define CONNOR_GAME_SRC_CACHE_PROXY_H_
+#ifndef CONNOR_GAME_SRC_FRAMEWORK_CACHE_PROXY_H_
+#define CONNOR_GAME_SRC_FRAMEWORK_CACHE_PROXY_H_
 
 #include "base/basic_manager.h"
 #include "cpp_redis/redis_client.hpp"
@@ -32,4 +32,4 @@ class CacheProxy : public BasicManager<CacheProxy> {
 
 }
 
-#endif // CONNOR_GAME_SRC_CACHE_PROXY_H_
+#endif // CONNOR_GAME_SRC_FRAMEWORK_CACHE_PROXY_H_

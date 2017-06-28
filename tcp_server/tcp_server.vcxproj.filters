@@ -62,9 +62,6 @@
     <Filter Include="src\framework\service\runtime">
       <UniqueIdentifier>{a8586644-ab09-4cff-8384-0429e9ebef5a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\framework\service\data">
-      <UniqueIdentifier>{d7d0d57d-91f9-4c1f-ac27-59616662b765}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\framework\base">
       <UniqueIdentifier>{27baabd9-8375-4f5a-b4ce-09137a4f3589}</UniqueIdentifier>
     </Filter>
@@ -795,6 +792,9 @@
     </ClInclude>
     <ClInclude Include="src\customer\msg\protocol\room_msg_protocol.pb.h">
       <Filter>src\customer\msg\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="src\customer\util\util.h">
+      <Filter>src\customer\util</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

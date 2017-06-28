@@ -119,6 +119,13 @@ class PlayCardMsgProtocol : public ::google::protobuf::Message {
   inline ::google::protobuf::int32 operation_id() const;
   inline void set_operation_id(::google::protobuf::int32 value);
 
+  // optional int32 discard = 5;
+  inline bool has_discard() const;
+  inline void clear_discard();
+  static const int kDiscardFieldNumber = 5;
+  inline ::google::protobuf::int32 discard() const;
+  inline void set_discard(::google::protobuf::int32 value);
+
   // @@protoc_insertion_point(class_scope:gamer.protocol.PlayCardMsgProtocol)
  private:
   inline void set_has_player_id();
@@ -129,6 +136,8 @@ class PlayCardMsgProtocol : public ::google::protobuf::Message {
   inline void clear_has_cur_round();
   inline void set_has_operation_id();
   inline void clear_has_operation_id();
+  inline void set_has_discard();
+  inline void clear_has_discard();
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
@@ -138,6 +147,7 @@ class PlayCardMsgProtocol : public ::google::protobuf::Message {
   ::google::protobuf::int32 room_id_;
   ::google::protobuf::int32 cur_round_;
   ::google::protobuf::int32 operation_id_;
+  ::google::protobuf::int32 discard_;
   friend void  protobuf_AddDesc_play_5fcard_5fmsg_5fprotocol_2eproto();
   friend void protobuf_AssignDesc_play_5fcard_5fmsg_5fprotocol_2eproto();
   friend void protobuf_ShutdownFile_play_5fcard_5fmsg_5fprotocol_2eproto();
@@ -246,6 +256,30 @@ inline void PlayCardMsgProtocol::set_operation_id(::google::protobuf::int32 valu
   set_has_operation_id();
   operation_id_ = value;
   // @@protoc_insertion_point(field_set:gamer.protocol.PlayCardMsgProtocol.operation_id)
+}
+
+// optional int32 discard = 5;
+inline bool PlayCardMsgProtocol::has_discard() const {
+  return (_has_bits_[0] & 0x00000010u) != 0;
+}
+inline void PlayCardMsgProtocol::set_has_discard() {
+  _has_bits_[0] |= 0x00000010u;
+}
+inline void PlayCardMsgProtocol::clear_has_discard() {
+  _has_bits_[0] &= ~0x00000010u;
+}
+inline void PlayCardMsgProtocol::clear_discard() {
+  discard_ = 0;
+  clear_has_discard();
+}
+inline ::google::protobuf::int32 PlayCardMsgProtocol::discard() const {
+  // @@protoc_insertion_point(field_get:gamer.protocol.PlayCardMsgProtocol.discard)
+  return discard_;
+}
+inline void PlayCardMsgProtocol::set_discard(::google::protobuf::int32 value) {
+  set_has_discard();
+  discard_ = value;
+  // @@protoc_insertion_point(field_set:gamer.protocol.PlayCardMsgProtocol.discard)
 }
 
 

@@ -12,5 +12,10 @@ author:
 modification:
 ********************************************************************************/
 
+#ifndef CONNOR_GAME_SRC_FRAMEWORK_LOG_HEADERS_H_
+#define CONNOR_GAME_SRC_FRAMEWORK_LOG_HEADERS_H_
+
 #include "macros.h"
 #include "framework/log/log.h"
+
+#endif // CONNOR_GAME_SRC_FRAMEWORK_LOG_HEADERS_H_

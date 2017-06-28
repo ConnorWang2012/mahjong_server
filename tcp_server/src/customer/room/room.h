@@ -42,6 +42,8 @@ class Room : public RoomProtocol<Player> {
 
 	virtual inline int room_id() const override;
 
+	virtual inline Player* player(int player_id) override;
+
     virtual inline std::unordered_map<int, Player*>* players() override;
 
     virtual inline bool is_player_in_room(int player_id) const override;
@@ -112,6 +114,15 @@ inline void Room<Player>::set_room_id(int room_id) {
 template<typename Player>
 inline int Room<Player>::room_id() const {
 	return room_id_;
+}
+
+template<typename Player>
+inline Player* Room<Player>::player(int player_id) {
+	auto itr = players_.find(player_id);
+	if (itr != players_.end()) {
+		return itr->second;
+	}
+	return nullptr;
 }
 
 template<typename Player>

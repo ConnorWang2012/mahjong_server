@@ -12,8 +12,8 @@ author:
 modification:
 ********************************************************************************/
 
-#ifndef CONNOR_GAME_SRC_UTIL_H_
-#define CONNOR_GAME_SRC_UTIL_H_
+#ifndef CONNOR_GAME_SRC_FRAMEWORK_UTIL_H_
+#define CONNOR_GAME_SRC_FRAMEWORK_UTIL_H_
 
 #include <functional>
 #include <random>
@@ -32,4 +32,4 @@ static T GenerateRandom(T min, T max) {
 
 } // namespace gamer
 
-#endif // CONNOR_GAME_SRC_UTIL_H_
+#endif // CONNOR_GAME_SRC_FRAMEWORK_UTIL_H_

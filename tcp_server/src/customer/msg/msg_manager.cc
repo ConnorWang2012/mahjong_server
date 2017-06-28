@@ -512,7 +512,7 @@ void MsgManager::DealWithStartGameMsg(const ClientMsg& msg, bufferevent* bev) {
 	// 3.send msg(not contain other player invisible cards) to all player
 	for (auto itr = players->begin(); itr != players->end(); itr++) {
 		auto player_id = itr->first;
-		auto bev = PlayerManager::instance()->GetOnlinePlayerBufferevent(itr->first);
+		auto bev = PlayerManager::instance()->GetOnlinePlayerBufferevent(player_id);
 		if (nullptr != bev) {
 			auto game_start_itr = game_start_protos.find(player_id);
 			if (game_start_itr != game_start_protos.end()) {
@@ -527,7 +527,17 @@ void MsgManager::DealWithStartGameMsg(const ClientMsg& msg, bufferevent* bev) {
 		}
 	}
 
-	// 4.release allocated
+	// copy player hand cards to player obj
+	for (auto itr = players->begin(); itr != players->end(); itr++) {
+		for (auto i = 0; i < players_num; i++) {
+			if (itr->first == proto_server.player_cards(i).player_id()) {
+				itr->second->CopyHandCards(proto_server.player_cards(i));
+				break;
+			}
+		}
+	}
+
+	// release allocated
 	for (auto itr = game_start_protos.begin(); itr != game_start_protos.end(); itr++) {
 		auto player_cards = itr->second.mutable_player_cards();
 		player_cards->DeleteSubrange(0, itr->second.player_cards_size());
@@ -556,7 +566,8 @@ void MsgManager::DealWithPlayCardMsg(const ClientMsg& msg, bufferevent* bev) {
 
 	// check whether player in the room
 	auto player_id = proto_client.player_id();
-	if (room->is_player_in_room(player_id)) {
+	auto player = room->player(player_id);
+	if (nullptr == player) {
 		// TODO : log
 		// TODO : specify error code
 		auto error_code = (msg_header_t)MsgCodes::MSG_RESPONSE_CODE_FAILED1;
@@ -567,9 +578,33 @@ void MsgManager::DealWithPlayCardMsg(const ClientMsg& msg, bufferevent* bev) {
 	int operation_id = proto_client.operation_id();
 	switch (operation_id) {
 		case PlayCardOperationIDs::DISCARD: {
-			// check card
+			// check hand cards and remain cards
+			if ( !player->InvisibleHandCardsContains(proto_client.discard()) ) {
+				// TODO : log
+				// TODO : specify error code
+				auto error_code = (msg_header_t)MsgCodes::MSG_RESPONSE_CODE_FAILED1;
+				this->SendMsgForError(error_code, msg, bev);
+				return;
+			}
+
 			// update hand cards
+			player->ClearInvisibleHandCard(proto_client.discard());
+
 			// send discard msg to other players
+			auto players = room->players();
+			for (auto itr = players->begin(); itr != players->end(); itr++) {
+				auto bev = PlayerManager::instance()->GetOnlinePlayerBufferevent(itr->first);
+				if (nullptr != bev) {
+					this->SendMsg((msg_header_t)MsgTypes::S2C_MSG_TYPE_ROOM,
+						          (msg_header_t)MsgIDs::MSG_ID_ROOM_PLAY_CARD,
+						          (msg_header_t)MsgCodes::MSG_RESPONSE_CODE_SUCCESS,
+						          proto_client,
+						          bev);
+				} else {
+					// TODO : log
+				}
+			}
+
 			break;
 		}
 		case PlayCardOperationIDs::MELD_CARD_0: {

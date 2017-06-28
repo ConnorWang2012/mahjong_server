@@ -316,6 +316,7 @@
     <ClInclude Include="src\customer\room\room_manager.h" />
     <ClInclude Include="src\customer\room\room_protocol.h" />
     <ClInclude Include="src\customer\test\test_shuffle_algorithm.h" />
+    <ClInclude Include="src\customer\util\util.h" />
     <ClInclude Include="src\framework\base\basic_manager.h" />
     <ClInclude Include="src\framework\base\common.h" />
     <ClInclude Include="src\framework\base\log_headers.h" />

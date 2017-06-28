@@ -12,8 +12,8 @@ author:
 modification:
 ********************************************************************************/
 
-#ifndef CONNOR_GAME_SRC_BASIC_MANAGER_H_
-#define CONNOR_GAME_SRC_BASIC_MANAGER_H_
+#ifndef CONNOR_GAME_SRC_FRAMEWORK_BASIC_MANAGER_H_
+#define CONNOR_GAME_SRC_FRAMEWORK_BASIC_MANAGER_H_
 
 #include <string>
 
@@ -40,5 +40,5 @@ class BasicManager {
 
 } // namespace gamer
 
-#endif // CONNOR_GAME_SRC_BASIC_MANAGER_H_
+#endif // CONNOR_GAME_SRC_FRAMEWORK_BASIC_MANAGER_H_
 
