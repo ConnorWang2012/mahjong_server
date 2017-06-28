@@ -426,7 +426,7 @@ void MsgManager::DealWithStartGameMsg(const ClientMsg& msg, bufferevent* bev) {
 		41, 42, 43, 44, 45, 46, 47,
 
 		51, 52, 53, 54, 55, 56, 57, 58 };
-	auto vec = std::vector<int>(buf, buf + CardConstants::TOTAL_CARDS_NUM - 1);
+	auto vec = std::vector<int>(buf, buf + CardConstants::TOTAL_CARDS_NUM);
 	gamer::Shuffle(vec);
 
 	protocol::RoomMsgProtocol proto_server;
@@ -448,7 +448,7 @@ void MsgManager::DealWithStartGameMsg(const ClientMsg& msg, bufferevent* bev) {
 	// room remain cards
 	auto remain_card_num = proto_server.remain_cards_num();
 	for (auto i = 0; i < remain_card_num; i++) {
-		proto_server.add_remain_cards(vec.at(i)); // ugly
+		proto_server.add_remain_cards(vec.at(i)); // some kind of ugly
 	}
 
 	// room player cards
@@ -461,7 +461,7 @@ void MsgManager::DealWithStartGameMsg(const ClientMsg& msg, bufferevent* bev) {
 		player_cards->set_player_id(player_id);
 		auto card_num = (player_id == room_owner_id) ? (CardConstants::ONE_PLAYER_CARD_NUM + 1) :
 			CardConstants::ONE_PLAYER_CARD_NUM;
-		for (auto j = 0; j <= card_num; j++) {
+		for (auto j = 0; j < card_num; j++) {
 			auto card = vec.at(card_index);
 			player_cards->add_invisible_hand_cards(card);
 
@@ -485,6 +485,9 @@ void MsgManager::DealWithStartGameMsg(const ClientMsg& msg, bufferevent* bev) {
 		DataManager::instance()->CacheGameStartData(room_id, value);
 		room->set_room_msg_protocol(value);
 	}
+
+    // clear remain cards
+    proto_server.clear_remain_cards();
 
 	// send msg to all players in the room 
 	// 1.prepare all player game start data
