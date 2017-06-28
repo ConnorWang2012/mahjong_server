@@ -62,9 +62,6 @@
     <Filter Include="src\framework\service\runtime">
       <UniqueIdentifier>{a8586644-ab09-4cff-8384-0429e9ebef5a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\framework\service\data">
-      <UniqueIdentifier>{d7d0d57d-91f9-4c1f-ac27-59616662b765}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\framework\base">
       <UniqueIdentifier>{27baabd9-8375-4f5a-b4ce-09137a4f3589}</UniqueIdentifier>
     </Filter>
@@ -736,9 +733,6 @@
     <ClInclude Include="src\customer\msg\msg_type.h">
       <Filter>src\customer\msg</Filter>
     </ClInclude>
-    <ClInclude Include="src\customer\msg\protocol\game_start_msg_protocol.pb.h">
-      <Filter>src\customer\msg\protocol</Filter>
-    </ClInclude>
     <ClInclude Include="src\customer\test\test_shuffle_algorithm.h">
       <Filter>src\customer\test</Filter>
     </ClInclude>
@@ -781,11 +775,26 @@
     <ClInclude Include="src\customer\msg\protocol\player_cards_msg_protocol.pb.h">
       <Filter>src\customer\msg\protocol</Filter>
     </ClInclude>
-    <ClInclude Include="src\framework\cache\cache_manager.h">
-      <Filter>src\framework\cache</Filter>
-    </ClInclude>
     <ClInclude Include="src\customer\data\data_manager.h">
       <Filter>src\customer\data</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\cache\cache_proxy.h">
+      <Filter>src\framework\cache</Filter>
+    </ClInclude>
+    <ClInclude Include="src\customer\msg\protocol\room_operation_msg_protocol.pb.h">
+      <Filter>src\customer\msg\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="src\customer\player\player_manager.h">
+      <Filter>src\customer\player</Filter>
+    </ClInclude>
+    <ClInclude Include="src\customer\msg\protocol\play_card_msg_protocol.pb.h">
+      <Filter>src\customer\msg\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="src\customer\msg\protocol\room_msg_protocol.pb.h">
+      <Filter>src\customer\msg\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="src\customer\util\util.h">
+      <Filter>src\customer\util</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -927,9 +936,6 @@
     <ClCompile Include="src\customer\msg\msg_manager.cc">
       <Filter>src\customer\msg</Filter>
     </ClCompile>
-    <ClCompile Include="src\customer\msg\protocol\game_start_msg_protocol.pb.cc">
-      <Filter>src\customer\msg\protocol</Filter>
-    </ClCompile>
     <ClCompile Include="src\customer\msg\protocol\create_room_msg_protocol.pb.cc">
       <Filter>src\customer\msg\protocol</Filter>
     </ClCompile>
@@ -939,14 +945,26 @@
     <ClCompile Include="src\customer\msg\protocol\player_cards_msg_protocol.pb.cc">
       <Filter>src\customer\msg\protocol</Filter>
     </ClCompile>
-    <ClCompile Include="src\framework\cache\cache_manager.cc">
-      <Filter>src\framework\cache</Filter>
-    </ClCompile>
     <ClCompile Include="src\customer\player\player.cc">
       <Filter>src\customer\player</Filter>
     </ClCompile>
     <ClCompile Include="src\customer\data\data_manager.cc">
       <Filter>src\customer\data</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\cache\cache_proxy.cc">
+      <Filter>src\framework\cache</Filter>
+    </ClCompile>
+    <ClCompile Include="src\customer\msg\protocol\room_operation_msg_protocol.pb.cc">
+      <Filter>src\customer\msg\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="src\customer\player\player_manager.cc">
+      <Filter>src\customer\player</Filter>
+    </ClCompile>
+    <ClCompile Include="src\customer\msg\protocol\play_card_msg_protocol.pb.cc">
+      <Filter>src\customer\msg\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="src\customer\msg\protocol\room_msg_protocol.pb.cc">
+      <Filter>src\customer\msg\protocol</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

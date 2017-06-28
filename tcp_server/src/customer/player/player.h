@@ -15,8 +15,8 @@ modification:
 #ifndef CONNOR_GAME_SRC_PLAYER_H_
 #define CONNOR_GAME_SRC_PLAYER_H_
 
-#include "msg/protocol/player_msg_protocol.pb.h"
 #include "player_protocol.h"
+#include "msg/protocol/player_cards_msg_protocol.pb.h"
 
 namespace gamer {
 
@@ -28,19 +28,31 @@ class Player : public PlayerProtocol {
 
 	Player();
 
-	static Player* Create();
+	static Player* Create(int player_id);
 
-	virtual void set_player_id(int player_id) override;
+	virtual inline void set_player_id(int player_id) override;
 
-	virtual int player_id() const override;
+	virtual inline int player_id() const override;
 
-	virtual void set_is_online(bool online) override;
+	virtual inline void set_is_online(bool online) override;
 
-    virtual bool is_online() const override;
+    virtual inline bool is_online() const override;
+
+	void CopyHandCards(const protocol::PlayerCardsMsgProtocol& from);
+
+	bool InvisibleHandCardsContains(int card) const;
+
+	//void UpdateHandCardWhenDiscarded(int card);
+
+	void ClearInvisibleHandCard(int card);
 
   private:
+	bool Init(int player_id);
+
     bool is_online_;
 	int player_id_;
+	protocol::PlayerCardsMsgProtocol cards_msg_proto_;
+	int new_invisible_hand_card_index_;
 };
 
 } // namespace gamer

@@ -29,13 +29,21 @@ class DataManager : public BasicManager<DataManager> {
   public:
 	DataManager();
 
-	void SetPlayerPersonalData(const std::string& player_account, const std::string& serialized_data);
+	void CachePlayerPersonalData(const std::string& player_account, const std::string& serialized_data);
 
-	void GetPlayerPersonalData(const std::string& player_account, std::string& serialized_data);
+	void GetCachedPlayerPersonalData(const std::string& player_account, std::string& serialized_data);
 
-	void SetGameStartData(int room_id, int round, const std::string& serialized_data);
+	void CacheCreateRoomData(int room_id, const std::string& serialized_data);
 
-	void GetGameStartData(int room_id, int round, std::string& serialized_data);
+	void GetCachedCreateRoomData(int room_id, std::string& serialized_data);
+
+	void CacheGameStartData(int room_id, const std::string& serialized_data);
+
+	void GetCachedGameStartData(int room_id, std::string& serialized_data);
+
+	void CacheRoomData(int room_id, int round, const std::string& serialized_data);
+
+	void GetCachedRoomData(int room_id, int round, std::string& serialized_data);
 
 	int GeneratePlayerID();
 

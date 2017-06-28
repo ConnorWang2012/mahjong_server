@@ -1,10 +1,10 @@
 /*******************************************************************************
 @ copyright(C), 2015-2020, ConnorAndHisFriendsCompany.Inc
-@ filename:	    cache_manager.h
+@ filename:	    cache_proxy.h
 @ author:	    Connor
 @ version:	    1.0.0
 @ date:		    2017-06-20
-@ description:  cache manager.
+@ description:  cache proxy.
 @ others:
 @ history:
 1.date:
@@ -12,15 +12,15 @@ author:
 modification:
 ********************************************************************************/
 
-#ifndef CONNOR_GAME_SRC_CACHE_MANAGER_H_
-#define CONNOR_GAME_SRC_CACHE_MANAGER_H_
+#ifndef CONNOR_GAME_SRC_FRAMEWORK_CACHE_PROXY_H_
+#define CONNOR_GAME_SRC_FRAMEWORK_CACHE_PROXY_H_
 
 #include "base/basic_manager.h"
 #include "cpp_redis/redis_client.hpp"
 
 namespace gamer {
 
-class CacheManager : public BasicManager<CacheManager> {
+class CacheProxy : public BasicManager<CacheProxy> {
   public:
 	void Init();
 
@@ -32,4 +32,4 @@ class CacheManager : public BasicManager<CacheManager> {
 
 }
 
-#endif // CONNOR_GAME_SRC_CACHE_MANAGER_H_
+#endif // CONNOR_GAME_SRC_FRAMEWORK_CACHE_PROXY_H_

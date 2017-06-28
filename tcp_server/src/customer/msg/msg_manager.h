@@ -18,6 +18,7 @@ modification:
 #include <string>
 #include <unordered_map>
 
+#include "base/basic_manager.h"
 #include "base/macros.h"
 #include "msg/msg.h"
 
@@ -33,15 +34,17 @@ struct bufferevent;
 
 namespace gamer {
 	
-class MsgManager {
+class MsgManager : public BasicManager<MsgManager> {
   public:
-	MsgManager& operator=(const MsgManager&) = delete;
+	MsgManager();
 
-	MsgManager(const MsgManager&) = delete;
+	//MsgManager& operator=(const MsgManager&) = delete;
 
-	void *operator new(std::size_t) = delete;
-	
-	static MsgManager* instance();
+	//MsgManager(const MsgManager&) = delete;
+
+	//void *operator new(std::size_t) = delete;
+	//
+	//static MsgManager* instance();
 
     bool SendMsg(const ServerMsg& msg, bufferevent* bev);
 
@@ -54,7 +57,18 @@ class MsgManager {
   private:
     typedef std::function<void(const ClientMsg&, bufferevent* bev)> MsgHandler;
 
-    MsgManager();
+	enum PlayCardOperationIDs {
+		DISCARD,
+		MELD_CARD_0,			// give up
+		MELD_CARD_1,			// chi
+		MELD_CARD_2,			// peng
+		MELD_CARD_3,			// peng + gang
+		MELD_CARD_4,			// ming gang
+		MELD_CARD_5,			// an gang
+		MELD_CARD_6,			// bu hua
+		MELD_CARD_7,			// hu
+		MELD_CARD_8,			// zi mo
+	};
 
 	void Init();
 
@@ -72,7 +86,13 @@ class MsgManager {
 
 	void DealWithCreateRoomMsg(const ClientMsg& msg, bufferevent* bev);
 
+	void DealWithPlayerJoinRoomMsg(const ClientMsg& msg, bufferevent* bev);
+
+	void DealWithPlayerLeaveRoomMsg(const ClientMsg& msg, bufferevent* bev);
+
 	void DealWithStartGameMsg(const ClientMsg& msg, bufferevent* bev);
+
+	void DealWithPlayCardMsg(const ClientMsg& msg, bufferevent* bev);
 
 	bool PackMsg(const ServerMsg& msg, char* buf, msg_header_t& len);
 
@@ -91,8 +111,6 @@ class MsgManager {
 
     std::unordered_map<int, MsgHandler> msg_handlers_;    // key is MsgIDs
     std::unordered_map<int, MsgHandler> msg_dispatchers_; // key is MsgTypes
-
-	std::unordered_map<int, bufferevent*> bufferevents_; // key is player id
 
     static const int MAX_MSG_LEN = 4096;
 };

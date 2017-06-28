@@ -18,8 +18,7 @@ modification:
 #include <unordered_map>
 #include <vector>
 
-#include "msg/protocol/create_room_msg_protocol.pb.h"
-#include "msg/protocol/game_start_msg_protocol.pb.h"
+#include "msg/protocol/room_msg_protocol.pb.h"
 #include "room/room_protocol.h"
 
 namespace gamer {
@@ -31,13 +30,19 @@ class Room : public RoomProtocol<Player> {
 
     Room(const Room&) = delete;
 
-    static Room* Create(int room_id, const protocol::CreateRoomMsgProtocol& proto); // TODO : use google::protobuf::massage
+    static Room* Create(int room_id);
 
-    virtual void DissolveRoom(int room_id) override;
+    virtual void DissolveRoom(int room_id) override; // TODO :
 
-    virtual void AddPlayer(int player_id, Player* player) override;
+    virtual void AddPlayer(int player_id, Player* player) override; // not keep the ownership
 
     virtual void RomovePlayer(int player_id) override;
+
+	virtual inline void set_room_id(int room_id) override;
+
+	virtual inline int room_id() const override;
+
+	virtual inline Player* player(int player_id) override;
 
     virtual inline std::unordered_map<int, Player*>* players() override;
 
@@ -45,17 +50,18 @@ class Room : public RoomProtocol<Player> {
     
     virtual inline int cur_players_num() const override;
 
-    inline protocol::GameStartMsgProtocol& get_game_start_msg_protocol();
+	inline void set_room_msg_protocol(const std::string& serialized_data);
 
-    inline protocol::CreateRoomMsgProtocol* get_create_room_msg_protocol();
-
+    inline protocol::RoomMsgProtocol* get_room_msg_protocol();
+	
   private:    
-    Room() = default;
+    Room();
 
-    bool Init(int room_id, const protocol::CreateRoomMsgProtocol& proto);
+    bool Init(int room_id);
 
-    protocol::GameStartMsgProtocol room_msg_proto_;
-    protocol::CreateRoomMsgProtocol create_room_msg_proto_;
+    protocol::RoomMsgProtocol room_msg_proto_;
+
+	int room_id_;
 
     std::unordered_map<int, Player*> players_;
 
@@ -63,11 +69,16 @@ class Room : public RoomProtocol<Player> {
 };
 
 template<typename Player>
-gamer::Room<Player>* Room<Player>::Create(int room_id, 
-                                          const protocol::CreateRoomMsgProtocol& proto) {
+gamer::Room<Player>::Room()
+	:room_id_(0) {
+
+}
+
+template<typename Player>
+gamer::Room<Player>* Room<Player>::Create(int room_id) {
     auto room = new Room<Player>();
     if (nullptr != room) {
-        if (!room->Init(room_id, proto)) {
+        if ( !room->Init(room_id) ) {
             SAFE_DELETE(room);
             return nullptr;
         }
@@ -89,7 +100,29 @@ void gamer::Room<Player>::AddPlayer(int player_id, Player* player) {
 
 template<typename Player>
 void gamer::Room<Player>::RomovePlayer(int player_id) {
+	auto itr = players_.find(player_id);
+	if (itr != players_.end()) {
+		players_.erase(itr);
+	}
+}
 
+template<typename Player>
+inline void Room<Player>::set_room_id(int room_id) {
+	room_id_ = room_id;
+}
+
+template<typename Player>
+inline int Room<Player>::room_id() const {
+	return room_id_;
+}
+
+template<typename Player>
+inline Player* Room<Player>::player(int player_id) {
+	auto itr = players_.find(player_id);
+	if (itr != players_.end()) {
+		return itr->second;
+	}
+	return nullptr;
 }
 
 template<typename Player>
@@ -108,22 +141,18 @@ int gamer::Room<Player>::cur_players_num() const {
 }
 
 template<typename Player>
-protocol::CreateRoomMsgProtocol* gamer::Room<Player>::get_create_room_msg_protocol() {
-    return &create_room_msg_proto_;
+void Room<Player>::set_room_msg_protocol(const std::string& serialized_data) {
+	room_msg_proto_.ParseFromString(serialized_data);
 }
 
 template<typename Player>
-protocol::GameStartMsgProtocol& gamer::Room<Player>::get_game_start_msg_protocol() {
-    return room_msg_proto_;
+protocol::RoomMsgProtocol* gamer::Room<Player>::get_room_msg_protocol() {
+    return &room_msg_proto_;
 }
 
 template<typename Player>
-bool gamer::Room<Player>::Init(int room_id, const protocol::CreateRoomMsgProtocol& proto) {
-    create_room_msg_proto_.set_room_owner_id(proto.room_owner_id());
-    create_room_msg_proto_.set_room_id(room_id);
-    create_room_msg_proto_.set_players_num(proto.players_num());
-    create_room_msg_proto_.set_rounds_num(proto.rounds_num());
-    // TODO : init more info
+bool gamer::Room<Player>::Init(int room_id) {
+	room_id_ = room_id;
     return true;
 }
 

@@ -39,6 +39,8 @@ class RoomManager : public BasicManager<RoomManager<Player>> {
 
 	int GenerateRoundID();
 
+	bool IsPlayerInRoom(int player_id);
+
   private:
     std::unordered_map<int, Room<Player>*> rooms_; // key is room id
 	std::unordered_set<int> round_ids_; // for all room
@@ -49,7 +51,7 @@ void gamer::RoomManager<Player>::AddRoom(Room<Player>* room) {
     if (nullptr == room)
         return;
 
-    auto room_id = room->get_create_room_msg_protocol()->room_id();
+    auto room_id = room->room_id();
     if (rooms_.find(room_id) == rooms_.end()) {
         rooms_.insert(std::make_pair(room_id, room));
     }
@@ -99,6 +101,16 @@ int RoomManager<Player>::GenerateRoundID() {
 		++count;
 	}
 	return -1;
+}
+
+template<typename Player>
+bool RoomManager<Player>::IsPlayerInRoom(int player_id) {
+	for (auto itr = rooms_.begin(); itr != rooms_.end(); itr++) {
+		if (itr->second->is_player_in_room(player_id)) {
+			return true;
+		}
+	}
+	return false;
 }
 
 } // namespace gamer

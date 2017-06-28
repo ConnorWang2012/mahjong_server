@@ -12,12 +12,12 @@ author:
 modification:
 ********************************************************************************/
 
-#ifndef CONNOR_GAME_SRC_ALGORITHM_H_
-#define CONNOR_GAME_SRC_ALGORITHM_H_
+#ifndef CONNOR_GAME_SRC_FRAMEWORK_ALGORITHM_H_
+#define CONNOR_GAME_SRC_FRAMEWORK_ALGORITHM_H_
 
 #include <vector>
 
-#include "util/util.h"
+#include "framework/util/util.h"
 
 namespace gamer {
 
@@ -31,4 +31,4 @@ static void Shuffle(std::vector<int>& cards) {
 
 }
 
-#endif // CONNOR_GAME_SRC_ALGORITHM_H_
+#endif // CONNOR_GAME_SRC_FRAMEWORK_ALGORITHM_H_

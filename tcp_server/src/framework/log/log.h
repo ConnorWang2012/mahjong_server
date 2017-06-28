@@ -12,8 +12,8 @@ author:
 modification:
 ********************************************************************************/
 
-#ifndef CONNOR_GAME_SRC_LOG_H_
-#define CONNOR_GAME_SRC_LOG_H_
+#ifndef CONNOR_GAME_SRC_FRAMEWORK_LOG_H_
+#define CONNOR_GAME_SRC_FRAMEWORK_LOG_H_
 
 #include <iostream>
 
@@ -51,4 +51,4 @@ namespace log {
 
 } // namespace gamer
 
-#endif // CONNOR_GAME_SRC_LOG_H_
+#endif // CONNOR_GAME_SRC_FRAMEWORK_LOG_H_
