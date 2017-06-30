@@ -14,6 +14,7 @@ modification:
 
 #include "server.h"
 
+#include "framework/base/log_headers.h"
 #include "framework/network/network_manager.h"
 //#include "framework/cache/cache_manager.h"
 
@@ -26,6 +27,8 @@ Server* Server::instance() {
 
 void Server::Start() {
     //CacheManager::instance()->Init(); // why here will crash
+	gamer::log::init();
+	WRITELOG("[Server::Start] server starting");
 	NetworkManager::instance()->InitSocket();
 }
 

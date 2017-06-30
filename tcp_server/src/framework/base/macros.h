@@ -34,9 +34,17 @@ namespace gamer {
 #define LOGGREEN(...)   do {} while (0)
 #elif CONNOR_GAME_DEBUG == 1
 #define LOG(format, ...)        gamer::log::printf(format, ##__VA_ARGS__)
-#define LOGERROR(format, ...)   gamer::log::printferr(format, ##__VA_ARGS__)
+#define LOGERROR(format, ...)   gamer::log::printferror(format, ##__VA_ARGS__)
+#define LOGWARNING(format, ...) gamer::log::printfwarning(format, ##__VA_ARGS__)
 #define LOGGREEN(format, ...)   gamer::log::printfgreen(format, ##__VA_ARGS__)
 #endif
+
+#if !defined(CONNOR_GAME_LOG_OPENED) || CONNOR_GAME_LOG_OPENED == 0
+#define WRITELOG(...)  do {} while (0)
+#elif CONNOR_GAME_LOG_OPENED == 1
+#define WRITELOG(format, ...)   gamer::log::writelog(format, ##__VA_ARGS__)
+#endif
+
 } // namespace gamer
 
 #endif // CONNOR_GAME_SRC_FRAMEWORK_MACROS_H_

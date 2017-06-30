@@ -116,7 +116,7 @@ void NetworkManager::OnConnAccepted(struct evconnlistener* listener,
 								    int socklen,
                                     void* ctx) {
 	// We got a new connection! Set up a bufferevent for it.
-	LOGGREEN("[NetworkManager::InitSocket] one client connected");
+	LOGGREEN("[NetworkManager::InitSocket] one client connected");	
 	auto base = evconnlistener_get_base(listener);
 	auto bev = bufferevent_socket_new(base, fd, BEV_OPT_CLOSE_ON_FREE);
 	bufferevent_setcb(bev, OnBuffereventRead, OnBuffereventWrite, OnBuffereventReceived, nullptr);

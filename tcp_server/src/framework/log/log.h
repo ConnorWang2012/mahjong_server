@@ -15,38 +15,49 @@ modification:
 #ifndef CONNOR_GAME_SRC_FRAMEWORK_LOG_H_
 #define CONNOR_GAME_SRC_FRAMEWORK_LOG_H_
 
-#include <iostream>
+#include <fstream>
+#include <string>
 
 namespace gamer {
 
 namespace log {
 	enum class Colors {
-		COLOR_BLUE  = 1,
-		COLOR_GREEN = 2,
-		COLOR_RED   = 4,
-		COLOR_WHITE = 7
+		COLOR_BLUE		= 1,
+		COLOR_GREEN		= 2,
+		COLOR_RED		= 4,
+		COLOR_YELLOW	= 6,
+		COLOR_WHITE		= 7
 	};
 
-	void printfgreen(const char* format, ...);
+	void init();
 
-	void printferr(const char* format, ...);
+	void writelog(const char* format, ...);
 
-	void printfc(Colors c, const char* format, ...);
-
-	void printf(const char* s); // some kind of ugly
+	void printf(const char* s);
 
 	template<typename T, typename... Args>
 	void printf(const char* s, T value, Args... args) {
 		while (*s) {
 			if (*s == '%' && *(++s) != '%') {
 				std::cout << value;
-				printf(*s ? ++s : s, args...); // work with the upper printf
+				printf(*s ? ++s : s, args...); // work with the normal method printf
 				return;
 			}
 			std::cout << *s++;
 		}
 		throw std::logic_error("extra arguments provided to printf");
 	}
+
+	void printfcolor(Colors c, const char* format, ...);
+
+	void printfgreen(const char* format, ...);
+
+	void printfwarning(const char* format, ...);
+
+	void printferror(const char* format, ...);
+
+	static std::ofstream s_ofs_log_;
+	static std::string s_log_path_;
 }
 
 } // namespace gamer
