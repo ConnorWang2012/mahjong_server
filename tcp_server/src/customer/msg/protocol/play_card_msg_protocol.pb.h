@@ -119,12 +119,19 @@ class PlayCardMsgProtocol : public ::google::protobuf::Message {
   inline ::google::protobuf::int32 operation_id() const;
   inline void set_operation_id(::google::protobuf::int32 value);
 
-  // optional int32 discard = 5;
+  // optional int32 discard = 5 [default = 0];
   inline bool has_discard() const;
   inline void clear_discard();
   static const int kDiscardFieldNumber = 5;
   inline ::google::protobuf::int32 discard() const;
   inline void set_discard(::google::protobuf::int32 value);
+
+  // optional int32 new_card = 6 [default = 0];
+  inline bool has_new_card() const;
+  inline void clear_new_card();
+  static const int kNewCardFieldNumber = 6;
+  inline ::google::protobuf::int32 new_card() const;
+  inline void set_new_card(::google::protobuf::int32 value);
 
   // @@protoc_insertion_point(class_scope:gamer.protocol.PlayCardMsgProtocol)
  private:
@@ -138,6 +145,8 @@ class PlayCardMsgProtocol : public ::google::protobuf::Message {
   inline void clear_has_operation_id();
   inline void set_has_discard();
   inline void clear_has_discard();
+  inline void set_has_new_card();
+  inline void clear_has_new_card();
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
@@ -148,6 +157,7 @@ class PlayCardMsgProtocol : public ::google::protobuf::Message {
   ::google::protobuf::int32 cur_round_;
   ::google::protobuf::int32 operation_id_;
   ::google::protobuf::int32 discard_;
+  ::google::protobuf::int32 new_card_;
   friend void  protobuf_AddDesc_play_5fcard_5fmsg_5fprotocol_2eproto();
   friend void protobuf_AssignDesc_play_5fcard_5fmsg_5fprotocol_2eproto();
   friend void protobuf_ShutdownFile_play_5fcard_5fmsg_5fprotocol_2eproto();
@@ -258,7 +268,7 @@ inline void PlayCardMsgProtocol::set_operation_id(::google::protobuf::int32 valu
   // @@protoc_insertion_point(field_set:gamer.protocol.PlayCardMsgProtocol.operation_id)
 }
 
-// optional int32 discard = 5;
+// optional int32 discard = 5 [default = 0];
 inline bool PlayCardMsgProtocol::has_discard() const {
   return (_has_bits_[0] & 0x00000010u) != 0;
 }
@@ -280,6 +290,30 @@ inline void PlayCardMsgProtocol::set_discard(::google::protobuf::int32 value) {
   set_has_discard();
   discard_ = value;
   // @@protoc_insertion_point(field_set:gamer.protocol.PlayCardMsgProtocol.discard)
+}
+
+// optional int32 new_card = 6 [default = 0];
+inline bool PlayCardMsgProtocol::has_new_card() const {
+  return (_has_bits_[0] & 0x00000020u) != 0;
+}
+inline void PlayCardMsgProtocol::set_has_new_card() {
+  _has_bits_[0] |= 0x00000020u;
+}
+inline void PlayCardMsgProtocol::clear_has_new_card() {
+  _has_bits_[0] &= ~0x00000020u;
+}
+inline void PlayCardMsgProtocol::clear_new_card() {
+  new_card_ = 0;
+  clear_has_new_card();
+}
+inline ::google::protobuf::int32 PlayCardMsgProtocol::new_card() const {
+  // @@protoc_insertion_point(field_get:gamer.protocol.PlayCardMsgProtocol.new_card)
+  return new_card_;
+}
+inline void PlayCardMsgProtocol::set_new_card(::google::protobuf::int32 value) {
+  set_has_new_card();
+  new_card_ = value;
+  // @@protoc_insertion_point(field_set:gamer.protocol.PlayCardMsgProtocol.new_card)
 }
 
 

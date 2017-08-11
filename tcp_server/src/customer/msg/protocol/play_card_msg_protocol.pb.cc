@@ -35,12 +35,13 @@ void protobuf_AssignDesc_play_5fcard_5fmsg_5fprotocol_2eproto() {
       "play_card_msg_protocol.proto");
   GOOGLE_CHECK(file != NULL);
   PlayCardMsgProtocol_descriptor_ = file->message_type(0);
-  static const int PlayCardMsgProtocol_offsets_[5] = {
+  static const int PlayCardMsgProtocol_offsets_[6] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayCardMsgProtocol, player_id_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayCardMsgProtocol, room_id_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayCardMsgProtocol, cur_round_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayCardMsgProtocol, operation_id_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayCardMsgProtocol, discard_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayCardMsgProtocol, new_card_),
   };
   PlayCardMsgProtocol_reflection_ =
     new ::google::protobuf::internal::GeneratedMessageReflection(
@@ -84,10 +85,10 @@ void protobuf_AddDesc_play_5fcard_5fmsg_5fprotocol_2eproto() {
 
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
     "\n\034play_card_msg_protocol.proto\022\016gamer.pr"
-    "otocol\"s\n\023PlayCardMsgProtocol\022\021\n\tplayer_"
-    "id\030\001 \002(\005\022\017\n\007room_id\030\002 \002(\005\022\021\n\tcur_round\030\003"
-    " \002(\005\022\024\n\014operation_id\030\004 \002(\005\022\017\n\007discard\030\005 "
-    "\001(\005", 163);
+    "otocol\"\213\001\n\023PlayCardMsgProtocol\022\021\n\tplayer"
+    "_id\030\001 \002(\005\022\017\n\007room_id\030\002 \002(\005\022\021\n\tcur_round\030"
+    "\003 \002(\005\022\024\n\014operation_id\030\004 \002(\005\022\022\n\007discard\030\005"
+    " \001(\005:\0010\022\023\n\010new_card\030\006 \001(\005:\0010", 188);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "play_card_msg_protocol.proto", &protobuf_RegisterTypes);
   PlayCardMsgProtocol::default_instance_ = new PlayCardMsgProtocol();
@@ -110,6 +111,7 @@ const int PlayCardMsgProtocol::kRoomIdFieldNumber;
 const int PlayCardMsgProtocol::kCurRoundFieldNumber;
 const int PlayCardMsgProtocol::kOperationIdFieldNumber;
 const int PlayCardMsgProtocol::kDiscardFieldNumber;
+const int PlayCardMsgProtocol::kNewCardFieldNumber;
 #endif  // !_MSC_VER
 
 PlayCardMsgProtocol::PlayCardMsgProtocol()
@@ -135,6 +137,7 @@ void PlayCardMsgProtocol::SharedCtor() {
   cur_round_ = 0;
   operation_id_ = 0;
   discard_ = 0;
+  new_card_ = 0;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -180,8 +183,8 @@ void PlayCardMsgProtocol::Clear() {
     ::memset(&first, 0, n);                                \
   } while (0)
 
-  if (_has_bits_[0 / 32] & 31) {
-    ZR_(player_id_, discard_);
+  if (_has_bits_[0 / 32] & 63) {
+    ZR_(player_id_, new_card_);
   }
 
 #undef OFFSET_OF_FIELD_
@@ -260,7 +263,7 @@ bool PlayCardMsgProtocol::MergePartialFromCodedStream(
         break;
       }
 
-      // optional int32 discard = 5;
+      // optional int32 discard = 5 [default = 0];
       case 5: {
         if (tag == 40) {
          parse_discard:
@@ -268,6 +271,21 @@ bool PlayCardMsgProtocol::MergePartialFromCodedStream(
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
                  input, &discard_)));
           set_has_discard();
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(48)) goto parse_new_card;
+        break;
+      }
+
+      // optional int32 new_card = 6 [default = 0];
+      case 6: {
+        if (tag == 48) {
+         parse_new_card:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &new_card_)));
+          set_has_new_card();
         } else {
           goto handle_unusual;
         }
@@ -320,9 +338,14 @@ void PlayCardMsgProtocol::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt32(4, this->operation_id(), output);
   }
 
-  // optional int32 discard = 5;
+  // optional int32 discard = 5 [default = 0];
   if (has_discard()) {
     ::google::protobuf::internal::WireFormatLite::WriteInt32(5, this->discard(), output);
+  }
+
+  // optional int32 new_card = 6 [default = 0];
+  if (has_new_card()) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(6, this->new_card(), output);
   }
 
   if (!unknown_fields().empty()) {
@@ -355,9 +378,14 @@ void PlayCardMsgProtocol::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(4, this->operation_id(), target);
   }
 
-  // optional int32 discard = 5;
+  // optional int32 discard = 5 [default = 0];
   if (has_discard()) {
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(5, this->discard(), target);
+  }
+
+  // optional int32 new_card = 6 [default = 0];
+  if (has_new_card()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(6, this->new_card(), target);
   }
 
   if (!unknown_fields().empty()) {
@@ -400,11 +428,18 @@ int PlayCardMsgProtocol::ByteSize() const {
           this->operation_id());
     }
 
-    // optional int32 discard = 5;
+    // optional int32 discard = 5 [default = 0];
     if (has_discard()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::Int32Size(
           this->discard());
+    }
+
+    // optional int32 new_card = 6 [default = 0];
+    if (has_new_card()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::Int32Size(
+          this->new_card());
     }
 
   }
@@ -449,6 +484,9 @@ void PlayCardMsgProtocol::MergeFrom(const PlayCardMsgProtocol& from) {
     if (from.has_discard()) {
       set_discard(from.discard());
     }
+    if (from.has_new_card()) {
+      set_new_card(from.new_card());
+    }
   }
   mutable_unknown_fields()->MergeFrom(from.unknown_fields());
 }
@@ -478,6 +516,7 @@ void PlayCardMsgProtocol::Swap(PlayCardMsgProtocol* other) {
     std::swap(cur_round_, other->cur_round_);
     std::swap(operation_id_, other->operation_id_);
     std::swap(discard_, other->discard_);
+    std::swap(new_card_, other->new_card_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     _unknown_fields_.Swap(&other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);

@@ -146,10 +146,22 @@ class PlayerCardsMsgProtocol : public ::google::protobuf::Message {
   inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
       mutable_season_cards();
 
-  // repeated int32 waiting_cards = 6;
+  // repeated int32 discards = 6;
+  inline int discards_size() const;
+  inline void clear_discards();
+  static const int kDiscardsFieldNumber = 6;
+  inline ::google::protobuf::int32 discards(int index) const;
+  inline void set_discards(int index, ::google::protobuf::int32 value);
+  inline void add_discards(::google::protobuf::int32 value);
+  inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+      discards() const;
+  inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+      mutable_discards();
+
+  // repeated int32 waiting_cards = 7;
   inline int waiting_cards_size() const;
   inline void clear_waiting_cards();
-  static const int kWaitingCardsFieldNumber = 6;
+  static const int kWaitingCardsFieldNumber = 7;
   inline ::google::protobuf::int32 waiting_cards(int index) const;
   inline void set_waiting_cards(int index, ::google::protobuf::int32 value);
   inline void add_waiting_cards(::google::protobuf::int32 value);
@@ -171,6 +183,7 @@ class PlayerCardsMsgProtocol : public ::google::protobuf::Message {
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 > invisible_hand_cards_;
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 > flower_cards_;
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 > season_cards_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > discards_;
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 > waiting_cards_;
   ::google::protobuf::int32 player_id_;
   friend void  protobuf_AddDesc_player_5fcards_5fmsg_5fprotocol_2eproto();
@@ -331,7 +344,37 @@ PlayerCardsMsgProtocol::mutable_season_cards() {
   return &season_cards_;
 }
 
-// repeated int32 waiting_cards = 6;
+// repeated int32 discards = 6;
+inline int PlayerCardsMsgProtocol::discards_size() const {
+  return discards_.size();
+}
+inline void PlayerCardsMsgProtocol::clear_discards() {
+  discards_.Clear();
+}
+inline ::google::protobuf::int32 PlayerCardsMsgProtocol::discards(int index) const {
+  // @@protoc_insertion_point(field_get:gamer.protocol.PlayerCardsMsgProtocol.discards)
+  return discards_.Get(index);
+}
+inline void PlayerCardsMsgProtocol::set_discards(int index, ::google::protobuf::int32 value) {
+  discards_.Set(index, value);
+  // @@protoc_insertion_point(field_set:gamer.protocol.PlayerCardsMsgProtocol.discards)
+}
+inline void PlayerCardsMsgProtocol::add_discards(::google::protobuf::int32 value) {
+  discards_.Add(value);
+  // @@protoc_insertion_point(field_add:gamer.protocol.PlayerCardsMsgProtocol.discards)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+PlayerCardsMsgProtocol::discards() const {
+  // @@protoc_insertion_point(field_list:gamer.protocol.PlayerCardsMsgProtocol.discards)
+  return discards_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+PlayerCardsMsgProtocol::mutable_discards() {
+  // @@protoc_insertion_point(field_mutable_list:gamer.protocol.PlayerCardsMsgProtocol.discards)
+  return &discards_;
+}
+
+// repeated int32 waiting_cards = 7;
 inline int PlayerCardsMsgProtocol::waiting_cards_size() const {
   return waiting_cards_.size();
 }

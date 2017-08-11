@@ -38,13 +38,17 @@ class Player : public PlayerProtocol {
 
     virtual inline bool is_online() const override;
 
-	void CopyHandCards(const protocol::PlayerCardsMsgProtocol& from);
+	void SetHandCards(const protocol::PlayerCardsMsgProtocol& from);
 
 	bool InvisibleHandCardsContains(int card) const;
 
-	//void UpdateHandCardWhenDiscarded(int card);
+	void UpdateCardForDiscard(int discard);
 
-	void ClearInvisibleHandCard(int card);
+    void UpdateInvisibleHandCard(int new_card);
+
+    void GetInvisibleHandCards(int* cards, int& len) const;
+
+    int GetAvailableOperationID(int new_card) const;
 
   private:
 	bool Init(int player_id);
@@ -53,6 +57,7 @@ class Player : public PlayerProtocol {
 	int player_id_;
 	protocol::PlayerCardsMsgProtocol cards_msg_proto_;
 	int new_invisible_hand_card_index_;
+    int tag_;
 };
 
 } // namespace gamer

@@ -18,8 +18,6 @@ modification:
 #include <WinSock2.h>
 #endif
 
-#include "framework/util/algorithm.h"
-
 namespace gamer {
 
 void gamer::CacheProxy::Init() {

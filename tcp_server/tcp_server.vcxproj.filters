@@ -751,9 +751,6 @@
     <ClInclude Include="src\customer\msg\protocol\create_room_msg_protocol.pb.h">
       <Filter>src\customer\msg\protocol</Filter>
     </ClInclude>
-    <ClInclude Include="src\framework\util\algorithm.h">
-      <Filter>src\framework\util</Filter>
-    </ClInclude>
     <ClInclude Include="src\framework\util\util.h">
       <Filter>src\framework\util</Filter>
     </ClInclude>
@@ -795,6 +792,9 @@
     </ClInclude>
     <ClInclude Include="src\customer\util\util.h">
       <Filter>src\customer\util</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\chess_card_algorithm.h">
+      <Filter>src\framework\util</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

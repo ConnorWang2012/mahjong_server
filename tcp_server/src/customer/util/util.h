@@ -19,6 +19,7 @@ modification:
 
 namespace gamer {
 
+// TODO : not right
 static CardTypes GetCardType(int card) {
 	if (card >= CardConstants::CARD_VALUE_BAMBOO_1 && 
 		card <= CardConstants::CARD_VALUE_BAMBOO_9) {

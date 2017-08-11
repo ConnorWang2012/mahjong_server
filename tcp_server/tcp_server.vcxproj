@@ -390,7 +390,7 @@
     <ClInclude Include="src\framework\network\network_manager.h" />
     <ClInclude Include="src\framework\service\runtime\server.h" />
     <ClInclude Include="src\framework\service\runtime\server_protocal.h" />
-    <ClInclude Include="src\framework\util\algorithm.h" />
+    <ClInclude Include="src\framework\util\chess_card_algorithm.h" />
     <ClInclude Include="src\framework\util\util.h" />
   </ItemGroup>
   <ItemGroup>

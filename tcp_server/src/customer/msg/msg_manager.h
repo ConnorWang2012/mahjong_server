@@ -36,15 +36,9 @@ namespace gamer {
 	
 class MsgManager : public BasicManager<MsgManager> {
   public:
-	MsgManager();
+	MsgManager() = default;
 
-	//MsgManager& operator=(const MsgManager&) = delete;
-
-	//MsgManager(const MsgManager&) = delete;
-
-	//void *operator new(std::size_t) = delete;
-	//
-	//static MsgManager* instance();
+    void Init();
 
     bool SendMsg(const ServerMsg& msg, bufferevent* bev);
 
@@ -56,21 +50,6 @@ class MsgManager : public BasicManager<MsgManager> {
 
   private:
     typedef std::function<void(const ClientMsg&, bufferevent* bev)> MsgHandler;
-
-	enum PlayCardOperationIDs {
-		DISCARD,
-		MELD_CARD_0,			// give up
-		MELD_CARD_1,			// chi
-		MELD_CARD_2,			// peng
-		MELD_CARD_3,			// peng + gang
-		MELD_CARD_4,			// ming gang
-		MELD_CARD_5,			// an gang
-		MELD_CARD_6,			// bu hua
-		MELD_CARD_7,			// hu
-		MELD_CARD_8,			// zi mo
-	};
-
-	void Init();
 
 	void AddMsgDispatchers();
 

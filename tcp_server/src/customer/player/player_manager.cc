@@ -50,7 +50,7 @@ Player* PlayerManager::GetOnlinePlayer(int player_id) {
 
 void PlayerManager::RemoveOnlinePlayer(int player_id) {
 	auto it = bufferevents_.find(player_id);
-	if ( it != bufferevents_.end()) {
+	if (it != bufferevents_.end()) {
 		bufferevents_.erase(it);
 	}
 }
