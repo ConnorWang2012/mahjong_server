@@ -50,13 +50,14 @@ class Player : public PlayerProtocol {
 
     int GetAvailableOperationID(int new_card) const;
 
+    bool IsHu(int new_card) const;
+
   private:
 	bool Init(int player_id);
 
     bool is_online_;
 	int player_id_;
 	protocol::PlayerCardsMsgProtocol cards_msg_proto_;
-	int new_invisible_hand_card_index_;
     int tag_;
 };
 

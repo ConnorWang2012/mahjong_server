@@ -23,8 +23,7 @@ namespace gamer {
 
 Player::Player()
 	:player_id_(0)
-	,is_online_(false)
-	,new_invisible_hand_card_index_(-1) {
+	,is_online_(false) {
 }
 
 Player* Player::Create(int player_id) {
@@ -59,8 +58,7 @@ void Player::SetHandCards(const protocol::PlayerCardsMsgProtocol& from) {
 }
 
 bool Player::InvisibleHandCardsContains(int card) const {
-	auto cards_size = cards_msg_proto_.invisible_hand_cards_size();
-	for (auto i = 0; i < cards_size; i++) {
+	for (auto i = 0; i < cards_msg_proto_.invisible_hand_cards_size(); i++) {
 		if (cards_msg_proto_.invisible_hand_cards(i) == card) {
 			return true;
 		}
@@ -69,34 +67,33 @@ bool Player::InvisibleHandCardsContains(int card) const {
 }
 
 void Player::UpdateCardForDiscard(int discard) {
-	// update invisible hand cards
-    auto n = cards_msg_proto_.invisible_hand_cards_size();
+	// remove the discard from invisible hand cards
+    auto cards = cards_msg_proto_.mutable_invisible_hand_cards();
+    auto n = cards->size();
     for (int i = 0; i < n; i++) {
-        if (cards_msg_proto_.invisible_hand_cards(i) == discard) {
-            cards_msg_proto_.set_invisible_hand_cards(i, CardConstants::INVALID_CARD_VALUE);
-            new_invisible_hand_card_index_ = i;
+        if (cards->Get(i) == discard) {
+            if (i != n - 1) {
+                cards->SwapElements(i, n - 1);
+            }            
+            cards->RemoveLast();
             break;
         }
     }
 
-    // update discard
+    // add the discard to discards
     cards_msg_proto_.add_discards(discard);
 }
 
 void Player::UpdateInvisibleHandCard(int new_card) {
-    auto n = cards_msg_proto_.invisible_hand_cards_size();
-    if (CardConstants::ONE_PLAYER_CARD_NUM == n) {
+    if (cards_msg_proto_.invisible_hand_cards_size() <= CardConstants::ONE_PLAYER_CARD_NUM) {
         cards_msg_proto_.add_invisible_hand_cards(new_card);
-    } else if (new_invisible_hand_card_index_ > -1 && 
-               new_invisible_hand_card_index_ < n) {
-        cards_msg_proto_.set_invisible_hand_cards(new_invisible_hand_card_index_, new_card);
     }
 }
 
 void Player::GetInvisibleHandCards(int* cards, int& len) const {
     len = 0;
     for (int i = 0; i < cards_msg_proto_.invisible_hand_cards_size(); i++) {
-        if (cards_msg_proto_.invisible_hand_cards(i) != CardConstants::INVALID_CARD_VALUE) {
+        if (cards_msg_proto_.invisible_hand_cards(i) < CardConstants::SEASON_SPRING) {
             cards[len++] = cards_msg_proto_.invisible_hand_cards(i);
         }
     }
@@ -105,11 +102,19 @@ void Player::GetInvisibleHandCards(int* cards, int& len) const {
 int Player::GetAvailableOperationID(int new_card) const {
     // zimo or ming gang or an gang or bu hua
     // zi mo
-    int cards[14] = { 0 };
-    int len = 0;
+    int cards[CardConstants::ONE_PLAYER_CARD_NUM2] = { 0 };
+    auto len = 0;
     this->GetInvisibleHandCards(cards, len);
-    cards[len] = new_card;
-    len += 1;
+    if (len >= CardConstants::ONE_PLAYER_CARD_NUM2) {
+        // TODO : error log
+        return PlayCardOperationIDs::NEW_CARD;
+    }
+
+    if (len <= CardConstants::ONE_PLAYER_CARD_NUM) {
+        cards[len] = new_card;
+        len += 1;
+    }
+
     if (ChessCard::IsHu(cards, len)) {
         return PlayCardOperationIDs::MELD_CARD_ZI_MO;
     }
@@ -144,6 +149,24 @@ int Player::GetAvailableOperationID(int new_card) const {
     }
 
     return PlayCardOperationIDs::NEW_CARD;
+}
+
+bool Player::IsHu(int new_card) const
+{
+    int cards[CardConstants::ONE_PLAYER_CARD_NUM2] = { 0 };
+    auto len = 0;
+    this->GetInvisibleHandCards(cards, len);
+    if (len > CardConstants::ONE_PLAYER_CARD_NUM2) {
+        // TODO : error log
+        return false;
+    }
+
+    if (len <= CardConstants::ONE_PLAYER_CARD_NUM) {
+        cards[len] = new_card;
+        len += 1;
+    }
+
+    return ChessCard::IsHu(cards, len);
 }
 
 bool Player::Init(int player_id) {

@@ -170,10 +170,19 @@ class PlayerCardsMsgProtocol : public ::google::protobuf::Message {
   inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
       mutable_waiting_cards();
 
+  // optional int32 invisible_hand_cards_num = 8 [default = 0];
+  inline bool has_invisible_hand_cards_num() const;
+  inline void clear_invisible_hand_cards_num();
+  static const int kInvisibleHandCardsNumFieldNumber = 8;
+  inline ::google::protobuf::int32 invisible_hand_cards_num() const;
+  inline void set_invisible_hand_cards_num(::google::protobuf::int32 value);
+
   // @@protoc_insertion_point(class_scope:gamer.protocol.PlayerCardsMsgProtocol)
  private:
   inline void set_has_player_id();
   inline void clear_has_player_id();
+  inline void set_has_invisible_hand_cards_num();
+  inline void clear_has_invisible_hand_cards_num();
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
@@ -182,10 +191,11 @@ class PlayerCardsMsgProtocol : public ::google::protobuf::Message {
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 > visible_hand_cards_;
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 > invisible_hand_cards_;
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 > flower_cards_;
+  ::google::protobuf::int32 player_id_;
+  ::google::protobuf::int32 invisible_hand_cards_num_;
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 > season_cards_;
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 > discards_;
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 > waiting_cards_;
-  ::google::protobuf::int32 player_id_;
   friend void  protobuf_AddDesc_player_5fcards_5fmsg_5fprotocol_2eproto();
   friend void protobuf_AssignDesc_player_5fcards_5fmsg_5fprotocol_2eproto();
   friend void protobuf_ShutdownFile_player_5fcards_5fmsg_5fprotocol_2eproto();
@@ -402,6 +412,30 @@ inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
 PlayerCardsMsgProtocol::mutable_waiting_cards() {
   // @@protoc_insertion_point(field_mutable_list:gamer.protocol.PlayerCardsMsgProtocol.waiting_cards)
   return &waiting_cards_;
+}
+
+// optional int32 invisible_hand_cards_num = 8 [default = 0];
+inline bool PlayerCardsMsgProtocol::has_invisible_hand_cards_num() const {
+  return (_has_bits_[0] & 0x00000080u) != 0;
+}
+inline void PlayerCardsMsgProtocol::set_has_invisible_hand_cards_num() {
+  _has_bits_[0] |= 0x00000080u;
+}
+inline void PlayerCardsMsgProtocol::clear_has_invisible_hand_cards_num() {
+  _has_bits_[0] &= ~0x00000080u;
+}
+inline void PlayerCardsMsgProtocol::clear_invisible_hand_cards_num() {
+  invisible_hand_cards_num_ = 0;
+  clear_has_invisible_hand_cards_num();
+}
+inline ::google::protobuf::int32 PlayerCardsMsgProtocol::invisible_hand_cards_num() const {
+  // @@protoc_insertion_point(field_get:gamer.protocol.PlayerCardsMsgProtocol.invisible_hand_cards_num)
+  return invisible_hand_cards_num_;
+}
+inline void PlayerCardsMsgProtocol::set_invisible_hand_cards_num(::google::protobuf::int32 value) {
+  set_has_invisible_hand_cards_num();
+  invisible_hand_cards_num_ = value;
+  // @@protoc_insertion_point(field_set:gamer.protocol.PlayerCardsMsgProtocol.invisible_hand_cards_num)
 }
 
 

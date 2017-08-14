@@ -20,6 +20,7 @@ namespace gamer {
 enum CardConstants {
     TOTAL_CARDS_NUM               = 144, // total cards num
     ONE_PLAYER_CARD_NUM           = 13,  // one player card num
+    ONE_PLAYER_CARD_NUM2          = 14,  // one player card num, including one new card
     INVALID_CARD_VALUE            = 50,
 
     // card value

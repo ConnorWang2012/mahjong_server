@@ -196,8 +196,7 @@ MsgCodes Room<Player>::DealWithPlayCard(gamer::protocol::PlayCardMsgProtocol& pr
                 (msg_header_t)MsgCodes::MSG_RESPONSE_CODE_SUCCESS,
                 proto,
                 bev);
-        }
-        else {
+        } else {
             // TODO : log
         }
 
@@ -212,15 +211,10 @@ MsgCodes Room<Player>::DealWithPlayCard(gamer::protocol::PlayCardMsgProtocol& pr
                 // TODO : log
             }
 
-            int cards[14] = { 0 };
-            int len = 0;
-            right_player->GetInvisibleHandCards(cards, len);
-            cards[len] = proto.discard();
-            len += 1;
-            auto ret = ChessCard::IsHu(cards, len);
-            if (ret) {
+            if (right_player->IsHu(proto.discard())) {
                 auto bev = PlayerManager::instance()->GetOnlinePlayerBufferevent(playerid);
                 if (nullptr != bev) {
+                    proto.set_operation_id(PlayCardOperationIDs::MELD_CARD_HU);
                     MsgManager::instance()->SendMsg((msg_header_t)MsgTypes::S2C_MSG_TYPE_ROOM,
                         (msg_header_t)MsgIDs::MSG_ID_ROOM_PLAY_CARD,
                         (msg_header_t)MsgCodes::MSG_RESPONSE_CODE_SUCCESS,
@@ -228,8 +222,7 @@ MsgCodes Room<Player>::DealWithPlayCard(gamer::protocol::PlayCardMsgProtocol& pr
                         bev);
 
                     players_sended_msg_hu_.push_back(right_player);
-                }
-                else {
+                } else {
                     // TODO : log
                 }
             }
@@ -258,6 +251,7 @@ MsgCodes Room<Player>::DealWithPlayCard(gamer::protocol::PlayCardMsgProtocol& pr
                     proto.set_operation_id(PlayCardOperationIDs::DISCARD);
                     proto.set_new_card(0);
                 }
+
                 auto bev = PlayerManager::instance()->GetOnlinePlayerBufferevent(playerid);
                 if (nullptr != bev) {
                     MsgManager::instance()->SendMsg((msg_header_t)MsgTypes::S2C_MSG_TYPE_ROOM,
@@ -265,8 +259,7 @@ MsgCodes Room<Player>::DealWithPlayCard(gamer::protocol::PlayCardMsgProtocol& pr
                         (msg_header_t)MsgCodes::MSG_RESPONSE_CODE_SUCCESS,
                         proto,
                         bev);
-                }
-                else {
+                } else {
                     // TODO : log
                 }
             }

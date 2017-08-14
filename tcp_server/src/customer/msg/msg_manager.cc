@@ -482,18 +482,19 @@ void MsgManager::DealWithStartGameMsg(const ClientMsg& msg, bufferevent* bev) {
 	for (auto& player : *players) {
 		auto player_cards = proto_server.add_player_cards();
 		auto player_id = player->player_id();
-		player_cards->set_player_id(player_id);
-		auto card_num = (player_id == room_owner_id) ? (CardConstants::ONE_PLAYER_CARD_NUM + 1) :
+		player_cards->set_player_id(player_id); 
+        player_cards->set_invisible_hand_cards_num(CardConstants::ONE_PLAYER_CARD_NUM);
+		auto card_num = (player_id == room_owner_id) ? (CardConstants::ONE_PLAYER_CARD_NUM2) :
 			CardConstants::ONE_PLAYER_CARD_NUM;
 		for (auto j = 0; j < card_num; j++) {
 			auto card = vec.at(card_index);
-			player_cards->add_invisible_hand_cards(card);
+			player_cards->add_invisible_hand_cards(card); // TODO : not add flower_card season_card
 
 			if (card >= CardConstants::FLOWER_PLUM &&
 				card <= CardConstants::FLOWER_BAMBOO) {
 				player_cards->add_flower_cards(card);
 			} else if (card >= CardConstants::SEASON_SPRING &&
-                     card <= CardConstants::SEASON_WINTER) {
+                       card <= CardConstants::SEASON_WINTER) {
 				player_cards->add_season_cards(card);
 			}
 			// TODO : visible cards and waiting cards
