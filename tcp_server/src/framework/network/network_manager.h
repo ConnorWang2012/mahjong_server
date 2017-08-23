@@ -34,14 +34,6 @@ class NetworkManager : public BasicManager<NetworkManager> {
   public:
 	NetworkManager();
 
-	//NetworkManager& operator=(const NetworkManager&) = delete;
-
-	//NetworkManager(const NetworkManager&) = delete;
-
-	//void *operator new(std::size_t) = delete;
-
-	//static NetworkManager* instance();
-
 	void InitSocket();
 
     bool Send(struct bufferevent* bev, void* ctx, size_t ctxlen);

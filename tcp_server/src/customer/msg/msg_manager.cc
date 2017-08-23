@@ -450,9 +450,10 @@ void MsgManager::DealWithStartGameMsg(const ClientMsg& msg, bufferevent* bev) {
         27, 28, 29, 30, 31, 32, 33,
         27, 28, 29, 30, 31, 32, 33,
 
-        34, 35, 36, 37, 38, 39, 40, 41 };
+        10, 11, 12, 13, 14, 15, 16, 17 }; // TODO
+        //34, 35, 36, 37, 38, 39, 40, 41 };
 	auto vec = std::vector<int>(buf, buf + CardConstants::TOTAL_CARDS_NUM);
-	gamer::ChessCard::Shuffle(vec);
+	//gamer::ChessCard::Shuffle(vec); // TODO
 
 	protocol::RoomMsgProtocol proto_server;
 	// room common
@@ -478,7 +479,8 @@ void MsgManager::DealWithStartGameMsg(const ClientMsg& msg, bufferevent* bev) {
 
 	// room player cards
 	auto players = room->players();
-	auto card_index = remain_card_num;
+	//auto card_index = remain_card_num;
+    auto card_index = 0; // TODO
 	for (auto& player : *players) {
 		auto player_cards = proto_server.add_player_cards();
 		auto player_id = player->player_id();
@@ -488,15 +490,15 @@ void MsgManager::DealWithStartGameMsg(const ClientMsg& msg, bufferevent* bev) {
 			CardConstants::ONE_PLAYER_CARD_NUM;
 		for (auto j = 0; j < card_num; j++) {
 			auto card = vec.at(card_index);
-			player_cards->add_invisible_hand_cards(card); // TODO : not add flower_card season_card
-
-			if (card >= CardConstants::FLOWER_PLUM &&
-				card <= CardConstants::FLOWER_BAMBOO) {
-				player_cards->add_flower_cards(card);
-			} else if (card >= CardConstants::SEASON_SPRING &&
-                       card <= CardConstants::SEASON_WINTER) {
-				player_cards->add_season_cards(card);
-			}
+			if (card >= CardConstants::SEASON_SPRING &&
+				card <= CardConstants::SEASON_WINTER) {
+                player_cards->add_season_cards(card);
+			} else if (card >= CardConstants::FLOWER_PLUM &&
+                       card <= CardConstants::FLOWER_BAMBOO) {
+                player_cards->add_flower_cards(card);
+            } else {
+                player_cards->add_invisible_hand_cards(card);
+            }
 			// TODO : visible cards and waiting cards
 			++card_index;
 		}

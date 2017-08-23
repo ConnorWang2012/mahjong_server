@@ -34,7 +34,11 @@ class ChessCard {
     // whether mahjong is hu
     static bool IsHu(int* hand_cards, int hand_cards_len) {
         int n[34] = { 0 };
-        ChessCard::Analyse(hand_cards, hand_cards_len, n);
+        auto ret = ChessCard::Analyse(hand_cards, hand_cards_len, n);
+        if ( !ret ) {
+            // TODO : log
+            return false;
+        }
         for (int i = 0; i < 34; i++) {
             for (int kotsu_first = 0; kotsu_first < 2; kotsu_first++) {
                 int t[34] = { 0 };
@@ -118,10 +122,14 @@ class ChessCard {
 
   private:
     // result : len is 34
-    static void Analyse(int* hand_cards, int hand_cards_len, int* result) {
+    static bool Analyse(int* hand_cards, int hand_cards_len, int* result) {
         for (auto i = 0; i < hand_cards_len; i++) {
+            if (hand_cards[i] < 0 || hand_cards[i] > CardConstants::DRAGON_WHITE) {
+                return false;
+            }
             result[hand_cards[i]]++;
         }
+        return true;
     }
 };
 

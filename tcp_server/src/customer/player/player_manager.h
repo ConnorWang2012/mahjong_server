@@ -39,6 +39,8 @@ class PlayerManager : public BasicManager<PlayerManager> {
 
 	void RemoveOnlinePlayer(int player_id);
 
+    void RemoveOnlinePlayer(bufferevent* bev);
+
   private:
 	std::unordered_map<int, Player*> players_; // key is player id
 

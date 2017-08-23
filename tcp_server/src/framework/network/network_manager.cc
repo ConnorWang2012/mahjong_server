@@ -27,7 +27,7 @@ modification:
 #include "framework/cache/cache_proxy.h"
 #include "msg/msg.h"
 #include "msg/msg_manager.h"
-
+#include "player/player_manager.h" // TODO : remove it
 namespace gamer {
 
 NetworkManager::NetworkManager() : NetworkManager("127.0.0.1", 4994) {
@@ -40,11 +40,6 @@ NetworkManager::NetworkManager(const std::string& ip, int port)
 	,connlistener_(nullptr) {
 }
 
-//NetworkManager* NetworkManager::instance() {
-//	static NetworkManager s_network_mgr;
-//	return &s_network_mgr;
-//}
-
 void NetworkManager::InitSocket() {
 	struct sockaddr_in sin;
 
@@ -53,7 +48,7 @@ void NetworkManager::InitSocket() {
 	WSAStartup(0x0201, &wsadata);
 #endif
 	
-    CacheProxy::instance()->Init(); // TODO : do it in somewhere ?
+    CacheProxy::instance()->Init(); // TODO : do it in somewhere
 	if (nullptr == evbase_) {
 		evbase_ = event_base_new();
 	}
@@ -134,6 +129,7 @@ void NetworkManager::OnConnErrorOccur(struct evconnlistener* listener, void* ctx
 void NetworkManager::OnBuffereventReceived(struct bufferevent* bev, short event, void* ctx) {
 	if (event & BEV_EVENT_ERROR) {
 		LOGERROR("[NetworkManager::OnBuffereventArrive] error from bufferevent!");
+        PlayerManager::instance()->RemoveOnlinePlayer(bev); // TODO : do it somewhere
 	}
 
 	if (event & (BEV_EVENT_EOF | BEV_EVENT_ERROR)) {

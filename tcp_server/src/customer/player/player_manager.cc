@@ -14,6 +14,8 @@ modification:
 
 #include "player_manager.h"
 
+#include <algorithm>
+
 namespace gamer {
 
 bool PlayerManager::IsPlayerOnline(int player_id) const {
@@ -53,6 +55,17 @@ void PlayerManager::RemoveOnlinePlayer(int player_id) {
 	if (it != bufferevents_.end()) {
 		bufferevents_.erase(it);
 	}
+}
+
+void PlayerManager::RemoveOnlinePlayer(bufferevent* bev) {
+    if (nullptr == bev)
+        return;
+    for (auto itr = bufferevents_.begin(); itr != bufferevents_.end(); ++itr) {
+        if (itr->second == bev) {
+            bufferevents_.erase(itr);
+            break;
+        }
+    }
 }
 
 } // namespace gamer

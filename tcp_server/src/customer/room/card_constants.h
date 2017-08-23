@@ -21,7 +21,6 @@ enum CardConstants {
     TOTAL_CARDS_NUM               = 144, // total cards num
     ONE_PLAYER_CARD_NUM           = 13,  // one player card num
     ONE_PLAYER_CARD_NUM2          = 14,  // one player card num, including one new card
-    INVALID_CARD_VALUE            = 50,
 
     // card value
     CARD_VALUE_BAMBOO_1           = 11,  // bamboo 1
@@ -38,6 +37,7 @@ enum CardConstants {
     CARD_VALUE_SEASON_OR_FLOWER_8 = 58, 
 
     // card index
+    INVALID_CARD_VALUE = -1,
     BAMBOO_1            = 0,
     BAMBOO_2            = 1,
     BAMBOO_3            = 2,
@@ -94,17 +94,17 @@ enum class CardTypes {
 };
 
 enum PlayCardOperationIDs {
-    DISCARD,
-    NEW_CARD,			    // just a new card
-    MELD_CARD_GIVE_UP,		// give up
-    MELD_CARD_CHI,			// chi
-    MELD_CARD_PENG,			// peng
-    MELD_CARD_PENG_GANG,	// peng + gang
-    MELD_CARD_GANG,			// ming gang
-    MELD_CARD_AN_GANG,		// an gang
-    MELD_CARD_BU_HUA,		// bu hua
-    MELD_CARD_HU,			// hu
-    MELD_CARD_ZI_MO,		// zi mo
+    OPERATION_DISCARD,
+    OPERATION_NONE,			// just a new card, no operation(only server to client)
+    OPERATION_CHI,			// chi
+    OPERATION_PENG,			// peng
+    OPERATION_PENG_GANG,	// peng + gang
+    OPERATION_MING_GANG,	// ming gang
+    OPERATION_AN_GANG,		// an gang
+    OPERATION_BU_HUA,		// bu hua
+    OPERATION_HU,			// hu
+    OPERATION_ZI_MO,	    // zi mo
+    OPERATION_GIVE_UP		// give up
 };
 
 } // namespace gamer

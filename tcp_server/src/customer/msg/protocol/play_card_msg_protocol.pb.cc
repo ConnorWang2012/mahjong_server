@@ -35,13 +35,16 @@ void protobuf_AssignDesc_play_5fcard_5fmsg_5fprotocol_2eproto() {
       "play_card_msg_protocol.proto");
   GOOGLE_CHECK(file != NULL);
   PlayCardMsgProtocol_descriptor_ = file->message_type(0);
-  static const int PlayCardMsgProtocol_offsets_[6] = {
+  static const int PlayCardMsgProtocol_offsets_[9] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayCardMsgProtocol, player_id_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayCardMsgProtocol, room_id_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayCardMsgProtocol, cur_round_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayCardMsgProtocol, operation_id_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayCardMsgProtocol, discard_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayCardMsgProtocol, new_card_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayCardMsgProtocol, next_operate_player_id_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayCardMsgProtocol, my_available_operation_id_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayCardMsgProtocol, operating_cards_),
   };
   PlayCardMsgProtocol_reflection_ =
     new ::google::protobuf::internal::GeneratedMessageReflection(
@@ -85,10 +88,13 @@ void protobuf_AddDesc_play_5fcard_5fmsg_5fprotocol_2eproto() {
 
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
     "\n\034play_card_msg_protocol.proto\022\016gamer.pr"
-    "otocol\"\213\001\n\023PlayCardMsgProtocol\022\021\n\tplayer"
+    "otocol\"\357\001\n\023PlayCardMsgProtocol\022\021\n\tplayer"
     "_id\030\001 \002(\005\022\017\n\007room_id\030\002 \002(\005\022\021\n\tcur_round\030"
-    "\003 \002(\005\022\024\n\014operation_id\030\004 \002(\005\022\022\n\007discard\030\005"
-    " \001(\005:\0010\022\023\n\010new_card\030\006 \001(\005:\0010", 188);
+    "\003 \002(\005\022\024\n\014operation_id\030\004 \002(\005\022\023\n\007discard\030\005"
+    " \001(\005:\002-1\022\024\n\010new_card\030\006 \001(\005:\002-1\022!\n\026next_o"
+    "perate_player_id\030\007 \001(\005:\0010\022$\n\031my_availabl"
+    "e_operation_id\030\010 \001(\005:\0010\022\027\n\017operating_car"
+    "ds\030\t \003(\005", 288);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "play_card_msg_protocol.proto", &protobuf_RegisterTypes);
   PlayCardMsgProtocol::default_instance_ = new PlayCardMsgProtocol();
@@ -112,6 +118,9 @@ const int PlayCardMsgProtocol::kCurRoundFieldNumber;
 const int PlayCardMsgProtocol::kOperationIdFieldNumber;
 const int PlayCardMsgProtocol::kDiscardFieldNumber;
 const int PlayCardMsgProtocol::kNewCardFieldNumber;
+const int PlayCardMsgProtocol::kNextOperatePlayerIdFieldNumber;
+const int PlayCardMsgProtocol::kMyAvailableOperationIdFieldNumber;
+const int PlayCardMsgProtocol::kOperatingCardsFieldNumber;
 #endif  // !_MSC_VER
 
 PlayCardMsgProtocol::PlayCardMsgProtocol()
@@ -136,8 +145,10 @@ void PlayCardMsgProtocol::SharedCtor() {
   room_id_ = 0;
   cur_round_ = 0;
   operation_id_ = 0;
-  discard_ = 0;
-  new_card_ = 0;
+  discard_ = -1;
+  new_card_ = -1;
+  next_operate_player_id_ = 0;
+  my_available_operation_id_ = 0;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -183,13 +194,17 @@ void PlayCardMsgProtocol::Clear() {
     ::memset(&first, 0, n);                                \
   } while (0)
 
-  if (_has_bits_[0 / 32] & 63) {
-    ZR_(player_id_, new_card_);
+  if (_has_bits_[0 / 32] & 255) {
+    ZR_(player_id_, operation_id_);
+    ZR_(next_operate_player_id_, my_available_operation_id_);
+    discard_ = -1;
+    new_card_ = -1;
   }
 
 #undef OFFSET_OF_FIELD_
 #undef ZR_
 
+  operating_cards_.Clear();
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
   mutable_unknown_fields()->Clear();
 }
@@ -263,7 +278,7 @@ bool PlayCardMsgProtocol::MergePartialFromCodedStream(
         break;
       }
 
-      // optional int32 discard = 5 [default = 0];
+      // optional int32 discard = 5 [default = -1];
       case 5: {
         if (tag == 40) {
          parse_discard:
@@ -278,7 +293,7 @@ bool PlayCardMsgProtocol::MergePartialFromCodedStream(
         break;
       }
 
-      // optional int32 new_card = 6 [default = 0];
+      // optional int32 new_card = 6 [default = -1];
       case 6: {
         if (tag == 48) {
          parse_new_card:
@@ -289,6 +304,55 @@ bool PlayCardMsgProtocol::MergePartialFromCodedStream(
         } else {
           goto handle_unusual;
         }
+        if (input->ExpectTag(56)) goto parse_next_operate_player_id;
+        break;
+      }
+
+      // optional int32 next_operate_player_id = 7 [default = 0];
+      case 7: {
+        if (tag == 56) {
+         parse_next_operate_player_id:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &next_operate_player_id_)));
+          set_has_next_operate_player_id();
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(64)) goto parse_my_available_operation_id;
+        break;
+      }
+
+      // optional int32 my_available_operation_id = 8 [default = 0];
+      case 8: {
+        if (tag == 64) {
+         parse_my_available_operation_id:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &my_available_operation_id_)));
+          set_has_my_available_operation_id();
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(72)) goto parse_operating_cards;
+        break;
+      }
+
+      // repeated int32 operating_cards = 9;
+      case 9: {
+        if (tag == 72) {
+         parse_operating_cards:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 1, 72, input, this->mutable_operating_cards())));
+        } else if (tag == 74) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitiveNoInline<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, this->mutable_operating_cards())));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(72)) goto parse_operating_cards;
         if (input->ExpectAtEnd()) goto success;
         break;
       }
@@ -338,14 +402,30 @@ void PlayCardMsgProtocol::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt32(4, this->operation_id(), output);
   }
 
-  // optional int32 discard = 5 [default = 0];
+  // optional int32 discard = 5 [default = -1];
   if (has_discard()) {
     ::google::protobuf::internal::WireFormatLite::WriteInt32(5, this->discard(), output);
   }
 
-  // optional int32 new_card = 6 [default = 0];
+  // optional int32 new_card = 6 [default = -1];
   if (has_new_card()) {
     ::google::protobuf::internal::WireFormatLite::WriteInt32(6, this->new_card(), output);
+  }
+
+  // optional int32 next_operate_player_id = 7 [default = 0];
+  if (has_next_operate_player_id()) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(7, this->next_operate_player_id(), output);
+  }
+
+  // optional int32 my_available_operation_id = 8 [default = 0];
+  if (has_my_available_operation_id()) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(8, this->my_available_operation_id(), output);
+  }
+
+  // repeated int32 operating_cards = 9;
+  for (int i = 0; i < this->operating_cards_size(); i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(
+      9, this->operating_cards(i), output);
   }
 
   if (!unknown_fields().empty()) {
@@ -378,14 +458,30 @@ void PlayCardMsgProtocol::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(4, this->operation_id(), target);
   }
 
-  // optional int32 discard = 5 [default = 0];
+  // optional int32 discard = 5 [default = -1];
   if (has_discard()) {
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(5, this->discard(), target);
   }
 
-  // optional int32 new_card = 6 [default = 0];
+  // optional int32 new_card = 6 [default = -1];
   if (has_new_card()) {
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(6, this->new_card(), target);
+  }
+
+  // optional int32 next_operate_player_id = 7 [default = 0];
+  if (has_next_operate_player_id()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(7, this->next_operate_player_id(), target);
+  }
+
+  // optional int32 my_available_operation_id = 8 [default = 0];
+  if (has_my_available_operation_id()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(8, this->my_available_operation_id(), target);
+  }
+
+  // repeated int32 operating_cards = 9;
+  for (int i = 0; i < this->operating_cards_size(); i++) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      WriteInt32ToArray(9, this->operating_cards(i), target);
   }
 
   if (!unknown_fields().empty()) {
@@ -428,21 +524,45 @@ int PlayCardMsgProtocol::ByteSize() const {
           this->operation_id());
     }
 
-    // optional int32 discard = 5 [default = 0];
+    // optional int32 discard = 5 [default = -1];
     if (has_discard()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::Int32Size(
           this->discard());
     }
 
-    // optional int32 new_card = 6 [default = 0];
+    // optional int32 new_card = 6 [default = -1];
     if (has_new_card()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::Int32Size(
           this->new_card());
     }
 
+    // optional int32 next_operate_player_id = 7 [default = 0];
+    if (has_next_operate_player_id()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::Int32Size(
+          this->next_operate_player_id());
+    }
+
+    // optional int32 my_available_operation_id = 8 [default = 0];
+    if (has_my_available_operation_id()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::Int32Size(
+          this->my_available_operation_id());
+    }
+
   }
+  // repeated int32 operating_cards = 9;
+  {
+    int data_size = 0;
+    for (int i = 0; i < this->operating_cards_size(); i++) {
+      data_size += ::google::protobuf::internal::WireFormatLite::
+        Int32Size(this->operating_cards(i));
+    }
+    total_size += 1 * this->operating_cards_size() + data_size;
+  }
+
   if (!unknown_fields().empty()) {
     total_size +=
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
@@ -468,6 +588,7 @@ void PlayCardMsgProtocol::MergeFrom(const ::google::protobuf::Message& from) {
 
 void PlayCardMsgProtocol::MergeFrom(const PlayCardMsgProtocol& from) {
   GOOGLE_CHECK_NE(&from, this);
+  operating_cards_.MergeFrom(from.operating_cards_);
   if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
     if (from.has_player_id()) {
       set_player_id(from.player_id());
@@ -486,6 +607,12 @@ void PlayCardMsgProtocol::MergeFrom(const PlayCardMsgProtocol& from) {
     }
     if (from.has_new_card()) {
       set_new_card(from.new_card());
+    }
+    if (from.has_next_operate_player_id()) {
+      set_next_operate_player_id(from.next_operate_player_id());
+    }
+    if (from.has_my_available_operation_id()) {
+      set_my_available_operation_id(from.my_available_operation_id());
     }
   }
   mutable_unknown_fields()->MergeFrom(from.unknown_fields());
@@ -517,6 +644,9 @@ void PlayCardMsgProtocol::Swap(PlayCardMsgProtocol* other) {
     std::swap(operation_id_, other->operation_id_);
     std::swap(discard_, other->discard_);
     std::swap(new_card_, other->new_card_);
+    std::swap(next_operate_player_id_, other->next_operate_player_id_);
+    std::swap(my_available_operation_id_, other->my_available_operation_id_);
+    operating_cards_.Swap(&other->operating_cards_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     _unknown_fields_.Swap(&other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);

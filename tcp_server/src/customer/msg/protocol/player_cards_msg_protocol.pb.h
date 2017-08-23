@@ -170,10 +170,22 @@ class PlayerCardsMsgProtocol : public ::google::protobuf::Message {
   inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
       mutable_waiting_cards();
 
-  // optional int32 invisible_hand_cards_num = 8 [default = 0];
+  // repeated int32 an_gang_cards = 8;
+  inline int an_gang_cards_size() const;
+  inline void clear_an_gang_cards();
+  static const int kAnGangCardsFieldNumber = 8;
+  inline ::google::protobuf::int32 an_gang_cards(int index) const;
+  inline void set_an_gang_cards(int index, ::google::protobuf::int32 value);
+  inline void add_an_gang_cards(::google::protobuf::int32 value);
+  inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+      an_gang_cards() const;
+  inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+      mutable_an_gang_cards();
+
+  // optional int32 invisible_hand_cards_num = 9 [default = 0];
   inline bool has_invisible_hand_cards_num() const;
   inline void clear_invisible_hand_cards_num();
-  static const int kInvisibleHandCardsNumFieldNumber = 8;
+  static const int kInvisibleHandCardsNumFieldNumber = 9;
   inline ::google::protobuf::int32 invisible_hand_cards_num() const;
   inline void set_invisible_hand_cards_num(::google::protobuf::int32 value);
 
@@ -191,11 +203,12 @@ class PlayerCardsMsgProtocol : public ::google::protobuf::Message {
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 > visible_hand_cards_;
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 > invisible_hand_cards_;
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 > flower_cards_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > season_cards_;
   ::google::protobuf::int32 player_id_;
   ::google::protobuf::int32 invisible_hand_cards_num_;
-  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > season_cards_;
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 > discards_;
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 > waiting_cards_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > an_gang_cards_;
   friend void  protobuf_AddDesc_player_5fcards_5fmsg_5fprotocol_2eproto();
   friend void protobuf_AssignDesc_player_5fcards_5fmsg_5fprotocol_2eproto();
   friend void protobuf_ShutdownFile_player_5fcards_5fmsg_5fprotocol_2eproto();
@@ -414,15 +427,45 @@ PlayerCardsMsgProtocol::mutable_waiting_cards() {
   return &waiting_cards_;
 }
 
-// optional int32 invisible_hand_cards_num = 8 [default = 0];
+// repeated int32 an_gang_cards = 8;
+inline int PlayerCardsMsgProtocol::an_gang_cards_size() const {
+  return an_gang_cards_.size();
+}
+inline void PlayerCardsMsgProtocol::clear_an_gang_cards() {
+  an_gang_cards_.Clear();
+}
+inline ::google::protobuf::int32 PlayerCardsMsgProtocol::an_gang_cards(int index) const {
+  // @@protoc_insertion_point(field_get:gamer.protocol.PlayerCardsMsgProtocol.an_gang_cards)
+  return an_gang_cards_.Get(index);
+}
+inline void PlayerCardsMsgProtocol::set_an_gang_cards(int index, ::google::protobuf::int32 value) {
+  an_gang_cards_.Set(index, value);
+  // @@protoc_insertion_point(field_set:gamer.protocol.PlayerCardsMsgProtocol.an_gang_cards)
+}
+inline void PlayerCardsMsgProtocol::add_an_gang_cards(::google::protobuf::int32 value) {
+  an_gang_cards_.Add(value);
+  // @@protoc_insertion_point(field_add:gamer.protocol.PlayerCardsMsgProtocol.an_gang_cards)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+PlayerCardsMsgProtocol::an_gang_cards() const {
+  // @@protoc_insertion_point(field_list:gamer.protocol.PlayerCardsMsgProtocol.an_gang_cards)
+  return an_gang_cards_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+PlayerCardsMsgProtocol::mutable_an_gang_cards() {
+  // @@protoc_insertion_point(field_mutable_list:gamer.protocol.PlayerCardsMsgProtocol.an_gang_cards)
+  return &an_gang_cards_;
+}
+
+// optional int32 invisible_hand_cards_num = 9 [default = 0];
 inline bool PlayerCardsMsgProtocol::has_invisible_hand_cards_num() const {
-  return (_has_bits_[0] & 0x00000080u) != 0;
+  return (_has_bits_[0] & 0x00000100u) != 0;
 }
 inline void PlayerCardsMsgProtocol::set_has_invisible_hand_cards_num() {
-  _has_bits_[0] |= 0x00000080u;
+  _has_bits_[0] |= 0x00000100u;
 }
 inline void PlayerCardsMsgProtocol::clear_has_invisible_hand_cards_num() {
-  _has_bits_[0] &= ~0x00000080u;
+  _has_bits_[0] &= ~0x00000100u;
 }
 inline void PlayerCardsMsgProtocol::clear_invisible_hand_cards_num() {
   invisible_hand_cards_num_ = 0;

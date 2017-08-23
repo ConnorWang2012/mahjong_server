@@ -38,28 +38,72 @@ class Player : public PlayerProtocol {
 
     virtual inline bool is_online() const override;
 
+    inline void set_cur_available_operation_id(int operation_id);
+
+    inline int cur_available_operation_id() const;
+
 	void SetHandCards(const protocol::PlayerCardsMsgProtocol& from);
 
 	bool InvisibleHandCardsContains(int card) const;
 
 	void UpdateCardForDiscard(int discard);
 
+    bool UpdateCardForChi(int card_of_chi, int card_match_chi_1, int card_match_chi_2);
+
+    void UpdateCardForPeng(int card_of_peng);
+
+    void UpdateCardForPengAndGang(int card_of_peng_gang);
+
+    void UpdateCardForMingGang(int card_of_ming_gang);
+
+    void UpdateCardForAnGang(int card_of_an_gang);
+
     void UpdateInvisibleHandCard(int new_card);
 
-    void GetInvisibleHandCards(int* cards, int& len) const;
+    int GetAvailableOperationID(int card) const;
 
-    int GetAvailableOperationID(int new_card) const;
+    bool IsHu(int card) const;
 
-    bool IsHu(int new_card) const;
+    bool IsZimo() const;
+
+    bool IsChi(int card) const;
+
+    bool IsChi(int card, int* cards_chi, int& cards_chi_len) const;
+
+    bool IsPeng(int card) const;
+
+    bool IsPengAndGang(int card) const;
+
+    bool IsMingGang(int card) const;
+
+    bool IsAnGang(int card) const;
+
+    bool IsBuhua(int card) const;
 
   private:
 	bool Init(int player_id);
 
+    void GetInvisibleHandCards(int* cards, int& len) const;
+
+    int CountInvisibleHandCards(int invisible_card) const;
+
+    int CountVisibleHandCards(int visible_card) const;
+
+    bool RemoveInvisibleHandCards(int card, int num);
+
     bool is_online_;
 	int player_id_;
+    int cur_available_operation_id_;
 	protocol::PlayerCardsMsgProtocol cards_msg_proto_;
-    int tag_;
 };
+
+inline void Player::set_cur_available_operation_id(int operation_id) {
+    cur_available_operation_id_ = operation_id;
+}
+
+inline int Player::cur_available_operation_id() const {
+    return cur_available_operation_id_;
+}
 
 } // namespace gamer
 
