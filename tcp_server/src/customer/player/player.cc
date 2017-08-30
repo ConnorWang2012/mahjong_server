@@ -113,10 +113,10 @@ bool Player::UpdateCardForChi(int card_of_chi, int card_match_chi_1, int card_ma
     this->RemoveInvisibleHandCards(card_match_chi_1, 1);
     this->RemoveInvisibleHandCards(card_match_chi_2, 1);
 
-    // add visible hand cards
-    cards_msg_proto_.add_visible_hand_cards(card_of_chi);
-    cards_msg_proto_.add_visible_hand_cards(card_match_chi_1);
-    cards_msg_proto_.add_visible_hand_cards(card_match_chi_2);
+    // add chi cards
+    cards_msg_proto_.add_chi_cards(card_of_chi);
+    cards_msg_proto_.add_chi_cards(card_match_chi_1);
+    cards_msg_proto_.add_chi_cards(card_match_chi_2);
 
     return true;
 }
@@ -128,8 +128,8 @@ void Player::UpdateCardForPeng(int card_of_peng) {
     }
 
     // add 3 peng cards to visible hand cards
-    auto size = cards_msg_proto_.visible_hand_cards_size();
-    cards_msg_proto_.mutable_visible_hand_cards()->Resize(size + 3, card_of_peng);
+    auto size = cards_msg_proto_.peng_cards_size();
+    cards_msg_proto_.mutable_peng_cards()->Resize(size + 3, card_of_peng);
 }
 
 void Player::UpdateCardForPengAndGang(int card_of_peng_gang) {
@@ -138,25 +138,26 @@ void Player::UpdateCardForPengAndGang(int card_of_peng_gang) {
         return;
     }
 
-    // add 4 peng cards to visible hand cards
-    auto size = cards_msg_proto_.visible_hand_cards_size();
-    cards_msg_proto_.mutable_visible_hand_cards()->Resize(size + 4, card_of_peng_gang);
+    // add 4 peng cards to ming gang cards
+    auto size = cards_msg_proto_.ming_gang_cards_size();
+    cards_msg_proto_.mutable_ming_gang_cards()->Resize(size + 4, card_of_peng_gang);
 }
 
 void Player::UpdateCardForMingGang(int card_of_ming_gang) {
     // 1.remove 4 cards(value equal card_of_ming_gang) from invisible hand cards 
-    // and add 4 cards(value equal card_of_ming_gang) to visible hand cards
+    // and add 4 cards(value equal card_of_ming_gang) to ming gang cards
     // or
-    // 2.remove 1 cards(value equal card_of_ming_gang) from invisible hand cards 
-    // and add 1 card(value equal card_of_ming_gang) to visible hand cards
+    // 2.remove 1 card(value equal card_of_ming_gang) from invisible hand cards    
+    // and remove 3 cards(value equal card_of_ming_gang) from peng cards 
+    // and add 4 cards(value equal card_of_ming_gang) to ming gang cards
 
     if (4 == this->CountInvisibleHandCards(card_of_ming_gang)) {
         this->RemoveInvisibleHandCards(card_of_ming_gang, 4);
-        auto size = cards_msg_proto_.visible_hand_cards_size();
-        cards_msg_proto_.mutable_visible_hand_cards()->Resize(size + 4, card_of_ming_gang);
-    } else if (3 == this->CountVisibleHandCards(card_of_ming_gang)) {
+        auto size = cards_msg_proto_.ming_gang_cards_size();
+        cards_msg_proto_.mutable_ming_gang_cards()->Resize(size + 4, card_of_ming_gang);
+    } else if (this->PengCardsContains(card_of_ming_gang)) {
         this->RemoveInvisibleHandCards(card_of_ming_gang, 1);
-        cards_msg_proto_.mutable_visible_hand_cards()->Add(card_of_ming_gang);
+        cards_msg_proto_.mutable_ming_gang_cards()->Add(card_of_ming_gang);
     }
 }
 
@@ -221,7 +222,8 @@ bool Player::IsZimo() const {
 }
 
 bool Player::IsChi(int card) const {
-    if (card < CardConstants::BAMBOO_1 || card > CardConstants::FLOWER_BAMBOO) {
+    if (card < CardConstants::BAMBOO_1 ||
+        card > CardConstants::DOT_9) {
         // TODO : error log
         return false;
     }
@@ -248,10 +250,38 @@ bool Player::IsChi(int card) const {
         else if (cardtmp == card_next2) {
             has_card_next2 = true;
         }
+    }
 
-        if ((has_card_pre && has_card_pre2) ||
-            (has_card_pre && has_card_next) ||
-            (has_card_next && has_card_next2)) {
+    if (card <= CardConstants::BAMBOO_9) {
+        if (has_card_pre && has_card_pre2) {
+            return true;
+        }
+        if (has_card_pre && has_card_next && card_next <= CardConstants::BAMBOO_9) {
+            return true;
+        }
+        if (has_card_next && has_card_next2 && card_next2 <= CardConstants::BAMBOO_9) {
+            return true;
+        }
+    } else if (card <= CardConstants::CHARACTER_9) {
+        if (has_card_pre && has_card_pre2 && card_pre2 >= CardConstants::CHARACTER_1) {
+            return true;
+        }
+        if (has_card_pre && has_card_next && card_pre >= CardConstants::CHARACTER_1 &&
+            card_next <= CardConstants::CHARACTER_9) {
+            return true;
+        }
+        if (has_card_next && has_card_next2 && card_next2 <= CardConstants::CHARACTER_9) {
+            return true;
+        }
+    } else {
+        if (has_card_pre && has_card_pre2 && card_pre2 >= CardConstants::DOT_1) {
+            return true;
+        }
+        if (has_card_pre && has_card_next && card_pre >= CardConstants::DOT_1 &&
+            card_next <= CardConstants::DOT_9) {
+            return true;
+        }
+        if (has_card_next && has_card_next2 && card_next2 <= CardConstants::DOT_9) {
             return true;
         }
     }
@@ -261,19 +291,19 @@ bool Player::IsChi(int card) const {
 
 bool Player::IsChi(int card, int* cards_chi, int& cards_chi_len) const {
     if (card < CardConstants::BAMBOO_1 || 
-        card > CardConstants::FLOWER_BAMBOO ||
+        card > CardConstants::DOT_9 ||
         nullptr == cards_chi) {
         // TODO : error log
         return false;
     }
 
-    auto card_pre = card - 1;
-    auto card_pre2 = card - 2;
-    auto card_next = card + 1;
-    auto card_next2 = card + 2;
-    auto has_card_pre = false;
-    auto has_card_pre2 = false;
-    auto has_card_next = false;
+    auto card_pre       = card - 1;
+    auto card_pre2      = card - 2;
+    auto card_next      = card + 1;
+    auto card_next2     = card + 2;
+    auto has_card_pre   = false;
+    auto has_card_pre2  = false;
+    auto has_card_next  = false;
     auto has_card_next2 = false;
     for (int i = 0; i < cards_msg_proto_.invisible_hand_cards_size(); i++) {
         auto cardtmp = cards_msg_proto_.invisible_hand_cards(i);
@@ -289,24 +319,66 @@ bool Player::IsChi(int card, int* cards_chi, int& cards_chi_len) const {
     }
 
     auto len = 0;
-    if (has_card_pre && has_card_pre2) {
-        cards_chi[0] = card_pre2;
-        cards_chi[1] = card_pre;
-        cards_chi[2] = card;
-        len = 3;
-    }
-    if (has_card_pre && has_card_next) {
-        cards_chi[len] = card_pre;
-        cards_chi[len + 1] = card;
-        cards_chi[len + 2] = card_next;
-        len += 3;
-    }
-    if (has_card_next && has_card_next2) {
-        cards_chi[len] = card;
-        cards_chi[len + 1] = card_next;
-        cards_chi[len + 2] = card_next2;
-        len += 3;
-    }
+    if (card <= CardConstants::BAMBOO_9) {
+        if (has_card_pre && has_card_pre2) {
+            cards_chi[0] = card_pre2;
+            cards_chi[1] = card_pre;
+            cards_chi[2] = card;
+            len = 3;
+        }
+        if (has_card_pre && has_card_next && card_next <= CardConstants::BAMBOO_9) {
+            cards_chi[len] = card_pre;
+            cards_chi[len + 1] = card;
+            cards_chi[len + 2] = card_next;
+            len += 3;
+        }
+        if (has_card_next && has_card_next2 && card_next2 <= CardConstants::BAMBOO_9) {
+            cards_chi[len] = card;
+            cards_chi[len + 1] = card_next;
+            cards_chi[len + 2] = card_next2;
+            len += 3;
+        }
+    } else if (card <= CardConstants::CHARACTER_9) {
+        if (has_card_pre && has_card_pre2 && card_pre2 >= CardConstants::CHARACTER_1) {
+            cards_chi[0] = card_pre2;
+            cards_chi[1] = card_pre;
+            cards_chi[2] = card;
+            len = 3;
+        }
+        if (has_card_pre && has_card_next && card_pre >= CardConstants::CHARACTER_1 &&
+            card_next <= CardConstants::CHARACTER_9) {
+            cards_chi[len] = card_pre;
+            cards_chi[len + 1] = card;
+            cards_chi[len + 2] = card_next;
+            len += 3;
+        }
+        if (has_card_next && has_card_next2 && card_next2 <= CardConstants::CHARACTER_9) {
+            cards_chi[len] = card;
+            cards_chi[len + 1] = card_next;
+            cards_chi[len + 2] = card_next2;
+            len += 3;
+        }
+    } else {
+        if (has_card_pre && has_card_pre2 && card_pre2 >= CardConstants::DOT_1) {
+            cards_chi[0] = card_pre2;
+            cards_chi[1] = card_pre;
+            cards_chi[2] = card;
+            len = 3;
+        }
+        if (has_card_pre && has_card_next && card_pre >= CardConstants::DOT_1 && 
+            card_next <= CardConstants::DOT_9) {
+            cards_chi[len] = card_pre;
+            cards_chi[len + 1] = card;
+            cards_chi[len + 2] = card_next;
+            len += 3;
+        }
+        if (has_card_next && has_card_next2 && card_next2 <= CardConstants::DOT_9) {
+            cards_chi[len] = card;
+            cards_chi[len + 1] = card_next;
+            cards_chi[len + 2] = card_next2;
+            len += 3;
+        }
+    } 
 
     if (len > 0) {
         cards_chi_len = len;
@@ -321,11 +393,16 @@ bool Player::IsPeng(int card) const {
 }
 
 bool Player::IsPengAndGang(int card) const {
-    return this->CountInvisibleHandCards(card) == 3;
+    return 3 == this->CountInvisibleHandCards(card);
 }
 
 bool Player::IsMingGang(int card) const {
-    return 4 == this->CountInvisibleHandCards(card) || 3 == this->CountVisibleHandCards(card);
+    if (4 == this->CountInvisibleHandCards(card)) {
+        return true;
+    } else if (this->PengCardsContains(card)) {
+        return true;
+    }
+    return false;
 }
 
 bool Player::IsAnGang(int card) const {
@@ -363,14 +440,13 @@ int Player::CountInvisibleHandCards(int invisible_card) const {
     return count;
 }
 
-int Player::CountVisibleHandCards(int visible_card) const {
-    auto count = 0;
-    for (int i = 0; i < cards_msg_proto_.visible_hand_cards_size(); i++) {
-        if (cards_msg_proto_.visible_hand_cards(i) == visible_card) {
-            count++;
+bool Player::PengCardsContains(int card) const {
+    for (int i = 0; i < cards_msg_proto_.peng_cards_size(); i++) {
+        if (cards_msg_proto_.peng_cards(i) == card) {
+            return true;
         }
     }
-    return count;
+    return false;
 }
 
 bool Player::RemoveInvisibleHandCards(int card, int num) {
@@ -395,7 +471,6 @@ bool Player::RemoveInvisibleHandCards(int card, int num) {
             for (auto j = 0; j < num; j++) {
                 cards->RemoveLast();
             }
-
             return true;
         }
     }

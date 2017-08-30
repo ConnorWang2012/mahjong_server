@@ -453,7 +453,8 @@ void MsgManager::DealWithStartGameMsg(const ClientMsg& msg, bufferevent* bev) {
         10, 11, 12, 13, 14, 15, 16, 17 }; // TODO
         //34, 35, 36, 37, 38, 39, 40, 41 };
 	auto vec = std::vector<int>(buf, buf + CardConstants::TOTAL_CARDS_NUM);
-	//gamer::ChessCard::Shuffle(vec); // TODO
+    //auto vec = std::vector<int>(buf, buf + sizeof(buf));
+	gamer::ChessCard::Shuffle(vec); // TODO
 
 	protocol::RoomMsgProtocol proto_server;
 	// room common
@@ -479,15 +480,15 @@ void MsgManager::DealWithStartGameMsg(const ClientMsg& msg, bufferevent* bev) {
 
 	// room player cards
 	auto players = room->players();
-	//auto card_index = remain_card_num;
-    auto card_index = 0; // TODO
+	auto card_index = remain_card_num;
+    //auto card_index = 0; // TODO
 	for (auto& player : *players) {
 		auto player_cards = proto_server.add_player_cards();
 		auto player_id = player->player_id();
 		player_cards->set_player_id(player_id); 
-        player_cards->set_invisible_hand_cards_num(CardConstants::ONE_PLAYER_CARD_NUM);
 		auto card_num = (player_id == room_owner_id) ? (CardConstants::ONE_PLAYER_CARD_NUM2) :
 			CardConstants::ONE_PLAYER_CARD_NUM;
+        player_cards->set_invisible_hand_cards_num(card_num);
 		for (auto j = 0; j < card_num; j++) {
 			auto card = vec.at(card_index);
 			if (card >= CardConstants::SEASON_SPRING &&

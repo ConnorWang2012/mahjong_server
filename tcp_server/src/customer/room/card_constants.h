@@ -22,24 +22,12 @@ enum CardConstants {
     ONE_PLAYER_CARD_NUM           = 13,  // one player card num
     ONE_PLAYER_CARD_NUM2          = 14,  // one player card num, including one new card
 
-    // card value
-    CARD_VALUE_BAMBOO_1           = 11,  // bamboo 1
-    CARD_VALUE_BAMBOO_9           = 19,  // bamboo 9
-    CARD_VALUE_CHARACTER_1        = 21,  // character 1
-    CARD_VALUE_CHARACTER_9        = 29,  // character 9
-    CARD_VALUE_DOT_1              = 31,  // dot 1
-    CARD_VALUE_DOT_9              = 39,  // dot 9
-    CARD_VALUE_WIND_OR_DRAGON_1   = 41,  // east, south, west, north, dragon green, dragon red, dragon white
-    CARD_VALUE_WIND_OR_DRAGON_4   = 44,
-    CARD_VALUE_WIND_OR_DRAGON_7   = 47,  
-    CARD_VALUE_SEASON_OR_FLOWER_1 = 51,  // season : spring, summer, autumn, winter, flower : plum, orchid, chrysanthemum, bamboo
-    CARD_VALUE_SEASON_OR_FLOWER_4 = 54,
-    CARD_VALUE_SEASON_OR_FLOWER_8 = 58, 
+    INVALID_PLAYER_ID   = 0,
 
     // card index
-    INVALID_CARD_VALUE = -1,
-    BAMBOO_1            = 0,
-    BAMBOO_2            = 1,
+    INVALID_CARD_VALUE  = -1,
+    BAMBOO_1            = 0,  // bamboo
+    BAMBOO_2            = 1,  
     BAMBOO_3            = 2,
     BAMBOO_4            = 3,
     BAMBOO_5            = 4,
@@ -47,7 +35,7 @@ enum CardConstants {
     BAMBOO_7            = 6,
     BAMBOO_8            = 7,
     BAMBOO_9            = 8,
-    CHARACTER_1         = 9,
+    CHARACTER_1         = 9,  // character
     CHARACTER_2         = 10,
     CHARACTER_3         = 11,
     CHARACTER_4         = 12,
@@ -56,7 +44,7 @@ enum CardConstants {
     CHARACTER_7         = 15,
     CHARACTER_8         = 16,
     CHARACTER_9         = 17,
-    DOT_1               = 18,
+    DOT_1               = 18,  // dot
     DOT_2               = 19,
     DOT_3               = 20,
     DOT_4               = 21,
@@ -65,14 +53,14 @@ enum CardConstants {
     DOT_7               = 24,
     DOT_8               = 25,
     DOT_9               = 26,
-    WIND_EAST           = 27, 
+    WIND_EAST           = 27,   // east, south, west, north, dragon green, dragon red, dragon white
     WIND_SOUTH          = 28, 
     WIND_WEST           = 29, 
     WIND_NORTH          = 30, 
     DRAGON_GREEN        = 31, 
     DRAGON_RED          = 32, 
     DRAGON_WHITE        = 33,
-    SEASON_SPRING       = 34,
+    SEASON_SPRING       = 34,  // spring, summer, autumn, winter, plum, orchid, chrysanthemum, bamboo
     SEASON_SUMMER       = 35,
     SEASON_AUTUMN       = 36,
     SEASON_WINTER       = 37,

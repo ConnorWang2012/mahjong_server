@@ -60,7 +60,10 @@ class Player : public PlayerProtocol {
 
     void UpdateInvisibleHandCard(int new_card);
 
+    // must invoke after update invisible cards
     int GetAvailableOperationID(int card) const;
+
+    int CountInvisibleHandCards(int invisible_card) const;
 
     bool IsHu(int card) const;
 
@@ -85,9 +88,7 @@ class Player : public PlayerProtocol {
 
     void GetInvisibleHandCards(int* cards, int& len) const;
 
-    int CountInvisibleHandCards(int invisible_card) const;
-
-    int CountVisibleHandCards(int visible_card) const;
+    bool PengCardsContains(int card) const;
 
     bool RemoveInvisibleHandCards(int card, int num);
 

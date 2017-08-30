@@ -35,16 +35,18 @@ void protobuf_AssignDesc_player_5fcards_5fmsg_5fprotocol_2eproto() {
       "player_cards_msg_protocol.proto");
   GOOGLE_CHECK(file != NULL);
   PlayerCardsMsgProtocol_descriptor_ = file->message_type(0);
-  static const int PlayerCardsMsgProtocol_offsets_[9] = {
+  static const int PlayerCardsMsgProtocol_offsets_[11] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayerCardsMsgProtocol, player_id_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayerCardsMsgProtocol, visible_hand_cards_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayerCardsMsgProtocol, invisible_hand_cards_num_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayerCardsMsgProtocol, invisible_hand_cards_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayerCardsMsgProtocol, flower_cards_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayerCardsMsgProtocol, season_cards_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayerCardsMsgProtocol, peng_cards_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayerCardsMsgProtocol, chi_cards_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayerCardsMsgProtocol, ming_gang_cards_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayerCardsMsgProtocol, an_gang_cards_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayerCardsMsgProtocol, discards_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayerCardsMsgProtocol, waiting_cards_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayerCardsMsgProtocol, an_gang_cards_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayerCardsMsgProtocol, invisible_hand_cards_num_),
   };
   PlayerCardsMsgProtocol_reflection_ =
     new ::google::protobuf::internal::GeneratedMessageReflection(
@@ -88,13 +90,14 @@ void protobuf_AddDesc_player_5fcards_5fmsg_5fprotocol_2eproto() {
 
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
     "\n\037player_cards_msg_protocol.proto\022\016gamer"
-    ".protocol\"\371\001\n\026PlayerCardsMsgProtocol\022\024\n\t"
-    "player_id\030\001 \001(\005:\0010\022\032\n\022visible_hand_cards"
-    "\030\002 \003(\005\022\034\n\024invisible_hand_cards\030\003 \003(\005\022\024\n\014"
-    "flower_cards\030\004 \003(\005\022\024\n\014season_cards\030\005 \003(\005"
-    "\022\020\n\010discards\030\006 \003(\005\022\025\n\rwaiting_cards\030\007 \003("
-    "\005\022\025\n\ran_gang_cards\030\010 \003(\005\022#\n\030invisible_ha"
-    "nd_cards_num\030\t \001(\005:\0010", 301);
+    ".protocol\"\235\002\n\026PlayerCardsMsgProtocol\022\024\n\t"
+    "player_id\030\001 \001(\005:\0010\022#\n\030invisible_hand_car"
+    "ds_num\030\002 \001(\005:\0010\022\034\n\024invisible_hand_cards\030"
+    "\003 \003(\005\022\024\n\014flower_cards\030\004 \003(\005\022\024\n\014season_ca"
+    "rds\030\005 \003(\005\022\022\n\npeng_cards\030\006 \003(\005\022\021\n\tchi_car"
+    "ds\030\007 \003(\005\022\027\n\017ming_gang_cards\030\010 \003(\005\022\025\n\ran_"
+    "gang_cards\030\t \003(\005\022\020\n\010discards\030\n \003(\005\022\025\n\rwa"
+    "iting_cards\030\013 \003(\005", 337);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "player_cards_msg_protocol.proto", &protobuf_RegisterTypes);
   PlayerCardsMsgProtocol::default_instance_ = new PlayerCardsMsgProtocol();
@@ -113,14 +116,16 @@ struct StaticDescriptorInitializer_player_5fcards_5fmsg_5fprotocol_2eproto {
 
 #ifndef _MSC_VER
 const int PlayerCardsMsgProtocol::kPlayerIdFieldNumber;
-const int PlayerCardsMsgProtocol::kVisibleHandCardsFieldNumber;
+const int PlayerCardsMsgProtocol::kInvisibleHandCardsNumFieldNumber;
 const int PlayerCardsMsgProtocol::kInvisibleHandCardsFieldNumber;
 const int PlayerCardsMsgProtocol::kFlowerCardsFieldNumber;
 const int PlayerCardsMsgProtocol::kSeasonCardsFieldNumber;
+const int PlayerCardsMsgProtocol::kPengCardsFieldNumber;
+const int PlayerCardsMsgProtocol::kChiCardsFieldNumber;
+const int PlayerCardsMsgProtocol::kMingGangCardsFieldNumber;
+const int PlayerCardsMsgProtocol::kAnGangCardsFieldNumber;
 const int PlayerCardsMsgProtocol::kDiscardsFieldNumber;
 const int PlayerCardsMsgProtocol::kWaitingCardsFieldNumber;
-const int PlayerCardsMsgProtocol::kAnGangCardsFieldNumber;
-const int PlayerCardsMsgProtocol::kInvisibleHandCardsNumFieldNumber;
 #endif  // !_MSC_VER
 
 PlayerCardsMsgProtocol::PlayerCardsMsgProtocol()
@@ -178,15 +183,30 @@ PlayerCardsMsgProtocol* PlayerCardsMsgProtocol::New() const {
 }
 
 void PlayerCardsMsgProtocol::Clear() {
-  player_id_ = 0;
-  invisible_hand_cards_num_ = 0;
-  visible_hand_cards_.Clear();
+#define OFFSET_OF_FIELD_(f) (reinterpret_cast<char*>(      \
+  &reinterpret_cast<PlayerCardsMsgProtocol*>(16)->f) - \
+   reinterpret_cast<char*>(16))
+
+#define ZR_(first, last) do {                              \
+    size_t f = OFFSET_OF_FIELD_(first);                    \
+    size_t n = OFFSET_OF_FIELD_(last) - f + sizeof(last);  \
+    ::memset(&first, 0, n);                                \
+  } while (0)
+
+  ZR_(player_id_, invisible_hand_cards_num_);
+
+#undef OFFSET_OF_FIELD_
+#undef ZR_
+
   invisible_hand_cards_.Clear();
   flower_cards_.Clear();
   season_cards_.Clear();
+  peng_cards_.Clear();
+  chi_cards_.Clear();
+  ming_gang_cards_.Clear();
+  an_gang_cards_.Clear();
   discards_.Clear();
   waiting_cards_.Clear();
-  an_gang_cards_.Clear();
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
   mutable_unknown_fields()->Clear();
 }
@@ -211,25 +231,21 @@ bool PlayerCardsMsgProtocol::MergePartialFromCodedStream(
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(16)) goto parse_visible_hand_cards;
+        if (input->ExpectTag(16)) goto parse_invisible_hand_cards_num;
         break;
       }
 
-      // repeated int32 visible_hand_cards = 2;
+      // optional int32 invisible_hand_cards_num = 2 [default = 0];
       case 2: {
         if (tag == 16) {
-         parse_visible_hand_cards:
-          DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitive<
+         parse_invisible_hand_cards_num:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 1, 16, input, this->mutable_visible_hand_cards())));
-        } else if (tag == 18) {
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitiveNoInline<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 input, this->mutable_visible_hand_cards())));
+                 input, &invisible_hand_cards_num_)));
+          set_has_invisible_hand_cards_num();
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(16)) goto parse_visible_hand_cards;
         if (input->ExpectTag(24)) goto parse_invisible_hand_cards;
         break;
       }
@@ -287,78 +303,120 @@ bool PlayerCardsMsgProtocol::MergePartialFromCodedStream(
           goto handle_unusual;
         }
         if (input->ExpectTag(40)) goto parse_season_cards;
-        if (input->ExpectTag(48)) goto parse_discards;
+        if (input->ExpectTag(48)) goto parse_peng_cards;
         break;
       }
 
-      // repeated int32 discards = 6;
+      // repeated int32 peng_cards = 6;
       case 6: {
         if (tag == 48) {
-         parse_discards:
+         parse_peng_cards:
           DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitive<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 1, 48, input, this->mutable_discards())));
+                 1, 48, input, this->mutable_peng_cards())));
         } else if (tag == 50) {
           DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitiveNoInline<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 input, this->mutable_discards())));
+                 input, this->mutable_peng_cards())));
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(48)) goto parse_discards;
-        if (input->ExpectTag(56)) goto parse_waiting_cards;
+        if (input->ExpectTag(48)) goto parse_peng_cards;
+        if (input->ExpectTag(56)) goto parse_chi_cards;
         break;
       }
 
-      // repeated int32 waiting_cards = 7;
+      // repeated int32 chi_cards = 7;
       case 7: {
         if (tag == 56) {
-         parse_waiting_cards:
+         parse_chi_cards:
           DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitive<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 1, 56, input, this->mutable_waiting_cards())));
+                 1, 56, input, this->mutable_chi_cards())));
         } else if (tag == 58) {
           DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitiveNoInline<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 input, this->mutable_waiting_cards())));
+                 input, this->mutable_chi_cards())));
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(56)) goto parse_waiting_cards;
-        if (input->ExpectTag(64)) goto parse_an_gang_cards;
+        if (input->ExpectTag(56)) goto parse_chi_cards;
+        if (input->ExpectTag(64)) goto parse_ming_gang_cards;
         break;
       }
 
-      // repeated int32 an_gang_cards = 8;
+      // repeated int32 ming_gang_cards = 8;
       case 8: {
         if (tag == 64) {
+         parse_ming_gang_cards:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 1, 64, input, this->mutable_ming_gang_cards())));
+        } else if (tag == 66) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitiveNoInline<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, this->mutable_ming_gang_cards())));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(64)) goto parse_ming_gang_cards;
+        if (input->ExpectTag(72)) goto parse_an_gang_cards;
+        break;
+      }
+
+      // repeated int32 an_gang_cards = 9;
+      case 9: {
+        if (tag == 72) {
          parse_an_gang_cards:
           DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitive<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 1, 64, input, this->mutable_an_gang_cards())));
-        } else if (tag == 66) {
+                 1, 72, input, this->mutable_an_gang_cards())));
+        } else if (tag == 74) {
           DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitiveNoInline<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
                  input, this->mutable_an_gang_cards())));
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(64)) goto parse_an_gang_cards;
-        if (input->ExpectTag(72)) goto parse_invisible_hand_cards_num;
+        if (input->ExpectTag(72)) goto parse_an_gang_cards;
+        if (input->ExpectTag(80)) goto parse_discards;
         break;
       }
 
-      // optional int32 invisible_hand_cards_num = 9 [default = 0];
-      case 9: {
-        if (tag == 72) {
-         parse_invisible_hand_cards_num:
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+      // repeated int32 discards = 10;
+      case 10: {
+        if (tag == 80) {
+         parse_discards:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitive<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 input, &invisible_hand_cards_num_)));
-          set_has_invisible_hand_cards_num();
+                 1, 80, input, this->mutable_discards())));
+        } else if (tag == 82) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitiveNoInline<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, this->mutable_discards())));
         } else {
           goto handle_unusual;
         }
+        if (input->ExpectTag(80)) goto parse_discards;
+        if (input->ExpectTag(88)) goto parse_waiting_cards;
+        break;
+      }
+
+      // repeated int32 waiting_cards = 11;
+      case 11: {
+        if (tag == 88) {
+         parse_waiting_cards:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 1, 88, input, this->mutable_waiting_cards())));
+        } else if (tag == 90) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitiveNoInline<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, this->mutable_waiting_cards())));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(88)) goto parse_waiting_cards;
         if (input->ExpectAtEnd()) goto success;
         break;
       }
@@ -393,10 +451,9 @@ void PlayerCardsMsgProtocol::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt32(1, this->player_id(), output);
   }
 
-  // repeated int32 visible_hand_cards = 2;
-  for (int i = 0; i < this->visible_hand_cards_size(); i++) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(
-      2, this->visible_hand_cards(i), output);
+  // optional int32 invisible_hand_cards_num = 2 [default = 0];
+  if (has_invisible_hand_cards_num()) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(2, this->invisible_hand_cards_num(), output);
   }
 
   // repeated int32 invisible_hand_cards = 3;
@@ -417,27 +474,40 @@ void PlayerCardsMsgProtocol::SerializeWithCachedSizes(
       5, this->season_cards(i), output);
   }
 
-  // repeated int32 discards = 6;
-  for (int i = 0; i < this->discards_size(); i++) {
+  // repeated int32 peng_cards = 6;
+  for (int i = 0; i < this->peng_cards_size(); i++) {
     ::google::protobuf::internal::WireFormatLite::WriteInt32(
-      6, this->discards(i), output);
+      6, this->peng_cards(i), output);
   }
 
-  // repeated int32 waiting_cards = 7;
-  for (int i = 0; i < this->waiting_cards_size(); i++) {
+  // repeated int32 chi_cards = 7;
+  for (int i = 0; i < this->chi_cards_size(); i++) {
     ::google::protobuf::internal::WireFormatLite::WriteInt32(
-      7, this->waiting_cards(i), output);
+      7, this->chi_cards(i), output);
   }
 
-  // repeated int32 an_gang_cards = 8;
+  // repeated int32 ming_gang_cards = 8;
+  for (int i = 0; i < this->ming_gang_cards_size(); i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(
+      8, this->ming_gang_cards(i), output);
+  }
+
+  // repeated int32 an_gang_cards = 9;
   for (int i = 0; i < this->an_gang_cards_size(); i++) {
     ::google::protobuf::internal::WireFormatLite::WriteInt32(
-      8, this->an_gang_cards(i), output);
+      9, this->an_gang_cards(i), output);
   }
 
-  // optional int32 invisible_hand_cards_num = 9 [default = 0];
-  if (has_invisible_hand_cards_num()) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(9, this->invisible_hand_cards_num(), output);
+  // repeated int32 discards = 10;
+  for (int i = 0; i < this->discards_size(); i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(
+      10, this->discards(i), output);
+  }
+
+  // repeated int32 waiting_cards = 11;
+  for (int i = 0; i < this->waiting_cards_size(); i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(
+      11, this->waiting_cards(i), output);
   }
 
   if (!unknown_fields().empty()) {
@@ -455,10 +525,9 @@ void PlayerCardsMsgProtocol::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(1, this->player_id(), target);
   }
 
-  // repeated int32 visible_hand_cards = 2;
-  for (int i = 0; i < this->visible_hand_cards_size(); i++) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      WriteInt32ToArray(2, this->visible_hand_cards(i), target);
+  // optional int32 invisible_hand_cards_num = 2 [default = 0];
+  if (has_invisible_hand_cards_num()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(2, this->invisible_hand_cards_num(), target);
   }
 
   // repeated int32 invisible_hand_cards = 3;
@@ -479,27 +548,40 @@ void PlayerCardsMsgProtocol::SerializeWithCachedSizes(
       WriteInt32ToArray(5, this->season_cards(i), target);
   }
 
-  // repeated int32 discards = 6;
-  for (int i = 0; i < this->discards_size(); i++) {
+  // repeated int32 peng_cards = 6;
+  for (int i = 0; i < this->peng_cards_size(); i++) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteInt32ToArray(6, this->discards(i), target);
+      WriteInt32ToArray(6, this->peng_cards(i), target);
   }
 
-  // repeated int32 waiting_cards = 7;
-  for (int i = 0; i < this->waiting_cards_size(); i++) {
+  // repeated int32 chi_cards = 7;
+  for (int i = 0; i < this->chi_cards_size(); i++) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteInt32ToArray(7, this->waiting_cards(i), target);
+      WriteInt32ToArray(7, this->chi_cards(i), target);
   }
 
-  // repeated int32 an_gang_cards = 8;
+  // repeated int32 ming_gang_cards = 8;
+  for (int i = 0; i < this->ming_gang_cards_size(); i++) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      WriteInt32ToArray(8, this->ming_gang_cards(i), target);
+  }
+
+  // repeated int32 an_gang_cards = 9;
   for (int i = 0; i < this->an_gang_cards_size(); i++) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteInt32ToArray(8, this->an_gang_cards(i), target);
+      WriteInt32ToArray(9, this->an_gang_cards(i), target);
   }
 
-  // optional int32 invisible_hand_cards_num = 9 [default = 0];
-  if (has_invisible_hand_cards_num()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(9, this->invisible_hand_cards_num(), target);
+  // repeated int32 discards = 10;
+  for (int i = 0; i < this->discards_size(); i++) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      WriteInt32ToArray(10, this->discards(i), target);
+  }
+
+  // repeated int32 waiting_cards = 11;
+  for (int i = 0; i < this->waiting_cards_size(); i++) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      WriteInt32ToArray(11, this->waiting_cards(i), target);
   }
 
   if (!unknown_fields().empty()) {
@@ -521,9 +603,7 @@ int PlayerCardsMsgProtocol::ByteSize() const {
           this->player_id());
     }
 
-  }
-  if (_has_bits_[8 / 32] & (0xffu << (8 % 32))) {
-    // optional int32 invisible_hand_cards_num = 9 [default = 0];
+    // optional int32 invisible_hand_cards_num = 2 [default = 0];
     if (has_invisible_hand_cards_num()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::Int32Size(
@@ -531,16 +611,6 @@ int PlayerCardsMsgProtocol::ByteSize() const {
     }
 
   }
-  // repeated int32 visible_hand_cards = 2;
-  {
-    int data_size = 0;
-    for (int i = 0; i < this->visible_hand_cards_size(); i++) {
-      data_size += ::google::protobuf::internal::WireFormatLite::
-        Int32Size(this->visible_hand_cards(i));
-    }
-    total_size += 1 * this->visible_hand_cards_size() + data_size;
-  }
-
   // repeated int32 invisible_hand_cards = 3;
   {
     int data_size = 0;
@@ -571,7 +641,47 @@ int PlayerCardsMsgProtocol::ByteSize() const {
     total_size += 1 * this->season_cards_size() + data_size;
   }
 
-  // repeated int32 discards = 6;
+  // repeated int32 peng_cards = 6;
+  {
+    int data_size = 0;
+    for (int i = 0; i < this->peng_cards_size(); i++) {
+      data_size += ::google::protobuf::internal::WireFormatLite::
+        Int32Size(this->peng_cards(i));
+    }
+    total_size += 1 * this->peng_cards_size() + data_size;
+  }
+
+  // repeated int32 chi_cards = 7;
+  {
+    int data_size = 0;
+    for (int i = 0; i < this->chi_cards_size(); i++) {
+      data_size += ::google::protobuf::internal::WireFormatLite::
+        Int32Size(this->chi_cards(i));
+    }
+    total_size += 1 * this->chi_cards_size() + data_size;
+  }
+
+  // repeated int32 ming_gang_cards = 8;
+  {
+    int data_size = 0;
+    for (int i = 0; i < this->ming_gang_cards_size(); i++) {
+      data_size += ::google::protobuf::internal::WireFormatLite::
+        Int32Size(this->ming_gang_cards(i));
+    }
+    total_size += 1 * this->ming_gang_cards_size() + data_size;
+  }
+
+  // repeated int32 an_gang_cards = 9;
+  {
+    int data_size = 0;
+    for (int i = 0; i < this->an_gang_cards_size(); i++) {
+      data_size += ::google::protobuf::internal::WireFormatLite::
+        Int32Size(this->an_gang_cards(i));
+    }
+    total_size += 1 * this->an_gang_cards_size() + data_size;
+  }
+
+  // repeated int32 discards = 10;
   {
     int data_size = 0;
     for (int i = 0; i < this->discards_size(); i++) {
@@ -581,7 +691,7 @@ int PlayerCardsMsgProtocol::ByteSize() const {
     total_size += 1 * this->discards_size() + data_size;
   }
 
-  // repeated int32 waiting_cards = 7;
+  // repeated int32 waiting_cards = 11;
   {
     int data_size = 0;
     for (int i = 0; i < this->waiting_cards_size(); i++) {
@@ -589,16 +699,6 @@ int PlayerCardsMsgProtocol::ByteSize() const {
         Int32Size(this->waiting_cards(i));
     }
     total_size += 1 * this->waiting_cards_size() + data_size;
-  }
-
-  // repeated int32 an_gang_cards = 8;
-  {
-    int data_size = 0;
-    for (int i = 0; i < this->an_gang_cards_size(); i++) {
-      data_size += ::google::protobuf::internal::WireFormatLite::
-        Int32Size(this->an_gang_cards(i));
-    }
-    total_size += 1 * this->an_gang_cards_size() + data_size;
   }
 
   if (!unknown_fields().empty()) {
@@ -626,19 +726,19 @@ void PlayerCardsMsgProtocol::MergeFrom(const ::google::protobuf::Message& from) 
 
 void PlayerCardsMsgProtocol::MergeFrom(const PlayerCardsMsgProtocol& from) {
   GOOGLE_CHECK_NE(&from, this);
-  visible_hand_cards_.MergeFrom(from.visible_hand_cards_);
   invisible_hand_cards_.MergeFrom(from.invisible_hand_cards_);
   flower_cards_.MergeFrom(from.flower_cards_);
   season_cards_.MergeFrom(from.season_cards_);
+  peng_cards_.MergeFrom(from.peng_cards_);
+  chi_cards_.MergeFrom(from.chi_cards_);
+  ming_gang_cards_.MergeFrom(from.ming_gang_cards_);
+  an_gang_cards_.MergeFrom(from.an_gang_cards_);
   discards_.MergeFrom(from.discards_);
   waiting_cards_.MergeFrom(from.waiting_cards_);
-  an_gang_cards_.MergeFrom(from.an_gang_cards_);
   if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
     if (from.has_player_id()) {
       set_player_id(from.player_id());
     }
-  }
-  if (from._has_bits_[8 / 32] & (0xffu << (8 % 32))) {
     if (from.has_invisible_hand_cards_num()) {
       set_invisible_hand_cards_num(from.invisible_hand_cards_num());
     }
@@ -666,14 +766,16 @@ bool PlayerCardsMsgProtocol::IsInitialized() const {
 void PlayerCardsMsgProtocol::Swap(PlayerCardsMsgProtocol* other) {
   if (other != this) {
     std::swap(player_id_, other->player_id_);
-    visible_hand_cards_.Swap(&other->visible_hand_cards_);
+    std::swap(invisible_hand_cards_num_, other->invisible_hand_cards_num_);
     invisible_hand_cards_.Swap(&other->invisible_hand_cards_);
     flower_cards_.Swap(&other->flower_cards_);
     season_cards_.Swap(&other->season_cards_);
+    peng_cards_.Swap(&other->peng_cards_);
+    chi_cards_.Swap(&other->chi_cards_);
+    ming_gang_cards_.Swap(&other->ming_gang_cards_);
+    an_gang_cards_.Swap(&other->an_gang_cards_);
     discards_.Swap(&other->discards_);
     waiting_cards_.Swap(&other->waiting_cards_);
-    an_gang_cards_.Swap(&other->an_gang_cards_);
-    std::swap(invisible_hand_cards_num_, other->invisible_hand_cards_num_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     _unknown_fields_.Swap(&other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);

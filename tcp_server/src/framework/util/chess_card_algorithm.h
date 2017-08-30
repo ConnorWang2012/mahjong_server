@@ -114,7 +114,7 @@ class ChessCard {
     }
 
     static inline bool is_season_or_flower(int card) {
-        if (card >= CardConstants::CARD_VALUE_SEASON_OR_FLOWER_1) {
+        if (card >= CardConstants::SEASON_SPRING && card <= CardConstants::FLOWER_BAMBOO) {
             return true;
         }
         return false;
