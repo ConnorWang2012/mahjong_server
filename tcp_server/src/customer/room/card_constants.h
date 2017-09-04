@@ -83,16 +83,18 @@ enum class CardTypes {
 
 enum PlayCardOperationIDs {
     OPERATION_DISCARD,
-    OPERATION_NONE,			// just a new card, no operation(only server to client)
-    OPERATION_CHI,			// chi
-    OPERATION_PENG,			// peng
-    OPERATION_PENG_GANG,	// peng + gang
-    OPERATION_MING_GANG,	// ming gang
-    OPERATION_AN_GANG,		// an gang
-    OPERATION_BU_HUA,		// bu hua
-    OPERATION_HU,			// hu
-    OPERATION_ZI_MO,	    // zi mo
-    OPERATION_GIVE_UP		// give up
+    OPERATION_NONE,			        // just a new card, no operation(only server to client)
+    OPERATION_CHI,			        // chi
+    OPERATION_PENG,			        // peng
+    OPERATION_CHI_OR_PENG,	        // chi or peng(only server to client)
+    OPERATION_CHI_OR_PENG_OR_GANG,	// chi or peng or gang(only server to client)
+    OPERATION_PENG_GANG,	        // peng + gang
+    OPERATION_MING_GANG,	        // ming gang
+    OPERATION_AN_GANG,		        // an gang
+    OPERATION_BU_HUA,		        // bu hua
+    OPERATION_HU,			        // hu
+    OPERATION_ZI_MO,	            // zi mo
+    OPERATION_GIVE_UP		        // give up
 };
 
 } // namespace gamer

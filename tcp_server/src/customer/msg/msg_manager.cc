@@ -252,7 +252,7 @@ void MsgManager::DealWithCreateRoomMsg(const ClientMsg& msg, bufferevent* bev) {
 }
 
 void MsgManager::DealWithPlayerJoinRoomMsg(const ClientMsg& msg, bufferevent* bev) {
-	protocol::RoomOperationMsgProtocol proto_client;
+	gamer::protocol::RoomOperationMsgProtocol proto_client;
 	if ( !this->ParseMsg(msg, &proto_client) ) {
 		// TODO : log
 		// TODO : specify error code
@@ -363,7 +363,7 @@ void MsgManager::DealWithPlayerLeaveRoomMsg(const ClientMsg& msg, bufferevent* b
 
 void MsgManager::DealWithStartGameMsg(const ClientMsg& msg, bufferevent* bev) {
 	// 1.verify client msg
-	protocol::RoomMsgProtocol proto_client;
+	gamer::protocol::RoomMsgProtocol proto_client;
 	if (!this->ParseMsg(msg, &proto_client)) {
 		// TODO : log
 		this->SendMsgForError((msg_header_t)MsgCodes::MSG_RESPONSE_CODE_FAILED1, msg, bev); // TODO : specify error code
@@ -373,7 +373,7 @@ void MsgManager::DealWithStartGameMsg(const ClientMsg& msg, bufferevent* bev) {
 	// 2.verify room id and room owner id
 	auto room_id = proto_client.room_id();
 	auto room = RoomManager<Player>::instance()->GetRoom(room_id);
-	protocol::CreateRoomMsgProtocol create_room_msg_proto;
+	gamer::protocol::CreateRoomMsgProtocol create_room_msg_proto;
 	if (nullptr == room) {
 		// TODO : log
 		this->SendMsgForError((msg_header_t)MsgCodes::MSG_RESPONSE_CODE_FAILED1, msg, bev); // TODO : specify error code
@@ -446,15 +446,14 @@ void MsgManager::DealWithStartGameMsg(const ClientMsg& msg, bufferevent* bev) {
         18, 19, 20, 21, 22, 23, 24, 25, 26,
 
         27, 28, 29, 30, 31, 32, 33,
-        27, 28, 29, 30, 31, 32, 33,
-        27, 28, 29, 30, 31, 32, 33,
-        27, 28, 29, 30, 31, 32, 33,
+        27, 28,     29, 30, 31, 32, 33,
+        27, 28, 29, 30, 31, 32, 2,
+        27, 28,     29, 30, 31, 32, 33,
 
-        10, 11, 12, 13, 14, 15, 16, 17 }; // TODO
+        10, 0, 1, 2, 2, 2, 5, 4 }; // TODO
         //34, 35, 36, 37, 38, 39, 40, 41 };
 	auto vec = std::vector<int>(buf, buf + CardConstants::TOTAL_CARDS_NUM);
-    //auto vec = std::vector<int>(buf, buf + sizeof(buf));
-	gamer::ChessCard::Shuffle(vec); // TODO
+	//gamer::ChessCard::Shuffle(vec); // TODO
 
 	protocol::RoomMsgProtocol proto_server;
 	// room common

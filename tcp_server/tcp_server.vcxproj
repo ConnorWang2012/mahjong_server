@@ -89,7 +89,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_WINSOCK_DEPRECATED_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS_DEBUG;_SCL_SECURE_NO_WARNINGS;CONNOR_GAME_DEBUG;CONNOR_GAME_LOG_OPENED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_WINSOCK_DEPRECATED_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS_DEBUG;_SCL_SECURE_NO_WARNINGS;CONNOR_GAME_LOG_OPENED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)cpp_redis\src\include;$(SolutionDir)libevent\src;$(SolutionDir)libevent\src\compat;$(SolutionDir)libevent\src\include;$(SolutionDir)libevent\src\include\event2;$(SolutionDir)libevent\src\include\openssl;$(SolutionDir)libevent\src\WIN32-Code;$(SolutionDir)libevent\src\WIN32-Code\nmake;$(SolutionDir)libevent\src\WIN32-Code\nmake\event2;$(SolutionDir)tcp_server\src;$(SolutionDir)tcp_server\src\customer;$(SolutionDir)tcp_server\src\framework;$(SolutionDir)tcp_server\src\framework\network;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
