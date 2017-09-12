@@ -27,6 +27,7 @@ modification:
 #include "msg/protocol/create_room_msg_protocol.pb.h"
 #include "msg/protocol/room_operation_msg_protocol.pb.h"
 #include "msg/protocol/room_msg_protocol.pb.h"
+#include "msg/protocol/player_cards_msg_protocol.pb.h"
 #include "network/network_manager.h"
 #include "player/player.h"
 #include "player/player_manager.h"
@@ -405,31 +406,8 @@ void MsgManager::DealWithStartGameMsg(const ClientMsg& msg, bufferevent* bev) {
 		this->SendMsgForError((msg_header_t)MsgCodes::MSG_RESPONSE_CODE_FAILED1, msg, bev); // TODO : specify error code
 		return;
 	}
-    /*
-	int buf[CardConstants::TOTAL_CARDS_NUM] = {
-		11, 12, 13, 14, 15, 16, 17, 18, 19,
-		11, 12, 13, 14, 15, 16, 17, 18, 19,
-		11, 12, 13, 14, 15, 16, 17, 18, 19,
-		11, 12, 13, 14, 15, 16, 17, 18, 19,
 
-		21, 22, 23, 24, 25, 26, 27, 28, 29,
-		21, 22, 23, 24, 25, 26, 27, 28, 29,
-		21, 22, 23, 24, 25, 26, 27, 28, 29,
-		21, 22, 23, 24, 25, 26, 27, 28, 29,
-
-		31, 32, 33, 34, 35, 36, 37, 38, 39,
-		31, 32, 33, 34, 35, 36, 37, 38, 39,
-		31, 32, 33, 34, 35, 36, 37, 38, 39,
-		31, 32, 33, 34, 35, 36, 37, 38, 39,
-
-		41, 42, 43, 44, 45, 46, 47,
-		41, 42, 43, 44, 45, 46, 47,
-		41, 42, 43, 44, 45, 46, 47,
-		41, 42, 43, 44, 45, 46, 47,
-
-		51, 52, 53, 54, 55, 56, 57, 58 };
-        */
-    int buf[CardConstants::TOTAL_CARDS_NUM] = {
+/*	int buf[CardConstants::TOTAL_CARDS_NUM] = {
         0, 1, 2, 3, 4, 5, 6, 7, 8,
         0, 1, 2, 3, 4, 5, 6, 7, 8,
         0, 1, 2, 3, 4, 5, 6, 7, 8,
@@ -446,14 +424,37 @@ void MsgManager::DealWithStartGameMsg(const ClientMsg& msg, bufferevent* bev) {
         18, 19, 20, 21, 22, 23, 24, 25, 26,
 
         27, 28, 29, 30, 31, 32, 33,
-        27, 28,     29, 30, 31, 32, 33,
-        27, 28, 29, 30, 31, 32, 2,
-        27, 28,     29, 30, 31, 32, 33,
+        27, 28, 29, 30, 31, 32, 33,
+        27, 28, 29, 30, 31, 32, 33,
+        27, 28, 29, 30, 31, 32, 33,
 
-        10, 0, 1, 2, 2, 2, 5, 4 }; // TODO
+        34, 35, 36, 37, 38, 39, 40, 41 };*/
+
+    int buf[CardConstants::TOTAL_CARDS_NUM - 8] = {
+        0, 1, 2, 3, 4, 5, 6, 7, 8,
+        0, 1, 2, 3, 4, 5, 6, 7, 8,
+        0, 1, 2, 3, 4, 5, 6, 7, 8,
+        0, 1, 2, 3, 4, 5, 6, 7, 8,
+
+        9, 10, 11, 12, 13, 14, 15, 16, 17,
+        9, 10, 11, 12, 13, 14, 15, 16, 17,
+        9, 10, 11, 12, 13, 14, 15, 16, 17,
+        9, 10, 11, 12, 13, 14, 15, 16, 17,
+
+        18, 19, 20, 21, 22, 23, 24, 25, 26,
+        18, 19, 20, 21, 22, 23, 24, 25, 26,
+        18, 19, 20, 21, 22, 23, 24, 25, 26,
+        18, 19, 20, 21, 22, 23, 24, 25, 26,
+
+        27, 
+
+        1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 5, 5, 1,
+        1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 5, 5
+
+        /*10, 0, 1, 2, 2, 2, 5, 4*/ }; // TODO
         //34, 35, 36, 37, 38, 39, 40, 41 };
-	auto vec = std::vector<int>(buf, buf + CardConstants::TOTAL_CARDS_NUM);
-	//gamer::ChessCard::Shuffle(vec); // TODO
+	auto vec = std::vector<int>(buf, buf + CardConstants::TOTAL_CARDS_NUM - 8); // TODO
+	gamer::ChessCard::Shuffle(vec);
 
 	protocol::RoomMsgProtocol proto_server;
 	// room common
@@ -462,14 +463,13 @@ void MsgManager::DealWithStartGameMsg(const ClientMsg& msg, bufferevent* bev) {
 	proto_server.set_room_id(room_id);
 	proto_server.set_room_owner_id(room_owner_id);
 	proto_server.set_players_num(players_num);
-	proto_server.set_cur_round(1); // TODO : 1 is not right allways
+	proto_server.set_cur_round(1); // TODO : 1 is not right always
 	proto_server.set_total_round(create_room_msg_proto.rounds_num()); // TODO : rounds_num replace by total_round
 	proto_server.set_remain_cards_num(CardConstants::TOTAL_CARDS_NUM -
-		players_num * CardConstants::ONE_PLAYER_CARD_NUM - 1);
-	proto_server.set_cur_acting_player_id(room_owner_id);
-	proto_server.set_cur_action_id(0); // TODO : 
-	proto_server.set_banker_id(room_owner_id); // not right allways
-	proto_server.set_banker_is_same_time(0); // not right allways
+		players_num * CardConstants::ONE_PLAYER_CARD_NUM - 1 - 8); // TODO
+	proto_server.set_operating_player_id(room_owner_id);
+	proto_server.set_banker_id(room_owner_id); // not right always
+	proto_server.set_banker_is_same_time(0); // not right always
 
 	// room remain cards
 	auto remain_card_num = proto_server.remain_cards_num();
@@ -480,7 +480,7 @@ void MsgManager::DealWithStartGameMsg(const ClientMsg& msg, bufferevent* bev) {
 	// room player cards
 	auto players = room->players();
 	auto card_index = remain_card_num;
-    //auto card_index = 0; // TODO
+    gamer::protocol::PlayerCardsMsgProtocol* room_owner_invisible_cards;
 	for (auto& player : *players) {
 		auto player_cards = proto_server.add_player_cards();
 		auto player_id = player->player_id();
@@ -489,19 +489,14 @@ void MsgManager::DealWithStartGameMsg(const ClientMsg& msg, bufferevent* bev) {
 			CardConstants::ONE_PLAYER_CARD_NUM;
         player_cards->set_invisible_hand_cards_num(card_num);
 		for (auto j = 0; j < card_num; j++) {
-			auto card = vec.at(card_index);
-			if (card >= CardConstants::SEASON_SPRING &&
-				card <= CardConstants::SEASON_WINTER) {
-                player_cards->add_season_cards(card);
-			} else if (card >= CardConstants::FLOWER_PLUM &&
-                       card <= CardConstants::FLOWER_BAMBOO) {
-                player_cards->add_flower_cards(card);
-            } else {
-                player_cards->add_invisible_hand_cards(card);
-            }
+            player_cards->add_invisible_hand_cards(vec.at(card_index));
 			// TODO : visible cards and waiting cards
 			++card_index;
 		}
+
+        if (player_id == room_owner_id) {
+            room_owner_invisible_cards = player_cards;
+        }
 	}
 
 	// cache room data
@@ -544,10 +539,19 @@ void MsgManager::DealWithStartGameMsg(const ClientMsg& msg, bufferevent* bev) {
 		if (nullptr != bev) {
 			auto game_start_itr = game_start_protos.find(player_id);
 			if (game_start_itr != game_start_protos.end()) {
+                auto proto = game_start_itr->second;
+                if (player_id == room_owner_id) {
+                    auto card = room_owner_invisible_cards->invisible_hand_cards(0);
+                    auto ret = player->GetAvailableOperationIDWithNewCard(card);
+                    proto.set_operation_id(ret);
+                } else {
+
+                }
+
 				this->SendMsg((msg_header_t)MsgTypes::S2C_MSG_TYPE_ROOM,
 							  (msg_header_t)MsgIDs::MSG_ID_ROOM_START_GAME,
 							  (msg_header_t)MsgCodes::MSG_RESPONSE_CODE_SUCCESS,
-							  game_start_itr->second,
+                              proto,
 					          bev);
 			}
 		} else {
@@ -559,7 +563,7 @@ void MsgManager::DealWithStartGameMsg(const ClientMsg& msg, bufferevent* bev) {
 	for (auto& player : *players) {
 		for (auto i = 0; i < players_num; i++) {
 			if (player->player_id() == proto_server.player_cards(i).player_id()) {
-                player->SetHandCards(proto_server.player_cards(i));
+                player->CopyHandCardsFrom(proto_server.player_cards(i));
 				break;
 			}
 		}

@@ -1,6 +1,6 @@
 /*******************************************************************************
 @ copyright(C), 2015-2020, ConnorAndHisFriendsCompany.Inc
-@ filename:	    algorithm.h
+@ filename:	    chess_card_algorithm.h
 @ author:	    Connor
 @ version:	    1.0.0
 @ date:		    2017-06-01
@@ -17,6 +17,7 @@ modification:
 
 #include "customer/room/card_constants.h"
 #include "framework/util/util.h"
+#include "customer/msg/protocol/ting_card_msg_protocol.pb.h"
 
 namespace gamer {
 
@@ -31,99 +32,20 @@ class ChessCard {
         }
     }
 
+    // whether mahjong is ting
+    static bool IsTing(int* hand_cards,
+                       int hand_cards_len,
+                       gamer::protocol::TingCardMsgProtocol& proto);
+
     // whether mahjong is hu
-    static bool IsHu(int* hand_cards, int hand_cards_len) {
-        int n[34] = { 0 };
-        auto ret = ChessCard::Analyse(hand_cards, hand_cards_len, n);
-        if ( !ret ) {
-            // TODO : log
-            return false;
-        }
-        for (int i = 0; i < 34; i++) {
-            for (int kotsu_first = 0; kotsu_first < 2; kotsu_first++) {
-                int t[34] = { 0 };
-                memcpy(t, n, sizeof(n));
-                if (t[i] >= 2) {
-                    // pair
-                    t[i] -= 2;
+    static bool IsHu(int* hand_cards, int hand_cards_len);
 
-                    if (kotsu_first == 0) {
-                        // pung
-                        for (int j = 0; j < 34; j++) {
-                            if (t[j] >= 3) {
-                                t[j] -= 3;
-                                //kotsu.add(j);
-                            }
-                        }
-                        // chow
-                        for (int a = 0; a < 3; a++) {
-                            for (int b = 0; b < 7;) {
-                                if (t[9 * a + b] >= 1 &&
-                                    t[9 * a + b + 1] >= 1 &&
-                                    t[9 * a + b + 2] >= 1) {
-                                    t[9 * a + b]--;
-                                    t[9 * a + b + 1]--;
-                                    t[9 * a + b + 2]--;
-                                    //shuntsu.add(9 * a + b);
-                                } else {
-                                    b++;
-                                }
-                            }
-                        }
-                    }
-                    else {
-                        // chow
-                        for (int a = 0; a < 3; a++) {
-                            for (int b = 0; b < 7;) {
-                                if (t[9 * a + b] >= 1 &&
-                                    t[9 * a + b + 1] >= 1 &&
-                                    t[9 * a + b + 2] >= 1) {
-                                    t[9 * a + b]--;
-                                    t[9 * a + b + 1]--;
-                                    t[9 * a + b + 2]--;
-                                    //shuntsu.add(9 * a + b);
-                                } else {
-                                    b++;
-                                }
-                            }
-                        }
-                        // pung
-                        for (int j = 0; j < 34; j++) {
-                            if (t[j] >= 3) {
-                                t[j] -= 3;
-                                //kotsu.add(j);
-                            }
-                        }
-                    }
-
-                    // is hu
-                    auto is_hu = true;
-                    for (int k = 0; k < 34; k++) {
-                        if (t[k] != 0) {
-                            is_hu = false;
-                            break;
-                        }
-                    }
-                    if (is_hu) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
-    }
-
-    static inline bool is_season_or_flower(int card) {
-        if (card >= CardConstants::SEASON_SPRING && card <= CardConstants::FLOWER_BAMBOO) {
-            return true;
-        }
-        return false;
-    }
+    static inline bool is_season_or_flower(int card);
 
   private:
     // result : len is 34
     static bool Analyse(int* hand_cards, int hand_cards_len, int* result) {
-        for (auto i = 0; i < hand_cards_len; i++) {
+        for (int i = 0; i < hand_cards_len; i++) {
             if (hand_cards[i] < 0 || hand_cards[i] > CardConstants::DRAGON_WHITE) {
                 return false;
             }

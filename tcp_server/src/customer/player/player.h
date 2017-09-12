@@ -22,6 +22,9 @@ namespace gamer {
 
 class Player : public PlayerProtocol {
   public:
+    typedef gamer::protocol::PlayerCardsMsgProtocol PlayerCardsMsgProtocol;
+    typedef google::protobuf::RepeatedField<google::protobuf::int32> RepeatedFieldInt;
+
 	Player& operator=(const Player&) = delete;
 
 	Player(const Player&) = delete;
@@ -42,7 +45,9 @@ class Player : public PlayerProtocol {
 
     inline int cur_available_operation_id() const;
 
-	void SetHandCards(const protocol::PlayerCardsMsgProtocol& from);
+	void CopyHandCardsFrom(const PlayerCardsMsgProtocol& from);
+
+    void CopyInvisibleHandCardsTo(RepeatedFieldInt& to);
 
 	bool InvisibleHandCardsContains(int card) const;
 
@@ -60,8 +65,8 @@ class Player : public PlayerProtocol {
 
     void UpdateInvisibleHandCard(int new_card);
 
-    // must invoke after update invisible cards
-    int GetAvailableOperationID(int card) const;
+    // must be invoked after update invisible cards
+    int GetAvailableOperationIDWithNewCard(int new_card) const;
 
     int CountInvisibleHandCards(int invisible_card) const;
 
@@ -95,7 +100,7 @@ class Player : public PlayerProtocol {
     bool is_online_;
 	int player_id_;
     int cur_available_operation_id_;
-	protocol::PlayerCardsMsgProtocol cards_msg_proto_;
+	PlayerCardsMsgProtocol cards_msg_proto_;
 };
 
 inline void Player::set_cur_available_operation_id(int operation_id) {

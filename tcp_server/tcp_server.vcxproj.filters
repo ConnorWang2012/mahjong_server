@@ -733,9 +733,6 @@
     <ClInclude Include="src\customer\msg\msg_type.h">
       <Filter>src\customer\msg</Filter>
     </ClInclude>
-    <ClInclude Include="src\customer\test\test_shuffle_algorithm.h">
-      <Filter>src\customer\test</Filter>
-    </ClInclude>
     <ClInclude Include="src\customer\room\room_manager.h">
       <Filter>src\customer\room</Filter>
     </ClInclude>
@@ -793,8 +790,14 @@
     <ClInclude Include="src\customer\util\util.h">
       <Filter>src\customer\util</Filter>
     </ClInclude>
+    <ClInclude Include="src\customer\test\test_chess_card_algorithm.h">
+      <Filter>src\customer\test</Filter>
+    </ClInclude>
     <ClInclude Include="src\framework\util\chess_card_algorithm.h">
       <Filter>src\framework\util</Filter>
+    </ClInclude>
+    <ClInclude Include="src\customer\msg\protocol\ting_card_msg_protocol.pb.h">
+      <Filter>src\customer\msg\protocol</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -964,6 +967,12 @@
       <Filter>src\customer\msg\protocol</Filter>
     </ClCompile>
     <ClCompile Include="src\customer\msg\protocol\room_msg_protocol.pb.cc">
+      <Filter>src\customer\msg\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\util\chess_card_algorithm.cc">
+      <Filter>src\framework\util</Filter>
+    </ClCompile>
+    <ClCompile Include="src\customer\msg\protocol\ting_card_msg_protocol.pb.cc">
       <Filter>src\customer\msg\protocol</Filter>
     </ClCompile>
   </ItemGroup>

@@ -148,19 +148,19 @@ class RoomMsgProtocol : public ::google::protobuf::Message {
   inline ::google::protobuf::int32 banker_is_same_time() const;
   inline void set_banker_is_same_time(::google::protobuf::int32 value);
 
-  // optional int32 cur_acting_player_id = 9;
-  inline bool has_cur_acting_player_id() const;
-  inline void clear_cur_acting_player_id();
-  static const int kCurActingPlayerIdFieldNumber = 9;
-  inline ::google::protobuf::int32 cur_acting_player_id() const;
-  inline void set_cur_acting_player_id(::google::protobuf::int32 value);
+  // optional int32 operating_player_id = 9;
+  inline bool has_operating_player_id() const;
+  inline void clear_operating_player_id();
+  static const int kOperatingPlayerIdFieldNumber = 9;
+  inline ::google::protobuf::int32 operating_player_id() const;
+  inline void set_operating_player_id(::google::protobuf::int32 value);
 
-  // optional int32 cur_action_id = 10;
-  inline bool has_cur_action_id() const;
-  inline void clear_cur_action_id();
-  static const int kCurActionIdFieldNumber = 10;
-  inline ::google::protobuf::int32 cur_action_id() const;
-  inline void set_cur_action_id(::google::protobuf::int32 value);
+  // optional int32 operation_id = 10;
+  inline bool has_operation_id() const;
+  inline void clear_operation_id();
+  static const int kOperationIdFieldNumber = 10;
+  inline ::google::protobuf::int32 operation_id() const;
+  inline void set_operation_id(::google::protobuf::int32 value);
 
   // repeated int32 remain_cards = 11;
   inline int remain_cards_size() const;
@@ -204,10 +204,10 @@ class RoomMsgProtocol : public ::google::protobuf::Message {
   inline void clear_has_banker_id();
   inline void set_has_banker_is_same_time();
   inline void clear_has_banker_is_same_time();
-  inline void set_has_cur_acting_player_id();
-  inline void clear_has_cur_acting_player_id();
-  inline void set_has_cur_action_id();
-  inline void clear_has_cur_action_id();
+  inline void set_has_operating_player_id();
+  inline void clear_has_operating_player_id();
+  inline void set_has_operation_id();
+  inline void clear_has_operation_id();
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
@@ -221,8 +221,8 @@ class RoomMsgProtocol : public ::google::protobuf::Message {
   ::google::protobuf::int32 remain_cards_num_;
   ::google::protobuf::int32 banker_id_;
   ::google::protobuf::int32 banker_is_same_time_;
-  ::google::protobuf::int32 cur_acting_player_id_;
-  ::google::protobuf::int32 cur_action_id_;
+  ::google::protobuf::int32 operating_player_id_;
+  ::google::protobuf::int32 operation_id_;
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 > remain_cards_;
   ::google::protobuf::RepeatedPtrField< ::gamer::protocol::PlayerCardsMsgProtocol > player_cards_;
   friend void  protobuf_AddDesc_room_5fmsg_5fprotocol_2eproto();
@@ -431,52 +431,52 @@ inline void RoomMsgProtocol::set_banker_is_same_time(::google::protobuf::int32 v
   // @@protoc_insertion_point(field_set:gamer.protocol.RoomMsgProtocol.banker_is_same_time)
 }
 
-// optional int32 cur_acting_player_id = 9;
-inline bool RoomMsgProtocol::has_cur_acting_player_id() const {
+// optional int32 operating_player_id = 9;
+inline bool RoomMsgProtocol::has_operating_player_id() const {
   return (_has_bits_[0] & 0x00000100u) != 0;
 }
-inline void RoomMsgProtocol::set_has_cur_acting_player_id() {
+inline void RoomMsgProtocol::set_has_operating_player_id() {
   _has_bits_[0] |= 0x00000100u;
 }
-inline void RoomMsgProtocol::clear_has_cur_acting_player_id() {
+inline void RoomMsgProtocol::clear_has_operating_player_id() {
   _has_bits_[0] &= ~0x00000100u;
 }
-inline void RoomMsgProtocol::clear_cur_acting_player_id() {
-  cur_acting_player_id_ = 0;
-  clear_has_cur_acting_player_id();
+inline void RoomMsgProtocol::clear_operating_player_id() {
+  operating_player_id_ = 0;
+  clear_has_operating_player_id();
 }
-inline ::google::protobuf::int32 RoomMsgProtocol::cur_acting_player_id() const {
-  // @@protoc_insertion_point(field_get:gamer.protocol.RoomMsgProtocol.cur_acting_player_id)
-  return cur_acting_player_id_;
+inline ::google::protobuf::int32 RoomMsgProtocol::operating_player_id() const {
+  // @@protoc_insertion_point(field_get:gamer.protocol.RoomMsgProtocol.operating_player_id)
+  return operating_player_id_;
 }
-inline void RoomMsgProtocol::set_cur_acting_player_id(::google::protobuf::int32 value) {
-  set_has_cur_acting_player_id();
-  cur_acting_player_id_ = value;
-  // @@protoc_insertion_point(field_set:gamer.protocol.RoomMsgProtocol.cur_acting_player_id)
+inline void RoomMsgProtocol::set_operating_player_id(::google::protobuf::int32 value) {
+  set_has_operating_player_id();
+  operating_player_id_ = value;
+  // @@protoc_insertion_point(field_set:gamer.protocol.RoomMsgProtocol.operating_player_id)
 }
 
-// optional int32 cur_action_id = 10;
-inline bool RoomMsgProtocol::has_cur_action_id() const {
+// optional int32 operation_id = 10;
+inline bool RoomMsgProtocol::has_operation_id() const {
   return (_has_bits_[0] & 0x00000200u) != 0;
 }
-inline void RoomMsgProtocol::set_has_cur_action_id() {
+inline void RoomMsgProtocol::set_has_operation_id() {
   _has_bits_[0] |= 0x00000200u;
 }
-inline void RoomMsgProtocol::clear_has_cur_action_id() {
+inline void RoomMsgProtocol::clear_has_operation_id() {
   _has_bits_[0] &= ~0x00000200u;
 }
-inline void RoomMsgProtocol::clear_cur_action_id() {
-  cur_action_id_ = 0;
-  clear_has_cur_action_id();
+inline void RoomMsgProtocol::clear_operation_id() {
+  operation_id_ = 0;
+  clear_has_operation_id();
 }
-inline ::google::protobuf::int32 RoomMsgProtocol::cur_action_id() const {
-  // @@protoc_insertion_point(field_get:gamer.protocol.RoomMsgProtocol.cur_action_id)
-  return cur_action_id_;
+inline ::google::protobuf::int32 RoomMsgProtocol::operation_id() const {
+  // @@protoc_insertion_point(field_get:gamer.protocol.RoomMsgProtocol.operation_id)
+  return operation_id_;
 }
-inline void RoomMsgProtocol::set_cur_action_id(::google::protobuf::int32 value) {
-  set_has_cur_action_id();
-  cur_action_id_ = value;
-  // @@protoc_insertion_point(field_set:gamer.protocol.RoomMsgProtocol.cur_action_id)
+inline void RoomMsgProtocol::set_operation_id(::google::protobuf::int32 value) {
+  set_has_operation_id();
+  operation_id_ = value;
+  // @@protoc_insertion_point(field_set:gamer.protocol.RoomMsgProtocol.operation_id)
 }
 
 // repeated int32 remain_cards = 11;

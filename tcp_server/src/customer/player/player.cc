@@ -54,8 +54,12 @@ inline bool Player::is_online() const {
 	return is_online_;
 }
 
-void Player::SetHandCards(const protocol::PlayerCardsMsgProtocol& from) {
+void Player::CopyHandCardsFrom(const PlayerCardsMsgProtocol& from) {
 	cards_msg_proto_.CopyFrom(from);
+}
+
+void Player::CopyInvisibleHandCardsTo(RepeatedFieldInt& to) {
+    to.CopyFrom(cards_msg_proto_.invisible_hand_cards());
 }
 
 bool Player::InvisibleHandCardsContains(int card) const {
@@ -178,15 +182,15 @@ void Player::UpdateInvisibleHandCard(int new_card) {
     }
 }
 
-int Player::GetAvailableOperationID(int card) const {
+int Player::GetAvailableOperationIDWithNewCard(int new_card) const {
     // zi mo or ming gang or an gang or bu hua
-    if (this->IsBuhua(card)) {
+    if (this->IsBuhua(new_card)) {
         return PlayCardOperationIDs::OPERATION_BU_HUA;
     } else if (this->IsZimo()) {
         return PlayCardOperationIDs::OPERATION_ZI_MO;
-    } else if (this->IsMingGang(card)) {
+    } else if (this->IsMingGang(new_card)) {
         return PlayCardOperationIDs::OPERATION_MING_GANG;
-    } else if (this->IsAnGang(card)) {
+    } else if (this->IsAnGang(new_card)) {
         return PlayCardOperationIDs::OPERATION_AN_GANG;
     }
     return PlayCardOperationIDs::OPERATION_NONE;
