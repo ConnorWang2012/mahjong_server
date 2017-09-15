@@ -35,7 +35,7 @@ void protobuf_AssignDesc_play_5fcard_5fmsg_5fprotocol_2eproto() {
       "play_card_msg_protocol.proto");
   GOOGLE_CHECK(file != NULL);
   PlayCardMsgProtocol_descriptor_ = file->message_type(0);
-  static const int PlayCardMsgProtocol_offsets_[11] = {
+  static const int PlayCardMsgProtocol_offsets_[12] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayCardMsgProtocol, player_id_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayCardMsgProtocol, room_id_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayCardMsgProtocol, cur_round_),
@@ -47,6 +47,7 @@ void protobuf_AssignDesc_play_5fcard_5fmsg_5fprotocol_2eproto() {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayCardMsgProtocol, my_available_operation_id_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayCardMsgProtocol, operating_cards_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayCardMsgProtocol, invisible_hand_cards_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayCardMsgProtocol, ting_cards_),
   };
   PlayCardMsgProtocol_reflection_ =
     new ::google::protobuf::internal::GeneratedMessageReflection(
@@ -88,17 +89,20 @@ void protobuf_AddDesc_play_5fcard_5fmsg_5fprotocol_2eproto() {
   already_here = true;
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
+  ::gamer::protocol::protobuf_AddDesc_ting_5fcard_5fmsg_5fprotocol_2eproto();
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
     "\n\034play_card_msg_protocol.proto\022\016gamer.pr"
-    "otocol\"\276\002\n\023PlayCardMsgProtocol\022\021\n\tplayer"
-    "_id\030\001 \002(\005\022\017\n\007room_id\030\002 \002(\005\022\021\n\tcur_round\030"
-    "\003 \002(\005\022\024\n\014operation_id\030\004 \002(\005\022\023\n\007discard\030\005"
-    " \001(\005:\002-1\022\024\n\010new_card\030\006 \001(\005:\002-1\022!\n\026next_o"
-    "perate_player_id\030\007 \001(\005:\0010\022/\n has_next_op"
-    "erate_player_new_card\030\010 \001(\010:\005false\022$\n\031my"
-    "_available_operation_id\030\t \001(\005:\0010\022\027\n\017oper"
-    "ating_cards\030\n \003(\005\022\034\n\024invisible_hand_card"
-    "s\030\013 \003(\005", 367);
+    "otocol\032\034ting_card_msg_protocol.proto\"\367\002\n"
+    "\023PlayCardMsgProtocol\022\021\n\tplayer_id\030\001 \002(\005\022"
+    "\017\n\007room_id\030\002 \002(\005\022\021\n\tcur_round\030\003 \002(\005\022\024\n\014o"
+    "peration_id\030\004 \002(\005\022\023\n\007discard\030\005 \001(\005:\002-1\022\024"
+    "\n\010new_card\030\006 \001(\005:\002-1\022!\n\026next_operate_pla"
+    "yer_id\030\007 \001(\005:\0010\022/\n has_next_operate_play"
+    "er_new_card\030\010 \001(\010:\005false\022$\n\031my_available"
+    "_operation_id\030\t \001(\005:\0010\022\027\n\017operating_card"
+    "s\030\n \003(\005\022\034\n\024invisible_hand_cards\030\013 \003(\005\0227\n"
+    "\nting_cards\030\014 \003(\0132#.gamer.protocol.TingC"
+    "ardMsgProtocol", 454);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "play_card_msg_protocol.proto", &protobuf_RegisterTypes);
   PlayCardMsgProtocol::default_instance_ = new PlayCardMsgProtocol();
@@ -127,6 +131,7 @@ const int PlayCardMsgProtocol::kHasNextOperatePlayerNewCardFieldNumber;
 const int PlayCardMsgProtocol::kMyAvailableOperationIdFieldNumber;
 const int PlayCardMsgProtocol::kOperatingCardsFieldNumber;
 const int PlayCardMsgProtocol::kInvisibleHandCardsFieldNumber;
+const int PlayCardMsgProtocol::kTingCardsFieldNumber;
 #endif  // !_MSC_VER
 
 PlayCardMsgProtocol::PlayCardMsgProtocol()
@@ -214,6 +219,7 @@ void PlayCardMsgProtocol::Clear() {
 
   operating_cards_.Clear();
   invisible_hand_cards_.Clear();
+  ting_cards_.Clear();
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
   mutable_unknown_fields()->Clear();
 }
@@ -396,6 +402,20 @@ bool PlayCardMsgProtocol::MergePartialFromCodedStream(
           goto handle_unusual;
         }
         if (input->ExpectTag(88)) goto parse_invisible_hand_cards;
+        if (input->ExpectTag(98)) goto parse_ting_cards;
+        break;
+      }
+
+      // repeated .gamer.protocol.TingCardMsgProtocol ting_cards = 12;
+      case 12: {
+        if (tag == 98) {
+         parse_ting_cards:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+                input, add_ting_cards()));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(98)) goto parse_ting_cards;
         if (input->ExpectAtEnd()) goto success;
         break;
       }
@@ -482,6 +502,12 @@ void PlayCardMsgProtocol::SerializeWithCachedSizes(
       11, this->invisible_hand_cards(i), output);
   }
 
+  // repeated .gamer.protocol.TingCardMsgProtocol ting_cards = 12;
+  for (int i = 0; i < this->ting_cards_size(); i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      12, this->ting_cards(i), output);
+  }
+
   if (!unknown_fields().empty()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
@@ -547,6 +573,13 @@ void PlayCardMsgProtocol::SerializeWithCachedSizes(
   for (int i = 0; i < this->invisible_hand_cards_size(); i++) {
     target = ::google::protobuf::internal::WireFormatLite::
       WriteInt32ToArray(11, this->invisible_hand_cards(i), target);
+  }
+
+  // repeated .gamer.protocol.TingCardMsgProtocol ting_cards = 12;
+  for (int i = 0; i < this->ting_cards_size(); i++) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      WriteMessageNoVirtualToArray(
+        12, this->ting_cards(i), target);
   }
 
   if (!unknown_fields().empty()) {
@@ -645,6 +678,14 @@ int PlayCardMsgProtocol::ByteSize() const {
     total_size += 1 * this->invisible_hand_cards_size() + data_size;
   }
 
+  // repeated .gamer.protocol.TingCardMsgProtocol ting_cards = 12;
+  total_size += 1 * this->ting_cards_size();
+  for (int i = 0; i < this->ting_cards_size(); i++) {
+    total_size +=
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        this->ting_cards(i));
+  }
+
   if (!unknown_fields().empty()) {
     total_size +=
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
@@ -672,6 +713,7 @@ void PlayCardMsgProtocol::MergeFrom(const PlayCardMsgProtocol& from) {
   GOOGLE_CHECK_NE(&from, this);
   operating_cards_.MergeFrom(from.operating_cards_);
   invisible_hand_cards_.MergeFrom(from.invisible_hand_cards_);
+  ting_cards_.MergeFrom(from.ting_cards_);
   if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
     if (from.has_player_id()) {
       set_player_id(from.player_id());
@@ -737,6 +779,7 @@ void PlayCardMsgProtocol::Swap(PlayCardMsgProtocol* other) {
     std::swap(my_available_operation_id_, other->my_available_operation_id_);
     operating_cards_.Swap(&other->operating_cards_);
     invisible_hand_cards_.Swap(&other->invisible_hand_cards_);
+    ting_cards_.Swap(&other->ting_cards_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     _unknown_fields_.Swap(&other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);

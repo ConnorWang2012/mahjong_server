@@ -35,7 +35,10 @@ class ChessCard {
     // whether mahjong is ting
     static bool IsTing(int* hand_cards,
                        int hand_cards_len,
-                       gamer::protocol::TingCardMsgProtocol& proto);
+                       gamer::protocol::TingCardMsgProtocol* proto);
+
+    // whether mahjong is ting
+    static bool IsTing(int* hand_cards, int hand_cards_len);
 
     // whether mahjong is hu
     static bool IsHu(int* hand_cards, int hand_cards_len);
@@ -54,6 +57,13 @@ class ChessCard {
         return true;
     }
 };
+
+inline bool ChessCard::is_season_or_flower(int card) {
+    if (card >= CardConstants::SEASON_SPRING && card <= CardConstants::FLOWER_BAMBOO) {
+        return true;
+    }
+    return false;
+}
 
 }
 

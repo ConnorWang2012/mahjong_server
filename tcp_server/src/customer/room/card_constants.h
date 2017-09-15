@@ -92,6 +92,7 @@ enum PlayCardOperationIDs {
     OPERATION_MING_GANG,	        // ming gang
     OPERATION_AN_GANG,		        // an gang
     OPERATION_BU_HUA,		        // bu hua
+    OPERATION_TING,	                // ting
     OPERATION_HU,			        // hu
     OPERATION_ZI_MO,	            // zi mo
     OPERATION_GIVE_UP		        // give up

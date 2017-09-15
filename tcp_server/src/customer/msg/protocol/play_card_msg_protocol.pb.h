@@ -24,6 +24,7 @@
 #include <google/protobuf/repeated_field.h>
 #include <google/protobuf/extension_set.h>
 #include <google/protobuf/unknown_field_set.h>
+#include "ting_card_msg_protocol.pb.h"
 // @@protoc_insertion_point(includes)
 
 namespace gamer {
@@ -178,6 +179,18 @@ class PlayCardMsgProtocol : public ::google::protobuf::Message {
   inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
       mutable_invisible_hand_cards();
 
+  // repeated .gamer.protocol.TingCardMsgProtocol ting_cards = 12;
+  inline int ting_cards_size() const;
+  inline void clear_ting_cards();
+  static const int kTingCardsFieldNumber = 12;
+  inline const ::gamer::protocol::TingCardMsgProtocol& ting_cards(int index) const;
+  inline ::gamer::protocol::TingCardMsgProtocol* mutable_ting_cards(int index);
+  inline ::gamer::protocol::TingCardMsgProtocol* add_ting_cards();
+  inline const ::google::protobuf::RepeatedPtrField< ::gamer::protocol::TingCardMsgProtocol >&
+      ting_cards() const;
+  inline ::google::protobuf::RepeatedPtrField< ::gamer::protocol::TingCardMsgProtocol >*
+      mutable_ting_cards();
+
   // @@protoc_insertion_point(class_scope:gamer.protocol.PlayCardMsgProtocol)
  private:
   inline void set_has_player_id();
@@ -213,6 +226,7 @@ class PlayCardMsgProtocol : public ::google::protobuf::Message {
   bool has_next_operate_player_new_card_;
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 > operating_cards_;
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 > invisible_hand_cards_;
+  ::google::protobuf::RepeatedPtrField< ::gamer::protocol::TingCardMsgProtocol > ting_cards_;
   ::google::protobuf::int32 my_available_operation_id_;
   friend void  protobuf_AddDesc_play_5fcard_5fmsg_5fprotocol_2eproto();
   friend void protobuf_AssignDesc_play_5fcard_5fmsg_5fprotocol_2eproto();
@@ -502,6 +516,36 @@ inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
 PlayCardMsgProtocol::mutable_invisible_hand_cards() {
   // @@protoc_insertion_point(field_mutable_list:gamer.protocol.PlayCardMsgProtocol.invisible_hand_cards)
   return &invisible_hand_cards_;
+}
+
+// repeated .gamer.protocol.TingCardMsgProtocol ting_cards = 12;
+inline int PlayCardMsgProtocol::ting_cards_size() const {
+  return ting_cards_.size();
+}
+inline void PlayCardMsgProtocol::clear_ting_cards() {
+  ting_cards_.Clear();
+}
+inline const ::gamer::protocol::TingCardMsgProtocol& PlayCardMsgProtocol::ting_cards(int index) const {
+  // @@protoc_insertion_point(field_get:gamer.protocol.PlayCardMsgProtocol.ting_cards)
+  return ting_cards_.Get(index);
+}
+inline ::gamer::protocol::TingCardMsgProtocol* PlayCardMsgProtocol::mutable_ting_cards(int index) {
+  // @@protoc_insertion_point(field_mutable:gamer.protocol.PlayCardMsgProtocol.ting_cards)
+  return ting_cards_.Mutable(index);
+}
+inline ::gamer::protocol::TingCardMsgProtocol* PlayCardMsgProtocol::add_ting_cards() {
+  // @@protoc_insertion_point(field_add:gamer.protocol.PlayCardMsgProtocol.ting_cards)
+  return ting_cards_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::gamer::protocol::TingCardMsgProtocol >&
+PlayCardMsgProtocol::ting_cards() const {
+  // @@protoc_insertion_point(field_list:gamer.protocol.PlayCardMsgProtocol.ting_cards)
+  return ting_cards_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::gamer::protocol::TingCardMsgProtocol >*
+PlayCardMsgProtocol::mutable_ting_cards() {
+  // @@protoc_insertion_point(field_mutable_list:gamer.protocol.PlayCardMsgProtocol.ting_cards)
+  return &ting_cards_;
 }
 
 

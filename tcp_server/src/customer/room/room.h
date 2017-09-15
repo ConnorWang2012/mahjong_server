@@ -196,13 +196,6 @@ MsgCodes Room<Player>::DealWithPlayCard(gamer::protocol::PlayCardMsgProtocol& pr
     int operation_id = proto.operation_id();
     switch (operation_id) {
     case PlayCardOperationIDs::OPERATION_DISCARD: {
-        // check hand cards
-        if ( !player->InvisibleHandCardsContains(proto.discard()) ) {
-            // TODO : log
-            // TODO : specify error code
-            return MsgCodes::MSG_RESPONSE_CODE_FAILED1;
-        }
-
         this->DealWithOperationDiscard(proto, player);
 
         break;
@@ -280,7 +273,7 @@ MsgCodes Room<Player>::DealWithPlayCard(gamer::protocol::PlayCardMsgProtocol& pr
             if (p->player_id() == player_id) {
                 auto new_card = this->next_one_new_card();
                 p->UpdateInvisibleHandCard(new_card);
-                auto ret = p->GetAvailableOperationIDWithNewCard(new_card);
+                auto ret = p->GetAvailableOperationID(new_card, proto.add_ting_cards());
                 p->set_cur_available_operation_id(ret);
                 proto.set_my_available_operation_id(ret);
                 proto.set_new_card(new_card);    
@@ -316,7 +309,7 @@ MsgCodes Room<Player>::DealWithPlayCard(gamer::protocol::PlayCardMsgProtocol& pr
             if (p->player_id() == player_id) {
                 auto new_card = this->next_one_new_card();
                 p->UpdateInvisibleHandCard(new_card);
-                auto ret = p->GetAvailableOperationIDWithNewCard(new_card);
+                auto ret = p->GetAvailableOperationID(new_card, proto.add_ting_cards());
                 p->set_cur_available_operation_id(ret);
                 proto.set_my_available_operation_id(ret);
                 proto.set_new_card(new_card); 
@@ -349,7 +342,7 @@ MsgCodes Room<Player>::DealWithPlayCard(gamer::protocol::PlayCardMsgProtocol& pr
             if (p->player_id() == player_id) {
                 auto new_card = this->next_one_new_card();
                 p->UpdateInvisibleHandCard(new_card);
-                auto ret = p->GetAvailableOperationIDWithNewCard(new_card);
+                auto ret = p->GetAvailableOperationID(new_card, proto.add_ting_cards());
                 p->set_cur_available_operation_id(ret);
                 proto.set_my_available_operation_id(ret);
                 proto.set_new_card(new_card);
@@ -383,7 +376,7 @@ MsgCodes Room<Player>::DealWithPlayCard(gamer::protocol::PlayCardMsgProtocol& pr
             if (playerid == player_id) { // get a new card for the player of bu hua
                 auto new_card = this->next_one_new_card();
                 p->UpdateInvisibleHandCard(new_card);
-                auto ret = p->GetAvailableOperationIDWithNewCard(new_card);
+                auto ret = p->GetAvailableOperationID(new_card, proto.add_ting_cards());
                 p->set_cur_available_operation_id(ret);
                 proto.set_my_available_operation_id(ret);
                 proto.set_new_card(new_card);
@@ -398,6 +391,32 @@ MsgCodes Room<Player>::DealWithPlayCard(gamer::protocol::PlayCardMsgProtocol& pr
 
             this->SendPlayCardMsg(proto, playerid);
         }
+
+        break;
+    }
+    case PlayCardOperationIDs::OPERATION_TING: {
+        if ( !player->IsTing()) {
+            // TODO : log
+            // TODO : specify error code
+            return MsgCodes::MSG_RESPONSE_CODE_FAILED1;
+        }
+
+        // send ting msg
+        proto.set_new_card(CardConstants::INVALID_CARD_VALUE);
+        proto.set_next_operate_player_id(CardConstants::INVALID_PLAYER_ID);
+        proto.set_my_available_operation_id(PlayCardOperationIDs::OPERATION_NONE);
+        proto.clear_ting_cards();
+        player->set_cur_available_operation_id(PlayCardOperationIDs::OPERATION_NONE);
+        player->set_has_selected_operation_ting(true);
+        for (auto& p : players_) {
+            this->SendPlayCardMsg(proto, p->player_id());
+        }
+
+        // deal with discard
+        proto.set_operation_id(PlayCardOperationIDs::OPERATION_DISCARD);
+        this->DealWithOperationDiscard(proto, player);
+
+        break;
     }
     case PlayCardOperationIDs::OPERATION_HU: {
         if (1 == players_sended_msg_hu_.size()) {
@@ -479,6 +498,13 @@ MsgCodes Room<Player>::DealWithPlayCard(gamer::protocol::PlayCardMsgProtocol& pr
 template<typename Player>
 void Room<Player>::DealWithOperationDiscard(gamer::protocol::PlayCardMsgProtocol& proto,
                                             Player* player) {
+    // check hand cards
+    if ( !player->InvisibleHandCardsContains(proto.discard()) ) {
+        // TODO : log
+        // TODO : specify error code
+        return;
+    }
+
     last_discard_player_ = player;
 
     // update hand card and discard
@@ -611,7 +637,7 @@ void Room<Player>::DealWithOperationDiscard(gamer::protocol::PlayCardMsgProtocol
                 auto new_card = this->next_one_new_card();
                 right_player->UpdateInvisibleHandCard(new_card);
                 // whether is zi mo or ming gang or an gang or bu hua with new card
-                auto ret = right_player->GetAvailableOperationIDWithNewCard(new_card);
+                auto ret = right_player->GetAvailableOperationID(new_card, proto.add_ting_cards());
                 right_player->set_cur_available_operation_id(ret);
                 proto.set_my_available_operation_id(ret);
                 proto.set_new_card(new_card);
@@ -641,7 +667,7 @@ void Room<Player>::DealWithOperationGiveUp(gamer::protocol::PlayCardMsgProtocol&
         // send a new card to player
         auto new_card = this->next_one_new_card();
         player->UpdateInvisibleHandCard(new_card);
-        auto ret = player->GetAvailableOperationIDWithNewCard(new_card);
+        auto ret = player->GetAvailableOperationID(new_card, proto.add_ting_cards());
         player->set_cur_available_operation_id(ret);
         proto.set_my_available_operation_id(ret);
         proto.set_new_card(new_card);
@@ -748,7 +774,7 @@ void Room<Player>::DealWithOperationGiveUp(gamer::protocol::PlayCardMsgProtocol&
                        // send new card msg
                     auto new_card = this->next_one_new_card();
                     right_player->UpdateInvisibleHandCard(new_card);
-                    auto ret = right_player->GetAvailableOperationIDWithNewCard(new_card);
+                    auto ret = right_player->GetAvailableOperationID(new_card, proto.add_ting_cards());
                     right_player->set_cur_available_operation_id(ret);
                     proto.set_my_available_operation_id(ret);
                     proto.set_new_card(new_card);
@@ -786,7 +812,7 @@ void Room<Player>::DealWithOperationGiveUpPengOrPengGang(gamer::protocol::PlayCa
         // send new card msg to the first right player of last discard player
         auto new_card = this->next_one_new_card();
         right_player->UpdateInvisibleHandCard(new_card);
-        auto ret = right_player->GetAvailableOperationIDWithNewCard(new_card);
+        auto ret = right_player->GetAvailableOperationID(new_card, proto.add_ting_cards());
         right_player->set_cur_available_operation_id(ret);
         proto.set_my_available_operation_id(ret);
         proto.set_new_card(new_card);

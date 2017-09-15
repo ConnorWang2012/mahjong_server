@@ -103,7 +103,7 @@ class TingCardMsgProtocol : public ::google::protobuf::Message {
   inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
       mutable_cards_of_ting();
 
-  // required int32 discard = 2;
+  // optional int32 discard = 2 [default = -1];
   inline bool has_discard() const;
   inline void clear_discard();
   static const int kDiscardFieldNumber = 2;
@@ -165,7 +165,7 @@ TingCardMsgProtocol::mutable_cards_of_ting() {
   return &cards_of_ting_;
 }
 
-// required int32 discard = 2;
+// optional int32 discard = 2 [default = -1];
 inline bool TingCardMsgProtocol::has_discard() const {
   return (_has_bits_[0] & 0x00000002u) != 0;
 }
@@ -176,7 +176,7 @@ inline void TingCardMsgProtocol::clear_has_discard() {
   _has_bits_[0] &= ~0x00000002u;
 }
 inline void TingCardMsgProtocol::clear_discard() {
-  discard_ = 0;
+  discard_ = -1;
   clear_has_discard();
 }
 inline ::google::protobuf::int32 TingCardMsgProtocol::discard() const {

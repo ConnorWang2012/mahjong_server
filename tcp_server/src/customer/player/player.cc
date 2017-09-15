@@ -22,9 +22,10 @@ modification:
 namespace gamer {
 
 Player::Player()
-	:player_id_(0)
-	,is_online_(false)
-    ,cur_available_operation_id_(PlayCardOperationIDs::OPERATION_NONE) {
+	: player_id_(0),
+      is_online_(false),
+      cur_available_operation_id_(PlayCardOperationIDs::OPERATION_NONE),
+      has_selected_operation_ting_(false) {
 }
 
 Player* Player::Create(int player_id) {
@@ -182,18 +183,50 @@ void Player::UpdateInvisibleHandCard(int new_card) {
     }
 }
 
-int Player::GetAvailableOperationIDWithNewCard(int new_card) const {
-    // zi mo or ming gang or an gang or bu hua
+int Player::GetAvailableOperationID(int new_card, TingCardMsgProtocol* proto) const {
+    // bu hua or ting or zimo or ming gang or an gang
+    auto ting_or_zimo_operation = 0;
     if (this->IsBuhua(new_card)) {
         return PlayCardOperationIDs::OPERATION_BU_HUA;
-    } else if (this->IsZimo()) {
-        return PlayCardOperationIDs::OPERATION_ZI_MO;
+    } else if (this->has_selected_operation_ting()) {
+        if (this->IsZimo()) {
+            return PlayCardOperationIDs::OPERATION_ZI_MO;
+        } else if (this->IsMingGang(new_card)) {
+            return PlayCardOperationIDs::OPERATION_MING_GANG;
+        } else if (this->IsAnGang(new_card)) {
+            return PlayCardOperationIDs::OPERATION_AN_GANG;
+        }
+    } else if (this->GetTingOrZimoOperationID(ting_or_zimo_operation, proto)) {
+        return ting_or_zimo_operation;
     } else if (this->IsMingGang(new_card)) {
         return PlayCardOperationIDs::OPERATION_MING_GANG;
     } else if (this->IsAnGang(new_card)) {
         return PlayCardOperationIDs::OPERATION_AN_GANG;
     }
     return PlayCardOperationIDs::OPERATION_NONE;
+}
+
+bool Player::IsTing(TingCardMsgProtocol* proto) const {
+    int cards[CardConstants::ONE_PLAYER_CARD_NUM2] = { 0 };
+    auto len = 0;
+    this->GetInvisibleHandCards(cards, len);
+    if (len > CardConstants::ONE_PLAYER_CARD_NUM2) {
+        // TODO : error log
+        return false;
+    }
+    return ChessCard::IsTing(cards, len, proto);
+}
+
+bool Player::IsTing() const
+{
+    int cards[CardConstants::ONE_PLAYER_CARD_NUM2] = { 0 };
+    auto len = 0;
+    this->GetInvisibleHandCards(cards, len);
+    if (len > CardConstants::ONE_PLAYER_CARD_NUM2) {
+        // TODO : error log
+        return false;
+    }
+    return ChessCard::IsTing(cards, len);
 }
 
 bool Player::IsHu(int new_card) const
@@ -477,6 +510,26 @@ bool Player::RemoveInvisibleHandCards(int card, int num) {
             }
             return true;
         }
+    }
+
+    return false;
+}
+
+bool Player::GetTingOrZimoOperationID(int& operation_id, TingCardMsgProtocol* proto) const {
+    int cards[CardConstants::ONE_PLAYER_CARD_NUM2] = { 0 };
+    auto len = 0;
+    this->GetInvisibleHandCards(cards, len);
+    if (len > CardConstants::ONE_PLAYER_CARD_NUM2) {
+        // TODO : error log
+        return false;
+    }
+
+    if (ChessCard::IsHu(cards, len)) {
+        operation_id = PlayCardOperationIDs::OPERATION_ZI_MO;
+        return true;
+    } else if (ChessCard::IsTing(cards, len, proto)) {
+        operation_id = PlayCardOperationIDs::OPERATION_TING;
+        return true;
     }
 
     return false;

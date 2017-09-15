@@ -448,13 +448,13 @@ void MsgManager::DealWithStartGameMsg(const ClientMsg& msg, bufferevent* bev) {
 
         27, 
 
-        1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 5, 5, 1,
+        1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 5, 5, 10,
         1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 5, 5
 
         /*10, 0, 1, 2, 2, 2, 5, 4*/ }; // TODO
         //34, 35, 36, 37, 38, 39, 40, 41 };
 	auto vec = std::vector<int>(buf, buf + CardConstants::TOTAL_CARDS_NUM - 8); // TODO
-	gamer::ChessCard::Shuffle(vec);
+	//gamer::ChessCard::Shuffle(vec);
 
 	protocol::RoomMsgProtocol proto_server;
 	// room common
@@ -540,13 +540,13 @@ void MsgManager::DealWithStartGameMsg(const ClientMsg& msg, bufferevent* bev) {
 			auto game_start_itr = game_start_protos.find(player_id);
 			if (game_start_itr != game_start_protos.end()) {
                 auto proto = game_start_itr->second;
-                if (player_id == room_owner_id) {
-                    auto card = room_owner_invisible_cards->invisible_hand_cards(0);
-                    auto ret = player->GetAvailableOperationIDWithNewCard(card);
-                    proto.set_operation_id(ret);
-                } else {
+                //if (player_id == room_owner_id) {
+                //    auto card = room_owner_invisible_cards->invisible_hand_cards(0);
+                //    auto ret = player->GetAvailableOperationIDWithNewCard(card);
+                //    proto.set_operation_id(ret);
+                //} else {
 
-                }
+                //}
 
 				this->SendMsg((msg_header_t)MsgTypes::S2C_MSG_TYPE_ROOM,
 							  (msg_header_t)MsgIDs::MSG_ID_ROOM_START_GAME,

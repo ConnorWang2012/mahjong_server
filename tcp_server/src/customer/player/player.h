@@ -15,14 +15,16 @@ modification:
 #ifndef CONNOR_GAME_SRC_PLAYER_H_
 #define CONNOR_GAME_SRC_PLAYER_H_
 
+#include "customer/msg/protocol/player_cards_msg_protocol.pb.h"
+#include "customer/msg/protocol/ting_card_msg_protocol.pb.h"
 #include "player_protocol.h"
-#include "msg/protocol/player_cards_msg_protocol.pb.h"
 
 namespace gamer {
 
 class Player : public PlayerProtocol {
   public:
     typedef gamer::protocol::PlayerCardsMsgProtocol PlayerCardsMsgProtocol;
+    typedef gamer::protocol::TingCardMsgProtocol TingCardMsgProtocol;
     typedef google::protobuf::RepeatedField<google::protobuf::int32> RepeatedFieldInt;
 
 	Player& operator=(const Player&) = delete;
@@ -45,6 +47,10 @@ class Player : public PlayerProtocol {
 
     inline int cur_available_operation_id() const;
 
+    inline void set_has_selected_operation_ting(bool selected);
+
+    inline bool has_selected_operation_ting() const;
+
 	void CopyHandCardsFrom(const PlayerCardsMsgProtocol& from);
 
     void CopyInvisibleHandCardsTo(RepeatedFieldInt& to);
@@ -66,9 +72,13 @@ class Player : public PlayerProtocol {
     void UpdateInvisibleHandCard(int new_card);
 
     // must be invoked after update invisible cards
-    int GetAvailableOperationIDWithNewCard(int new_card) const;
+    int GetAvailableOperationID(int new_card, TingCardMsgProtocol* proto) const;
 
     int CountInvisibleHandCards(int invisible_card) const;
+
+    bool IsTing(TingCardMsgProtocol* proto) const;
+
+    bool IsTing() const;
 
     bool IsHu(int card) const;
 
@@ -97,7 +107,10 @@ class Player : public PlayerProtocol {
 
     bool RemoveInvisibleHandCards(int card, int num);
 
+    bool GetTingOrZimoOperationID(int& operation_id, TingCardMsgProtocol* proto) const;
+
     bool is_online_;
+    bool has_selected_operation_ting_;
 	int player_id_;
     int cur_available_operation_id_;
 	PlayerCardsMsgProtocol cards_msg_proto_;
@@ -109,6 +122,14 @@ inline void Player::set_cur_available_operation_id(int operation_id) {
 
 inline int Player::cur_available_operation_id() const {
     return cur_available_operation_id_;
+}
+
+inline void Player::set_has_selected_operation_ting(bool selected) {
+    has_selected_operation_ting_ = selected;
+}
+
+inline bool Player::has_selected_operation_ting() const {
+    return has_selected_operation_ting_;
 }
 
 } // namespace gamer

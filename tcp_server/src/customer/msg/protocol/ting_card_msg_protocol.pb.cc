@@ -81,8 +81,8 @@ void protobuf_AddDesc_ting_5fcard_5fmsg_5fprotocol_2eproto() {
 
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
     "\n\034ting_card_msg_protocol.proto\022\016gamer.pr"
-    "otocol\"=\n\023TingCardMsgProtocol\022\025\n\rcards_o"
-    "f_ting\030\001 \003(\005\022\017\n\007discard\030\002 \002(\005", 109);
+    "otocol\"A\n\023TingCardMsgProtocol\022\025\n\rcards_o"
+    "f_ting\030\001 \003(\005\022\023\n\007discard\030\002 \001(\005:\002-1", 113);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "ting_card_msg_protocol.proto", &protobuf_RegisterTypes);
   TingCardMsgProtocol::default_instance_ = new TingCardMsgProtocol();
@@ -122,7 +122,7 @@ TingCardMsgProtocol::TingCardMsgProtocol(const TingCardMsgProtocol& from)
 
 void TingCardMsgProtocol::SharedCtor() {
   _cached_size_ = 0;
-  discard_ = 0;
+  discard_ = -1;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -158,7 +158,7 @@ TingCardMsgProtocol* TingCardMsgProtocol::New() const {
 }
 
 void TingCardMsgProtocol::Clear() {
-  discard_ = 0;
+  discard_ = -1;
   cards_of_ting_.Clear();
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
   mutable_unknown_fields()->Clear();
@@ -193,7 +193,7 @@ bool TingCardMsgProtocol::MergePartialFromCodedStream(
         break;
       }
 
-      // required int32 discard = 2;
+      // optional int32 discard = 2 [default = -1];
       case 2: {
         if (tag == 16) {
          parse_discard:
@@ -239,7 +239,7 @@ void TingCardMsgProtocol::SerializeWithCachedSizes(
       1, this->cards_of_ting(i), output);
   }
 
-  // required int32 discard = 2;
+  // optional int32 discard = 2 [default = -1];
   if (has_discard()) {
     ::google::protobuf::internal::WireFormatLite::WriteInt32(2, this->discard(), output);
   }
@@ -260,7 +260,7 @@ void TingCardMsgProtocol::SerializeWithCachedSizes(
       WriteInt32ToArray(1, this->cards_of_ting(i), target);
   }
 
-  // required int32 discard = 2;
+  // optional int32 discard = 2 [default = -1];
   if (has_discard()) {
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(2, this->discard(), target);
   }
@@ -277,7 +277,7 @@ int TingCardMsgProtocol::ByteSize() const {
   int total_size = 0;
 
   if (_has_bits_[1 / 32] & (0xffu << (1 % 32))) {
-    // required int32 discard = 2;
+    // optional int32 discard = 2 [default = -1];
     if (has_discard()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::Int32Size(
@@ -342,7 +342,6 @@ void TingCardMsgProtocol::CopyFrom(const TingCardMsgProtocol& from) {
 }
 
 bool TingCardMsgProtocol::IsInitialized() const {
-  if ((_has_bits_[0] & 0x00000002) != 0x00000002) return false;
 
   return true;
 }

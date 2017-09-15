@@ -155,19 +155,23 @@ void NetworkManager::OnBuffereventRead(struct bufferevent* bev, void* ctx) {
 
     auto buf_len = evbuffer_get_length(input);
     if (buf_len <= 0 || buf_len > NetworkManager::MAX_BUFFER_LEN) {
-		LOGERROR("[NetworkManager::onBufferRead] buffer len is invalid");
+        LOGERROR("[NetworkManager::onBufferRead] buffer len is invalid");
         return;
     }
 
     char buf[NetworkManager::MAX_BUFFER_LEN] = { 0 };
     if (evbuffer_remove(input, buf, buf_len) <= 0) {
-		LOGERROR("[NetworkManager::onBufferRead] read buffer failed");
+        LOGERROR("[NetworkManager::onBufferRead] read buffer failed");
         return;
     }
 
-    gamer::ClientMsg msg = { 0, 0, 0, nullptr };
-    NetworkManager::instance()->ParseBuffer(buf, msg);
-    MsgManager::instance()->OnMsgReceived(msg, bev);
+    unsigned parsed_buf_len = 0;
+    do {
+        gamer::ClientMsg msg = { 0, 0, 0, nullptr };
+        NetworkManager::instance()->ParseBuffer(buf, msg);
+        MsgManager::instance()->OnMsgReceived(msg, bev);
+        parsed_buf_len += msg.total_len;
+    } while (parsed_buf_len < buf_len);
 }
 
 void NetworkManager::OnBuffereventWrite(struct bufferevent* bev, void* ctx) {
