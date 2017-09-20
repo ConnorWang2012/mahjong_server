@@ -16,6 +16,7 @@ modification:
 #define CONNOR_GAME_SRC_PLAYER_H_
 
 #include "customer/msg/protocol/player_cards_msg_protocol.pb.h"
+#include "customer/msg/protocol/play_card_msg_protocol.pb.h"
 #include "customer/msg/protocol/ting_card_msg_protocol.pb.h"
 #include "player_protocol.h"
 
@@ -25,6 +26,7 @@ class Player : public PlayerProtocol {
   public:
     typedef gamer::protocol::PlayerCardsMsgProtocol PlayerCardsMsgProtocol;
     typedef gamer::protocol::TingCardMsgProtocol TingCardMsgProtocol;
+    typedef gamer::protocol::PlayCardMsgProtocol PlayCardMsgProtocol;
     typedef google::protobuf::RepeatedField<google::protobuf::int32> RepeatedFieldInt;
 
 	Player& operator=(const Player&) = delete;
@@ -51,7 +53,8 @@ class Player : public PlayerProtocol {
 
     inline bool has_selected_operation_ting() const;
 
-	void CopyHandCardsFrom(const PlayerCardsMsgProtocol& from);
+    // do not keep the ownership
+    void InitPlayerCards(PlayerCardsMsgProtocol* proto);
 
     void CopyInvisibleHandCardsTo(RepeatedFieldInt& to);
 
@@ -65,6 +68,8 @@ class Player : public PlayerProtocol {
 
     void UpdateCardForPengAndGang(int card_of_peng_gang);
 
+    bool UpdateCardForBuhua(int* cards_of_hua_removed, int& num_cards_of_hua_removed);
+
     void UpdateCardForMingGang(int card_of_ming_gang);
 
     void UpdateCardForAnGang(int card_of_an_gang);
@@ -72,7 +77,7 @@ class Player : public PlayerProtocol {
     void UpdateInvisibleHandCard(int new_card);
 
     // must be invoked after update invisible cards
-    int GetAvailableOperationID(int new_card, TingCardMsgProtocol* proto) const;
+    int GetAvailableOperationID(int new_card, PlayCardMsgProtocol* play_card_proto) const;
 
     int CountInvisibleHandCards(int invisible_card) const;
 
@@ -96,7 +101,14 @@ class Player : public PlayerProtocol {
 
     bool IsAnGang(int card) const;
 
-    bool IsBuhua(int card) const;
+    // must be invoked after update invisible cards
+    bool IsBuhua(int* cards_of_hua, int& cards_of_hua_len) const;
+
+    bool IsBuhua(PlayCardMsgProtocol* proto) const;
+
+    bool IsBuhua(int new_card) const;
+
+    bool IsBuhua() const;
 
   private:
 	bool Init(int player_id);
@@ -107,13 +119,14 @@ class Player : public PlayerProtocol {
 
     bool RemoveInvisibleHandCards(int card, int num);
 
-    bool GetTingOrZimoOperationID(int& operation_id, TingCardMsgProtocol* proto) const;
+    bool GetTingOrZimoOperationID(int& operation_id, PlayCardMsgProtocol* proto) const;
 
     bool is_online_;
     bool has_selected_operation_ting_;
 	int player_id_;
     int cur_available_operation_id_;
-	PlayerCardsMsgProtocol cards_msg_proto_;
+
+	PlayerCardsMsgProtocol* cards_msg_proto_;
 };
 
 inline void Player::set_cur_available_operation_id(int operation_id) {

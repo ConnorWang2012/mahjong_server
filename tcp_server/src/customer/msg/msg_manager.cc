@@ -26,8 +26,6 @@ modification:
 #include "msg/protocol/my_login_msg_protocol.pb.h"
 #include "msg/protocol/create_room_msg_protocol.pb.h"
 #include "msg/protocol/room_operation_msg_protocol.pb.h"
-#include "msg/protocol/room_msg_protocol.pb.h"
-#include "msg/protocol/player_cards_msg_protocol.pb.h"
 #include "network/network_manager.h"
 #include "player/player.h"
 #include "player/player_manager.h"
@@ -35,15 +33,6 @@ modification:
 #include "room/room_manager.h"
 
 namespace gamer {
-
-//MsgManager::MsgManager() {
-//    this->Init();
-//}
-
-//MsgManager* MsgManager::instance() {
-//	static MsgManager s_msg_mgr; 
-//	return &s_msg_mgr;
-//}
 
 bool MsgManager::SendMsg(const ServerMsg& msg, bufferevent* bev) {
 	char buf[MsgManager::MAX_MSG_LEN] = { 0 };
@@ -244,12 +233,14 @@ void MsgManager::DealWithCreateRoomMsg(const ClientMsg& msg, bufferevent* bev) {
 	room->AddPlayer(player);
 	room_mgr->AddRoom(room);
 
-	auto serialized_str = proto.SerializeAsString();
-	if ("" == serialized_str) {
-		// TODO : log
-		return;
-	}
-	DataManager::instance()->CacheCreateRoomData(room_id, serialized_str);
+	//auto serialized_str = proto.SerializeAsString();
+	//if ("" == serialized_str) {
+	//	// TODO : log
+	//	return;
+	//}
+	//DataManager::instance()->CacheCreateRoomData(room_id, serialized_str);
+
+    room->InitCreateRoomMsgProtocol(proto);
 }
 
 void MsgManager::DealWithPlayerJoinRoomMsg(const ClientMsg& msg, bufferevent* bev) {
@@ -365,215 +356,28 @@ void MsgManager::DealWithPlayerLeaveRoomMsg(const ClientMsg& msg, bufferevent* b
 void MsgManager::DealWithStartGameMsg(const ClientMsg& msg, bufferevent* bev) {
 	// 1.verify client msg
 	gamer::protocol::RoomMsgProtocol proto_client;
-	if (!this->ParseMsg(msg, &proto_client)) {
+	if ( !this->ParseMsg(msg, &proto_client) ) {
 		// TODO : log
-		this->SendMsgForError((msg_header_t)MsgCodes::MSG_RESPONSE_CODE_FAILED1, msg, bev); // TODO : specify error code
+        // TODO : specify error code
+		this->SendMsgForError((msg_header_t)MsgCodes::MSG_RESPONSE_CODE_FAILED1, msg, bev); 
 		return;
 	}
 
 	// 2.verify room id and room owner id
 	auto room_id = proto_client.room_id();
 	auto room = RoomManager<Player>::instance()->GetRoom(room_id);
-	gamer::protocol::CreateRoomMsgProtocol create_room_msg_proto;
 	if (nullptr == room) {
 		// TODO : log
-		this->SendMsgForError((msg_header_t)MsgCodes::MSG_RESPONSE_CODE_FAILED1, msg, bev); // TODO : specify error code
+        // TODO : specify error code
+		this->SendMsgForError((msg_header_t)MsgCodes::MSG_RESPONSE_CODE_FAILED1, msg, bev);
 		return;
 	}
 
-	std::string serialized_str = "";
-	DataManager::instance()->GetCachedCreateRoomData(room_id, serialized_str);
-	if ("" != serialized_str) {
-		auto ret = create_room_msg_proto.ParseFromString(serialized_str);
-		if ( !ret) {
-			// TODO : log
-			this->SendMsgForError((msg_header_t)MsgCodes::MSG_RESPONSE_CODE_FAILED1, msg, bev); // TODO : specify error code
-			return;
-		}
-	}
-
-	auto room_owner_id_client = proto_client.room_owner_id();
-	auto room_owner_id_server = create_room_msg_proto.room_owner_id();
-	if (room_owner_id_server != room_owner_id_client) {
-		// TODO : log
-		this->SendMsgForError((msg_header_t)MsgCodes::MSG_RESPONSE_CODE_FAILED1, msg, bev); // TODO : specify error code
-		return;
-	}
-
-	// 3.verify room player num
-	if (room->cur_players_num() != create_room_msg_proto.players_num()) {
-		// TODO : log
-		this->SendMsgForError((msg_header_t)MsgCodes::MSG_RESPONSE_CODE_FAILED1, msg, bev); // TODO : specify error code
-		return;
-	}
-
-/*	int buf[CardConstants::TOTAL_CARDS_NUM] = {
-        0, 1, 2, 3, 4, 5, 6, 7, 8,
-        0, 1, 2, 3, 4, 5, 6, 7, 8,
-        0, 1, 2, 3, 4, 5, 6, 7, 8,
-        0, 1, 2, 3, 4, 5, 6, 7, 8,
-
-        9, 10, 11, 12, 13, 14, 15, 16, 17,
-        9, 10, 11, 12, 13, 14, 15, 16, 17,
-        9, 10, 11, 12, 13, 14, 15, 16, 17,
-        9, 10, 11, 12, 13, 14, 15, 16, 17,
-
-        18, 19, 20, 21, 22, 23, 24, 25, 26,
-        18, 19, 20, 21, 22, 23, 24, 25, 26,
-        18, 19, 20, 21, 22, 23, 24, 25, 26,
-        18, 19, 20, 21, 22, 23, 24, 25, 26,
-
-        27, 28, 29, 30, 31, 32, 33,
-        27, 28, 29, 30, 31, 32, 33,
-        27, 28, 29, 30, 31, 32, 33,
-        27, 28, 29, 30, 31, 32, 33,
-
-        34, 35, 36, 37, 38, 39, 40, 41 };*/
-
-    int buf[CardConstants::TOTAL_CARDS_NUM - 8] = {
-        0, 1, 2, 3, 4, 5, 6, 7, 8,
-        0, 1, 2, 3, 4, 5, 6, 7, 8,
-        0, 1, 2, 3, 4, 5, 6, 7, 8,
-        0, 1, 2, 3, 4, 5, 6, 7, 8,
-
-        9, 10, 11, 12, 13, 14, 15, 16, 17,
-        9, 10, 11, 12, 13, 14, 15, 16, 17,
-        9, 10, 11, 12, 13, 14, 15, 16, 17,
-        9, 10, 11, 12, 13, 14, 15, 16, 17,
-
-        18, 19, 20, 21, 22, 23, 24, 25, 26,
-        18, 19, 20, 21, 22, 23, 24, 25, 26,
-        18, 19, 20, 21, 22, 23, 24, 25, 26,
-        18, 19, 20, 21, 22, 23, 24, 25, 26,
-
-        27, 
-
-        1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 5, 5, 10,
-        1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 5, 5
-
-        /*10, 0, 1, 2, 2, 2, 5, 4*/ }; // TODO
-        //34, 35, 36, 37, 38, 39, 40, 41 };
-	auto vec = std::vector<int>(buf, buf + CardConstants::TOTAL_CARDS_NUM - 8); // TODO
-	//gamer::ChessCard::Shuffle(vec);
-
-	protocol::RoomMsgProtocol proto_server;
-	// room common
-	auto room_owner_id = create_room_msg_proto.room_owner_id();
-	auto players_num = create_room_msg_proto.players_num();
-	proto_server.set_room_id(room_id);
-	proto_server.set_room_owner_id(room_owner_id);
-	proto_server.set_players_num(players_num);
-	proto_server.set_cur_round(1); // TODO : 1 is not right always
-	proto_server.set_total_round(create_room_msg_proto.rounds_num()); // TODO : rounds_num replace by total_round
-	proto_server.set_remain_cards_num(CardConstants::TOTAL_CARDS_NUM -
-		players_num * CardConstants::ONE_PLAYER_CARD_NUM - 1 - 8); // TODO
-	proto_server.set_operating_player_id(room_owner_id);
-	proto_server.set_banker_id(room_owner_id); // not right always
-	proto_server.set_banker_is_same_time(0); // not right always
-
-	// room remain cards
-	auto remain_card_num = proto_server.remain_cards_num();
-	for (auto i = 0; i < remain_card_num; i++) {
-		proto_server.add_remain_cards(vec.at(i)); // some kind of ugly
-	}
-
-	// room player cards
-	auto players = room->players();
-	auto card_index = remain_card_num;
-    gamer::protocol::PlayerCardsMsgProtocol* room_owner_invisible_cards;
-	for (auto& player : *players) {
-		auto player_cards = proto_server.add_player_cards();
-		auto player_id = player->player_id();
-		player_cards->set_player_id(player_id); 
-		auto card_num = (player_id == room_owner_id) ? (CardConstants::ONE_PLAYER_CARD_NUM2) :
-			CardConstants::ONE_PLAYER_CARD_NUM;
-        player_cards->set_invisible_hand_cards_num(card_num);
-		for (auto j = 0; j < card_num; j++) {
-            player_cards->add_invisible_hand_cards(vec.at(card_index));
-			// TODO : visible cards and waiting cards
-			++card_index;
-		}
-
-        if (player_id == room_owner_id) {
-            room_owner_invisible_cards = player_cards;
-        }
-	}
-
-	// cache room data
-	auto value = proto_server.SerializeAsString();
-	if ("" != value) {
-		DataManager::instance()->CacheGameStartData(room_id, value);
-		room->set_room_msg_protocol(value);
-	}
-
-    // clear remain cards
-    proto_server.clear_remain_cards();
-
-	// send msg to all players in the room 
-	// 1.prepare all player game start data
-	std::unordered_map<int, protocol::RoomMsgProtocol> game_start_protos;
-	game_start_protos.insert(std::make_pair(proto_server.room_owner_id(),
-		protocol::RoomMsgProtocol(proto_server)));
-	for (auto i = 0; i < proto_server.player_cards_size(); i++) {
-		auto player_id = proto_server.player_cards(i).player_id();
-		if (player_id != proto_server.room_owner_id()) {
-			game_start_protos.insert(std::make_pair(player_id, 
-				protocol::RoomMsgProtocol(proto_server)));
-		}
-	}
-
-	// 2.remove other player invisible hand cards except self
-	for (auto it = game_start_protos.begin(); it != game_start_protos.end(); it++) {
-		auto player_cards = it->second.mutable_player_cards();
-		for (auto i = 0; i < it->second.player_cards_size(); i++) {
-			if (it->first != it->second.player_cards(i).player_id()){
-				it->second.mutable_player_cards(i)->clear_invisible_hand_cards();
-			}
-		}
-	}
-
-	// 3.send msg(not contain other player invisible cards) to all player
-	for (auto& player : *players) {
-		auto player_id = player->player_id();
-		auto bev = PlayerManager::instance()->GetOnlinePlayerBufferevent(player_id);
-		if (nullptr != bev) {
-			auto game_start_itr = game_start_protos.find(player_id);
-			if (game_start_itr != game_start_protos.end()) {
-                auto proto = game_start_itr->second;
-                //if (player_id == room_owner_id) {
-                //    auto card = room_owner_invisible_cards->invisible_hand_cards(0);
-                //    auto ret = player->GetAvailableOperationIDWithNewCard(card);
-                //    proto.set_operation_id(ret);
-                //} else {
-
-                //}
-
-				this->SendMsg((msg_header_t)MsgTypes::S2C_MSG_TYPE_ROOM,
-							  (msg_header_t)MsgIDs::MSG_ID_ROOM_START_GAME,
-							  (msg_header_t)MsgCodes::MSG_RESPONSE_CODE_SUCCESS,
-                              proto,
-					          bev);
-			}
-		} else {
-			// TODO : log
-		}
-	}
-
-	// copy player hand cards to player obj
-	for (auto& player : *players) {
-		for (auto i = 0; i < players_num; i++) {
-			if (player->player_id() == proto_server.player_cards(i).player_id()) {
-                player->CopyHandCardsFrom(proto_server.player_cards(i));
-				break;
-			}
-		}
-	}
-
-	// release allocated
-	//for (auto itr = game_start_protos.begin(); itr != game_start_protos.end(); itr++) {
-	//	auto player_cards = itr->second.mutable_player_cards();
-	//	player_cards->DeleteSubrange(0, itr->second.player_cards_size());
-	//}
+    // 3.deal with game start
+    auto code = room->DealWithGameStart(proto_client);
+    if (code != MsgCodes::MSG_RESPONSE_CODE_SUCCESS) {
+        this->SendMsgForError((msg_header_t)code, msg, bev);
+    }
 }
 
 void MsgManager::DealWithPlayCardMsg(const ClientMsg& msg, bufferevent* bev) {

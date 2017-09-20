@@ -20,7 +20,9 @@ namespace gamer {
 enum CardConstants {
     TOTAL_CARDS_NUM               = 144, // total cards num
     ONE_PLAYER_CARD_NUM           = 13,  // one player card num
-    ONE_PLAYER_CARD_NUM2          = 14,  // one player card num, including one new card
+    ONE_PLAYER_CARD_NUM2          = 14,  // one player card num max
+
+    HUA_CARD_NUM_MAX    = 8,
 
     INVALID_PLAYER_ID   = 0,
 
@@ -82,6 +84,7 @@ enum class CardTypes {
 };
 
 enum PlayCardOperationIDs {
+    OPERATION_UNKNOW                = -1,
     OPERATION_DISCARD,
     OPERATION_NONE,			        // just a new card, no operation(only server to client)
     OPERATION_CHI,			        // chi

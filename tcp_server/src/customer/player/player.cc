@@ -25,7 +25,8 @@ Player::Player()
 	: player_id_(0),
       is_online_(false),
       cur_available_operation_id_(PlayCardOperationIDs::OPERATION_NONE),
-      has_selected_operation_ting_(false) {
+      has_selected_operation_ting_(false),
+      cards_msg_proto_(nullptr) {
 }
 
 Player* Player::Create(int player_id) {
@@ -55,17 +56,21 @@ inline bool Player::is_online() const {
 	return is_online_;
 }
 
-void Player::CopyHandCardsFrom(const PlayerCardsMsgProtocol& from) {
-	cards_msg_proto_.CopyFrom(from);
+void Player::InitPlayerCards(PlayerCardsMsgProtocol* proto) {
+    if (nullptr != proto) {
+        cards_msg_proto_ = proto;
+        auto cards = proto->mutable_invisible_hand_cards();
+        std::sort(cards->begin(), cards->end());
+    }
 }
 
 void Player::CopyInvisibleHandCardsTo(RepeatedFieldInt& to) {
-    to.CopyFrom(cards_msg_proto_.invisible_hand_cards());
+    to.CopyFrom(cards_msg_proto_->invisible_hand_cards());
 }
 
 bool Player::InvisibleHandCardsContains(int card) const {
-	for (auto i = 0; i < cards_msg_proto_.invisible_hand_cards_size(); i++) {
-		if (cards_msg_proto_.invisible_hand_cards(i) == card) {
+	for (auto i = 0; i < cards_msg_proto_->invisible_hand_cards_size(); i++) {
+		if (cards_msg_proto_->invisible_hand_cards(i) == card) {
 			return true;
 		}
 	}
@@ -74,7 +79,7 @@ bool Player::InvisibleHandCardsContains(int card) const {
 
 void Player::UpdateCardForDiscard(int discard) {
 	// remove the discard from invisible hand cards
-    auto cards = cards_msg_proto_.mutable_invisible_hand_cards();
+    auto cards = cards_msg_proto_->mutable_invisible_hand_cards();
     auto n = cards->size();
     for (int i = 0; i < n; i++) {
         if (cards->Get(i) == discard) {
@@ -89,14 +94,14 @@ void Player::UpdateCardForDiscard(int discard) {
     // add the discard to discards or season cards or flower cards
     if (discard > CardConstants::INVALID_CARD_VALUE && 
         discard < CardConstants::SEASON_SPRING) {
-        cards_msg_proto_.add_discards(discard);
+        cards_msg_proto_->add_discards(discard);
     } else if (discard >= CardConstants::SEASON_SPRING &&
                discard <= CardConstants::SEASON_WINTER) {
-        cards_msg_proto_.add_season_cards(discard);
+        cards_msg_proto_->add_season_cards(discard);
   
     } else if (discard >= CardConstants::FLOWER_PLUM &&
                discard <= CardConstants::FLOWER_BAMBOO) {
-        cards_msg_proto_.add_flower_cards(discard);
+        cards_msg_proto_->add_flower_cards(discard);
     }
 }
 
@@ -119,9 +124,9 @@ bool Player::UpdateCardForChi(int card_of_chi, int card_match_chi_1, int card_ma
     this->RemoveInvisibleHandCards(card_match_chi_2, 1);
 
     // add chi cards
-    cards_msg_proto_.add_chi_cards(card_of_chi);
-    cards_msg_proto_.add_chi_cards(card_match_chi_1);
-    cards_msg_proto_.add_chi_cards(card_match_chi_2);
+    cards_msg_proto_->add_chi_cards(card_of_chi);
+    cards_msg_proto_->add_chi_cards(card_match_chi_1);
+    cards_msg_proto_->add_chi_cards(card_match_chi_2);
 
     return true;
 }
@@ -133,8 +138,8 @@ void Player::UpdateCardForPeng(int card_of_peng) {
     }
 
     // add 3 peng cards to visible hand cards
-    auto size = cards_msg_proto_.peng_cards_size();
-    cards_msg_proto_.mutable_peng_cards()->Resize(size + 3, card_of_peng);
+    auto size = cards_msg_proto_->peng_cards_size();
+    cards_msg_proto_->mutable_peng_cards()->Resize(size + 3, card_of_peng);
 }
 
 void Player::UpdateCardForPengAndGang(int card_of_peng_gang) {
@@ -144,8 +149,22 @@ void Player::UpdateCardForPengAndGang(int card_of_peng_gang) {
     }
 
     // add 4 peng cards to ming gang cards
-    auto size = cards_msg_proto_.ming_gang_cards_size();
-    cards_msg_proto_.mutable_ming_gang_cards()->Resize(size + 4, card_of_peng_gang);
+    auto size = cards_msg_proto_->ming_gang_cards_size();
+    cards_msg_proto_->mutable_ming_gang_cards()->Resize(size + 4, card_of_peng_gang);
+}
+
+bool Player::UpdateCardForBuhua(int* cards_of_hua_removed, int& num_cards_of_hua_removed) {
+    auto count = 0;
+    for (auto i = (int)CardConstants::SEASON_SPRING; i < CardConstants::FLOWER_BAMBOO + 1; i++) {
+        if (this->RemoveInvisibleHandCards(i, 1)) {
+            cards_of_hua_removed[count++] = i;
+        }
+    }
+    if (count > 0) {
+        num_cards_of_hua_removed = count;
+        return true;
+    }
+    return false;
 }
 
 void Player::UpdateCardForMingGang(int card_of_ming_gang) {
@@ -158,11 +177,11 @@ void Player::UpdateCardForMingGang(int card_of_ming_gang) {
 
     if (4 == this->CountInvisibleHandCards(card_of_ming_gang)) {
         this->RemoveInvisibleHandCards(card_of_ming_gang, 4);
-        auto size = cards_msg_proto_.ming_gang_cards_size();
-        cards_msg_proto_.mutable_ming_gang_cards()->Resize(size + 4, card_of_ming_gang);
+        auto size = cards_msg_proto_->ming_gang_cards_size();
+        cards_msg_proto_->mutable_ming_gang_cards()->Resize(size + 4, card_of_ming_gang);
     } else if (this->PengCardsContains(card_of_ming_gang)) {
         this->RemoveInvisibleHandCards(card_of_ming_gang, 1);
-        cards_msg_proto_.mutable_ming_gang_cards()->Add(card_of_ming_gang);
+        cards_msg_proto_->mutable_ming_gang_cards()->Add(card_of_ming_gang);
     }
 }
 
@@ -173,20 +192,20 @@ void Player::UpdateCardForAnGang(int card_of_an_gang) {
     }
 
     // add 4 cards(value equal card_of_an_gang) to an gang cards
-    auto size = cards_msg_proto_.an_gang_cards_size();
-    cards_msg_proto_.mutable_an_gang_cards()->Resize(size + 4, card_of_an_gang);
+    auto size = cards_msg_proto_->an_gang_cards_size();
+    cards_msg_proto_->mutable_an_gang_cards()->Resize(size + 4, card_of_an_gang);
 }
 
 void Player::UpdateInvisibleHandCard(int new_card) {
-    if (cards_msg_proto_.invisible_hand_cards_size() <= CardConstants::ONE_PLAYER_CARD_NUM) {
-        cards_msg_proto_.add_invisible_hand_cards(new_card);
+    if (cards_msg_proto_->invisible_hand_cards_size() <= CardConstants::ONE_PLAYER_CARD_NUM) {
+        cards_msg_proto_->add_invisible_hand_cards(new_card);
     }
 }
 
-int Player::GetAvailableOperationID(int new_card, TingCardMsgProtocol* proto) const {
+int Player::GetAvailableOperationID(int new_card, PlayCardMsgProtocol* proto) const {
     // bu hua or ting or zimo or ming gang or an gang
     auto ting_or_zimo_operation = 0;
-    if (this->IsBuhua(new_card)) {
+    if (this->IsBuhua(proto)) {
         return PlayCardOperationIDs::OPERATION_BU_HUA;
     } else if (this->has_selected_operation_ting()) {
         if (this->IsZimo()) {
@@ -273,8 +292,8 @@ bool Player::IsChi(int card) const {
     auto has_card_pre2 = false;
     auto has_card_next = false;
     auto has_card_next2 = false;
-    for (int i = 0; i < cards_msg_proto_.invisible_hand_cards_size(); i++) {
-        auto cardtmp = cards_msg_proto_.invisible_hand_cards(i);
+    for (int i = 0; i < cards_msg_proto_->invisible_hand_cards_size(); i++) {
+        auto cardtmp = cards_msg_proto_->invisible_hand_cards(i);
         if (cardtmp == card_pre) {
             has_card_pre = true;
         }
@@ -342,8 +361,8 @@ bool Player::IsChi(int card, int* cards_chi, int& cards_chi_len) const {
     auto has_card_pre2  = false;
     auto has_card_next  = false;
     auto has_card_next2 = false;
-    for (int i = 0; i < cards_msg_proto_.invisible_hand_cards_size(); i++) {
-        auto cardtmp = cards_msg_proto_.invisible_hand_cards(i);
+    for (int i = 0; i < cards_msg_proto_->invisible_hand_cards_size(); i++) {
+        auto cardtmp = cards_msg_proto_->invisible_hand_cards(i);
         if (cardtmp == card_pre) {
             has_card_pre = true;
         } else if (cardtmp == card_pre2) {
@@ -446,9 +465,45 @@ bool Player::IsAnGang(int card) const {
     return 4 == this->CountInvisibleHandCards(card);
 }
 
-bool Player::IsBuhua(int card) const {
-    if (card > CardConstants::DRAGON_WHITE && card <= CardConstants::FLOWER_BAMBOO) {
-        return this->InvisibleHandCardsContains(card);
+bool Player::IsBuhua(int* cards_of_hua, int& cards_of_hua_len) const {
+    auto count = 0;
+    for (auto i = (int)CardConstants::SEASON_SPRING; i < CardConstants::FLOWER_BAMBOO + 1; i++) {
+        if (this->InvisibleHandCardsContains(i)) {
+            cards_of_hua[count++] = i;
+        }
+    }
+
+    if (count > 0) {
+        cards_of_hua_len = count;
+        return true;
+    }
+    return false;
+}
+
+bool Player::IsBuhua(PlayCardMsgProtocol* proto) const {
+    auto ret = false;
+    auto size = cards_msg_proto_->invisible_hand_cards_size();
+    for (int i = size - 1; i > -1; i--) {
+        if (ChessCard::is_season_or_flower(cards_msg_proto_->invisible_hand_cards(i))) {
+            proto->add_operating_cards(cards_msg_proto_->invisible_hand_cards(i));
+            ret = true;
+        } else if (i <= size - 2) {
+            break;
+        }
+    }
+    return ret;
+}
+
+bool Player::IsBuhua(int new_card) const {
+    return ChessCard::is_season_or_flower(new_card);
+}
+
+bool Player::IsBuhua() const
+{
+    for (auto i = (int)CardConstants::SEASON_SPRING; i < CardConstants::FLOWER_BAMBOO + 1; i++) {
+        if (this->InvisibleHandCardsContains(i)) {
+            return true;
+        }
     }
     return false;
 }
@@ -460,17 +515,17 @@ bool Player::Init(int player_id) {
 
 void Player::GetInvisibleHandCards(int* cards, int& len) const {
     len = 0;
-    for (int i = 0; i < cards_msg_proto_.invisible_hand_cards_size(); i++) {
-        if (cards_msg_proto_.invisible_hand_cards(i) < CardConstants::SEASON_SPRING) {
-            cards[len++] = cards_msg_proto_.invisible_hand_cards(i);
+    for (int i = 0; i < cards_msg_proto_->invisible_hand_cards_size(); i++) {
+        if (cards_msg_proto_->invisible_hand_cards(i) < CardConstants::SEASON_SPRING) {
+            cards[len++] = cards_msg_proto_->invisible_hand_cards(i);
         }
     }
 }
 
 int Player::CountInvisibleHandCards(int invisible_card) const {
     auto count = 0;
-    for (int i = 0; i < cards_msg_proto_.invisible_hand_cards_size(); i++) {
-        if (cards_msg_proto_.invisible_hand_cards(i) == invisible_card) {
+    for (int i = 0; i < cards_msg_proto_->invisible_hand_cards_size(); i++) {
+        if (cards_msg_proto_->invisible_hand_cards(i) == invisible_card) {
             count++;
         }
     }
@@ -478,8 +533,8 @@ int Player::CountInvisibleHandCards(int invisible_card) const {
 }
 
 bool Player::PengCardsContains(int card) const {
-    for (int i = 0; i < cards_msg_proto_.peng_cards_size(); i++) {
-        if (cards_msg_proto_.peng_cards(i) == card) {
+    for (int i = 0; i < cards_msg_proto_->peng_cards_size(); i++) {
+        if (cards_msg_proto_->peng_cards(i) == card) {
             return true;
         }
     }
@@ -493,7 +548,7 @@ bool Player::RemoveInvisibleHandCards(int card, int num) {
         return false;
     }
 
-    auto cards = cards_msg_proto_.mutable_invisible_hand_cards();
+    auto cards = cards_msg_proto_->mutable_invisible_hand_cards();
     auto n = cards->size();
     auto count = 0;
     for (int i = 0; i < n; i++) {
@@ -515,7 +570,7 @@ bool Player::RemoveInvisibleHandCards(int card, int num) {
     return false;
 }
 
-bool Player::GetTingOrZimoOperationID(int& operation_id, TingCardMsgProtocol* proto) const {
+bool Player::GetTingOrZimoOperationID(int& operation_id, PlayCardMsgProtocol* proto) const {
     int cards[CardConstants::ONE_PLAYER_CARD_NUM2] = { 0 };
     auto len = 0;
     this->GetInvisibleHandCards(cards, len);
@@ -527,9 +582,17 @@ bool Player::GetTingOrZimoOperationID(int& operation_id, TingCardMsgProtocol* pr
     if (ChessCard::IsHu(cards, len)) {
         operation_id = PlayCardOperationIDs::OPERATION_ZI_MO;
         return true;
-    } else if (ChessCard::IsTing(cards, len, proto)) {
-        operation_id = PlayCardOperationIDs::OPERATION_TING;
-        return true;
+    } else {
+        if (proto->ting_cards_size() > 0) {
+            proto->mutable_ting_cards(0)->Clear();
+            if (ChessCard::IsTing(cards, len, proto->mutable_ting_cards(0))) {
+                operation_id = PlayCardOperationIDs::OPERATION_TING;
+                return true;
+            }
+        } else if (ChessCard::IsTing(cards, len, proto->add_ting_cards())) {
+            operation_id = PlayCardOperationIDs::OPERATION_TING;
+            return true;
+        }
     }
 
     return false;

@@ -25,7 +25,9 @@ enum class MsgIDs {
 	MSG_ID_ROOM_PLAYER_LEAVE		= 5,
 	MSG_ID_ROOM_DISSOLVE			= 6,
     MSG_ID_ROOM_START_GAME          = 7,
-	MSG_ID_ROOM_PLAY_CARD			= 8
+	MSG_ID_ROOM_PLAY_CARD			= 8,
+    MSG_ID_ROOM_GAME_END            = 9, // game end for one round
+    MSG_ID_ROOM_FINAL_GAME_END      = 10
 };
 
 }

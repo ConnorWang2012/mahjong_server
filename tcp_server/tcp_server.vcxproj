@@ -302,6 +302,7 @@
     <ClInclude Include="src\customer\msg\msg_manager.h" />
     <ClInclude Include="src\customer\msg\msg_type.h" />
     <ClInclude Include="src\customer\msg\protocol\create_room_msg_protocol.pb.h" />
+    <ClInclude Include="src\customer\msg\protocol\game_end_msg_protocol.pb.h" />
     <ClInclude Include="src\customer\msg\protocol\my_login_msg_protocol.pb.h" />
     <ClInclude Include="src\customer\msg\protocol\player_cards_msg_protocol.pb.h" />
     <ClInclude Include="src\customer\msg\protocol\player_msg_protocol.pb.h" />
@@ -399,6 +400,7 @@
     <ClCompile Include="src\customer\data\data_manager.cc" />
     <ClCompile Include="src\customer\msg\msg_manager.cc" />
     <ClCompile Include="src\customer\msg\protocol\create_room_msg_protocol.pb.cc" />
+    <ClCompile Include="src\customer\msg\protocol\game_end_msg_protocol.pb.cc" />
     <ClCompile Include="src\customer\msg\protocol\my_login_msg_protocol.pb.cc" />
     <ClCompile Include="src\customer\msg\protocol\player_cards_msg_protocol.pb.cc" />
     <ClCompile Include="src\customer\msg\protocol\player_msg_protocol.pb.cc" />

@@ -148,7 +148,7 @@ class PlayCardMsgProtocol : public ::google::protobuf::Message {
   inline bool has_next_operate_player_new_card() const;
   inline void set_has_next_operate_player_new_card(bool value);
 
-  // optional int32 my_available_operation_id = 9 [default = 0];
+  // optional int32 my_available_operation_id = 9 [default = -1];
   inline bool has_my_available_operation_id() const;
   inline void clear_my_available_operation_id();
   static const int kMyAvailableOperationIdFieldNumber = 9;
@@ -434,7 +434,7 @@ inline void PlayCardMsgProtocol::set_has_next_operate_player_new_card(bool value
   // @@protoc_insertion_point(field_set:gamer.protocol.PlayCardMsgProtocol.has_next_operate_player_new_card)
 }
 
-// optional int32 my_available_operation_id = 9 [default = 0];
+// optional int32 my_available_operation_id = 9 [default = -1];
 inline bool PlayCardMsgProtocol::has_my_available_operation_id() const {
   return (_has_bits_[0] & 0x00000100u) != 0;
 }
@@ -445,7 +445,7 @@ inline void PlayCardMsgProtocol::clear_has_my_available_operation_id() {
   _has_bits_[0] &= ~0x00000100u;
 }
 inline void PlayCardMsgProtocol::clear_my_available_operation_id() {
-  my_available_operation_id_ = 0;
+  my_available_operation_id_ = -1;
   clear_has_my_available_operation_id();
 }
 inline ::google::protobuf::int32 PlayCardMsgProtocol::my_available_operation_id() const {

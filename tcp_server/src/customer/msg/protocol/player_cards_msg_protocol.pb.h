@@ -91,7 +91,7 @@ class PlayerCardsMsgProtocol : public ::google::protobuf::Message {
 
   // accessors -------------------------------------------------------
 
-  // optional int32 player_id = 1 [default = 0];
+  // required int32 player_id = 1;
   inline bool has_player_id() const;
   inline void clear_player_id();
   static const int kPlayerIdFieldNumber = 1;
@@ -201,17 +201,17 @@ class PlayerCardsMsgProtocol : public ::google::protobuf::Message {
   inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
       mutable_discards();
 
-  // repeated int32 waiting_cards = 11;
-  inline int waiting_cards_size() const;
-  inline void clear_waiting_cards();
-  static const int kWaitingCardsFieldNumber = 11;
-  inline ::google::protobuf::int32 waiting_cards(int index) const;
-  inline void set_waiting_cards(int index, ::google::protobuf::int32 value);
-  inline void add_waiting_cards(::google::protobuf::int32 value);
+  // repeated int32 ting_cards = 11;
+  inline int ting_cards_size() const;
+  inline void clear_ting_cards();
+  static const int kTingCardsFieldNumber = 11;
+  inline ::google::protobuf::int32 ting_cards(int index) const;
+  inline void set_ting_cards(int index, ::google::protobuf::int32 value);
+  inline void add_ting_cards(::google::protobuf::int32 value);
   inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
-      waiting_cards() const;
+      ting_cards() const;
   inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
-      mutable_waiting_cards();
+      mutable_ting_cards();
 
   // @@protoc_insertion_point(class_scope:gamer.protocol.PlayerCardsMsgProtocol)
  private:
@@ -234,7 +234,7 @@ class PlayerCardsMsgProtocol : public ::google::protobuf::Message {
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 > ming_gang_cards_;
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 > an_gang_cards_;
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 > discards_;
-  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > waiting_cards_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > ting_cards_;
   friend void  protobuf_AddDesc_player_5fcards_5fmsg_5fprotocol_2eproto();
   friend void protobuf_AssignDesc_player_5fcards_5fmsg_5fprotocol_2eproto();
   friend void protobuf_ShutdownFile_player_5fcards_5fmsg_5fprotocol_2eproto();
@@ -249,7 +249,7 @@ class PlayerCardsMsgProtocol : public ::google::protobuf::Message {
 
 // PlayerCardsMsgProtocol
 
-// optional int32 player_id = 1 [default = 0];
+// required int32 player_id = 1;
 inline bool PlayerCardsMsgProtocol::has_player_id() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
@@ -537,34 +537,34 @@ PlayerCardsMsgProtocol::mutable_discards() {
   return &discards_;
 }
 
-// repeated int32 waiting_cards = 11;
-inline int PlayerCardsMsgProtocol::waiting_cards_size() const {
-  return waiting_cards_.size();
+// repeated int32 ting_cards = 11;
+inline int PlayerCardsMsgProtocol::ting_cards_size() const {
+  return ting_cards_.size();
 }
-inline void PlayerCardsMsgProtocol::clear_waiting_cards() {
-  waiting_cards_.Clear();
+inline void PlayerCardsMsgProtocol::clear_ting_cards() {
+  ting_cards_.Clear();
 }
-inline ::google::protobuf::int32 PlayerCardsMsgProtocol::waiting_cards(int index) const {
-  // @@protoc_insertion_point(field_get:gamer.protocol.PlayerCardsMsgProtocol.waiting_cards)
-  return waiting_cards_.Get(index);
+inline ::google::protobuf::int32 PlayerCardsMsgProtocol::ting_cards(int index) const {
+  // @@protoc_insertion_point(field_get:gamer.protocol.PlayerCardsMsgProtocol.ting_cards)
+  return ting_cards_.Get(index);
 }
-inline void PlayerCardsMsgProtocol::set_waiting_cards(int index, ::google::protobuf::int32 value) {
-  waiting_cards_.Set(index, value);
-  // @@protoc_insertion_point(field_set:gamer.protocol.PlayerCardsMsgProtocol.waiting_cards)
+inline void PlayerCardsMsgProtocol::set_ting_cards(int index, ::google::protobuf::int32 value) {
+  ting_cards_.Set(index, value);
+  // @@protoc_insertion_point(field_set:gamer.protocol.PlayerCardsMsgProtocol.ting_cards)
 }
-inline void PlayerCardsMsgProtocol::add_waiting_cards(::google::protobuf::int32 value) {
-  waiting_cards_.Add(value);
-  // @@protoc_insertion_point(field_add:gamer.protocol.PlayerCardsMsgProtocol.waiting_cards)
+inline void PlayerCardsMsgProtocol::add_ting_cards(::google::protobuf::int32 value) {
+  ting_cards_.Add(value);
+  // @@protoc_insertion_point(field_add:gamer.protocol.PlayerCardsMsgProtocol.ting_cards)
 }
 inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
-PlayerCardsMsgProtocol::waiting_cards() const {
-  // @@protoc_insertion_point(field_list:gamer.protocol.PlayerCardsMsgProtocol.waiting_cards)
-  return waiting_cards_;
+PlayerCardsMsgProtocol::ting_cards() const {
+  // @@protoc_insertion_point(field_list:gamer.protocol.PlayerCardsMsgProtocol.ting_cards)
+  return ting_cards_;
 }
 inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
-PlayerCardsMsgProtocol::mutable_waiting_cards() {
-  // @@protoc_insertion_point(field_mutable_list:gamer.protocol.PlayerCardsMsgProtocol.waiting_cards)
-  return &waiting_cards_;
+PlayerCardsMsgProtocol::mutable_ting_cards() {
+  // @@protoc_insertion_point(field_mutable_list:gamer.protocol.PlayerCardsMsgProtocol.ting_cards)
+  return &ting_cards_;
 }
 
 

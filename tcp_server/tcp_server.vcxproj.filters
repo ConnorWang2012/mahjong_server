@@ -799,6 +799,9 @@
     <ClInclude Include="src\customer\msg\protocol\ting_card_msg_protocol.pb.h">
       <Filter>src\customer\msg\protocol</Filter>
     </ClInclude>
+    <ClInclude Include="src\customer\msg\protocol\game_end_msg_protocol.pb.h">
+      <Filter>src\customer\msg\protocol</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -973,6 +976,9 @@
       <Filter>src\framework\util</Filter>
     </ClCompile>
     <ClCompile Include="src\customer\msg\protocol\ting_card_msg_protocol.pb.cc">
+      <Filter>src\customer\msg\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="src\customer\msg\protocol\game_end_msg_protocol.pb.cc">
       <Filter>src\customer\msg\protocol</Filter>
     </ClCompile>
   </ItemGroup>

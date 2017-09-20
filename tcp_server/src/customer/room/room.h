@@ -21,8 +21,10 @@ modification:
 #include "customer/room/card_constants.h"
 #include "framework/util/chess_card_algorithm.h"
 #include "msg/msg_manager.h"
+#include "msg/protocol/create_room_msg_protocol.pb.h"
 #include "msg/protocol/room_msg_protocol.pb.h"
 #include "msg/protocol/play_card_msg_protocol.pb.h"
+#include "msg/protocol/game_end_msg_protocol.pb.h"
 #include "room/room_protocol.h"
 
 namespace gamer {
@@ -30,6 +32,11 @@ namespace gamer {
 template<typename Player>
 class Room : public RoomProtocol<Player> {
   public:
+    typedef gamer::protocol::CreateRoomMsgProtocol CreateRoomMsgProtocol;
+    typedef gamer::protocol::RoomMsgProtocol       RoomMsgProtocol;
+    typedef gamer::protocol::PlayCardMsgProtocol   PlayCardMsgProtocol;
+    typedef gamer::protocol::GameEndMsgProtocol    GameEndMsgProtocol;
+
     Room& operator=(const Room&) = delete;
 
     Room(const Room&) = delete;
@@ -54,28 +61,36 @@ class Room : public RoomProtocol<Player> {
     
     virtual inline int cur_players_num() const override;
 
-    inline void set_room_msg_protocol(const std::string& serialized_data);
+    void InitCreateRoomMsgProtocol(const CreateRoomMsgProtocol& proto);
 
-    inline gamer::protocol::RoomMsgProtocol* get_room_msg_protocol();
+    void InitRoomMsgProtocol(const std::string& serialized_data);
 
-    MsgCodes DealWithPlayCard(gamer::protocol::PlayCardMsgProtocol& proto);
+    MsgCodes DealWithPlayCard(PlayCardMsgProtocol& proto);
+
+    MsgCodes DealWithGameStart(RoomMsgProtocol& proto);
 
   private:   
     Room();
 
     bool Init(int room_id);
 
-    void DealWithOperationDiscard(gamer::protocol::PlayCardMsgProtocol& proto, Player* player);
+    void DealWithFirstGameStart();
 
-    void DealWithOperationGiveUp(gamer::protocol::PlayCardMsgProtocol& proto, Player* player);
+    void DealWithNonFirstGameStart();
 
-    void DealWithOperationGiveUpPengOrPengGang(gamer::protocol::PlayCardMsgProtocol& proto);
+    void DealWithOperationDiscard(PlayCardMsgProtocol& proto, Player* player);
+
+    void DealWithOperationGiveUp(PlayCardMsgProtocol& proto, Player* player);
+
+    void DealWithOperationGiveUpPengOrPengGang(PlayCardMsgProtocol& proto);
+
+    void DealWithGameEnd();
 
     Player* GetTheRightPlayer(int player_id);
 
     bool IsLeftPlayer(int src_player_id, int target_player_id);
 
-    bool SendPlayCardMsg(gamer::protocol::PlayCardMsgProtocol& proto, int player_id) const;
+    bool SendPlayCardMsg(PlayCardMsgProtocol& proto, int player_id) const;
 
     void RemovePlayerOfSendedMsgHu(int player_id);
 
@@ -85,7 +100,8 @@ class Room : public RoomProtocol<Player> {
 
     inline int next_one_new_card();
 
-    gamer::protocol::RoomMsgProtocol room_msg_proto_;
+    CreateRoomMsgProtocol create_room_msg_proto_;
+    RoomMsgProtocol room_msg_proto_;
 
 	int room_id_;
     Player* last_discard_player_;
@@ -99,9 +115,9 @@ class Room : public RoomProtocol<Player> {
 
 template<typename Player>
 gamer::Room<Player>::Room()
-	:room_id_(0)
-    ,last_discard_player_(nullptr)
-    ,player_sended_msg_chi_(nullptr) {
+	: room_id_(0),
+      last_discard_player_(nullptr),
+      player_sended_msg_chi_(nullptr) {
 
 }
 
@@ -183,7 +199,12 @@ int gamer::Room<Player>::cur_players_num() const {
 }
 
 template<typename Player>
-MsgCodes Room<Player>::DealWithPlayCard(gamer::protocol::PlayCardMsgProtocol& proto) {
+void Room<Player>::InitCreateRoomMsgProtocol(const CreateRoomMsgProtocol& proto) {
+    create_room_msg_proto_.CopyFrom(proto);
+}
+
+template<typename Player>
+MsgCodes Room<Player>::DealWithPlayCard(PlayCardMsgProtocol& proto) {
     // check whether player in the room
     auto player_id = proto.player_id();
     auto player = this->player(player_id);
@@ -273,7 +294,7 @@ MsgCodes Room<Player>::DealWithPlayCard(gamer::protocol::PlayCardMsgProtocol& pr
             if (p->player_id() == player_id) {
                 auto new_card = this->next_one_new_card();
                 p->UpdateInvisibleHandCard(new_card);
-                auto ret = p->GetAvailableOperationID(new_card, proto.add_ting_cards());
+                auto ret = p->GetAvailableOperationID(new_card, &proto);
                 p->set_cur_available_operation_id(ret);
                 proto.set_my_available_operation_id(ret);
                 proto.set_new_card(new_card);    
@@ -309,7 +330,7 @@ MsgCodes Room<Player>::DealWithPlayCard(gamer::protocol::PlayCardMsgProtocol& pr
             if (p->player_id() == player_id) {
                 auto new_card = this->next_one_new_card();
                 p->UpdateInvisibleHandCard(new_card);
-                auto ret = p->GetAvailableOperationID(new_card, proto.add_ting_cards());
+                auto ret = p->GetAvailableOperationID(new_card, &proto);
                 p->set_cur_available_operation_id(ret);
                 proto.set_my_available_operation_id(ret);
                 proto.set_new_card(new_card); 
@@ -342,7 +363,7 @@ MsgCodes Room<Player>::DealWithPlayCard(gamer::protocol::PlayCardMsgProtocol& pr
             if (p->player_id() == player_id) {
                 auto new_card = this->next_one_new_card();
                 p->UpdateInvisibleHandCard(new_card);
-                auto ret = p->GetAvailableOperationID(new_card, proto.add_ting_cards());
+                auto ret = p->GetAvailableOperationID(new_card, &proto);
                 p->set_cur_available_operation_id(ret);
                 proto.set_my_available_operation_id(ret);
                 proto.set_new_card(new_card);
@@ -360,36 +381,79 @@ MsgCodes Room<Player>::DealWithPlayCard(gamer::protocol::PlayCardMsgProtocol& pr
         break;
     }
     case PlayCardOperationIDs::OPERATION_BU_HUA: {
-        // check hand cards
-        if ( !player->InvisibleHandCardsContains(proto.discard()) ) {
+        // check and update hand cards
+        int cards_of_hua_removed[CardConstants::HUA_CARD_NUM_MAX] = { 0 };
+        int num_cards_of_hua_removed = 0;
+        auto ok = player->UpdateCardForBuhua(cards_of_hua_removed, num_cards_of_hua_removed);
+        if ( !ok ) {
             // TODO : log
             // TODO : specify error code
             return MsgCodes::MSG_RESPONSE_CODE_FAILED1;
         }
 
-        // update hand card and discard
-        player->UpdateCardForDiscard(proto.discard());
-
         // send bu hua succeed msg
+        PlayCardMsgProtocol proto_other; // for sending to other player
+        proto_other.set_player_id(player_id);
+        proto_other.set_room_id(room_id_);
+        proto_other.set_cur_round(room_msg_proto_.cur_round());
+        proto_other.set_operation_id(PlayCardOperationIDs::OPERATION_BU_HUA);
+        proto_other.set_my_available_operation_id(PlayCardOperationIDs::OPERATION_NONE);
+        proto_other.set_new_card(CardConstants::INVALID_CARD_VALUE);
+        proto_other.set_has_next_operate_player_new_card(true);
+
+        for (int i = 0; i < num_cards_of_hua_removed; i++) {
+            proto_other.add_operating_cards(cards_of_hua_removed[i]);
+        }
+
         for (auto& p : players_) {
             auto playerid = p->player_id();
-            if (playerid == player_id) { // get a new card for the player of bu hua
-                auto new_card = this->next_one_new_card();
-                p->UpdateInvisibleHandCard(new_card);
-                auto ret = p->GetAvailableOperationID(new_card, proto.add_ting_cards());
-                p->set_cur_available_operation_id(ret);
-                proto.set_my_available_operation_id(ret);
-                proto.set_new_card(new_card);
-                proto.set_next_operate_player_id(playerid);
-                proto.set_has_next_operate_player_new_card(false);
+            if (playerid == player_id) { // get new card for the player of bu hua
+                PlayCardMsgProtocol proto_self;
+
+                proto_self.set_player_id(player_id);
+                proto_self.set_room_id(room_id_);
+                proto_self.set_cur_round(room_msg_proto_.cur_round());
+                proto_self.set_operation_id(PlayCardOperationIDs::OPERATION_BU_HUA);
+                proto_self.set_next_operate_player_id(player_id);
+                proto_self.set_has_next_operate_player_new_card(false);
+
+                if (num_cards_of_hua_removed > 1) {
+                    int new_cards[CardConstants::HUA_CARD_NUM_MAX] = { 0 };
+
+                    for (int i = 0; i < num_cards_of_hua_removed; i++) {
+                        new_cards[i] = this->next_one_new_card();
+                        p->UpdateInvisibleHandCard(new_cards[i]);
+                        proto_self.add_operating_cards(new_cards[i]);
+                    }
+
+                    auto priority_operation = (int)PlayCardOperationIDs::OPERATION_UNKNOW;
+
+                    for (int i = 0; i < num_cards_of_hua_removed; i++) {
+                        priority_operation = p->GetAvailableOperationID(new_cards[i], &proto_self);
+                        if (priority_operation == PlayCardOperationIDs::OPERATION_BU_HUA ||
+                            priority_operation == PlayCardOperationIDs::OPERATION_TING ||
+                            priority_operation == PlayCardOperationIDs::OPERATION_ZI_MO) {
+                            break;
+                        }
+                    }
+
+                    p->set_cur_available_operation_id(priority_operation);
+                    proto_self.set_my_available_operation_id(priority_operation);
+                } else {
+                    auto new_card = this->next_one_new_card();
+                    p->UpdateInvisibleHandCard(new_card);
+                    proto_self.set_new_card(new_card);
+                    auto ret = p->GetAvailableOperationID(new_card, &proto_self);
+                    p->set_cur_available_operation_id(ret);
+                    proto_self.set_my_available_operation_id(ret);
+                }
+
+                this->SendPlayCardMsg(proto_self, playerid);
             } else {
                 p->set_cur_available_operation_id(PlayCardOperationIDs::OPERATION_NONE);
-                proto.set_my_available_operation_id(PlayCardOperationIDs::OPERATION_NONE);
-                proto.set_new_card(CardConstants::INVALID_CARD_VALUE);
-                proto.set_has_next_operate_player_new_card(true);
-            }
 
-            this->SendPlayCardMsg(proto, playerid);
+                this->SendPlayCardMsg(proto_other, playerid);
+            }
         }
 
         break;
@@ -426,7 +490,7 @@ MsgCodes Room<Player>::DealWithPlayCard(gamer::protocol::PlayCardMsgProtocol& pr
                 return MsgCodes::MSG_RESPONSE_CODE_FAILED1;
             }
 
-            // send discard msg to players those can't hu and is not last discard player
+            // TODO : send discard msg to players those can't hu and is not last discard player
 
             // send hu msg to all players
             proto.set_new_card(CardConstants::INVALID_CARD_VALUE);
@@ -438,9 +502,13 @@ MsgCodes Room<Player>::DealWithPlayCard(gamer::protocol::PlayCardMsgProtocol& pr
                     break;
                 }
             }
+
             for (auto& p : players_) {
                 this->SendPlayCardMsg(proto, p->player_id());
             }
+
+            // send game end msg to all players
+            this->DealWithGameEnd();
 
             players_sended_msg_hu_.clear();
         } else if (2 == players_sended_msg_hu_.size()) {
@@ -496,7 +564,211 @@ MsgCodes Room<Player>::DealWithPlayCard(gamer::protocol::PlayCardMsgProtocol& pr
 }
 
 template<typename Player>
-void Room<Player>::DealWithOperationDiscard(gamer::protocol::PlayCardMsgProtocol& proto,
+MsgCodes Room<Player>::DealWithGameStart(RoomMsgProtocol& proto) {
+    if ( !create_room_msg_proto_.IsInitialized() ) {
+        // TODO : log
+        // TODO : specify error code
+        return MsgCodes::MSG_RESPONSE_CODE_FAILED1;
+    }
+
+    // verify room owner id and room players num
+    auto room_owner_id_client = proto.room_owner_id();
+    auto room_owner_id_server = create_room_msg_proto_.room_owner_id();
+    if (room_owner_id_server != room_owner_id_client) {
+        // TODO : log
+        // TODO : specify error code
+        return MsgCodes::MSG_RESPONSE_CODE_FAILED1;
+    }
+
+    if (this->cur_players_num() != create_room_msg_proto_.players_num()) {
+        // TODO : log
+        // TODO : specify error code
+        return MsgCodes::MSG_RESPONSE_CODE_FAILED1;
+    }
+
+    this->DealWithNonFirstGameStart();
+    this->DealWithFirstGameStart();
+    
+    // prepare room msg proto for each player
+    std::unordered_map<int, RoomMsgProtocol*> room_msg_protos;
+    for (auto& p : players_) {
+        auto room_proto = new RoomMsgProtocol(room_msg_proto_);
+        room_msg_protos.insert(std::make_pair(p->player_id(), room_proto));
+    }
+
+    int buf[CardConstants::TOTAL_CARDS_NUM] = {
+        0, 1, 2, 3, 4, 5, 6, 7, 8,
+        0, 1, 2, 3, 4, 5, 6, 7, 8,
+        0, 1, 2, 3, 4, 5, 6, 7, 8,
+        0, 1, 2, 3, 4, 5, 6, 7, 8,
+
+        9, 10, 11, 12, 13, 14, 15, 16, 17,
+        9, 10, 11, 12, 13, 14, 15, 16, 17,
+        9, 10, 11, 12, 13, 14, 15, 16, 17,
+        9, 10, 11, 12, 13, 14, 15, 16, 17,
+
+        18, 19, 20, 21, 22, 23, 24, 25, 26,
+        18, 19, 20, 21, 22, 23, 24, 25, 26,
+        18, 19, 20, 21, 22, 23, 24, 25, 26,
+        18, 19, 20, 21, 22, 23, 24, 25, 26,
+
+        27, 28, 29, 30, 31, 32, 33,
+        27, 28, 29, 30, 31, 32, 33,
+        27, 28, 29, 30, 31, 32, 33,
+        40, 41, 29, 30, 31, 32, 33, // 41 -> 28
+
+        34, 1, 2, 3, 4, 5, 6, 7
+    };
+        //34, 35, 36, 37, 38, 39, 40, 41};
+    auto vec = std::vector<int>(buf, buf + CardConstants::TOTAL_CARDS_NUM);
+    //gamer::ChessCard::Shuffle(vec);
+
+    // room remain cards
+    auto remain_card_num = room_msg_proto_.remain_cards_num();
+    room_msg_proto_.mutable_remain_cards()->Reserve(remain_card_num);
+    for (auto i = 0; i < remain_card_num; i++) {
+        room_msg_proto_.add_remain_cards(vec.at(i)); // some kind of ugly
+    }
+
+    // room player cards
+    auto card_index = remain_card_num;
+    for (unsigned i = 0; i < players_.size(); i++) {
+        auto player = players_.at(i);
+        auto card_num = CardConstants::ONE_PLAYER_CARD_NUM;
+        auto player_cards = room_msg_proto_.mutable_player_cards(i);
+        auto player_cards2 = room_msg_protos.at(player->player_id())->mutable_player_cards(i);
+
+        if (player_cards2->peng_cards_size() > 0) {
+            int err = 0;
+        }
+
+        player_cards->set_invisible_hand_cards_num(card_num);
+        player_cards2->set_invisible_hand_cards_num(card_num);
+        player_cards->mutable_invisible_hand_cards()->Reserve(CardConstants::ONE_PLAYER_CARD_NUM2);
+        player_cards2->mutable_invisible_hand_cards()->Reserve(CardConstants::ONE_PLAYER_CARD_NUM2);
+        for (auto j = 0; j < card_num; j++) {
+            player_cards->add_invisible_hand_cards(vec.at(card_index));
+            player_cards2->add_invisible_hand_cards(vec.at(card_index));
+            // TODO : visible cards and waiting cards
+            ++card_index;
+        }
+    }
+
+    // send game start msg to all players
+    auto banker_player_id = 0;
+    for (int i = 0; i < (int)players_.size(); i++) {
+        auto player = players_.at(i);
+        auto player_id = player->player_id();
+        auto proto = room_msg_protos.at(player_id);
+
+        if (player_id == room_msg_proto_.banker_id()) {
+            banker_player_id = player_id;
+        }
+
+        auto bev = PlayerManager::instance()->GetOnlinePlayerBufferevent(player_id);
+        if (nullptr != bev) {
+            MsgManager::instance()->SendMsg((msg_header_t)MsgTypes::S2C_MSG_TYPE_ROOM,
+                (msg_header_t)MsgIDs::MSG_ID_ROOM_START_GAME,
+                (msg_header_t)MsgCodes::MSG_RESPONSE_CODE_SUCCESS,
+                *proto,
+                bev);
+        } else {
+            // TODO : log
+            //return MsgCodes::MSG_RESPONSE_CODE_FAILED1;
+        }
+    }
+
+    // set player hand cards for player obj(reference)
+    for (unsigned i = 0; i < players_.size(); i++) {
+        players_.at(i)->InitPlayerCards(room_msg_proto_.mutable_player_cards(i));
+    }
+    
+    // send play card msg to the banker player
+    if (0 != banker_player_id) {
+        PlayCardMsgProtocol proto;
+        proto.set_player_id(banker_player_id);
+        proto.set_room_id(room_id_);
+        proto.set_cur_round(room_msg_proto_.cur_round());
+        proto.set_operation_id(PlayCardOperationIDs::OPERATION_UNKNOW);
+        proto.set_next_operate_player_id(banker_player_id);
+
+        auto room_proto = room_msg_protos.at(banker_player_id);
+        for (int i = 0; i < room_proto->player_cards_size(); i++) {
+            if (room_proto->player_cards(i).player_id() == banker_player_id) {
+                auto new_card = this->next_one_new_card();
+                players_.at(i)->UpdateInvisibleHandCard(new_card);
+                proto.set_new_card(new_card);
+
+                auto ret = players_.at(i)->GetAvailableOperationID(new_card, &proto);
+                proto.set_my_available_operation_id(ret);                
+                players_.at(i)->set_cur_available_operation_id(ret);
+                
+                this->SendPlayCardMsg(proto, banker_player_id);
+                break;
+            }
+        }
+    }
+
+    // release allocated
+    for (auto itr = room_msg_protos.begin(); itr != room_msg_protos.end(); itr++) {
+        itr->second->mutable_player_cards()->DeleteSubrange(0, itr->second->player_cards_size());
+        delete itr->second;
+    }
+
+    return MsgCodes::MSG_RESPONSE_CODE_SUCCESS;
+}
+
+template<typename Player>
+void Room<Player>::DealWithFirstGameStart() {
+    // room common data
+    if ( !room_msg_proto_.IsInitialized() ) {
+        auto room_owner_id = create_room_msg_proto_.room_owner_id();
+        auto players_num = create_room_msg_proto_.players_num();
+        room_msg_proto_.set_room_id(room_id_);
+        room_msg_proto_.set_room_owner_id(room_owner_id);
+        room_msg_proto_.set_players_num(players_num);
+        room_msg_proto_.set_cur_round(1);
+        room_msg_proto_.set_total_round(create_room_msg_proto_.rounds_num());
+        room_msg_proto_.set_remain_cards_num(CardConstants::TOTAL_CARDS_NUM -
+            players_num * CardConstants::ONE_PLAYER_CARD_NUM);
+        room_msg_proto_.set_operating_player_id(room_owner_id);
+        room_msg_proto_.set_banker_id(room_owner_id);
+        room_msg_proto_.set_banker_is_same_time(0);
+
+        for (auto& player : players_) {
+            auto player_cards = room_msg_proto_.add_player_cards();
+            player_cards->set_player_id(player->player_id());
+        }
+    }
+}
+
+template<typename Player>
+void Room<Player>::DealWithNonFirstGameStart() {
+    if (room_msg_proto_.IsInitialized()) {
+        if (room_msg_proto_.cur_round() < room_msg_proto_.total_round()) {
+            room_msg_proto_.set_cur_round(room_msg_proto_.cur_round() + 1);
+        }
+        
+        for (auto i = 0; i < room_msg_proto_.player_cards_size(); i++) {
+            auto player_card = room_msg_proto_.mutable_player_cards(i);
+            player_card->clear_invisible_hand_cards();
+            player_card->clear_flower_cards();
+            player_card->clear_season_cards();
+            player_card->clear_peng_cards();
+            player_card->clear_chi_cards();
+            player_card->clear_ming_gang_cards();
+            player_card->clear_an_gang_cards();
+            player_card->clear_discards();
+            player_card->clear_ting_cards();
+        }
+        
+        room_msg_proto_.clear_remain_cards();
+        //room_msg_proto_.clear_player_cards();
+    }
+}
+
+template<typename Player>
+void Room<Player>::DealWithOperationDiscard(PlayCardMsgProtocol& proto,
                                             Player* player) {
     // check hand cards
     if ( !player->InvisibleHandCardsContains(proto.discard()) ) {
@@ -637,7 +909,7 @@ void Room<Player>::DealWithOperationDiscard(gamer::protocol::PlayCardMsgProtocol
                 auto new_card = this->next_one_new_card();
                 right_player->UpdateInvisibleHandCard(new_card);
                 // whether is zi mo or ming gang or an gang or bu hua with new card
-                auto ret = right_player->GetAvailableOperationID(new_card, proto.add_ting_cards());
+                auto ret = right_player->GetAvailableOperationID(new_card, &proto);
                 right_player->set_cur_available_operation_id(ret);
                 proto.set_my_available_operation_id(ret);
                 proto.set_new_card(new_card);
@@ -658,7 +930,7 @@ void Room<Player>::DealWithOperationDiscard(gamer::protocol::PlayCardMsgProtocol
 }
 
 template<typename Player>
-void Room<Player>::DealWithOperationGiveUp(gamer::protocol::PlayCardMsgProtocol& proto,
+void Room<Player>::DealWithOperationGiveUp(PlayCardMsgProtocol& proto,
                                            Player* player) {
     int available_operation_id = player->cur_available_operation_id();
     switch (available_operation_id)
@@ -667,7 +939,7 @@ void Room<Player>::DealWithOperationGiveUp(gamer::protocol::PlayCardMsgProtocol&
         // send a new card to player
         auto new_card = this->next_one_new_card();
         player->UpdateInvisibleHandCard(new_card);
-        auto ret = player->GetAvailableOperationID(new_card, proto.add_ting_cards());
+        auto ret = player->GetAvailableOperationID(new_card, &proto);
         player->set_cur_available_operation_id(ret);
         proto.set_my_available_operation_id(ret);
         proto.set_new_card(new_card);
@@ -774,7 +1046,7 @@ void Room<Player>::DealWithOperationGiveUp(gamer::protocol::PlayCardMsgProtocol&
                        // send new card msg
                     auto new_card = this->next_one_new_card();
                     right_player->UpdateInvisibleHandCard(new_card);
-                    auto ret = right_player->GetAvailableOperationID(new_card, proto.add_ting_cards());
+                    auto ret = right_player->GetAvailableOperationID(new_card, &proto);
                     right_player->set_cur_available_operation_id(ret);
                     proto.set_my_available_operation_id(ret);
                     proto.set_new_card(new_card);
@@ -798,7 +1070,7 @@ void Room<Player>::DealWithOperationGiveUp(gamer::protocol::PlayCardMsgProtocol&
 }
 
 template<typename Player>
-void Room<Player>::DealWithOperationGiveUpPengOrPengGang(gamer::protocol::PlayCardMsgProtocol& 
+void Room<Player>::DealWithOperationGiveUpPengOrPengGang(PlayCardMsgProtocol& 
     proto) {
     // check whether is chi for the right player of last discard player
     if (nullptr == last_discard_player_) {
@@ -812,7 +1084,7 @@ void Room<Player>::DealWithOperationGiveUpPengOrPengGang(gamer::protocol::PlayCa
         // send new card msg to the first right player of last discard player
         auto new_card = this->next_one_new_card();
         right_player->UpdateInvisibleHandCard(new_card);
-        auto ret = right_player->GetAvailableOperationID(new_card, proto.add_ting_cards());
+        auto ret = right_player->GetAvailableOperationID(new_card, &proto);
         right_player->set_cur_available_operation_id(ret);
         proto.set_my_available_operation_id(ret);
         proto.set_new_card(new_card);
@@ -861,13 +1133,32 @@ void Room<Player>::DealWithOperationGiveUpPengOrPengGang(gamer::protocol::PlayCa
 }
 
 template<typename Player>
-void Room<Player>::set_room_msg_protocol(const std::string& serialized_data) {
-    room_msg_proto_.ParseFromString(serialized_data);
+void Room<Player>::DealWithGameEnd() {
+    GameEndMsgProtocol proto;
+    proto.set_room_id(room_id_);
+    proto.set_room_owner_id(room_msg_proto_.room_owner_id());
+    proto.set_players_num(room_msg_proto_.players_num());
+    proto.set_cur_round(room_msg_proto_.cur_round());
+    proto.set_total_round(room_msg_proto_.total_round());
+    proto.set_banker_id(room_msg_proto_.banker_id());
+
+    for (auto& player : players_) {
+        auto bev = PlayerManager::instance()->GetOnlinePlayerBufferevent(player->player_id());
+        if (nullptr != bev) {
+            MsgManager::instance()->SendMsg((msg_header_t)MsgTypes::S2C_MSG_TYPE_ROOM,
+                (msg_header_t)MsgIDs::MSG_ID_ROOM_GAME_END,
+                (msg_header_t)MsgCodes::MSG_RESPONSE_CODE_SUCCESS,
+                proto,
+                bev);
+        } else {
+            // TODO : log
+        }
+    }
 }
 
 template<typename Player>
-protocol::RoomMsgProtocol* gamer::Room<Player>::get_room_msg_protocol() {
-    return &room_msg_proto_;
+void Room<Player>::InitRoomMsgProtocol(const std::string& serialized_data) {
+    room_msg_proto_.ParseFromString(serialized_data);
 }
 
 template<typename Player>
@@ -896,7 +1187,7 @@ inline bool Room<Player>::IsLeftPlayer(int src_player_id, int target_player_id) 
 }
 
 template<typename Player>
-bool Room<Player>::SendPlayCardMsg(gamer::protocol::PlayCardMsgProtocol& proto, 
+bool Room<Player>::SendPlayCardMsg(PlayCardMsgProtocol& proto, 
                                    int player_id) const {
     auto bev = PlayerManager::instance()->GetOnlinePlayerBufferevent(player_id);
     if (nullptr != bev) {

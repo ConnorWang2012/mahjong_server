@@ -92,17 +92,17 @@ void protobuf_AddDesc_play_5fcard_5fmsg_5fprotocol_2eproto() {
   ::gamer::protocol::protobuf_AddDesc_ting_5fcard_5fmsg_5fprotocol_2eproto();
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
     "\n\034play_card_msg_protocol.proto\022\016gamer.pr"
-    "otocol\032\034ting_card_msg_protocol.proto\"\367\002\n"
+    "otocol\032\034ting_card_msg_protocol.proto\"\370\002\n"
     "\023PlayCardMsgProtocol\022\021\n\tplayer_id\030\001 \002(\005\022"
     "\017\n\007room_id\030\002 \002(\005\022\021\n\tcur_round\030\003 \002(\005\022\024\n\014o"
     "peration_id\030\004 \002(\005\022\023\n\007discard\030\005 \001(\005:\002-1\022\024"
     "\n\010new_card\030\006 \001(\005:\002-1\022!\n\026next_operate_pla"
     "yer_id\030\007 \001(\005:\0010\022/\n has_next_operate_play"
-    "er_new_card\030\010 \001(\010:\005false\022$\n\031my_available"
-    "_operation_id\030\t \001(\005:\0010\022\027\n\017operating_card"
-    "s\030\n \003(\005\022\034\n\024invisible_hand_cards\030\013 \003(\005\0227\n"
-    "\nting_cards\030\014 \003(\0132#.gamer.protocol.TingC"
-    "ardMsgProtocol", 454);
+    "er_new_card\030\010 \001(\010:\005false\022%\n\031my_available"
+    "_operation_id\030\t \001(\005:\002-1\022\027\n\017operating_car"
+    "ds\030\n \003(\005\022\034\n\024invisible_hand_cards\030\013 \003(\005\0227"
+    "\n\nting_cards\030\014 \003(\0132#.gamer.protocol.Ting"
+    "CardMsgProtocol", 455);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "play_card_msg_protocol.proto", &protobuf_RegisterTypes);
   PlayCardMsgProtocol::default_instance_ = new PlayCardMsgProtocol();
@@ -160,7 +160,7 @@ void PlayCardMsgProtocol::SharedCtor() {
   new_card_ = -1;
   next_operate_player_id_ = 0;
   has_next_operate_player_new_card_ = false;
-  my_available_operation_id_ = 0;
+  my_available_operation_id_ = -1;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -212,7 +212,7 @@ void PlayCardMsgProtocol::Clear() {
     discard_ = -1;
     new_card_ = -1;
   }
-  my_available_operation_id_ = 0;
+  my_available_operation_id_ = -1;
 
 #undef OFFSET_OF_FIELD_
 #undef ZR_
@@ -353,7 +353,7 @@ bool PlayCardMsgProtocol::MergePartialFromCodedStream(
         break;
       }
 
-      // optional int32 my_available_operation_id = 9 [default = 0];
+      // optional int32 my_available_operation_id = 9 [default = -1];
       case 9: {
         if (tag == 72) {
          parse_my_available_operation_id:
@@ -485,7 +485,7 @@ void PlayCardMsgProtocol::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteBool(8, this->has_next_operate_player_new_card(), output);
   }
 
-  // optional int32 my_available_operation_id = 9 [default = 0];
+  // optional int32 my_available_operation_id = 9 [default = -1];
   if (has_my_available_operation_id()) {
     ::google::protobuf::internal::WireFormatLite::WriteInt32(9, this->my_available_operation_id(), output);
   }
@@ -558,7 +558,7 @@ void PlayCardMsgProtocol::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(8, this->has_next_operate_player_new_card(), target);
   }
 
-  // optional int32 my_available_operation_id = 9 [default = 0];
+  // optional int32 my_available_operation_id = 9 [default = -1];
   if (has_my_available_operation_id()) {
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(9, this->my_available_operation_id(), target);
   }
@@ -650,7 +650,7 @@ int PlayCardMsgProtocol::ByteSize() const {
 
   }
   if (_has_bits_[8 / 32] & (0xffu << (8 % 32))) {
-    // optional int32 my_available_operation_id = 9 [default = 0];
+    // optional int32 my_available_operation_id = 9 [default = -1];
     if (has_my_available_operation_id()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::Int32Size(
