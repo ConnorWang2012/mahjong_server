@@ -522,7 +522,7 @@ MsgCodes Room<Player>::DealWithPlayCard(PlayCardMsgProtocol& proto) {
             players_selected_hu_.push_back(player);
         } else if (3 == players_sended_msg_hu_.size()) {
             // TODO
-            if (!player->IsHu(proto.discard())) {
+            if ( !player->IsHu(proto.discard()) ) {
                 // TODO : log
                 // TODO : specify error code
                 return MsgCodes::MSG_RESPONSE_CODE_FAILED1;
@@ -546,6 +546,9 @@ MsgCodes Room<Player>::DealWithPlayCard(PlayCardMsgProtocol& proto) {
         for (auto& p : players_) {
             this->SendPlayCardMsg(proto, p->player_id());
         }
+
+		// send game end msg to all players
+		this->DealWithGameEnd();
 
         break;
     }

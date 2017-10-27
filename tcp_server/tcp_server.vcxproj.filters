@@ -113,6 +113,54 @@
     <Filter Include="src\customer\data">
       <UniqueIdentifier>{90f95790-7f04-4804-a49b-9ec7b2f1872e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\framework\util\google">
+      <UniqueIdentifier>{57dd7c2c-1256-4fee-83e7-293edb4f0078}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\framework\util\google\abseil">
+      <UniqueIdentifier>{04406d8b-2466-499c-b611-5024e04170dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\framework\util\google\abseil\algorithm">
+      <UniqueIdentifier>{4c1f74bb-f4eb-49af-8a5f-4f493ee35c93}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\framework\util\google\abseil\base">
+      <UniqueIdentifier>{56ffecde-0408-4ecb-9182-3a2feab41352}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\framework\util\google\abseil\container">
+      <UniqueIdentifier>{871816b7-a8d9-45dd-b5fd-550e0f48da33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\framework\util\google\abseil\debugging">
+      <UniqueIdentifier>{30a9aec1-6075-4b0f-b980-d721c2a6cb92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\framework\util\google\abseil\memory">
+      <UniqueIdentifier>{1d525168-1617-4506-92f3-091749e864db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\framework\util\google\abseil\meta">
+      <UniqueIdentifier>{b3a23f45-9377-41ae-9ee4-26f775d1648a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\framework\util\google\abseil\types">
+      <UniqueIdentifier>{05a78f91-6248-4b0c-aee5-95a47f1f4b29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\framework\util\google\abseil\utility">
+      <UniqueIdentifier>{43db0485-353a-46d8-9679-69db5765a1c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\framework\util\google\abseil\numeric">
+      <UniqueIdentifier>{055f3219-bffa-4cae-95e1-536f29a845ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\framework\util\google\abseil\strings">
+      <UniqueIdentifier>{7b44c7ce-216f-42da-a16f-9431b7191ce3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\framework\util\google\abseil\base\internal">
+      <UniqueIdentifier>{f3fadd37-c687-4fa6-abeb-71dadf92295b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\framework\util\google\abseil\container\internal">
+      <UniqueIdentifier>{21bc7baf-5456-4d0f-8eb5-565515dee1b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\framework\util\google\abseil\debugging\internal">
+      <UniqueIdentifier>{5c5a1a62-9a9f-4fbe-a0ed-2688d163ebf2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\framework\util\google\abseil\strings\internal">
+      <UniqueIdentifier>{5d090bc4-724c-4c89-af39-a02a26364576}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\libevent\src\include\evrpc.h">
@@ -802,6 +850,225 @@
     <ClInclude Include="src\customer\msg\protocol\game_end_msg_protocol.pb.h">
       <Filter>src\customer\msg\protocol</Filter>
     </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\algorithm\algorithm.h">
+      <Filter>src\framework\util\google\abseil\algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\algorithm\container.h">
+      <Filter>src\framework\util\google\abseil\algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\base\internal\atomic_hook.h">
+      <Filter>src\framework\util\google\abseil\base\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\base\internal\cycleclock.h">
+      <Filter>src\framework\util\google\abseil\base\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\base\internal\endian.h">
+      <Filter>src\framework\util\google\abseil\base\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\base\internal\identity.h">
+      <Filter>src\framework\util\google\abseil\base\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\base\internal\invoke.h">
+      <Filter>src\framework\util\google\abseil\base\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\base\internal\log_severity.h">
+      <Filter>src\framework\util\google\abseil\base\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\base\internal\low_level_alloc.h">
+      <Filter>src\framework\util\google\abseil\base\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\base\internal\low_level_scheduling.h">
+      <Filter>src\framework\util\google\abseil\base\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\base\internal\malloc_extension.h">
+      <Filter>src\framework\util\google\abseil\base\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\base\internal\malloc_extension_c.h">
+      <Filter>src\framework\util\google\abseil\base\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\base\internal\malloc_hook.h">
+      <Filter>src\framework\util\google\abseil\base\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\base\internal\malloc_hook_c.h">
+      <Filter>src\framework\util\google\abseil\base\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\base\internal\malloc_hook_invoke.h">
+      <Filter>src\framework\util\google\abseil\base\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\base\internal\per_thread_tls.h">
+      <Filter>src\framework\util\google\abseil\base\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\base\internal\raw_logging.h">
+      <Filter>src\framework\util\google\abseil\base\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\base\internal\scheduling_mode.h">
+      <Filter>src\framework\util\google\abseil\base\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\base\internal\spinlock.h">
+      <Filter>src\framework\util\google\abseil\base\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\base\internal\spinlock_wait.h">
+      <Filter>src\framework\util\google\abseil\base\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\base\internal\sysinfo.h">
+      <Filter>src\framework\util\google\abseil\base\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\base\internal\thread_identity.h">
+      <Filter>src\framework\util\google\abseil\base\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\base\internal\throw_delegate.h">
+      <Filter>src\framework\util\google\abseil\base\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\base\internal\tsan_mutex_interface.h">
+      <Filter>src\framework\util\google\abseil\base\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\base\internal\unaligned_access.h">
+      <Filter>src\framework\util\google\abseil\base\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\base\internal\unscaledcycleclock.h">
+      <Filter>src\framework\util\google\abseil\base\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\base\call_once.h">
+      <Filter>src\framework\util\google\abseil\base</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\base\casts.h">
+      <Filter>src\framework\util\google\abseil\base</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\base\config.h">
+      <Filter>src\framework\util\google\abseil\base</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\base\dynamic_annotations.h">
+      <Filter>src\framework\util\google\abseil\base</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\base\macros.h">
+      <Filter>src\framework\util\google\abseil\base</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\base\optimization.h">
+      <Filter>src\framework\util\google\abseil\base</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\base\policy_checks.h">
+      <Filter>src\framework\util\google\abseil\base</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\base\port.h">
+      <Filter>src\framework\util\google\abseil\base</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\base\thread_annotations.h">
+      <Filter>src\framework\util\google\abseil\base</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\base\attributes.h">
+      <Filter>src\framework\util\google\abseil\base</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\container\internal\test_instance_tracker.h">
+      <Filter>src\framework\util\google\abseil\container\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\container\fixed_array.h">
+      <Filter>src\framework\util\google\abseil\container</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\container\inlined_vector.h">
+      <Filter>src\framework\util\google\abseil\container</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\debugging\internal\elf_mem_image.h">
+      <Filter>src\framework\util\google\abseil\debugging\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\debugging\internal\stacktrace_config.h">
+      <Filter>src\framework\util\google\abseil\debugging\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\debugging\internal\vdso_support.h">
+      <Filter>src\framework\util\google\abseil\debugging\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\debugging\internal\address_is_readable.h">
+      <Filter>src\framework\util\google\abseil\debugging\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\debugging\leak_check.h">
+      <Filter>src\framework\util\google\abseil\debugging</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\debugging\stacktrace.h">
+      <Filter>src\framework\util\google\abseil\debugging</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\memory\memory.h">
+      <Filter>src\framework\util\google\abseil\memory</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\meta\type_traits.h">
+      <Filter>src\framework\util\google\abseil\meta</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\numeric\int128.h">
+      <Filter>src\framework\util\google\abseil\numeric</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\strings\internal\resize_uninitialized.h">
+      <Filter>src\framework\util\google\abseil\strings\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\strings\internal\str_join_internal.h">
+      <Filter>src\framework\util\google\abseil\strings\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\strings\internal\str_split_internal.h">
+      <Filter>src\framework\util\google\abseil\strings\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\strings\internal\utf8.h">
+      <Filter>src\framework\util\google\abseil\strings\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\strings\internal\char_map.h">
+      <Filter>src\framework\util\google\abseil\strings\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\strings\internal\memutil.h">
+      <Filter>src\framework\util\google\abseil\strings\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\strings\internal\ostringstream.h">
+      <Filter>src\framework\util\google\abseil\strings\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\strings\string_view.h">
+      <Filter>src\framework\util\google\abseil\strings</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\strings\strip.h">
+      <Filter>src\framework\util\google\abseil\strings</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\strings\substitute.h">
+      <Filter>src\framework\util\google\abseil\strings</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\strings\ascii.h">
+      <Filter>src\framework\util\google\abseil\strings</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\strings\ascii_ctype.h">
+      <Filter>src\framework\util\google\abseil\strings</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\strings\escaping.h">
+      <Filter>src\framework\util\google\abseil\strings</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\strings\match.h">
+      <Filter>src\framework\util\google\abseil\strings</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\strings\numbers.h">
+      <Filter>src\framework\util\google\abseil\strings</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\strings\str_cat.h">
+      <Filter>src\framework\util\google\abseil\strings</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\strings\str_join.h">
+      <Filter>src\framework\util\google\abseil\strings</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\strings\str_replace.h">
+      <Filter>src\framework\util\google\abseil\strings</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\strings\str_split.h">
+      <Filter>src\framework\util\google\abseil\strings</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\types\any.h">
+      <Filter>src\framework\util\google\abseil\types</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\types\bad_any_cast.h">
+      <Filter>src\framework\util\google\abseil\types</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\types\bad_optional_access.h">
+      <Filter>src\framework\util\google\abseil\types</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\types\optional.h">
+      <Filter>src\framework\util\google\abseil\types</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\types\span.h">
+      <Filter>src\framework\util\google\abseil\types</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\util\google\absl\utility\utility.h">
+      <Filter>src\framework\util\google\abseil\utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -981,10 +1248,163 @@
     <ClCompile Include="src\customer\msg\protocol\game_end_msg_protocol.pb.cc">
       <Filter>src\customer\msg\protocol</Filter>
     </ClCompile>
+    <ClCompile Include="src\framework\util\google\absl\base\internal\cycleclock.cc">
+      <Filter>src\framework\util\google\abseil\base\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\util\google\absl\base\internal\log_severity.cc">
+      <Filter>src\framework\util\google\abseil\base\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\util\google\absl\base\internal\low_level_alloc.cc">
+      <Filter>src\framework\util\google\abseil\base\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\util\google\absl\base\internal\malloc_extension.cc">
+      <Filter>src\framework\util\google\abseil\base\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\util\google\absl\base\internal\malloc_hook.cc">
+      <Filter>src\framework\util\google\abseil\base\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\util\google\absl\base\internal\raw_logging.cc">
+      <Filter>src\framework\util\google\abseil\base\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\util\google\absl\base\internal\spinlock.cc">
+      <Filter>src\framework\util\google\abseil\base\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\util\google\absl\base\internal\spinlock_wait.cc">
+      <Filter>src\framework\util\google\abseil\base\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\util\google\absl\base\internal\sysinfo.cc">
+      <Filter>src\framework\util\google\abseil\base\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\util\google\absl\base\internal\thread_identity.cc">
+      <Filter>src\framework\util\google\abseil\base\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\util\google\absl\base\internal\throw_delegate.cc">
+      <Filter>src\framework\util\google\abseil\base\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\util\google\absl\base\internal\unscaledcycleclock.cc">
+      <Filter>src\framework\util\google\abseil\base\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\util\google\absl\base\dynamic_annotations.cc">
+      <Filter>src\framework\util\google\abseil\base</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\util\google\absl\container\internal\test_instance_tracker.cc">
+      <Filter>src\framework\util\google\abseil\container\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\util\google\absl\debugging\internal\vdso_support.cc">
+      <Filter>src\framework\util\google\abseil\debugging\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\util\google\absl\debugging\internal\address_is_readable.cc">
+      <Filter>src\framework\util\google\abseil\debugging\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\util\google\absl\debugging\internal\elf_mem_image.cc">
+      <Filter>src\framework\util\google\abseil\debugging\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\util\google\absl\debugging\leak_check.cc">
+      <Filter>src\framework\util\google\abseil\debugging</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\util\google\absl\debugging\leak_check_disable.cc">
+      <Filter>src\framework\util\google\abseil\debugging</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\util\google\absl\debugging\stacktrace.cc">
+      <Filter>src\framework\util\google\abseil\debugging</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\util\google\absl\numeric\int128.cc">
+      <Filter>src\framework\util\google\abseil\numeric</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\util\google\absl\strings\internal\memutil.cc">
+      <Filter>src\framework\util\google\abseil\strings\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\util\google\absl\strings\internal\utf8.cc">
+      <Filter>src\framework\util\google\abseil\strings\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\util\google\absl\strings\ascii.cc">
+      <Filter>src\framework\util\google\abseil\strings</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\util\google\absl\strings\escaping.cc">
+      <Filter>src\framework\util\google\abseil\strings</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\util\google\absl\strings\match.cc">
+      <Filter>src\framework\util\google\abseil\strings</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\util\google\absl\strings\numbers.cc">
+      <Filter>src\framework\util\google\abseil\strings</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\util\google\absl\strings\str_cat.cc">
+      <Filter>src\framework\util\google\abseil\strings</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\util\google\absl\strings\str_replace.cc">
+      <Filter>src\framework\util\google\abseil\strings</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\util\google\absl\strings\str_split.cc">
+      <Filter>src\framework\util\google\abseil\strings</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\util\google\absl\strings\string_view.cc">
+      <Filter>src\framework\util\google\abseil\strings</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\util\google\absl\strings\substitute.cc">
+      <Filter>src\framework\util\google\abseil\strings</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\util\google\absl\types\bad_any_cast.cc">
+      <Filter>src\framework\util\google\abseil\types</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\util\google\absl\types\bad_optional_access.cc">
+      <Filter>src\framework\util\google\abseil\types</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\util\google\absl\types\optional.cc">
+      <Filter>src\framework\util\google\abseil\types</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\util\google\absl\utility\utility.cc">
+      <Filter>src\framework\util\google\abseil\utility</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\cpp_redis\src\include\tacopie\tacopie">
       <Filter>src\framework\cache\redis\tacopie</Filter>
+    </None>
+    <None Include="src\framework\util\google\absl\base\internal\spinlock_akaros.inc">
+      <Filter>src\framework\util\google\abseil\base\internal</Filter>
+    </None>
+    <None Include="src\framework\util\google\absl\base\internal\spinlock_posix.inc">
+      <Filter>src\framework\util\google\abseil\base\internal</Filter>
+    </None>
+    <None Include="src\framework\util\google\absl\base\internal\spinlock_win32.inc">
+      <Filter>src\framework\util\google\abseil\base\internal</Filter>
+    </None>
+    <None Include="src\framework\util\google\absl\base\internal\malloc_hook_mmap_linux.inc">
+      <Filter>src\framework\util\google\abseil\base\internal</Filter>
+    </None>
+    <None Include="src\framework\util\google\absl\debugging\internal\stacktrace_aarch64-inl.inc">
+      <Filter>src\framework\util\google\abseil\debugging\internal</Filter>
+    </None>
+    <None Include="src\framework\util\google\absl\debugging\internal\stacktrace_arm-inl.inc">
+      <Filter>src\framework\util\google\abseil\debugging\internal</Filter>
+    </None>
+    <None Include="src\framework\util\google\absl\debugging\internal\stacktrace_generic-inl.inc">
+      <Filter>src\framework\util\google\abseil\debugging\internal</Filter>
+    </None>
+    <None Include="src\framework\util\google\absl\debugging\internal\stacktrace_powerpc-inl.inc">
+      <Filter>src\framework\util\google\abseil\debugging\internal</Filter>
+    </None>
+    <None Include="src\framework\util\google\absl\debugging\internal\stacktrace_unimplemented-inl.inc">
+      <Filter>src\framework\util\google\abseil\debugging\internal</Filter>
+    </None>
+    <None Include="src\framework\util\google\absl\debugging\internal\stacktrace_win32-inl.inc">
+      <Filter>src\framework\util\google\abseil\debugging\internal</Filter>
+    </None>
+    <None Include="src\framework\util\google\absl\debugging\internal\stacktrace_x86-inl.inc">
+      <Filter>src\framework\util\google\abseil\debugging\internal</Filter>
+    </None>
+    <None Include="src\framework\util\google\absl\numeric\int128_have_intrinsic.inc">
+      <Filter>src\framework\util\google\abseil\numeric</Filter>
+    </None>
+    <None Include="src\framework\util\google\absl\numeric\int128_no_intrinsic.inc">
+      <Filter>src\framework\util\google\abseil\numeric</Filter>
+    </None>
+    <None Include="src\framework\util\google\absl\strings\internal\escaping_test_common.inc">
+      <Filter>src\framework\util\google\abseil\strings\internal</Filter>
+    </None>
+    <None Include="src\framework\util\google\absl\strings\internal\numbers_test_common.inc">
+      <Filter>src\framework\util\google\abseil\strings\internal</Filter>
     </None>
   </ItemGroup>
 </Project>

@@ -91,7 +91,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_WINSOCK_DEPRECATED_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS_DEBUG;_SCL_SECURE_NO_WARNINGS;CONNOR_GAME_LOG_OPENED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)cpp_redis\src\include;$(SolutionDir)libevent\src;$(SolutionDir)libevent\src\compat;$(SolutionDir)libevent\src\include;$(SolutionDir)libevent\src\include\event2;$(SolutionDir)libevent\src\include\openssl;$(SolutionDir)libevent\src\WIN32-Code;$(SolutionDir)libevent\src\WIN32-Code\nmake;$(SolutionDir)libevent\src\WIN32-Code\nmake\event2;$(SolutionDir)tcp_server\src;$(SolutionDir)tcp_server\src\customer;$(SolutionDir)tcp_server\src\framework;$(SolutionDir)tcp_server\src\framework\network;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)cpp_redis\src\include;$(SolutionDir)libevent\src;$(SolutionDir)libevent\src\compat;$(SolutionDir)libevent\src\include;$(SolutionDir)libevent\src\include\event2;$(SolutionDir)libevent\src\include\openssl;$(SolutionDir)libevent\src\WIN32-Code;$(SolutionDir)libevent\src\WIN32-Code\nmake;$(SolutionDir)libevent\src\WIN32-Code\nmake\event2;$(SolutionDir)tcp_server\src;$(SolutionDir)tcp_server\src\customer;$(SolutionDir)tcp_server\src\framework;$(SolutionDir)tcp_server\src\framework\network;$(SolutionDir)tcp_server\src\framework\util\google;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -393,6 +393,79 @@
     <ClInclude Include="src\framework\service\runtime\server.h" />
     <ClInclude Include="src\framework\service\runtime\server_protocal.h" />
     <ClInclude Include="src\framework\util\chess_card_algorithm.h" />
+    <ClInclude Include="src\framework\util\google\absl\algorithm\algorithm.h" />
+    <ClInclude Include="src\framework\util\google\absl\algorithm\container.h" />
+    <ClInclude Include="src\framework\util\google\absl\base\attributes.h" />
+    <ClInclude Include="src\framework\util\google\absl\base\call_once.h" />
+    <ClInclude Include="src\framework\util\google\absl\base\casts.h" />
+    <ClInclude Include="src\framework\util\google\absl\base\config.h" />
+    <ClInclude Include="src\framework\util\google\absl\base\dynamic_annotations.h" />
+    <ClInclude Include="src\framework\util\google\absl\base\internal\atomic_hook.h" />
+    <ClInclude Include="src\framework\util\google\absl\base\internal\cycleclock.h" />
+    <ClInclude Include="src\framework\util\google\absl\base\internal\endian.h" />
+    <ClInclude Include="src\framework\util\google\absl\base\internal\identity.h" />
+    <ClInclude Include="src\framework\util\google\absl\base\internal\invoke.h" />
+    <ClInclude Include="src\framework\util\google\absl\base\internal\log_severity.h" />
+    <ClInclude Include="src\framework\util\google\absl\base\internal\low_level_alloc.h" />
+    <ClInclude Include="src\framework\util\google\absl\base\internal\low_level_scheduling.h" />
+    <ClInclude Include="src\framework\util\google\absl\base\internal\malloc_extension.h" />
+    <ClInclude Include="src\framework\util\google\absl\base\internal\malloc_extension_c.h" />
+    <ClInclude Include="src\framework\util\google\absl\base\internal\malloc_hook.h" />
+    <ClInclude Include="src\framework\util\google\absl\base\internal\malloc_hook_c.h" />
+    <ClInclude Include="src\framework\util\google\absl\base\internal\malloc_hook_invoke.h" />
+    <ClInclude Include="src\framework\util\google\absl\base\internal\per_thread_tls.h" />
+    <ClInclude Include="src\framework\util\google\absl\base\internal\raw_logging.h" />
+    <ClInclude Include="src\framework\util\google\absl\base\internal\scheduling_mode.h" />
+    <ClInclude Include="src\framework\util\google\absl\base\internal\spinlock.h" />
+    <ClInclude Include="src\framework\util\google\absl\base\internal\spinlock_wait.h" />
+    <ClInclude Include="src\framework\util\google\absl\base\internal\sysinfo.h" />
+    <ClInclude Include="src\framework\util\google\absl\base\internal\thread_identity.h" />
+    <ClInclude Include="src\framework\util\google\absl\base\internal\throw_delegate.h" />
+    <ClInclude Include="src\framework\util\google\absl\base\internal\tsan_mutex_interface.h" />
+    <ClInclude Include="src\framework\util\google\absl\base\internal\unaligned_access.h" />
+    <ClInclude Include="src\framework\util\google\absl\base\internal\unscaledcycleclock.h" />
+    <ClInclude Include="src\framework\util\google\absl\base\macros.h" />
+    <ClInclude Include="src\framework\util\google\absl\base\optimization.h" />
+    <ClInclude Include="src\framework\util\google\absl\base\policy_checks.h" />
+    <ClInclude Include="src\framework\util\google\absl\base\port.h" />
+    <ClInclude Include="src\framework\util\google\absl\base\thread_annotations.h" />
+    <ClInclude Include="src\framework\util\google\absl\container\fixed_array.h" />
+    <ClInclude Include="src\framework\util\google\absl\container\inlined_vector.h" />
+    <ClInclude Include="src\framework\util\google\absl\container\internal\test_instance_tracker.h" />
+    <ClInclude Include="src\framework\util\google\absl\debugging\internal\address_is_readable.h" />
+    <ClInclude Include="src\framework\util\google\absl\debugging\internal\elf_mem_image.h" />
+    <ClInclude Include="src\framework\util\google\absl\debugging\internal\stacktrace_config.h" />
+    <ClInclude Include="src\framework\util\google\absl\debugging\internal\vdso_support.h" />
+    <ClInclude Include="src\framework\util\google\absl\debugging\leak_check.h" />
+    <ClInclude Include="src\framework\util\google\absl\debugging\stacktrace.h" />
+    <ClInclude Include="src\framework\util\google\absl\memory\memory.h" />
+    <ClInclude Include="src\framework\util\google\absl\meta\type_traits.h" />
+    <ClInclude Include="src\framework\util\google\absl\numeric\int128.h" />
+    <ClInclude Include="src\framework\util\google\absl\strings\ascii.h" />
+    <ClInclude Include="src\framework\util\google\absl\strings\ascii_ctype.h" />
+    <ClInclude Include="src\framework\util\google\absl\strings\escaping.h" />
+    <ClInclude Include="src\framework\util\google\absl\strings\internal\char_map.h" />
+    <ClInclude Include="src\framework\util\google\absl\strings\internal\memutil.h" />
+    <ClInclude Include="src\framework\util\google\absl\strings\internal\ostringstream.h" />
+    <ClInclude Include="src\framework\util\google\absl\strings\internal\resize_uninitialized.h" />
+    <ClInclude Include="src\framework\util\google\absl\strings\internal\str_join_internal.h" />
+    <ClInclude Include="src\framework\util\google\absl\strings\internal\str_split_internal.h" />
+    <ClInclude Include="src\framework\util\google\absl\strings\internal\utf8.h" />
+    <ClInclude Include="src\framework\util\google\absl\strings\match.h" />
+    <ClInclude Include="src\framework\util\google\absl\strings\numbers.h" />
+    <ClInclude Include="src\framework\util\google\absl\strings\string_view.h" />
+    <ClInclude Include="src\framework\util\google\absl\strings\strip.h" />
+    <ClInclude Include="src\framework\util\google\absl\strings\str_cat.h" />
+    <ClInclude Include="src\framework\util\google\absl\strings\str_join.h" />
+    <ClInclude Include="src\framework\util\google\absl\strings\str_replace.h" />
+    <ClInclude Include="src\framework\util\google\absl\strings\str_split.h" />
+    <ClInclude Include="src\framework\util\google\absl\strings\substitute.h" />
+    <ClInclude Include="src\framework\util\google\absl\types\any.h" />
+    <ClInclude Include="src\framework\util\google\absl\types\bad_any_cast.h" />
+    <ClInclude Include="src\framework\util\google\absl\types\bad_optional_access.h" />
+    <ClInclude Include="src\framework\util\google\absl\types\optional.h" />
+    <ClInclude Include="src\framework\util\google\absl\types\span.h" />
+    <ClInclude Include="src\framework\util\google\absl\utility\utility.h" />
     <ClInclude Include="src\framework\util\util.h" />
   </ItemGroup>
   <ItemGroup>
@@ -455,9 +528,60 @@
     <ClCompile Include="src\framework\network\network_manager.cc" />
     <ClCompile Include="src\framework\service\runtime\server.cc" />
     <ClCompile Include="src\framework\util\chess_card_algorithm.cc" />
+    <ClCompile Include="src\framework\util\google\absl\base\dynamic_annotations.cc" />
+    <ClCompile Include="src\framework\util\google\absl\base\internal\cycleclock.cc" />
+    <ClCompile Include="src\framework\util\google\absl\base\internal\log_severity.cc" />
+    <ClCompile Include="src\framework\util\google\absl\base\internal\low_level_alloc.cc" />
+    <ClCompile Include="src\framework\util\google\absl\base\internal\malloc_extension.cc" />
+    <ClCompile Include="src\framework\util\google\absl\base\internal\malloc_hook.cc" />
+    <ClCompile Include="src\framework\util\google\absl\base\internal\raw_logging.cc" />
+    <ClCompile Include="src\framework\util\google\absl\base\internal\spinlock.cc" />
+    <ClCompile Include="src\framework\util\google\absl\base\internal\spinlock_wait.cc" />
+    <ClCompile Include="src\framework\util\google\absl\base\internal\sysinfo.cc" />
+    <ClCompile Include="src\framework\util\google\absl\base\internal\thread_identity.cc" />
+    <ClCompile Include="src\framework\util\google\absl\base\internal\throw_delegate.cc" />
+    <ClCompile Include="src\framework\util\google\absl\base\internal\unscaledcycleclock.cc" />
+    <ClCompile Include="src\framework\util\google\absl\container\internal\test_instance_tracker.cc" />
+    <ClCompile Include="src\framework\util\google\absl\debugging\internal\address_is_readable.cc" />
+    <ClCompile Include="src\framework\util\google\absl\debugging\internal\elf_mem_image.cc" />
+    <ClCompile Include="src\framework\util\google\absl\debugging\internal\vdso_support.cc" />
+    <ClCompile Include="src\framework\util\google\absl\debugging\leak_check.cc" />
+    <ClCompile Include="src\framework\util\google\absl\debugging\leak_check_disable.cc" />
+    <ClCompile Include="src\framework\util\google\absl\debugging\stacktrace.cc" />
+    <ClCompile Include="src\framework\util\google\absl\numeric\int128.cc" />
+    <ClCompile Include="src\framework\util\google\absl\strings\ascii.cc" />
+    <ClCompile Include="src\framework\util\google\absl\strings\escaping.cc" />
+    <ClCompile Include="src\framework\util\google\absl\strings\internal\memutil.cc" />
+    <ClCompile Include="src\framework\util\google\absl\strings\internal\utf8.cc" />
+    <ClCompile Include="src\framework\util\google\absl\strings\match.cc" />
+    <ClCompile Include="src\framework\util\google\absl\strings\numbers.cc" />
+    <ClCompile Include="src\framework\util\google\absl\strings\string_view.cc" />
+    <ClCompile Include="src\framework\util\google\absl\strings\str_cat.cc" />
+    <ClCompile Include="src\framework\util\google\absl\strings\str_replace.cc" />
+    <ClCompile Include="src\framework\util\google\absl\strings\str_split.cc" />
+    <ClCompile Include="src\framework\util\google\absl\strings\substitute.cc" />
+    <ClCompile Include="src\framework\util\google\absl\types\bad_any_cast.cc" />
+    <ClCompile Include="src\framework\util\google\absl\types\bad_optional_access.cc" />
+    <ClCompile Include="src\framework\util\google\absl\types\optional.cc" />
+    <ClCompile Include="src\framework\util\google\absl\utility\utility.cc" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\cpp_redis\src\include\tacopie\tacopie" />
+    <None Include="src\framework\util\google\absl\base\internal\malloc_hook_mmap_linux.inc" />
+    <None Include="src\framework\util\google\absl\base\internal\spinlock_akaros.inc" />
+    <None Include="src\framework\util\google\absl\base\internal\spinlock_posix.inc" />
+    <None Include="src\framework\util\google\absl\base\internal\spinlock_win32.inc" />
+    <None Include="src\framework\util\google\absl\debugging\internal\stacktrace_aarch64-inl.inc" />
+    <None Include="src\framework\util\google\absl\debugging\internal\stacktrace_arm-inl.inc" />
+    <None Include="src\framework\util\google\absl\debugging\internal\stacktrace_generic-inl.inc" />
+    <None Include="src\framework\util\google\absl\debugging\internal\stacktrace_powerpc-inl.inc" />
+    <None Include="src\framework\util\google\absl\debugging\internal\stacktrace_unimplemented-inl.inc" />
+    <None Include="src\framework\util\google\absl\debugging\internal\stacktrace_win32-inl.inc" />
+    <None Include="src\framework\util\google\absl\debugging\internal\stacktrace_x86-inl.inc" />
+    <None Include="src\framework\util\google\absl\numeric\int128_have_intrinsic.inc" />
+    <None Include="src\framework\util\google\absl\numeric\int128_no_intrinsic.inc" />
+    <None Include="src\framework\util\google\absl\strings\internal\escaping_test_common.inc" />
+    <None Include="src\framework\util\google\absl\strings\internal\numbers_test_common.inc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
