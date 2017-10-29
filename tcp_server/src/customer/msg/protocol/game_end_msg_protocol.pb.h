@@ -112,24 +112,59 @@ class GameEndDataMsgProtocol : public ::google::protobuf::Message {
   inline ::std::string* release_nick_name();
   inline void set_allocated_nick_name(::std::string* nick_name);
 
-  // required int32 score = 3;
-  inline bool has_score() const;
-  inline void clear_score();
-  static const int kScoreFieldNumber = 3;
-  inline ::google::protobuf::int32 score() const;
-  inline void set_score(::google::protobuf::int32 value);
+  // optional int32 score_gold = 3;
+  inline bool has_score_gold() const;
+  inline void clear_score_gold();
+  static const int kScoreGoldFieldNumber = 3;
+  inline ::google::protobuf::int32 score_gold() const;
+  inline void set_score_gold(::google::protobuf::int32 value);
 
-  // required int32 total_score = 4;
-  inline bool has_total_score() const;
-  inline void clear_total_score();
-  static const int kTotalScoreFieldNumber = 4;
-  inline ::google::protobuf::int32 total_score() const;
-  inline void set_total_score(::google::protobuf::int32 value);
+  // optional int32 score_diamond = 4;
+  inline bool has_score_diamond() const;
+  inline void clear_score_diamond();
+  static const int kScoreDiamondFieldNumber = 4;
+  inline ::google::protobuf::int32 score_diamond() const;
+  inline void set_score_diamond(::google::protobuf::int32 value);
 
-  // repeated .gamer.protocol.PlayerCardsMsgProtocol player_cards = 5;
+  // optional int32 total_score_gold = 5;
+  inline bool has_total_score_gold() const;
+  inline void clear_total_score_gold();
+  static const int kTotalScoreGoldFieldNumber = 5;
+  inline ::google::protobuf::int32 total_score_gold() const;
+  inline void set_total_score_gold(::google::protobuf::int32 value);
+
+  // optional int32 total_score_diamond = 6;
+  inline bool has_total_score_diamond() const;
+  inline void clear_total_score_diamond();
+  static const int kTotalScoreDiamondFieldNumber = 6;
+  inline ::google::protobuf::int32 total_score_diamond() const;
+  inline void set_total_score_diamond(::google::protobuf::int32 value);
+
+  // optional float rate_winning = 7;
+  inline bool has_rate_winning() const;
+  inline void clear_rate_winning();
+  static const int kRateWinningFieldNumber = 7;
+  inline float rate_winning() const;
+  inline void set_rate_winning(float value);
+
+  // optional int32 num_ming_gang = 8;
+  inline bool has_num_ming_gang() const;
+  inline void clear_num_ming_gang();
+  static const int kNumMingGangFieldNumber = 8;
+  inline ::google::protobuf::int32 num_ming_gang() const;
+  inline void set_num_ming_gang(::google::protobuf::int32 value);
+
+  // optional int32 num_an_gang = 9;
+  inline bool has_num_an_gang() const;
+  inline void clear_num_an_gang();
+  static const int kNumAnGangFieldNumber = 9;
+  inline ::google::protobuf::int32 num_an_gang() const;
+  inline void set_num_an_gang(::google::protobuf::int32 value);
+
+  // repeated .gamer.protocol.PlayerCardsMsgProtocol player_cards = 10;
   inline int player_cards_size() const;
   inline void clear_player_cards();
-  static const int kPlayerCardsFieldNumber = 5;
+  static const int kPlayerCardsFieldNumber = 10;
   inline const ::gamer::protocol::PlayerCardsMsgProtocol& player_cards(int index) const;
   inline ::gamer::protocol::PlayerCardsMsgProtocol* mutable_player_cards(int index);
   inline ::gamer::protocol::PlayerCardsMsgProtocol* add_player_cards();
@@ -144,10 +179,20 @@ class GameEndDataMsgProtocol : public ::google::protobuf::Message {
   inline void clear_has_player_id();
   inline void set_has_nick_name();
   inline void clear_has_nick_name();
-  inline void set_has_score();
-  inline void clear_has_score();
-  inline void set_has_total_score();
-  inline void clear_has_total_score();
+  inline void set_has_score_gold();
+  inline void clear_has_score_gold();
+  inline void set_has_score_diamond();
+  inline void clear_has_score_diamond();
+  inline void set_has_total_score_gold();
+  inline void clear_has_total_score_gold();
+  inline void set_has_total_score_diamond();
+  inline void clear_has_total_score_diamond();
+  inline void set_has_rate_winning();
+  inline void clear_has_rate_winning();
+  inline void set_has_num_ming_gang();
+  inline void clear_has_num_ming_gang();
+  inline void set_has_num_an_gang();
+  inline void clear_has_num_an_gang();
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
@@ -155,9 +200,14 @@ class GameEndDataMsgProtocol : public ::google::protobuf::Message {
   mutable int _cached_size_;
   ::std::string* nick_name_;
   ::google::protobuf::int32 player_id_;
-  ::google::protobuf::int32 score_;
+  ::google::protobuf::int32 score_gold_;
+  ::google::protobuf::int32 score_diamond_;
+  ::google::protobuf::int32 total_score_gold_;
+  ::google::protobuf::int32 total_score_diamond_;
+  float rate_winning_;
+  ::google::protobuf::int32 num_ming_gang_;
+  ::google::protobuf::int32 num_an_gang_;
   ::google::protobuf::RepeatedPtrField< ::gamer::protocol::PlayerCardsMsgProtocol > player_cards_;
-  ::google::protobuf::int32 total_score_;
   friend void  protobuf_AddDesc_game_5fend_5fmsg_5fprotocol_2eproto();
   friend void protobuf_AssignDesc_game_5fend_5fmsg_5fprotocol_2eproto();
   friend void protobuf_ShutdownFile_game_5fend_5fmsg_5fprotocol_2eproto();
@@ -414,55 +464,175 @@ inline void GameEndDataMsgProtocol::set_allocated_nick_name(::std::string* nick_
   // @@protoc_insertion_point(field_set_allocated:gamer.protocol.GameEndDataMsgProtocol.nick_name)
 }
 
-// required int32 score = 3;
-inline bool GameEndDataMsgProtocol::has_score() const {
+// optional int32 score_gold = 3;
+inline bool GameEndDataMsgProtocol::has_score_gold() const {
   return (_has_bits_[0] & 0x00000004u) != 0;
 }
-inline void GameEndDataMsgProtocol::set_has_score() {
+inline void GameEndDataMsgProtocol::set_has_score_gold() {
   _has_bits_[0] |= 0x00000004u;
 }
-inline void GameEndDataMsgProtocol::clear_has_score() {
+inline void GameEndDataMsgProtocol::clear_has_score_gold() {
   _has_bits_[0] &= ~0x00000004u;
 }
-inline void GameEndDataMsgProtocol::clear_score() {
-  score_ = 0;
-  clear_has_score();
+inline void GameEndDataMsgProtocol::clear_score_gold() {
+  score_gold_ = 0;
+  clear_has_score_gold();
 }
-inline ::google::protobuf::int32 GameEndDataMsgProtocol::score() const {
-  // @@protoc_insertion_point(field_get:gamer.protocol.GameEndDataMsgProtocol.score)
-  return score_;
+inline ::google::protobuf::int32 GameEndDataMsgProtocol::score_gold() const {
+  // @@protoc_insertion_point(field_get:gamer.protocol.GameEndDataMsgProtocol.score_gold)
+  return score_gold_;
 }
-inline void GameEndDataMsgProtocol::set_score(::google::protobuf::int32 value) {
-  set_has_score();
-  score_ = value;
-  // @@protoc_insertion_point(field_set:gamer.protocol.GameEndDataMsgProtocol.score)
+inline void GameEndDataMsgProtocol::set_score_gold(::google::protobuf::int32 value) {
+  set_has_score_gold();
+  score_gold_ = value;
+  // @@protoc_insertion_point(field_set:gamer.protocol.GameEndDataMsgProtocol.score_gold)
 }
 
-// required int32 total_score = 4;
-inline bool GameEndDataMsgProtocol::has_total_score() const {
+// optional int32 score_diamond = 4;
+inline bool GameEndDataMsgProtocol::has_score_diamond() const {
   return (_has_bits_[0] & 0x00000008u) != 0;
 }
-inline void GameEndDataMsgProtocol::set_has_total_score() {
+inline void GameEndDataMsgProtocol::set_has_score_diamond() {
   _has_bits_[0] |= 0x00000008u;
 }
-inline void GameEndDataMsgProtocol::clear_has_total_score() {
+inline void GameEndDataMsgProtocol::clear_has_score_diamond() {
   _has_bits_[0] &= ~0x00000008u;
 }
-inline void GameEndDataMsgProtocol::clear_total_score() {
-  total_score_ = 0;
-  clear_has_total_score();
+inline void GameEndDataMsgProtocol::clear_score_diamond() {
+  score_diamond_ = 0;
+  clear_has_score_diamond();
 }
-inline ::google::protobuf::int32 GameEndDataMsgProtocol::total_score() const {
-  // @@protoc_insertion_point(field_get:gamer.protocol.GameEndDataMsgProtocol.total_score)
-  return total_score_;
+inline ::google::protobuf::int32 GameEndDataMsgProtocol::score_diamond() const {
+  // @@protoc_insertion_point(field_get:gamer.protocol.GameEndDataMsgProtocol.score_diamond)
+  return score_diamond_;
 }
-inline void GameEndDataMsgProtocol::set_total_score(::google::protobuf::int32 value) {
-  set_has_total_score();
-  total_score_ = value;
-  // @@protoc_insertion_point(field_set:gamer.protocol.GameEndDataMsgProtocol.total_score)
+inline void GameEndDataMsgProtocol::set_score_diamond(::google::protobuf::int32 value) {
+  set_has_score_diamond();
+  score_diamond_ = value;
+  // @@protoc_insertion_point(field_set:gamer.protocol.GameEndDataMsgProtocol.score_diamond)
 }
 
-// repeated .gamer.protocol.PlayerCardsMsgProtocol player_cards = 5;
+// optional int32 total_score_gold = 5;
+inline bool GameEndDataMsgProtocol::has_total_score_gold() const {
+  return (_has_bits_[0] & 0x00000010u) != 0;
+}
+inline void GameEndDataMsgProtocol::set_has_total_score_gold() {
+  _has_bits_[0] |= 0x00000010u;
+}
+inline void GameEndDataMsgProtocol::clear_has_total_score_gold() {
+  _has_bits_[0] &= ~0x00000010u;
+}
+inline void GameEndDataMsgProtocol::clear_total_score_gold() {
+  total_score_gold_ = 0;
+  clear_has_total_score_gold();
+}
+inline ::google::protobuf::int32 GameEndDataMsgProtocol::total_score_gold() const {
+  // @@protoc_insertion_point(field_get:gamer.protocol.GameEndDataMsgProtocol.total_score_gold)
+  return total_score_gold_;
+}
+inline void GameEndDataMsgProtocol::set_total_score_gold(::google::protobuf::int32 value) {
+  set_has_total_score_gold();
+  total_score_gold_ = value;
+  // @@protoc_insertion_point(field_set:gamer.protocol.GameEndDataMsgProtocol.total_score_gold)
+}
+
+// optional int32 total_score_diamond = 6;
+inline bool GameEndDataMsgProtocol::has_total_score_diamond() const {
+  return (_has_bits_[0] & 0x00000020u) != 0;
+}
+inline void GameEndDataMsgProtocol::set_has_total_score_diamond() {
+  _has_bits_[0] |= 0x00000020u;
+}
+inline void GameEndDataMsgProtocol::clear_has_total_score_diamond() {
+  _has_bits_[0] &= ~0x00000020u;
+}
+inline void GameEndDataMsgProtocol::clear_total_score_diamond() {
+  total_score_diamond_ = 0;
+  clear_has_total_score_diamond();
+}
+inline ::google::protobuf::int32 GameEndDataMsgProtocol::total_score_diamond() const {
+  // @@protoc_insertion_point(field_get:gamer.protocol.GameEndDataMsgProtocol.total_score_diamond)
+  return total_score_diamond_;
+}
+inline void GameEndDataMsgProtocol::set_total_score_diamond(::google::protobuf::int32 value) {
+  set_has_total_score_diamond();
+  total_score_diamond_ = value;
+  // @@protoc_insertion_point(field_set:gamer.protocol.GameEndDataMsgProtocol.total_score_diamond)
+}
+
+// optional float rate_winning = 7;
+inline bool GameEndDataMsgProtocol::has_rate_winning() const {
+  return (_has_bits_[0] & 0x00000040u) != 0;
+}
+inline void GameEndDataMsgProtocol::set_has_rate_winning() {
+  _has_bits_[0] |= 0x00000040u;
+}
+inline void GameEndDataMsgProtocol::clear_has_rate_winning() {
+  _has_bits_[0] &= ~0x00000040u;
+}
+inline void GameEndDataMsgProtocol::clear_rate_winning() {
+  rate_winning_ = 0;
+  clear_has_rate_winning();
+}
+inline float GameEndDataMsgProtocol::rate_winning() const {
+  // @@protoc_insertion_point(field_get:gamer.protocol.GameEndDataMsgProtocol.rate_winning)
+  return rate_winning_;
+}
+inline void GameEndDataMsgProtocol::set_rate_winning(float value) {
+  set_has_rate_winning();
+  rate_winning_ = value;
+  // @@protoc_insertion_point(field_set:gamer.protocol.GameEndDataMsgProtocol.rate_winning)
+}
+
+// optional int32 num_ming_gang = 8;
+inline bool GameEndDataMsgProtocol::has_num_ming_gang() const {
+  return (_has_bits_[0] & 0x00000080u) != 0;
+}
+inline void GameEndDataMsgProtocol::set_has_num_ming_gang() {
+  _has_bits_[0] |= 0x00000080u;
+}
+inline void GameEndDataMsgProtocol::clear_has_num_ming_gang() {
+  _has_bits_[0] &= ~0x00000080u;
+}
+inline void GameEndDataMsgProtocol::clear_num_ming_gang() {
+  num_ming_gang_ = 0;
+  clear_has_num_ming_gang();
+}
+inline ::google::protobuf::int32 GameEndDataMsgProtocol::num_ming_gang() const {
+  // @@protoc_insertion_point(field_get:gamer.protocol.GameEndDataMsgProtocol.num_ming_gang)
+  return num_ming_gang_;
+}
+inline void GameEndDataMsgProtocol::set_num_ming_gang(::google::protobuf::int32 value) {
+  set_has_num_ming_gang();
+  num_ming_gang_ = value;
+  // @@protoc_insertion_point(field_set:gamer.protocol.GameEndDataMsgProtocol.num_ming_gang)
+}
+
+// optional int32 num_an_gang = 9;
+inline bool GameEndDataMsgProtocol::has_num_an_gang() const {
+  return (_has_bits_[0] & 0x00000100u) != 0;
+}
+inline void GameEndDataMsgProtocol::set_has_num_an_gang() {
+  _has_bits_[0] |= 0x00000100u;
+}
+inline void GameEndDataMsgProtocol::clear_has_num_an_gang() {
+  _has_bits_[0] &= ~0x00000100u;
+}
+inline void GameEndDataMsgProtocol::clear_num_an_gang() {
+  num_an_gang_ = 0;
+  clear_has_num_an_gang();
+}
+inline ::google::protobuf::int32 GameEndDataMsgProtocol::num_an_gang() const {
+  // @@protoc_insertion_point(field_get:gamer.protocol.GameEndDataMsgProtocol.num_an_gang)
+  return num_an_gang_;
+}
+inline void GameEndDataMsgProtocol::set_num_an_gang(::google::protobuf::int32 value) {
+  set_has_num_an_gang();
+  num_an_gang_ = value;
+  // @@protoc_insertion_point(field_set:gamer.protocol.GameEndDataMsgProtocol.num_an_gang)
+}
+
+// repeated .gamer.protocol.PlayerCardsMsgProtocol player_cards = 10;
 inline int GameEndDataMsgProtocol::player_cards_size() const {
   return player_cards_.size();
 }

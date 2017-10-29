@@ -41,6 +41,8 @@ NetworkManager::NetworkManager(const std::string& ip, int port)
 }
 
 void NetworkManager::InitSocket() {
+    this->InitIPAndPort();
+
 	struct sockaddr_in sin;
 
 #ifdef _WIN32
@@ -183,6 +185,7 @@ void NetworkManager::OnBuffereventWrite(struct bufferevent* bev, void* ctx) {
 void NetworkManager::InitIPAndPort() {
 	// TODO : init from cfg
 	ip_ = "127.0.0.1";
+    //ip_ = "192.168.1.101";
 	port_ = 4994;
 }
 

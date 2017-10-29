@@ -55,7 +55,8 @@ static inline int Fls64(uint64_t n) {
 
 // Like Fls64() above, but returns the 0-based position of the last set bit
 // (i.e., most significant bit) in the given uint128. The argument may not be 0.
-static inline int Fls128(uint128 n) {
+//static inline int Fls128(uint128 n) {
+static inline int Fls128(const uint128& n) { // connor-2017-10-28
   if (uint64_t hi = Uint128High64(n)) {
     return Fls64(hi) + 64;
   }
@@ -65,8 +66,10 @@ static inline int Fls128(uint128 n) {
 // Long division/modulo for uint128 implemented using the shift-subtract
 // division algorithm adapted from:
 // http://stackoverflow.com/questions/5386377/division-without-using
-void DivModImpl(uint128 dividend, uint128 divisor, uint128* quotient_ret,
-                uint128* remainder_ret) {
+//void DivModImpl(uint128 dividend, uint128 divisor, uint128* quotient_ret,
+//                uint128* remainder_ret) {
+void DivModImpl(uint128& dividend, const uint128& divisor, uint128* quotient_ret,
+                uint128* remainder_ret) { // connor-2017-10-28
   assert(divisor != 0);
 
   if (divisor > dividend) {
