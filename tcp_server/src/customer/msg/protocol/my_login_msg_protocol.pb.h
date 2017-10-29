@@ -104,12 +104,17 @@ class MyLoginMsgProtocol : public ::google::protobuf::Message {
   inline ::std::string* release_account();
   inline void set_allocated_account(::std::string* account);
 
-  // required int32 password = 2;
+  // required string password = 2;
   inline bool has_password() const;
   inline void clear_password();
   static const int kPasswordFieldNumber = 2;
-  inline ::google::protobuf::int32 password() const;
-  inline void set_password(::google::protobuf::int32 value);
+  inline const ::std::string& password() const;
+  inline void set_password(const ::std::string& value);
+  inline void set_password(const char* value);
+  inline void set_password(const char* value, size_t size);
+  inline ::std::string* mutable_password();
+  inline ::std::string* release_password();
+  inline void set_allocated_password(::std::string* password);
 
   // optional .gamer.protocol.PlayerMsgProtocol player = 3;
   inline bool has_player() const;
@@ -134,8 +139,8 @@ class MyLoginMsgProtocol : public ::google::protobuf::Message {
   ::google::protobuf::uint32 _has_bits_[1];
   mutable int _cached_size_;
   ::std::string* account_;
+  ::std::string* password_;
   ::gamer::protocol::PlayerMsgProtocol* player_;
-  ::google::protobuf::int32 password_;
   friend void  protobuf_AddDesc_my_5flogin_5fmsg_5fprotocol_2eproto();
   friend void protobuf_AssignDesc_my_5flogin_5fmsg_5fprotocol_2eproto();
   friend void protobuf_ShutdownFile_my_5flogin_5fmsg_5fprotocol_2eproto();
@@ -226,7 +231,7 @@ inline void MyLoginMsgProtocol::set_allocated_account(::std::string* account) {
   // @@protoc_insertion_point(field_set_allocated:gamer.protocol.MyLoginMsgProtocol.account)
 }
 
-// required int32 password = 2;
+// required string password = 2;
 inline bool MyLoginMsgProtocol::has_password() const {
   return (_has_bits_[0] & 0x00000002u) != 0;
 }
@@ -237,17 +242,69 @@ inline void MyLoginMsgProtocol::clear_has_password() {
   _has_bits_[0] &= ~0x00000002u;
 }
 inline void MyLoginMsgProtocol::clear_password() {
-  password_ = 0;
+  if (password_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    password_->clear();
+  }
   clear_has_password();
 }
-inline ::google::protobuf::int32 MyLoginMsgProtocol::password() const {
+inline const ::std::string& MyLoginMsgProtocol::password() const {
   // @@protoc_insertion_point(field_get:gamer.protocol.MyLoginMsgProtocol.password)
+  return *password_;
+}
+inline void MyLoginMsgProtocol::set_password(const ::std::string& value) {
+  set_has_password();
+  if (password_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    password_ = new ::std::string;
+  }
+  password_->assign(value);
+  // @@protoc_insertion_point(field_set:gamer.protocol.MyLoginMsgProtocol.password)
+}
+inline void MyLoginMsgProtocol::set_password(const char* value) {
+  set_has_password();
+  if (password_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    password_ = new ::std::string;
+  }
+  password_->assign(value);
+  // @@protoc_insertion_point(field_set_char:gamer.protocol.MyLoginMsgProtocol.password)
+}
+inline void MyLoginMsgProtocol::set_password(const char* value, size_t size) {
+  set_has_password();
+  if (password_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    password_ = new ::std::string;
+  }
+  password_->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:gamer.protocol.MyLoginMsgProtocol.password)
+}
+inline ::std::string* MyLoginMsgProtocol::mutable_password() {
+  set_has_password();
+  if (password_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    password_ = new ::std::string;
+  }
+  // @@protoc_insertion_point(field_mutable:gamer.protocol.MyLoginMsgProtocol.password)
   return password_;
 }
-inline void MyLoginMsgProtocol::set_password(::google::protobuf::int32 value) {
-  set_has_password();
-  password_ = value;
-  // @@protoc_insertion_point(field_set:gamer.protocol.MyLoginMsgProtocol.password)
+inline ::std::string* MyLoginMsgProtocol::release_password() {
+  clear_has_password();
+  if (password_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    return NULL;
+  } else {
+    ::std::string* temp = password_;
+    password_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+    return temp;
+  }
+}
+inline void MyLoginMsgProtocol::set_allocated_password(::std::string* password) {
+  if (password_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    delete password_;
+  }
+  if (password) {
+    set_has_password();
+    password_ = password;
+  } else {
+    clear_has_password();
+    password_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  // @@protoc_insertion_point(field_set_allocated:gamer.protocol.MyLoginMsgProtocol.password)
 }
 
 // optional .gamer.protocol.PlayerMsgProtocol player = 3;

@@ -26,6 +26,7 @@ Player::Player()
       is_online_(false),
       cur_available_operation_id_(PlayCardOperationIDs::OPERATION_NONE),
       has_selected_operation_ting_(false),
+      my_login_msg_proto_(nullptr),
       cards_msg_proto_(nullptr) {
 }
 
@@ -40,20 +41,12 @@ Player* Player::Create(int player_id) {
 	return player;
 }
 
-inline void Player::set_player_id(int player_id) {
-	player_id_ = player_id;
-}
-
-inline int Player::player_id() const {
-	return player_id_;
-}
-
-inline void Player::set_is_online(bool online) {
-	is_online_ = online;
-}
-
-inline bool Player::is_online() const {
-	return is_online_;
+void Player::InitMyLoginMsgProtocol(const std::string& account, const std::string& password) {
+    if (nullptr == my_login_msg_proto_) {
+        my_login_msg_proto_ = new MyLoginMsgProtocol;
+    }
+    my_login_msg_proto_->set_account(account);
+    my_login_msg_proto_->set_password(password);
 }
 
 void Player::InitPlayerCards(PlayerCardsMsgProtocol* proto) {

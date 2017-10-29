@@ -17,6 +17,7 @@ modification:
 
 #include "customer/msg/protocol/player_cards_msg_protocol.pb.h"
 #include "customer/msg/protocol/play_card_msg_protocol.pb.h"
+#include "customer/msg/protocol/my_login_msg_protocol.pb.h"
 #include "customer/msg/protocol/ting_card_msg_protocol.pb.h"
 #include "player_protocol.h"
 
@@ -25,8 +26,9 @@ namespace gamer {
 class Player : public PlayerProtocol {
   public:
     typedef gamer::protocol::PlayerCardsMsgProtocol PlayerCardsMsgProtocol;
-    typedef gamer::protocol::TingCardMsgProtocol TingCardMsgProtocol;
     typedef gamer::protocol::PlayCardMsgProtocol PlayCardMsgProtocol;
+    typedef gamer::protocol::TingCardMsgProtocol TingCardMsgProtocol;
+    typedef gamer::protocol::MyLoginMsgProtocol MyLoginMsgProtocol;
     typedef google::protobuf::RepeatedField<google::protobuf::int32> RepeatedFieldInt;
 
 	Player& operator=(const Player&) = delete;
@@ -52,6 +54,10 @@ class Player : public PlayerProtocol {
     inline void set_has_selected_operation_ting(bool selected);
 
     inline bool has_selected_operation_ting() const;
+
+    inline MyLoginMsgProtocol* mg_login_msg_protocol();
+
+    void InitMyLoginMsgProtocol(const std::string& account, const std::string& password);
 
     // do not keep the ownership
     void InitPlayerCards(PlayerCardsMsgProtocol* proto);
@@ -126,8 +132,25 @@ class Player : public PlayerProtocol {
 	int player_id_;
     int cur_available_operation_id_;
 
+    MyLoginMsgProtocol* my_login_msg_proto_;
 	PlayerCardsMsgProtocol* cards_msg_proto_;
 };
+
+inline void Player::set_player_id(int player_id) {
+    player_id_ = player_id;
+}
+
+inline int Player::player_id() const {
+    return player_id_;
+}
+
+inline void Player::set_is_online(bool online) {
+    is_online_ = online;
+}
+
+inline bool Player::is_online() const {
+    return is_online_;
+}
 
 inline void Player::set_cur_available_operation_id(int operation_id) {
     cur_available_operation_id_ = operation_id;
@@ -143,6 +166,10 @@ inline void Player::set_has_selected_operation_ting(bool selected) {
 
 inline bool Player::has_selected_operation_ting() const {
     return has_selected_operation_ting_;
+}
+
+inline gamer::protocol::MyLoginMsgProtocol* Player::mg_login_msg_protocol() {
+    return my_login_msg_proto_;
 }
 
 } // namespace gamer

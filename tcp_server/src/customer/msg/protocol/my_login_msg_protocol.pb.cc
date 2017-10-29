@@ -85,7 +85,7 @@ void protobuf_AddDesc_my_5flogin_5fmsg_5fprotocol_2eproto() {
     "\n\033my_login_msg_protocol.proto\022\016gamer.pro"
     "tocol\032\031player_msg_protocol.proto\"j\n\022MyLo"
     "ginMsgProtocol\022\017\n\007account\030\001 \002(\t\022\020\n\010passw"
-    "ord\030\002 \002(\005\0221\n\006player\030\003 \001(\0132!.gamer.protoc"
+    "ord\030\002 \002(\t\0221\n\006player\030\003 \001(\0132!.gamer.protoc"
     "ol.PlayerMsgProtocol", 180);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "my_login_msg_protocol.proto", &protobuf_RegisterTypes);
@@ -130,7 +130,7 @@ void MyLoginMsgProtocol::SharedCtor() {
   ::google::protobuf::internal::GetEmptyString();
   _cached_size_ = 0;
   account_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  password_ = 0;
+  password_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   player_ = NULL;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
@@ -143,6 +143,9 @@ MyLoginMsgProtocol::~MyLoginMsgProtocol() {
 void MyLoginMsgProtocol::SharedDtor() {
   if (account_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
     delete account_;
+  }
+  if (password_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    delete password_;
   }
   if (this != default_instance_) {
     delete player_;
@@ -177,7 +180,11 @@ void MyLoginMsgProtocol::Clear() {
         account_->clear();
       }
     }
-    password_ = 0;
+    if (has_password()) {
+      if (password_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+        password_->clear();
+      }
+    }
     if (has_player()) {
       if (player_ != NULL) player_->::gamer::protocol::PlayerMsgProtocol::Clear();
     }
@@ -208,18 +215,20 @@ bool MyLoginMsgProtocol::MergePartialFromCodedStream(
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(16)) goto parse_password;
+        if (input->ExpectTag(18)) goto parse_password;
         break;
       }
 
-      // required int32 password = 2;
+      // required string password = 2;
       case 2: {
-        if (tag == 16) {
+        if (tag == 18) {
          parse_password:
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 input, &password_)));
-          set_has_password();
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_password()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->password().data(), this->password().length(),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "password");
         } else {
           goto handle_unusual;
         }
@@ -275,9 +284,14 @@ void MyLoginMsgProtocol::SerializeWithCachedSizes(
       1, this->account(), output);
   }
 
-  // required int32 password = 2;
+  // required string password = 2;
   if (has_password()) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(2, this->password(), output);
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->password().data(), this->password().length(),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "password");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      2, this->password(), output);
   }
 
   // optional .gamer.protocol.PlayerMsgProtocol player = 3;
@@ -307,9 +321,15 @@ void MyLoginMsgProtocol::SerializeWithCachedSizes(
         1, this->account(), target);
   }
 
-  // required int32 password = 2;
+  // required string password = 2;
   if (has_password()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(2, this->password(), target);
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->password().data(), this->password().length(),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "password");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        2, this->password(), target);
   }
 
   // optional .gamer.protocol.PlayerMsgProtocol player = 3;
@@ -338,10 +358,10 @@ int MyLoginMsgProtocol::ByteSize() const {
           this->account());
     }
 
-    // required int32 password = 2;
+    // required string password = 2;
     if (has_password()) {
       total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::Int32Size(
+        ::google::protobuf::internal::WireFormatLite::StringSize(
           this->password());
     }
 

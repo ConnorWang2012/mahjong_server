@@ -132,6 +132,7 @@ void NetworkManager::OnBuffereventReceived(struct bufferevent* bev, short event,
 	if (event & BEV_EVENT_ERROR) {
 		LOGERROR("[NetworkManager::OnBuffereventArrive] error from bufferevent!");
         PlayerManager::instance()->RemoveOnlinePlayer(bev); // TODO : do it somewhere
+        // TODO :
 	}
 
 	if (event & (BEV_EVENT_EOF | BEV_EVENT_ERROR)) {

@@ -134,7 +134,7 @@ void MsgManager::DealWithMgLoginMsg(const ClientMsg& msg, bufferevent* bev) {
 	}
 
 	// check account and password
-	if ("" == login_proto_client.account() || 0 == login_proto_client.password()) {
+	if ("" == login_proto_client.account() || "" == login_proto_client.password()) {
 		// TODO : log
 		// TODO : specify error code
 		auto error_code = (msg_header_t)MsgCodes::MSG_RESPONSE_CODE_FAILED1;
@@ -142,47 +142,47 @@ void MsgManager::DealWithMgLoginMsg(const ClientMsg& msg, bufferevent* bev) {
 		return;
 	}
 
-	std::string player_msg = "";
-	DataManager::instance()->GetCachedPlayerPersonalData(login_proto_client.account(), player_msg);
-	protocol::MyLoginMsgProtocol login_proto_server;
+	std::string login_msg = "";
+	DataManager::instance()->GetCachedPlayerPersonalData(login_proto_client.account(), login_msg);
+	
 	auto player_id = 0;
-	if ("" == player_msg) { // first login
-		login_proto_server.set_account(login_proto_client.account());
-		login_proto_server.set_password(login_proto_client.password());
+    auto player = Player::Create(player_id);
+    player->InitMyLoginMsgProtocol(login_proto_client.account(), login_proto_client.password());
+    auto login_proto_server = player->mg_login_msg_protocol();
 
-		auto player_proto = new protocol::PlayerMsgProtocol;
-		login_proto_server.set_allocated_player(player_proto);
-		player_id = DataManager::instance()->GeneratePlayerID();
-		player_proto->set_player_id(player_id);
-		player_proto->set_game_currency(5000); // TODO : cfg
-		player_proto->set_nick_name(login_proto_client.account());
-		player_proto->set_level(1);
-		player_proto->set_level_name("junior");
+	if ("" == login_msg) { // first login
+        player_id = DataManager::instance()->GeneratePlayerID();
+        player->set_player_id(player_id);
+        
+        auto player_proto  = new protocol::PlayerMsgProtocol;
+        player_proto->set_player_id(player_id);
+        player_proto->set_game_currency(5000); // TODO : cfg
+        player_proto->set_nick_name(login_proto_client.account());
+        player_proto->set_level(1);
+        player_proto->set_level_name("junior");
+		
+		login_proto_server->set_allocated_player(player_proto);
 
-		auto login_info = login_proto_server.SerializeAsString();
+		auto login_info = login_proto_server->SerializeAsString();
 		if ("" == login_info) {
 			// TODO : log
 			// TODO : specify error code
 			auto error_code = (msg_header_t)MsgCodes::MSG_RESPONSE_CODE_FAILED1;
 			this->SendMsgForError(error_code, msg, bev);
 			return;
-		}
-		else {
+		} else {
 			DataManager::instance()->CachePlayerPersonalData(login_proto_client.account(), login_info);
 		}
-
-	}
-	else { // not first login
-		if (!login_proto_server.ParseFromString(player_msg)) {
+	} else { // not first login
+		if ( !login_proto_server->ParseFromString(login_msg)) {
 			// TODO : log
 			// TODO : specify error code
 			auto error_code = (msg_header_t)MsgCodes::MSG_RESPONSE_CODE_FAILED1;
 			this->SendMsgForError(error_code, msg, bev);
 			return;
-		}
-		else {
+		} else {
 			// verify server password
-			if (login_proto_server.password() != login_proto_client.password()) {
+			if (login_proto_server->password() != login_proto_client.password()) {
 				// TODO : specify error code
 				auto error_code = (msg_header_t)MsgCodes::MSG_RESPONSE_CODE_FAILED1;
 				this->SendMsgForError(error_code, msg, bev);
@@ -192,8 +192,10 @@ void MsgManager::DealWithMgLoginMsg(const ClientMsg& msg, bufferevent* bev) {
 	}
 
 	// login succeed, keep the bev for sending msg
-    player_id = (0 == player_id) ? login_proto_server.player().player_id() : player_id;
-	auto player = Player::Create(player_id); // TODO : not right allway
+    if (0 == player_id) {
+        player_id = login_proto_server->player().player_id();
+    }
+	
 	PlayerManager::instance()->AddOnlinePlayerBufferevent(player_id, bev);
 	PlayerManager::instance()->AddOnlinePlayer(player_id, player);
 
@@ -201,7 +203,7 @@ void MsgManager::DealWithMgLoginMsg(const ClientMsg& msg, bufferevent* bev) {
 	this->SendMsg((msg_header_t)MsgTypes::S2C_MSG_TYPE_LOGIN,
 				  (msg_header_t)MsgIDs::MSG_ID_LOGIN_MY,
 				  (msg_header_t)MsgCodes::MSG_RESPONSE_CODE_SUCCESS,
-                  login_proto_server,
+                  *login_proto_server,
 				  bev);
 }
 

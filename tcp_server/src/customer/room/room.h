@@ -84,7 +84,7 @@ class Room : public RoomProtocol<Player> {
 
     void DealWithOperationGiveUpPengOrPengGang(PlayCardMsgProtocol& proto);
 
-    void DealWithGameEnd();
+    void DealWithGameEnd(Player* player_win);
 
     Player* GetTheRightPlayer(int player_id);
 
@@ -508,7 +508,7 @@ MsgCodes Room<Player>::DealWithPlayCard(PlayCardMsgProtocol& proto) {
             }
 
             // send game end msg to all players
-            this->DealWithGameEnd();
+            this->DealWithGameEnd(player);
 
             players_sended_msg_hu_.clear();
         } else if (2 == players_sended_msg_hu_.size()) {
@@ -548,7 +548,7 @@ MsgCodes Room<Player>::DealWithPlayCard(PlayCardMsgProtocol& proto) {
         }
 
 		// send game end msg to all players
-		this->DealWithGameEnd();
+		this->DealWithGameEnd(player);
 
         break;
     }
@@ -618,7 +618,7 @@ MsgCodes Room<Player>::DealWithGameStart(RoomMsgProtocol& proto) {
         27, 28, 29, 30, 31, 32, 33,
         27, 28, 29, 30, 31, 32, 33,
         27, 28, 29, 30, 31, 32, 33,
-        40, 41, 29, 30, 31, 32, 33, // 41 -> 28
+        27, 28, 29, 30, 31, 32, 33, // 41 -> 28
 
         34, 1, 2, 3, 4, 5, 6, 7
     };
@@ -1136,7 +1136,7 @@ void Room<Player>::DealWithOperationGiveUpPengOrPengGang(PlayCardMsgProtocol&
 }
 
 template<typename Player>
-void Room<Player>::DealWithGameEnd() {
+void Room<Player>::DealWithGameEnd(Player* player_win) {
     GameEndMsgProtocol proto;
     proto.set_room_id(room_id_);
     proto.set_room_owner_id(room_msg_proto_.room_owner_id());
@@ -1144,6 +1144,20 @@ void Room<Player>::DealWithGameEnd() {
     proto.set_cur_round(room_msg_proto_.cur_round());
     proto.set_total_round(room_msg_proto_.total_round());
     proto.set_banker_id(room_msg_proto_.banker_id());
+
+    for (auto& player : players_) {
+        //auto login_msg_proto = player->mg_login_msg_protocol();
+        auto game_end_data   = proto.add_game_end_data();
+        game_end_data->set_player_id(player->player_id());
+        //game_end_data->set_nick_name(login_msg_proto->player().nick_name());
+        game_end_data->set_nick_name("nick name"); // TODO:
+
+        if (player->player_id() == player_win->player_id()) {
+            game_end_data->set_score_gold(create_room_msg_proto_.score_gold());
+        } else {
+            game_end_data->set_score_gold(-create_room_msg_proto_.score_gold());
+        }
+    }
 
     for (auto& player : players_) {
         auto bev = PlayerManager::instance()->GetOnlinePlayerBufferevent(player->player_id());
