@@ -50,6 +50,7 @@ class DataManager : public BasicManager<DataManager> {
 
 	void UpdateAvailablePlayerID();
 
+    // async
 	void SetGold(id_t player_id, score_t gold);
 
 	void GetGold(id_t player_id, score_t& gold) const;
