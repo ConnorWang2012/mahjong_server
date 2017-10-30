@@ -1,0 +1,6 @@
+package gamer.protocol;
+
+message TingCardMsgProtocol {
+  repeated int32 cards_of_ting  = 1; 
+  optional int32 discard        = 2[default = -1];
+}

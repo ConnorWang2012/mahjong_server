@@ -29,8 +29,9 @@ void test_shuffle_algorithm() {
 }
 
 void test_is_hu_algorithm() {
-    int cards[14] = { 1, 1, 1, 2, 3, 4, 27, 27, 27, 29, 29 };
-    auto ret = gamer::ChessCard::IsHu(cards, 11);
+    //int cards[14] = { 1, 1, 1, 2, 3, 4, 27, 27, 27, 29, 29 };
+	int cards[5] = { 33, 33, 33, 31, 31 };
+    auto ret = gamer::ChessCard::IsHu(cards, 5);
     if (ret) {
         printf("IsHu : true\n");
     } else {
@@ -46,7 +47,7 @@ void test_is_ting_algorithm() {
     int cards[14] = { 0, 0, 0, 2, 3, 4, 5, 6, 23, 23, 23, 29, 29, 29 };
     gamer::protocol::TingCardMsgProtocol proto;
 
-    auto ret = gamer::ChessCard::IsTing(cards, 14, proto);
+    auto ret = gamer::ChessCard::IsTing(cards, 14, &proto);
     if (ret) {
         if (1 == proto.cards_of_ting_size()) {
             printf("IsTing : true, ting cards : %d, discard : %d\n", proto.cards_of_ting(0), proto.discard());

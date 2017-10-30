@@ -1,6 +1,0 @@
-package gamer.protocol;
-
-message MyLoginMsgProtocol {
-  required string account  = 1;
-  required int32 password  = 2;
-}

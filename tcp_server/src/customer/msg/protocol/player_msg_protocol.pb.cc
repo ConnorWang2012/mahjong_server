@@ -35,7 +35,7 @@ void protobuf_AssignDesc_player_5fmsg_5fprotocol_2eproto() {
       "player_msg_protocol.proto");
   GOOGLE_CHECK(file != NULL);
   PlayerMsgProtocol_descriptor_ = file->message_type(0);
-  static const int PlayerMsgProtocol_offsets_[9] = {
+  static const int PlayerMsgProtocol_offsets_[10] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayerMsgProtocol, player_id_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayerMsgProtocol, nick_name_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayerMsgProtocol, game_currency_),
@@ -43,6 +43,7 @@ void protobuf_AssignDesc_player_5fmsg_5fprotocol_2eproto() {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayerMsgProtocol, level_name_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayerMsgProtocol, score_gold_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayerMsgProtocol, score_diamond_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayerMsgProtocol, num_room_cards_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayerMsgProtocol, num_played_games_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayerMsgProtocol, num_win_games_),
   };
@@ -88,12 +89,12 @@ void protobuf_AddDesc_player_5fmsg_5fprotocol_2eproto() {
 
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
     "\n\031player_msg_protocol.proto\022\016gamer.proto"
-    "col\"\317\001\n\021PlayerMsgProtocol\022\021\n\tplayer_id\030\001"
+    "col\"\352\001\n\021PlayerMsgProtocol\022\021\n\tplayer_id\030\001"
     " \002(\005\022\021\n\tnick_name\030\002 \002(\t\022\025\n\rgame_currency"
     "\030\003 \002(\005\022\r\n\005level\030\004 \002(\005\022\022\n\nlevel_name\030\005 \002("
     "\t\022\022\n\nscore_gold\030\006 \001(\005\022\025\n\rscore_diamond\030\007"
-    " \001(\005\022\030\n\020num_played_games\030\010 \001(\005\022\025\n\rnum_wi"
-    "n_games\030\t \001(\005", 253);
+    " \001(\005\022\031\n\016num_room_cards\030\010 \001(\005:\0010\022\030\n\020num_p"
+    "layed_games\030\t \001(\005\022\025\n\rnum_win_games\030\n \001(\005", 280);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "player_msg_protocol.proto", &protobuf_RegisterTypes);
   PlayerMsgProtocol::default_instance_ = new PlayerMsgProtocol();
@@ -118,6 +119,7 @@ const int PlayerMsgProtocol::kLevelFieldNumber;
 const int PlayerMsgProtocol::kLevelNameFieldNumber;
 const int PlayerMsgProtocol::kScoreGoldFieldNumber;
 const int PlayerMsgProtocol::kScoreDiamondFieldNumber;
+const int PlayerMsgProtocol::kNumRoomCardsFieldNumber;
 const int PlayerMsgProtocol::kNumPlayedGamesFieldNumber;
 const int PlayerMsgProtocol::kNumWinGamesFieldNumber;
 #endif  // !_MSC_VER
@@ -148,6 +150,7 @@ void PlayerMsgProtocol::SharedCtor() {
   level_name_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   score_gold_ = 0;
   score_diamond_ = 0;
+  num_room_cards_ = 0;
   num_played_games_ = 0;
   num_win_games_ = 0;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
@@ -203,7 +206,7 @@ void PlayerMsgProtocol::Clear() {
 
   if (_has_bits_[0 / 32] & 255) {
     ZR_(player_id_, game_currency_);
-    ZR_(level_, num_played_games_);
+    ZR_(level_, num_room_cards_);
     if (has_nick_name()) {
       if (nick_name_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
         nick_name_->clear();
@@ -215,7 +218,7 @@ void PlayerMsgProtocol::Clear() {
       }
     }
   }
-  num_win_games_ = 0;
+  ZR_(num_played_games_, num_win_games_);
 
 #undef OFFSET_OF_FIELD_
 #undef ZR_
@@ -338,13 +341,28 @@ bool PlayerMsgProtocol::MergePartialFromCodedStream(
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(64)) goto parse_num_played_games;
+        if (input->ExpectTag(64)) goto parse_num_room_cards;
         break;
       }
 
-      // optional int32 num_played_games = 8;
+      // optional int32 num_room_cards = 8 [default = 0];
       case 8: {
         if (tag == 64) {
+         parse_num_room_cards:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &num_room_cards_)));
+          set_has_num_room_cards();
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(72)) goto parse_num_played_games;
+        break;
+      }
+
+      // optional int32 num_played_games = 9;
+      case 9: {
+        if (tag == 72) {
          parse_num_played_games:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
@@ -353,13 +371,13 @@ bool PlayerMsgProtocol::MergePartialFromCodedStream(
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(72)) goto parse_num_win_games;
+        if (input->ExpectTag(80)) goto parse_num_win_games;
         break;
       }
 
-      // optional int32 num_win_games = 9;
-      case 9: {
-        if (tag == 72) {
+      // optional int32 num_win_games = 10;
+      case 10: {
+        if (tag == 80) {
          parse_num_win_games:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
@@ -442,14 +460,19 @@ void PlayerMsgProtocol::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt32(7, this->score_diamond(), output);
   }
 
-  // optional int32 num_played_games = 8;
-  if (has_num_played_games()) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(8, this->num_played_games(), output);
+  // optional int32 num_room_cards = 8 [default = 0];
+  if (has_num_room_cards()) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(8, this->num_room_cards(), output);
   }
 
-  // optional int32 num_win_games = 9;
+  // optional int32 num_played_games = 9;
+  if (has_num_played_games()) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(9, this->num_played_games(), output);
+  }
+
+  // optional int32 num_win_games = 10;
   if (has_num_win_games()) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(9, this->num_win_games(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(10, this->num_win_games(), output);
   }
 
   if (!unknown_fields().empty()) {
@@ -509,14 +532,19 @@ void PlayerMsgProtocol::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(7, this->score_diamond(), target);
   }
 
-  // optional int32 num_played_games = 8;
-  if (has_num_played_games()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(8, this->num_played_games(), target);
+  // optional int32 num_room_cards = 8 [default = 0];
+  if (has_num_room_cards()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(8, this->num_room_cards(), target);
   }
 
-  // optional int32 num_win_games = 9;
+  // optional int32 num_played_games = 9;
+  if (has_num_played_games()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(9, this->num_played_games(), target);
+  }
+
+  // optional int32 num_win_games = 10;
   if (has_num_win_games()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(9, this->num_win_games(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(10, this->num_win_games(), target);
   }
 
   if (!unknown_fields().empty()) {
@@ -580,16 +608,23 @@ int PlayerMsgProtocol::ByteSize() const {
           this->score_diamond());
     }
 
-    // optional int32 num_played_games = 8;
+    // optional int32 num_room_cards = 8 [default = 0];
+    if (has_num_room_cards()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::Int32Size(
+          this->num_room_cards());
+    }
+
+  }
+  if (_has_bits_[8 / 32] & (0xffu << (8 % 32))) {
+    // optional int32 num_played_games = 9;
     if (has_num_played_games()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::Int32Size(
           this->num_played_games());
     }
 
-  }
-  if (_has_bits_[8 / 32] & (0xffu << (8 % 32))) {
-    // optional int32 num_win_games = 9;
+    // optional int32 num_win_games = 10;
     if (has_num_win_games()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::Int32Size(
@@ -644,11 +679,14 @@ void PlayerMsgProtocol::MergeFrom(const PlayerMsgProtocol& from) {
     if (from.has_score_diamond()) {
       set_score_diamond(from.score_diamond());
     }
-    if (from.has_num_played_games()) {
-      set_num_played_games(from.num_played_games());
+    if (from.has_num_room_cards()) {
+      set_num_room_cards(from.num_room_cards());
     }
   }
   if (from._has_bits_[8 / 32] & (0xffu << (8 % 32))) {
+    if (from.has_num_played_games()) {
+      set_num_played_games(from.num_played_games());
+    }
     if (from.has_num_win_games()) {
       set_num_win_games(from.num_win_games());
     }
@@ -683,6 +721,7 @@ void PlayerMsgProtocol::Swap(PlayerMsgProtocol* other) {
     std::swap(level_name_, other->level_name_);
     std::swap(score_gold_, other->score_gold_);
     std::swap(score_diamond_, other->score_diamond_);
+    std::swap(num_room_cards_, other->num_room_cards_);
     std::swap(num_played_games_, other->num_played_games_);
     std::swap(num_win_games_, other->num_win_games_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);

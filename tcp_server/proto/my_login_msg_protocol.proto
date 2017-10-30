@@ -1,6 +1,8 @@
 package gamer.protocol;
+import "player_msg_protocol.proto";
 
 message MyLoginMsgProtocol {
-  required string account  = 1;
-  required int32 password  = 2;
+  required string account  				= 1;
+  required string password  			= 2;
+  optional PlayerMsgProtocol player     = 3;
 }

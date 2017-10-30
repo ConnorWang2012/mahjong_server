@@ -61,6 +61,8 @@ class Room : public RoomProtocol<Player> {
     
     virtual inline int cur_players_num() const override;
 
+	inline bool is_players_num_upper_limit() const;
+
     void InitCreateRoomMsgProtocol(const CreateRoomMsgProtocol& proto);
 
     void InitRoomMsgProtocol(const std::string& serialized_data);
@@ -78,7 +80,7 @@ class Room : public RoomProtocol<Player> {
 
     void DealWithNonFirstGameStart();
 
-    void DealWithOperationDiscard(PlayCardMsgProtocol& proto, Player* player);
+	MsgCodes DealWithOperationDiscard(PlayCardMsgProtocol& proto, Player* player);
 
     void DealWithOperationGiveUp(PlayCardMsgProtocol& proto, Player* player);
 
@@ -199,6 +201,11 @@ int gamer::Room<Player>::cur_players_num() const {
 }
 
 template<typename Player>
+inline bool Room<Player>::is_players_num_upper_limit() const {
+	return this->cur_players_num() >= create_room_msg_proto_.players_num();
+}
+
+template<typename Player>
 void Room<Player>::InitCreateRoomMsgProtocol(const CreateRoomMsgProtocol& proto) {
     create_room_msg_proto_.CopyFrom(proto);
 }
@@ -210,28 +217,25 @@ MsgCodes Room<Player>::DealWithPlayCard(PlayCardMsgProtocol& proto) {
     auto player = this->player(player_id);
     if (nullptr == player) {
         // TODO : log
-        // TODO : specify error code
-        return MsgCodes::MSG_RESPONSE_CODE_FAILED1;
+        return MsgCodes::MSG_CODE_ROOM_PLAYER_NOT_IN_ROOM;
     }
 
     int operation_id = proto.operation_id();
     switch (operation_id) {
     case PlayCardOperationIDs::OPERATION_DISCARD: {
-        this->DealWithOperationDiscard(proto, player);
+        return this->DealWithOperationDiscard(proto, player);
 
         break;
     }
     case PlayCardOperationIDs::OPERATION_CHI: {
         if (2 != proto.operating_cards_size()) {
             // TODO : log
-            // TODO : specify error code
-            return MsgCodes::MSG_RESPONSE_CODE_FAILED1;
+            return MsgCodes::MSG_CODE_OPERATION_CHI_OPERATING_CARDS_INVALID;
         }
 
         if ( !player->IsChi(proto.discard()) ) {
             // TODO : log
-            // TODO : specify error code
-            return MsgCodes::MSG_RESPONSE_CODE_FAILED1;
+            return MsgCodes::MSG_CODE_OPERATION_CHI_NOT_AVAILABLE;
         }
 
         // update hand card
@@ -239,8 +243,7 @@ MsgCodes Room<Player>::DealWithPlayCard(PlayCardMsgProtocol& proto) {
             proto.operating_cards(1));
         if ( !card_valid ) {
             // TODO : log
-            // TODO : specify error code
-            return MsgCodes::MSG_RESPONSE_CODE_FAILED1;
+            return MsgCodes::MSG_CODE_OPERATION_CHI_OPERATING_CARDS_INVALID;
         }
 
         // send chi succeed msg
@@ -257,8 +260,7 @@ MsgCodes Room<Player>::DealWithPlayCard(PlayCardMsgProtocol& proto) {
     case PlayCardOperationIDs::OPERATION_PENG: {
         if ( !player->IsPeng(proto.discard()) ) {
             // TODO : log
-            // TODO : specify error code
-            return MsgCodes::MSG_RESPONSE_CODE_FAILED1;
+            return MsgCodes::MSG_CODE_OPERATION_PENG_NOT_AVAILABLE;
         }
 
         // update hand card
@@ -281,8 +283,7 @@ MsgCodes Room<Player>::DealWithPlayCard(PlayCardMsgProtocol& proto) {
     case PlayCardOperationIDs::OPERATION_PENG_GANG: {
         if ( !player->IsPengAndGang(proto.discard()) ) {
             // TODO : log
-            // TODO : specify error code
-            return MsgCodes::MSG_RESPONSE_CODE_FAILED1;
+            return MsgCodes::MSG_CODE_OPERATION_PENG_GANG_NOT_AVAILABLE;
         }
 
         // update hand card
@@ -317,8 +318,7 @@ MsgCodes Room<Player>::DealWithPlayCard(PlayCardMsgProtocol& proto) {
     case PlayCardOperationIDs::OPERATION_MING_GANG: {
         if ( !player->IsMingGang(proto.discard()) ) {
             // TODO : log
-            // TODO : specify error code
-            return MsgCodes::MSG_RESPONSE_CODE_FAILED1;
+            return MsgCodes::MSG_CODE_OPERATION_MING_GANG_NOT_AVAILABLE;
         }
 
         // update hand card
@@ -350,8 +350,7 @@ MsgCodes Room<Player>::DealWithPlayCard(PlayCardMsgProtocol& proto) {
     case PlayCardOperationIDs::OPERATION_AN_GANG: {
         if ( !player->IsAnGang(proto.discard()) ) {
             // TODO : log
-            // TODO : specify error code
-            return MsgCodes::MSG_RESPONSE_CODE_FAILED1;
+            return MsgCodes::MSG_CODE_OPERATION_AN_GANG_NOT_AVAILABLE;
         }
 
         // update hand card
@@ -387,8 +386,7 @@ MsgCodes Room<Player>::DealWithPlayCard(PlayCardMsgProtocol& proto) {
         auto ok = player->UpdateCardForBuhua(cards_of_hua_removed, num_cards_of_hua_removed);
         if ( !ok ) {
             // TODO : log
-            // TODO : specify error code
-            return MsgCodes::MSG_RESPONSE_CODE_FAILED1;
+            return MsgCodes::MSG_CODE_OPERATION_BU_HUA_NOT_AVAILABLE;
         }
 
         // send bu hua succeed msg
@@ -461,8 +459,7 @@ MsgCodes Room<Player>::DealWithPlayCard(PlayCardMsgProtocol& proto) {
     case PlayCardOperationIDs::OPERATION_TING: {
         if ( !player->IsTing()) {
             // TODO : log
-            // TODO : specify error code
-            return MsgCodes::MSG_RESPONSE_CODE_FAILED1;
+            return MsgCodes::MSG_CODE_OPERATION_TING_NOT_AVAILABLE;
         }
 
         // send ting msg
@@ -486,8 +483,7 @@ MsgCodes Room<Player>::DealWithPlayCard(PlayCardMsgProtocol& proto) {
         if (1 == players_sended_msg_hu_.size()) {
             if ( !player->IsHu(proto.discard()) ) {
                 // TODO : log
-                // TODO : specify error code
-                return MsgCodes::MSG_RESPONSE_CODE_FAILED1;
+                return MsgCodes::MSG_CODE_OPERATION_HU_NOT_AVAILABLE;
             }
 
             // TODO : send discard msg to players those can't hu and is not last discard player
@@ -513,10 +509,9 @@ MsgCodes Room<Player>::DealWithPlayCard(PlayCardMsgProtocol& proto) {
             players_sended_msg_hu_.clear();
         } else if (2 == players_sended_msg_hu_.size()) {
             // TODO
-            if (!player->IsHu(proto.discard())) {
+            if ( !player->IsHu(proto.discard()) ) {
                 // TODO : log
-                // TODO : specify error code
-                return MsgCodes::MSG_RESPONSE_CODE_FAILED1;
+                return MsgCodes::MSG_CODE_OPERATION_HU_NOT_AVAILABLE;
             }
             this->RemovePlayerOfSendedMsgHu(player_id);
             players_selected_hu_.push_back(player);
@@ -524,8 +519,7 @@ MsgCodes Room<Player>::DealWithPlayCard(PlayCardMsgProtocol& proto) {
             // TODO
             if ( !player->IsHu(proto.discard()) ) {
                 // TODO : log
-                // TODO : specify error code
-                return MsgCodes::MSG_RESPONSE_CODE_FAILED1;
+                return MsgCodes::MSG_CODE_OPERATION_HU_NOT_AVAILABLE;
             }
             this->RemovePlayerOfSendedMsgHu(player_id);
             players_selected_hu_.push_back(player);
@@ -536,8 +530,7 @@ MsgCodes Room<Player>::DealWithPlayCard(PlayCardMsgProtocol& proto) {
     case PlayCardOperationIDs::OPERATION_ZI_MO: {
         if ( !player->IsZimo() ) {
             // TODO : log
-            // TODO : specify error code
-            return MsgCodes::MSG_RESPONSE_CODE_FAILED1;
+            return MsgCodes::MSG_CODE_OPERATION_ZIMO_NOT_AVAILABLE;
         }
 
         // send zi mo succeed msg        
@@ -558,20 +551,17 @@ MsgCodes Room<Player>::DealWithPlayCard(PlayCardMsgProtocol& proto) {
     }
     default:
         // TODO : log
-        // TODO : specify error code
-        return MsgCodes::MSG_RESPONSE_CODE_FAILED1;
-        //break;
+        return MsgCodes::MSG_CODE_OPERATION_UNKNOW;
     }
 
-    return MsgCodes::MSG_RESPONSE_CODE_SUCCESS;
+    return MsgCodes::MSG_CODE_SUCCESS;
 }
 
 template<typename Player>
 MsgCodes Room<Player>::DealWithGameStart(RoomMsgProtocol& proto) {
     if ( !create_room_msg_proto_.IsInitialized() ) {
         // TODO : log
-        // TODO : specify error code
-        return MsgCodes::MSG_RESPONSE_CODE_FAILED1;
+        return MsgCodes::MSG_CODE_ROOM_NOT_EXIST;
     }
 
     // verify room owner id and room players num
@@ -579,14 +569,12 @@ MsgCodes Room<Player>::DealWithGameStart(RoomMsgProtocol& proto) {
     auto room_owner_id_server = create_room_msg_proto_.room_owner_id();
     if (room_owner_id_server != room_owner_id_client) {
         // TODO : log
-        // TODO : specify error code
-        return MsgCodes::MSG_RESPONSE_CODE_FAILED1;
+        return MsgCodes::MSG_CODE_ROOM_NOT_ROOM_OWNER;
     }
 
-    if (this->cur_players_num() != create_room_msg_proto_.players_num()) {
+    if ( !this->is_players_num_upper_limit() ) {
         // TODO : log
-        // TODO : specify error code
-        return MsgCodes::MSG_RESPONSE_CODE_FAILED1;
+        return MsgCodes::MSG_CODE_ROOM_PLAYER_NUM_LIMIT;
     }
 
     this->DealWithNonFirstGameStart();
@@ -672,7 +660,7 @@ MsgCodes Room<Player>::DealWithGameStart(RoomMsgProtocol& proto) {
         if (nullptr != bev) {
             MsgManager::instance()->SendMsg((msg_header_t)MsgTypes::S2C_MSG_TYPE_ROOM,
                 (msg_header_t)MsgIDs::MSG_ID_ROOM_START_GAME,
-                (msg_header_t)MsgCodes::MSG_RESPONSE_CODE_SUCCESS,
+                (msg_header_t)MsgCodes::MSG_CODE_SUCCESS,
                 *proto,
                 bev);
         } else {
@@ -718,7 +706,7 @@ MsgCodes Room<Player>::DealWithGameStart(RoomMsgProtocol& proto) {
         delete itr->second;
     }
 
-    return MsgCodes::MSG_RESPONSE_CODE_SUCCESS;
+    return MsgCodes::MSG_CODE_SUCCESS;
 }
 
 template<typename Player>
@@ -771,13 +759,12 @@ void Room<Player>::DealWithNonFirstGameStart() {
 }
 
 template<typename Player>
-void Room<Player>::DealWithOperationDiscard(PlayCardMsgProtocol& proto,
-                                            Player* player) {
+MsgCodes Room<Player>::DealWithOperationDiscard(PlayCardMsgProtocol& proto,
+                                                Player* player) {
     // check hand cards
     if ( !player->InvisibleHandCardsContains(proto.discard()) ) {
         // TODO : log
-        // TODO : specify error code
-        return;
+        return MsgCodes::MSG_CODE_OPERATION_DISCARD_INVALID;
     }
 
     last_discard_player_ = player;
@@ -788,13 +775,12 @@ void Room<Player>::DealWithOperationDiscard(PlayCardMsgProtocol& proto,
     // check whether is hu for other players
     auto player_id = player->player_id();
     auto playertmp = player;
-    for (unsigned i = 0; i < players_.size() - 1; i++) {
+    for (unsigned i = 0; i < players_.size(); i++) {
         auto right_player = this->GetTheRightPlayer(playertmp->player_id());
         auto playerid = right_player->player_id();
         playertmp = right_player;
         if (playerid == player_id) {
             continue;
-            // TODO : log
         }
 
         if (right_player->IsHu(proto.discard())) {
@@ -819,7 +805,6 @@ void Room<Player>::DealWithOperationDiscard(PlayCardMsgProtocol& proto,
             playertmp = right_player;
             if (playerid == player_id) {
                 continue;
-                // TODO : log
             }
 
             auto count = right_player->CountInvisibleHandCards(proto.discard());
@@ -896,7 +881,7 @@ void Room<Player>::DealWithOperationDiscard(PlayCardMsgProtocol& proto,
                 }
             }
 
-            return;
+            return MsgCodes::MSG_CODE_SUCCESS;
         }
     }
 
@@ -930,6 +915,8 @@ void Room<Player>::DealWithOperationDiscard(PlayCardMsgProtocol& proto,
             this->SendPlayCardMsg(proto, playerid);
         }
     }
+
+	return MsgCodes::MSG_CODE_SUCCESS;
 }
 
 template<typename Player>
@@ -1164,7 +1151,7 @@ void Room<Player>::DealWithGameEnd(Player* player_win) {
         if (nullptr != bev) {
             MsgManager::instance()->SendMsg((msg_header_t)MsgTypes::S2C_MSG_TYPE_ROOM,
                 (msg_header_t)MsgIDs::MSG_ID_ROOM_GAME_END,
-                (msg_header_t)MsgCodes::MSG_RESPONSE_CODE_SUCCESS,
+                (msg_header_t)MsgCodes::MSG_CODE_SUCCESS,
                 proto,
                 bev);
         } else {
@@ -1210,7 +1197,7 @@ bool Room<Player>::SendPlayCardMsg(PlayCardMsgProtocol& proto,
     if (nullptr != bev) {
         return MsgManager::instance()->SendMsg((msg_header_t)MsgTypes::S2C_MSG_TYPE_ROOM,
                                                (msg_header_t)MsgIDs::MSG_ID_ROOM_PLAY_CARD,
-                                               (msg_header_t)MsgCodes::MSG_RESPONSE_CODE_SUCCESS,
+                                               (msg_header_t)MsgCodes::MSG_CODE_SUCCESS,
                                                proto,
                                                bev);
     } else {

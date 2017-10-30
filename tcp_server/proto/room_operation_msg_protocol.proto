@@ -1,0 +1,7 @@
+package gamer.protocol;
+
+message RoomOperationMsgProtocol {
+  required int32 player_id  		= 1;
+  required int32 room_id  			= 2;
+  required int32 operation_id  		= 3;
+}

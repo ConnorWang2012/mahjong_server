@@ -150,17 +150,24 @@ class PlayerMsgProtocol : public ::google::protobuf::Message {
   inline ::google::protobuf::int32 score_diamond() const;
   inline void set_score_diamond(::google::protobuf::int32 value);
 
-  // optional int32 num_played_games = 8;
+  // optional int32 num_room_cards = 8 [default = 0];
+  inline bool has_num_room_cards() const;
+  inline void clear_num_room_cards();
+  static const int kNumRoomCardsFieldNumber = 8;
+  inline ::google::protobuf::int32 num_room_cards() const;
+  inline void set_num_room_cards(::google::protobuf::int32 value);
+
+  // optional int32 num_played_games = 9;
   inline bool has_num_played_games() const;
   inline void clear_num_played_games();
-  static const int kNumPlayedGamesFieldNumber = 8;
+  static const int kNumPlayedGamesFieldNumber = 9;
   inline ::google::protobuf::int32 num_played_games() const;
   inline void set_num_played_games(::google::protobuf::int32 value);
 
-  // optional int32 num_win_games = 9;
+  // optional int32 num_win_games = 10;
   inline bool has_num_win_games() const;
   inline void clear_num_win_games();
-  static const int kNumWinGamesFieldNumber = 9;
+  static const int kNumWinGamesFieldNumber = 10;
   inline ::google::protobuf::int32 num_win_games() const;
   inline void set_num_win_games(::google::protobuf::int32 value);
 
@@ -180,6 +187,8 @@ class PlayerMsgProtocol : public ::google::protobuf::Message {
   inline void clear_has_score_gold();
   inline void set_has_score_diamond();
   inline void clear_has_score_diamond();
+  inline void set_has_num_room_cards();
+  inline void clear_has_num_room_cards();
   inline void set_has_num_played_games();
   inline void clear_has_num_played_games();
   inline void set_has_num_win_games();
@@ -196,6 +205,7 @@ class PlayerMsgProtocol : public ::google::protobuf::Message {
   ::google::protobuf::int32 level_;
   ::google::protobuf::int32 score_gold_;
   ::google::protobuf::int32 score_diamond_;
+  ::google::protobuf::int32 num_room_cards_;
   ::google::protobuf::int32 num_played_games_;
   ::google::protobuf::int32 num_win_games_;
   friend void  protobuf_AddDesc_player_5fmsg_5fprotocol_2eproto();
@@ -484,15 +494,39 @@ inline void PlayerMsgProtocol::set_score_diamond(::google::protobuf::int32 value
   // @@protoc_insertion_point(field_set:gamer.protocol.PlayerMsgProtocol.score_diamond)
 }
 
-// optional int32 num_played_games = 8;
-inline bool PlayerMsgProtocol::has_num_played_games() const {
+// optional int32 num_room_cards = 8 [default = 0];
+inline bool PlayerMsgProtocol::has_num_room_cards() const {
   return (_has_bits_[0] & 0x00000080u) != 0;
 }
-inline void PlayerMsgProtocol::set_has_num_played_games() {
+inline void PlayerMsgProtocol::set_has_num_room_cards() {
   _has_bits_[0] |= 0x00000080u;
 }
-inline void PlayerMsgProtocol::clear_has_num_played_games() {
+inline void PlayerMsgProtocol::clear_has_num_room_cards() {
   _has_bits_[0] &= ~0x00000080u;
+}
+inline void PlayerMsgProtocol::clear_num_room_cards() {
+  num_room_cards_ = 0;
+  clear_has_num_room_cards();
+}
+inline ::google::protobuf::int32 PlayerMsgProtocol::num_room_cards() const {
+  // @@protoc_insertion_point(field_get:gamer.protocol.PlayerMsgProtocol.num_room_cards)
+  return num_room_cards_;
+}
+inline void PlayerMsgProtocol::set_num_room_cards(::google::protobuf::int32 value) {
+  set_has_num_room_cards();
+  num_room_cards_ = value;
+  // @@protoc_insertion_point(field_set:gamer.protocol.PlayerMsgProtocol.num_room_cards)
+}
+
+// optional int32 num_played_games = 9;
+inline bool PlayerMsgProtocol::has_num_played_games() const {
+  return (_has_bits_[0] & 0x00000100u) != 0;
+}
+inline void PlayerMsgProtocol::set_has_num_played_games() {
+  _has_bits_[0] |= 0x00000100u;
+}
+inline void PlayerMsgProtocol::clear_has_num_played_games() {
+  _has_bits_[0] &= ~0x00000100u;
 }
 inline void PlayerMsgProtocol::clear_num_played_games() {
   num_played_games_ = 0;
@@ -508,15 +542,15 @@ inline void PlayerMsgProtocol::set_num_played_games(::google::protobuf::int32 va
   // @@protoc_insertion_point(field_set:gamer.protocol.PlayerMsgProtocol.num_played_games)
 }
 
-// optional int32 num_win_games = 9;
+// optional int32 num_win_games = 10;
 inline bool PlayerMsgProtocol::has_num_win_games() const {
-  return (_has_bits_[0] & 0x00000100u) != 0;
+  return (_has_bits_[0] & 0x00000200u) != 0;
 }
 inline void PlayerMsgProtocol::set_has_num_win_games() {
-  _has_bits_[0] |= 0x00000100u;
+  _has_bits_[0] |= 0x00000200u;
 }
 inline void PlayerMsgProtocol::clear_has_num_win_games() {
-  _has_bits_[0] &= ~0x00000100u;
+  _has_bits_[0] &= ~0x00000200u;
 }
 inline void PlayerMsgProtocol::clear_num_win_games() {
   num_win_games_ = 0;
