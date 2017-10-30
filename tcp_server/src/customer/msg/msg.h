@@ -47,7 +47,7 @@ struct ServerMsg {
     msg_header_t total_len;
     msg_header_t type;
     msg_header_t id;
-    msg_header_t code; // msg response result code
+    msg_header_t code; // msg response code
     void* context;
 };
 

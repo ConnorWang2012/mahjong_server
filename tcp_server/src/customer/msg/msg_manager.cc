@@ -211,6 +211,9 @@ void MsgManager::DealWithCreateRoomMsg(const ClientMsg& msg, bufferevent* bev) {
 		return;
 	}
 
+	// check gold cost
+
+
 	auto room_mgr = RoomManager<Player>::instance();
 	auto room_id = room_mgr->GenerateRoomID();
 	if (-1 == room_id) {
