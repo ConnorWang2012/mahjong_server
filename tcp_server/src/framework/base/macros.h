@@ -42,7 +42,6 @@ namespace gamer {
 #define WRITELOG(format, ...)		gamer::log::writelog(format, ##__VA_ARGS__)
 #endif
 
-
 #define score_t						unsigned int
 #define id_t						unsigned int
 } // namespace gamer

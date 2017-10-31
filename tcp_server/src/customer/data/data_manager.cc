@@ -16,6 +16,7 @@ modification:
 
 #include "util/google/absl/strings/numbers.h"
 #include "framework/cache/cache_proxy.h"
+#include "customer/msg/protocol/my_login_msg_protocol.pb.h"
 
 namespace gamer {
 
@@ -25,17 +26,30 @@ DataManager::DataManager() {
 
 void DataManager::CachePlayerPersonalData(const std::string& player_account, 
 										  const std::string& serialized_data) {
-	redis_client_->set(player_account, serialized_data);
-	redis_client_->sync_commit();
+	//redis_client_->set(player_account, serialized_data);
+	//redis_client_->sync_commit();
+
+	auto key   = "account:" + player_account;
+	auto field = "account";
+	redis_client_->hset(key, field, serialized_data);
+	redis_client_->commit();
 }
 
 void DataManager::GetCachedPlayerPersonalData(const std::string& player_account, 
 										      std::string& serialized_data) {
-	redis_client_->get(player_account, [&](cpp_redis::reply& reply) {
-		if (reply.is_string()) {
-			serialized_data = reply.as_string();
-		}
+	//redis_client_->get(player_account, [&](cpp_redis::reply& reply) {
+	//	if (reply.is_string()) {
+	//		serialized_data = reply.as_string();
+	//	}
+	//});
+	//redis_client_->sync_commit();
+
+	auto key   = "account:" + player_account;
+	auto field = "account";
+	redis_client_->hget(key, field, [&](cpp_redis::reply& rep) {
+		serialized_data = rep.as_string();
 	});
+
 	redis_client_->sync_commit();
 }
 
@@ -90,23 +104,60 @@ void DataManager::GetCachedRoomData(int room_id, int round, std::string& seriali
 int DataManager::GeneratePlayerID() {
 	++available_player_id_;
 	redis_client_->set("player.id:available", std::to_string(available_player_id_));
-	redis_client_->sync_commit();
+	redis_client_->commit();
 	return available_player_id_;
 }
 
 void DataManager::UpdateAvailablePlayerID() {
-	redis_client_->get("player.id:available", [&](cpp_redis::reply& reply) {
-		if (reply.is_integer()) {
-			available_player_id_ = (int)reply.as_integer();
+	redis_client_->get("player.id:available", [&](cpp_redis::reply& rep) {
+		if (rep.is_integer()) {
+			available_player_id_ = (id_t)rep.as_integer();
 		}
 	});
 	redis_client_->sync_commit();
+}
+
+void DataManager::CacheAccountByID(id_t player_id, const std::string& player_account) {
+	if (player_id > 0) {
+		redis_client_->set(std::to_string(player_id), player_account);
+		redis_client_->commit();
+	}
+}
+
+void DataManager::GetCachedAccountByID(id_t player_id, std::string* out) {
+	if (player_id > 0) {
+		redis_client_->get(std::to_string(player_id), [&](cpp_redis::reply& rep) {
+			if (rep.is_string()) {
+				*out = rep.as_string();
+			}
+		});
+		redis_client_->sync_commit();
+	}
 }
 
 void DataManager::SetGold(id_t player_id, score_t gold) {
 	auto key   = "player:" + std::to_string(player_id);
 	auto field = "gold";
 	redis_client_->hset(key, field, std::to_string(gold));
+}
+
+void DataManager::SetGold(const std::string& player_account, score_t gold) {
+	auto key = "account:" + player_account;
+	auto field = "account";
+	redis_client_->hget(key, field, [&](cpp_redis::reply& rep) {
+		auto data = rep.as_string();
+		protocol::MyLoginMsgProtocol proto;
+		if (proto.ParseFromString(data)) {
+			proto.mutable_player()->set_score_gold(gold);
+
+			auto s = proto.SerializeAsString();
+			if ("" != s) {
+				this->CachePlayerPersonalData(player_account, s);
+			}
+		}
+	});
+
+	redis_client_->commit();
 }
 
 void DataManager::GetGold(id_t player_id, score_t& gold) const {

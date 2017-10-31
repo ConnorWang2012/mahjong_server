@@ -17,8 +17,7 @@ modification:
 
 #include <functional>
 
-namespace gamer
-{
+namespace gamer {
 
 #ifdef _WIN64
 	typedef __int64         intptr_t;
@@ -34,7 +33,7 @@ namespace gamer
 
 #define msg_header_t		unsigned int
 
-// msg  for client to server
+// msg for client to server
 struct ClientMsg {
 	msg_header_t total_len;
 	msg_header_t type;
@@ -51,7 +50,7 @@ struct ServerMsg {
     void* context;
 };
 
-constexpr msg_header_t client_msg_header_len() {  return sizeof(msg_header_t) * 3; }
+constexpr msg_header_t client_msg_header_len() { return sizeof(msg_header_t) * 3; }
 
 constexpr msg_header_t server_msg_header_len() { return sizeof(msg_header_t) * 4; }
 

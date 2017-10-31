@@ -173,6 +173,8 @@ void MsgManager::DealWithMgLoginMsg(const ClientMsg& msg, bufferevent* bev) {
 		} else {
 			DataManager::instance()->CachePlayerPersonalData(login_proto_client.account(), 
                 accout_info);
+
+			DataManager::instance()->CacheAccountByID(player_id, login_proto_client.account());
 		}
 	} else { // not first login
 		if ( !login_proto_server.ParseFromString(account_data) ) {
@@ -180,9 +182,9 @@ void MsgManager::DealWithMgLoginMsg(const ClientMsg& msg, bufferevent* bev) {
 			this->SendMsgForError((msg_header_t)MsgCodes::MSG_CODE_LOGIN_MSG_PROTO_ERR, msg, bev);
 			return;
 		} else {
-			// verify server password
+			// check account and password
 			if (login_proto_server.password() != login_proto_client.password()) {
-				// TODO : specify error code
+				// TODO : log
 				this->SendMsgForError((msg_header_t)MsgCodes::MSG_CODE_LOGIN_ACCOUNT_OR_PASSWORD_ERR, 
 					msg, bev);
 				return;
