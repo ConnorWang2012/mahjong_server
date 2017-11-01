@@ -536,21 +536,45 @@ bool Player::RemoveInvisibleHandCards(int card, int num) {
     auto cards = cards_msg_proto_->mutable_invisible_hand_cards();
     auto n = cards->size();
     auto count = 0;
+
     for (int i = 0; i < n; i++) {
         if (cards->Get(i) == card) {
-            auto index = n - count - 1;
-            if (index > -1 && index != i) {
-                cards->SwapElements(i, index);
-            }
-            ++count;
-        }
-        if (count >= num) {
-            for (auto j = 0; j < num; j++) {
-                cards->RemoveLast();
-            }
-            return true;
+		    auto index = n - count - 1;
+			if (index < 0) {
+				break;
+			}
+
+			if (cards->Get(index) == card) {
+				++count;
+
+				for (int j = index - 1; j > i; j--) {
+					if (cards->Get(j) != card) {
+						cards->SwapElements(i, j);
+						break;
+					} else {
+						++count;
+					}
+				}
+			} else if (index != i) {
+				cards->SwapElements(i, index);
+			}
+			
+			++count;
+			if (count >= num) {
+				for (auto j = 0; j < num; j++) {
+					cards->RemoveLast();
+				}
+				return true;
+			}
         }
     }
+
+	if (count >= num) {
+		for (auto j = 0; j < num; j++) {
+			cards->RemoveLast();
+		}
+		return true;
+	}
 
     return false;
 }

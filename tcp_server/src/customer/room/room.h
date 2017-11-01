@@ -418,10 +418,6 @@ MsgCodes Room<Player>::DealWithPlayCard(PlayCardMsgProtocol& proto) {
 		// update hand card
 		player->UpdateCardForPeng(proto.discard());
 
-		int cards[CardConstants::ONE_PLAYER_CARD_NUM2] = { 0 };
-		auto len = 0;
-		player->GetInvisibleHandCards(cards, len);
-
 		// send peng succeed msg
 		proto.set_new_card(CardConstants::INVALID_CARD_VALUE);
 		proto.set_next_operate_player_id(player_id);

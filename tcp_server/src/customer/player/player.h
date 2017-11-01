@@ -113,11 +113,11 @@ class Player : public PlayerProtocol {
     bool IsBuhua(int new_card) const;
 
     bool IsBuhua() const;
-    void GetInvisibleHandCards(int* cards, int& len) const;
+
   private:
 	bool Init(int player_id);
 
-    //void GetInvisibleHandCards(int* cards, int& len) const;
+    void GetInvisibleHandCards(int* cards, int& len) const;
 
     bool PengCardsContains(int card) const;
 
