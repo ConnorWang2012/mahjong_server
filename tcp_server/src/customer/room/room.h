@@ -19,6 +19,7 @@ modification:
 #include <vector>
 
 #include "customer/room/card_constants.h"
+#include "framework/base/macros.h"
 #include "framework/util/chess_card_algorithm.h"
 #include "msg/msg_manager.h"
 #include "msg/protocol/create_room_msg_protocol.pb.h"
@@ -26,6 +27,7 @@ modification:
 #include "msg/protocol/play_card_msg_protocol.pb.h"
 #include "msg/protocol/game_end_msg_protocol.pb.h"
 #include "room/room_protocol.h"
+
 
 namespace gamer {
 
@@ -41,25 +43,25 @@ class Room : public RoomProtocol<Player> {
 
     Room(const Room&) = delete;
 
-    static Room* Create(int room_id);
+    static Room* Create(id_t room_id);
 
-    virtual void DissolveRoom(int room_id) override; // TODO :
+    virtual void DissolveRoom(id_t room_id) override; // TODO :
 
     virtual void AddPlayer(Player* player) override; // not keep the ownership
 
-    virtual void RomovePlayer(int player_id) override;
+    virtual void RomovePlayer(id_t player_id) override;
 
-	virtual inline void set_room_id(int room_id) override;
+	virtual inline void set_room_id(id_t room_id) override;
 
-	virtual inline int room_id() const override;
+	virtual inline id_t room_id() const override;
 
-	virtual inline Player* player(int player_id) override;
+	virtual inline Player* player(id_t player_id) override;
     
     virtual inline std::vector<Player*>* players() override;
 
-    virtual inline bool is_player_in_room(int player_id) const override;
+    virtual inline bool is_player_in_room(id_t player_id) const override;
     
-    virtual inline int cur_players_num() const override;
+    virtual inline size_t cur_players_num() const override;
 
 	inline bool is_players_num_upper_limit() const;
 
@@ -74,7 +76,7 @@ class Room : public RoomProtocol<Player> {
   private:   
     Room();
 
-    bool Init(int room_id);
+    bool Init(id_t room_id);
 
     void DealWithFirstGameStart();
 
@@ -88,15 +90,15 @@ class Room : public RoomProtocol<Player> {
 
     void DealWithGameEnd(Player* player_win);
 
-    Player* GetTheRightPlayer(int player_id);
+    Player* GetTheRightPlayer(id_t player_id);
 
-    bool IsLeftPlayer(int src_player_id, int target_player_id);
+    bool IsLeftPlayer(id_t src_player_id, id_t target_player_id);
 
-    bool SendPlayCardMsg(PlayCardMsgProtocol& proto, int player_id) const;
+    bool SendPlayCardMsg(PlayCardMsgProtocol& proto, id_t player_id) const;
 
-    void RemovePlayerOfSendedMsgHu(int player_id);
+    void RemovePlayerOfSendedMsgHu(id_t player_id);
 
-    void RemovePlayerOfSendedMsgPeng(int player_id);
+    void RemovePlayerOfSendedMsgPeng(id_t player_id);
 
     Player* GetPlayerOfHigherPriorityForHu();
 
@@ -105,7 +107,7 @@ class Room : public RoomProtocol<Player> {
     CreateRoomMsgProtocol create_room_msg_proto_;
     RoomMsgProtocol room_msg_proto_;
 
-	int room_id_;
+	id_t room_id_;
     Player* last_discard_player_;
     Player* player_sended_msg_chi_;
     std::vector<Player*> players_;
@@ -124,7 +126,7 @@ gamer::Room<Player>::Room()
 }
 
 template<typename Player>
-gamer::Room<Player>* Room<Player>::Create(int room_id) {
+gamer::Room<Player>* Room<Player>::Create(id_t room_id) {
     auto room = new Room<Player>();
     if (nullptr != room) {
         if ( !room->Init(room_id) ) {
@@ -136,7 +138,7 @@ gamer::Room<Player>* Room<Player>::Create(int room_id) {
 }
 
 template<typename Player>
-void gamer::Room<Player>::DissolveRoom(int room_id) {
+void gamer::Room<Player>::DissolveRoom(id_t room_id) {
 
 }
 
@@ -149,7 +151,7 @@ void gamer::Room<Player>::AddPlayer(Player* player) {
 }
 
 template<typename Player>
-void gamer::Room<Player>::RomovePlayer(int player_id) {
+void gamer::Room<Player>::RomovePlayer(id_t player_id) {
     auto itr = std::find_if(players_.begin(),
                             players_.end(),
                             [=](const Player* player) {
@@ -161,17 +163,17 @@ void gamer::Room<Player>::RomovePlayer(int player_id) {
 }
 
 template<typename Player>
-inline void Room<Player>::set_room_id(int room_id) {
+inline void Room<Player>::set_room_id(id_t room_id) {
 	room_id_ = room_id;
 }
 
 template<typename Player>
-inline int Room<Player>::room_id() const {
+inline id_t Room<Player>::room_id() const {
 	return room_id_;
 }
 
 template<typename Player>
-inline Player* Room<Player>::player(int player_id) {
+inline Player* Room<Player>::player(id_t player_id) {
     for (auto& player : players_) {
         if (player->player_id() == player_id) {
             return player;
@@ -186,7 +188,7 @@ std::vector<Player*>* gamer::Room<Player>::players() {
 }
 
 template<typename Player>
-bool gamer::Room<Player>::is_player_in_room(int player_id) const {
+bool gamer::Room<Player>::is_player_in_room(id_t player_id) const {
     for (auto& player : players_) {
         if (player->player_id() == player_id) {
             return true;
@@ -196,8 +198,8 @@ bool gamer::Room<Player>::is_player_in_room(int player_id) const {
 }
 
 template<typename Player>
-int gamer::Room<Player>::cur_players_num() const {
-    return (int)players_.size();
+size_t gamer::Room<Player>::cur_players_num() const {
+    return players_.size();
 }
 
 template<typename Player>
@@ -270,7 +272,7 @@ MsgCodes Room<Player>::DealWithGameStart(RoomMsgProtocol& proto) {
     // room remain cards
     auto remain_card_num = room_msg_proto_.remain_cards_num();
     room_msg_proto_.mutable_remain_cards()->Reserve(remain_card_num);
-    for (auto i = 0; i < remain_card_num; i++) {
+    for (unsigned i = 0; i < remain_card_num; i++) {
         room_msg_proto_.add_remain_cards(vec.at(i)); // some kind of ugly
     }
 
@@ -1139,7 +1141,7 @@ void Room<Player>::DealWithGameEnd(Player* player_win) {
 
     for (auto& player : players_) {
         std::string account_data = "";
-        DataManager::instance()->GetCachedPlayerPersonalData(player->account(), account_data);
+        DataManager::instance()->GetCachedPlayerPersonalData(player->account(), &account_data);
         
         if ("" != account_data) {
             if ( !login_proto.ParseFromString(account_data) ) {
@@ -1152,11 +1154,11 @@ void Room<Player>::DealWithGameEnd(Player* player_win) {
             game_end_data->set_nick_name(login_proto.player().nick_name());
 
             auto gold_old = login_proto.player().score_gold();
-            auto gold = create_room_msg_proto_.score_gold();
+            int gold = create_room_msg_proto_.score_gold();
 
             if (player->player_id() == player_win->player_id()) {
                 login_proto.mutable_player()->set_score_gold(gold_old + gold);
-                game_end_data->set_score_gold(gold);
+                game_end_data->set_diff_score_gold(gold);
             } else {
                 int gold_new = gold_old - gold;
                 if (gold_new < 0) {
@@ -1164,7 +1166,7 @@ void Room<Player>::DealWithGameEnd(Player* player_win) {
                 }
                 login_proto.mutable_player()->set_score_gold(gold_new);
 
-                game_end_data->set_score_gold(-gold);
+                game_end_data->set_diff_score_gold(-gold);
             }
 
             if (login_proto.SerializeToString(&account_data)) {
@@ -1193,7 +1195,7 @@ void Room<Player>::InitRoomMsgProtocol(const std::string& serialized_data) {
 }
 
 template<typename Player>
-Player* Room<Player>::GetTheRightPlayer(int player_id) {
+Player* Room<Player>::GetTheRightPlayer(id_t player_id) {
     for (unsigned i = 0; i < players_.size(); i++) {
         if (players_.at(i)->player_id() == player_id) {
             auto j = (players_.size() - 1) == i ? 0 : i + 1;
@@ -1204,7 +1206,7 @@ Player* Room<Player>::GetTheRightPlayer(int player_id) {
 }
 
 template<typename Player>
-inline bool Room<Player>::IsLeftPlayer(int src_player_id, int target_player_id) {
+inline bool Room<Player>::IsLeftPlayer(id_t src_player_id, id_t target_player_id) {
     for (unsigned i = 0; i < players_.size(); i++) {
         if (players_.at(i)->player_id() == src_player_id) {
             if (0 == i) {
@@ -1219,7 +1221,7 @@ inline bool Room<Player>::IsLeftPlayer(int src_player_id, int target_player_id) 
 
 template<typename Player>
 bool Room<Player>::SendPlayCardMsg(PlayCardMsgProtocol& proto, 
-                                   int player_id) const {
+								   id_t player_id) const {
     auto bev = PlayerManager::instance()->GetOnlinePlayerBufferevent(player_id);
     if (nullptr != bev) {
         return MsgManager::instance()->SendMsg((msg_header_t)MsgTypes::S2C_MSG_TYPE_ROOM,
@@ -1235,7 +1237,7 @@ bool Room<Player>::SendPlayCardMsg(PlayCardMsgProtocol& proto,
 }
 
 template<typename Player>
-void Room<Player>::RemovePlayerOfSendedMsgHu(int player_id) {
+void Room<Player>::RemovePlayerOfSendedMsgHu(id_t player_id) {
     for (auto itr = players_sended_msg_hu_.begin(); itr != players_sended_msg_hu_.end(); itr++) {
         if ((*itr)->player_id() == player_id) {
             players_sended_msg_hu_.erase(itr);
@@ -1245,7 +1247,7 @@ void Room<Player>::RemovePlayerOfSendedMsgHu(int player_id) {
 }
 
 template<typename Player>
-void gamer::Room<Player>::RemovePlayerOfSendedMsgPeng(int player_id) {
+void gamer::Room<Player>::RemovePlayerOfSendedMsgPeng(id_t player_id) {
     for (auto itr = players_sended_msg_peng_.begin(); itr != players_sended_msg_peng_.end(); 
         itr++) {
         if ((*itr)->player_id() == player_id) {
@@ -1272,7 +1274,7 @@ Player* Room<Player>::GetPlayerOfHigherPriorityForHu() {
 }
 
 template<typename Player>
-bool gamer::Room<Player>::Init(int room_id) {
+bool gamer::Room<Player>::Init(id_t room_id) {
 	room_id_ = room_id;
     return true;
 }

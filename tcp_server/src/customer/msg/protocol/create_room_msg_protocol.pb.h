@@ -91,54 +91,54 @@ class CreateRoomMsgProtocol : public ::google::protobuf::Message {
 
   // accessors -------------------------------------------------------
 
-  // required int32 room_owner_id = 1;
+  // required uint32 room_owner_id = 1;
   inline bool has_room_owner_id() const;
   inline void clear_room_owner_id();
   static const int kRoomOwnerIdFieldNumber = 1;
-  inline ::google::protobuf::int32 room_owner_id() const;
-  inline void set_room_owner_id(::google::protobuf::int32 value);
+  inline ::google::protobuf::uint32 room_owner_id() const;
+  inline void set_room_owner_id(::google::protobuf::uint32 value);
 
-  // required int32 rounds_num = 2;
+  // required uint32 rounds_num = 2;
   inline bool has_rounds_num() const;
   inline void clear_rounds_num();
   static const int kRoundsNumFieldNumber = 2;
-  inline ::google::protobuf::int32 rounds_num() const;
-  inline void set_rounds_num(::google::protobuf::int32 value);
+  inline ::google::protobuf::uint32 rounds_num() const;
+  inline void set_rounds_num(::google::protobuf::uint32 value);
 
-  // required int32 players_num = 3;
+  // required uint32 players_num = 3;
   inline bool has_players_num() const;
   inline void clear_players_num();
   static const int kPlayersNumFieldNumber = 3;
-  inline ::google::protobuf::int32 players_num() const;
-  inline void set_players_num(::google::protobuf::int32 value);
+  inline ::google::protobuf::uint32 players_num() const;
+  inline void set_players_num(::google::protobuf::uint32 value);
 
-  // required int32 score_gold = 4;
+  // required uint32 score_gold = 4;
   inline bool has_score_gold() const;
   inline void clear_score_gold();
   static const int kScoreGoldFieldNumber = 4;
-  inline ::google::protobuf::int32 score_gold() const;
-  inline void set_score_gold(::google::protobuf::int32 value);
+  inline ::google::protobuf::uint32 score_gold() const;
+  inline void set_score_gold(::google::protobuf::uint32 value);
 
-  // optional int32 score_diamond = 5;
+  // optional uint32 score_diamond = 5;
   inline bool has_score_diamond() const;
   inline void clear_score_diamond();
   static const int kScoreDiamondFieldNumber = 5;
-  inline ::google::protobuf::int32 score_diamond() const;
-  inline void set_score_diamond(::google::protobuf::int32 value);
+  inline ::google::protobuf::uint32 score_diamond() const;
+  inline void set_score_diamond(::google::protobuf::uint32 value);
 
-  // optional int32 room_cards_num = 6 [default = 0];
+  // optional uint32 room_cards_num = 6 [default = 0];
   inline bool has_room_cards_num() const;
   inline void clear_room_cards_num();
   static const int kRoomCardsNumFieldNumber = 6;
-  inline ::google::protobuf::int32 room_cards_num() const;
-  inline void set_room_cards_num(::google::protobuf::int32 value);
+  inline ::google::protobuf::uint32 room_cards_num() const;
+  inline void set_room_cards_num(::google::protobuf::uint32 value);
 
-  // optional int32 room_id = 7 [default = 0];
+  // optional uint32 room_id = 7 [default = 0];
   inline bool has_room_id() const;
   inline void clear_room_id();
   static const int kRoomIdFieldNumber = 7;
-  inline ::google::protobuf::int32 room_id() const;
-  inline void set_room_id(::google::protobuf::int32 value);
+  inline ::google::protobuf::uint32 room_id() const;
+  inline void set_room_id(::google::protobuf::uint32 value);
 
   // @@protoc_insertion_point(class_scope:gamer.protocol.CreateRoomMsgProtocol)
  private:
@@ -161,13 +161,13 @@ class CreateRoomMsgProtocol : public ::google::protobuf::Message {
 
   ::google::protobuf::uint32 _has_bits_[1];
   mutable int _cached_size_;
-  ::google::protobuf::int32 room_owner_id_;
-  ::google::protobuf::int32 rounds_num_;
-  ::google::protobuf::int32 players_num_;
-  ::google::protobuf::int32 score_gold_;
-  ::google::protobuf::int32 score_diamond_;
-  ::google::protobuf::int32 room_cards_num_;
-  ::google::protobuf::int32 room_id_;
+  ::google::protobuf::uint32 room_owner_id_;
+  ::google::protobuf::uint32 rounds_num_;
+  ::google::protobuf::uint32 players_num_;
+  ::google::protobuf::uint32 score_gold_;
+  ::google::protobuf::uint32 score_diamond_;
+  ::google::protobuf::uint32 room_cards_num_;
+  ::google::protobuf::uint32 room_id_;
   friend void  protobuf_AddDesc_create_5froom_5fmsg_5fprotocol_2eproto();
   friend void protobuf_AssignDesc_create_5froom_5fmsg_5fprotocol_2eproto();
   friend void protobuf_ShutdownFile_create_5froom_5fmsg_5fprotocol_2eproto();
@@ -182,7 +182,7 @@ class CreateRoomMsgProtocol : public ::google::protobuf::Message {
 
 // CreateRoomMsgProtocol
 
-// required int32 room_owner_id = 1;
+// required uint32 room_owner_id = 1;
 inline bool CreateRoomMsgProtocol::has_room_owner_id() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
@@ -193,20 +193,20 @@ inline void CreateRoomMsgProtocol::clear_has_room_owner_id() {
   _has_bits_[0] &= ~0x00000001u;
 }
 inline void CreateRoomMsgProtocol::clear_room_owner_id() {
-  room_owner_id_ = 0;
+  room_owner_id_ = 0u;
   clear_has_room_owner_id();
 }
-inline ::google::protobuf::int32 CreateRoomMsgProtocol::room_owner_id() const {
+inline ::google::protobuf::uint32 CreateRoomMsgProtocol::room_owner_id() const {
   // @@protoc_insertion_point(field_get:gamer.protocol.CreateRoomMsgProtocol.room_owner_id)
   return room_owner_id_;
 }
-inline void CreateRoomMsgProtocol::set_room_owner_id(::google::protobuf::int32 value) {
+inline void CreateRoomMsgProtocol::set_room_owner_id(::google::protobuf::uint32 value) {
   set_has_room_owner_id();
   room_owner_id_ = value;
   // @@protoc_insertion_point(field_set:gamer.protocol.CreateRoomMsgProtocol.room_owner_id)
 }
 
-// required int32 rounds_num = 2;
+// required uint32 rounds_num = 2;
 inline bool CreateRoomMsgProtocol::has_rounds_num() const {
   return (_has_bits_[0] & 0x00000002u) != 0;
 }
@@ -217,20 +217,20 @@ inline void CreateRoomMsgProtocol::clear_has_rounds_num() {
   _has_bits_[0] &= ~0x00000002u;
 }
 inline void CreateRoomMsgProtocol::clear_rounds_num() {
-  rounds_num_ = 0;
+  rounds_num_ = 0u;
   clear_has_rounds_num();
 }
-inline ::google::protobuf::int32 CreateRoomMsgProtocol::rounds_num() const {
+inline ::google::protobuf::uint32 CreateRoomMsgProtocol::rounds_num() const {
   // @@protoc_insertion_point(field_get:gamer.protocol.CreateRoomMsgProtocol.rounds_num)
   return rounds_num_;
 }
-inline void CreateRoomMsgProtocol::set_rounds_num(::google::protobuf::int32 value) {
+inline void CreateRoomMsgProtocol::set_rounds_num(::google::protobuf::uint32 value) {
   set_has_rounds_num();
   rounds_num_ = value;
   // @@protoc_insertion_point(field_set:gamer.protocol.CreateRoomMsgProtocol.rounds_num)
 }
 
-// required int32 players_num = 3;
+// required uint32 players_num = 3;
 inline bool CreateRoomMsgProtocol::has_players_num() const {
   return (_has_bits_[0] & 0x00000004u) != 0;
 }
@@ -241,20 +241,20 @@ inline void CreateRoomMsgProtocol::clear_has_players_num() {
   _has_bits_[0] &= ~0x00000004u;
 }
 inline void CreateRoomMsgProtocol::clear_players_num() {
-  players_num_ = 0;
+  players_num_ = 0u;
   clear_has_players_num();
 }
-inline ::google::protobuf::int32 CreateRoomMsgProtocol::players_num() const {
+inline ::google::protobuf::uint32 CreateRoomMsgProtocol::players_num() const {
   // @@protoc_insertion_point(field_get:gamer.protocol.CreateRoomMsgProtocol.players_num)
   return players_num_;
 }
-inline void CreateRoomMsgProtocol::set_players_num(::google::protobuf::int32 value) {
+inline void CreateRoomMsgProtocol::set_players_num(::google::protobuf::uint32 value) {
   set_has_players_num();
   players_num_ = value;
   // @@protoc_insertion_point(field_set:gamer.protocol.CreateRoomMsgProtocol.players_num)
 }
 
-// required int32 score_gold = 4;
+// required uint32 score_gold = 4;
 inline bool CreateRoomMsgProtocol::has_score_gold() const {
   return (_has_bits_[0] & 0x00000008u) != 0;
 }
@@ -265,20 +265,20 @@ inline void CreateRoomMsgProtocol::clear_has_score_gold() {
   _has_bits_[0] &= ~0x00000008u;
 }
 inline void CreateRoomMsgProtocol::clear_score_gold() {
-  score_gold_ = 0;
+  score_gold_ = 0u;
   clear_has_score_gold();
 }
-inline ::google::protobuf::int32 CreateRoomMsgProtocol::score_gold() const {
+inline ::google::protobuf::uint32 CreateRoomMsgProtocol::score_gold() const {
   // @@protoc_insertion_point(field_get:gamer.protocol.CreateRoomMsgProtocol.score_gold)
   return score_gold_;
 }
-inline void CreateRoomMsgProtocol::set_score_gold(::google::protobuf::int32 value) {
+inline void CreateRoomMsgProtocol::set_score_gold(::google::protobuf::uint32 value) {
   set_has_score_gold();
   score_gold_ = value;
   // @@protoc_insertion_point(field_set:gamer.protocol.CreateRoomMsgProtocol.score_gold)
 }
 
-// optional int32 score_diamond = 5;
+// optional uint32 score_diamond = 5;
 inline bool CreateRoomMsgProtocol::has_score_diamond() const {
   return (_has_bits_[0] & 0x00000010u) != 0;
 }
@@ -289,20 +289,20 @@ inline void CreateRoomMsgProtocol::clear_has_score_diamond() {
   _has_bits_[0] &= ~0x00000010u;
 }
 inline void CreateRoomMsgProtocol::clear_score_diamond() {
-  score_diamond_ = 0;
+  score_diamond_ = 0u;
   clear_has_score_diamond();
 }
-inline ::google::protobuf::int32 CreateRoomMsgProtocol::score_diamond() const {
+inline ::google::protobuf::uint32 CreateRoomMsgProtocol::score_diamond() const {
   // @@protoc_insertion_point(field_get:gamer.protocol.CreateRoomMsgProtocol.score_diamond)
   return score_diamond_;
 }
-inline void CreateRoomMsgProtocol::set_score_diamond(::google::protobuf::int32 value) {
+inline void CreateRoomMsgProtocol::set_score_diamond(::google::protobuf::uint32 value) {
   set_has_score_diamond();
   score_diamond_ = value;
   // @@protoc_insertion_point(field_set:gamer.protocol.CreateRoomMsgProtocol.score_diamond)
 }
 
-// optional int32 room_cards_num = 6 [default = 0];
+// optional uint32 room_cards_num = 6 [default = 0];
 inline bool CreateRoomMsgProtocol::has_room_cards_num() const {
   return (_has_bits_[0] & 0x00000020u) != 0;
 }
@@ -313,20 +313,20 @@ inline void CreateRoomMsgProtocol::clear_has_room_cards_num() {
   _has_bits_[0] &= ~0x00000020u;
 }
 inline void CreateRoomMsgProtocol::clear_room_cards_num() {
-  room_cards_num_ = 0;
+  room_cards_num_ = 0u;
   clear_has_room_cards_num();
 }
-inline ::google::protobuf::int32 CreateRoomMsgProtocol::room_cards_num() const {
+inline ::google::protobuf::uint32 CreateRoomMsgProtocol::room_cards_num() const {
   // @@protoc_insertion_point(field_get:gamer.protocol.CreateRoomMsgProtocol.room_cards_num)
   return room_cards_num_;
 }
-inline void CreateRoomMsgProtocol::set_room_cards_num(::google::protobuf::int32 value) {
+inline void CreateRoomMsgProtocol::set_room_cards_num(::google::protobuf::uint32 value) {
   set_has_room_cards_num();
   room_cards_num_ = value;
   // @@protoc_insertion_point(field_set:gamer.protocol.CreateRoomMsgProtocol.room_cards_num)
 }
 
-// optional int32 room_id = 7 [default = 0];
+// optional uint32 room_id = 7 [default = 0];
 inline bool CreateRoomMsgProtocol::has_room_id() const {
   return (_has_bits_[0] & 0x00000040u) != 0;
 }
@@ -337,14 +337,14 @@ inline void CreateRoomMsgProtocol::clear_has_room_id() {
   _has_bits_[0] &= ~0x00000040u;
 }
 inline void CreateRoomMsgProtocol::clear_room_id() {
-  room_id_ = 0;
+  room_id_ = 0u;
   clear_has_room_id();
 }
-inline ::google::protobuf::int32 CreateRoomMsgProtocol::room_id() const {
+inline ::google::protobuf::uint32 CreateRoomMsgProtocol::room_id() const {
   // @@protoc_insertion_point(field_get:gamer.protocol.CreateRoomMsgProtocol.room_id)
   return room_id_;
 }
-inline void CreateRoomMsgProtocol::set_room_id(::google::protobuf::int32 value) {
+inline void CreateRoomMsgProtocol::set_room_id(::google::protobuf::uint32 value) {
   set_has_room_id();
   room_id_ = value;
   // @@protoc_insertion_point(field_set:gamer.protocol.CreateRoomMsgProtocol.room_id)

@@ -18,17 +18,11 @@ modification:
 
 namespace gamer {
 
-bool PlayerManager::IsPlayerOnline(int player_id) const {
+bool PlayerManager::IsPlayerOnline(id_t player_id) const {
 	return bufferevents_.find(player_id) != bufferevents_.end();
 }
 
-void PlayerManager::AddOnlinePlayerBufferevent(int player_id, bufferevent* bev) {
-	if (bufferevents_.find(player_id) == bufferevents_.end()) {
-		bufferevents_.insert(std::make_pair(player_id, bev));
-	}
-}
-
-bufferevent* PlayerManager::GetOnlinePlayerBufferevent(int player_id) {
+bufferevent* PlayerManager::GetOnlinePlayerBufferevent(id_t player_id) {
 	auto itr = bufferevents_.find(player_id);
 	if (itr != bufferevents_.end()) {
 		return itr->second;
@@ -36,13 +30,16 @@ bufferevent* PlayerManager::GetOnlinePlayerBufferevent(int player_id) {
 	return nullptr;
 }
 
-void PlayerManager::AddOnlinePlayer(int player_id, Player* player) {
+void PlayerManager::AddOnlinePlayer(id_t player_id, Player* player, bufferevent* bev) {
 	if (players_.find(player_id) == players_.end()) {
 		players_.insert(std::make_pair(player_id, player));
 	}
+	if (bufferevents_.find(player_id) == bufferevents_.end()) {
+		bufferevents_.insert(std::make_pair(player_id, bev));
+	}
 }
 
-Player* PlayerManager::GetOnlinePlayer(int player_id) {
+Player* PlayerManager::GetOnlinePlayer(id_t player_id) {
 	auto itr = players_.find(player_id);
 	if (itr != players_.end()) {
 		return itr->second;
@@ -50,22 +47,33 @@ Player* PlayerManager::GetOnlinePlayer(int player_id) {
 	return nullptr;
 }
 
-void PlayerManager::RemoveOnlinePlayer(int player_id) {
-	auto it = bufferevents_.find(player_id);
-	if (it != bufferevents_.end()) {
-		bufferevents_.erase(it);
+void PlayerManager::RemoveOnlinePlayer(id_t player_id) {
+	auto it = players_.find(player_id);
+	if (it != players_.end()) {
+		players_.erase(it);
+	}
+
+	auto itr = bufferevents_.find(player_id);
+	if (itr != bufferevents_.end()) {
+		bufferevents_.erase(itr);
 	}
 }
 
 void PlayerManager::RemoveOnlinePlayer(bufferevent* bev) {
-    if (nullptr == bev)
-        return;
-    for (auto itr = bufferevents_.begin(); itr != bufferevents_.end(); ++itr) {
-        if (itr->second == bev) {
-            bufferevents_.erase(itr);
-            break;
-        }
-    }
+	if (nullptr != bev) {
+		// TODO : some kind of ugly
+		for (auto itr = bufferevents_.begin(); itr != bufferevents_.end(); ++itr) {
+			if (itr->second == bev) {
+				bufferevents_.erase(itr);
+
+				auto it = players_.find(itr->first);
+				if (it != players_.end()) {
+					players_.erase(it);
+				}
+				break;
+			}
+		}
+	}
 }
 
 } // namespace gamer

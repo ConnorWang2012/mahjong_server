@@ -141,7 +141,8 @@ void MsgManager::DealWithMgLoginMsg(const ClientMsg& msg, bufferevent* bev) {
 	}
 
 	std::string account_data = "";
-	DataManager::instance()->GetCachedPlayerPersonalData(login_proto_client.account(), account_data);
+	DataManager::instance()->GetCachedPlayerPersonalData(login_proto_client.account(), 
+		&account_data);
 	
 	auto player_id = 0;
     auto player = Player::Create(player_id);
@@ -154,11 +155,14 @@ void MsgManager::DealWithMgLoginMsg(const ClientMsg& msg, bufferevent* bev) {
         
         auto player_proto  = new protocol::PlayerMsgProtocol;
         player_proto->set_player_id(player_id);
-        player_proto->set_game_currency(5000); // TODO : cfg
         player_proto->set_nick_name(login_proto_client.account());
         player_proto->set_level(1);
         player_proto->set_level_name("junior");
-        player_proto->set_score_gold(10000);
+        player_proto->set_score_gold(10000); // TODO : cfg
+		player_proto->set_score_diamond(5000);
+		player_proto->set_num_room_cards(10);
+		player_proto->set_num_played_games(0);
+		player_proto->set_num_win_games(0);
 
         login_proto_server.set_account(login_proto_client.account());
         login_proto_server.set_password(login_proto_client.password());
@@ -196,9 +200,8 @@ void MsgManager::DealWithMgLoginMsg(const ClientMsg& msg, bufferevent* bev) {
 		}
 	}
 
-	// login succeed, keep the bev for sending msg	
-	PlayerManager::instance()->AddOnlinePlayerBufferevent(player_id, bev);
-	PlayerManager::instance()->AddOnlinePlayer(player_id, player);
+	// login succeed, add online player, keep the bev for sending msg	
+	PlayerManager::instance()->AddOnlinePlayer(player_id, player, bev);
 
 	// send login succeed msg
 	this->SendMsg((msg_header_t)MsgTypes::S2C_MSG_TYPE_LOGIN,

@@ -22,12 +22,10 @@ modification:
 #include "base/macros.h"
 #include "msg/msg.h"
 
-namespace google
-{
-    namespace protobuf
-    {
-        class Message;
-    }
+namespace google {
+namespace protobuf {
+	class Message;
+}
 }
 
 struct bufferevent;

@@ -20,6 +20,7 @@ modification:
 #include <unordered_set>
 
 #include "base/basic_manager.h"
+#include "framework/base/macros.h"
 #include "room/room.h"
 
 namespace gamer {
@@ -31,19 +32,19 @@ class RoomManager : public BasicManager<RoomManager<Player>> {
 
     void RemoveRoom(Room<Player>* room);
 
-    void RemoveRoom(int room_id);
+    void RemoveRoom(id_t room_id);
 
-    Room<Player>* GetRoom(int room_id);
+    Room<Player>* GetRoom(id_t room_id);
 
-    int GenerateRoomID();
+    id_t GenerateRoomID();
 
-	int GenerateRoundID();
+	id_t GenerateRoundID();
 
-	bool IsPlayerInRoom(int player_id);
+	bool IsPlayerInRoom(id_t player_id);
 
   private:
-    std::unordered_map<int, Room<Player>*> rooms_; // key is room id
-	std::unordered_set<int> round_ids_; // for all room
+    std::unordered_map<id_t, Room<Player>*> rooms_; // key is room id
+	std::unordered_set<id_t> round_ids_; // for all room
 };
 
 template<typename Player>
@@ -58,7 +59,7 @@ void gamer::RoomManager<Player>::AddRoom(Room<Player>* room) {
 }
 
 template<typename Player>
-void gamer::RoomManager<Player>::RemoveRoom(int room_id) {
+void gamer::RoomManager<Player>::RemoveRoom(id_t room_id) {
 }
 
 template<typename Player>
@@ -67,7 +68,7 @@ void gamer::RoomManager<Player>::RemoveRoom(Room<Player>* room) {
 }
 
 template<typename Player>
-gamer::Room<Player>* gamer::RoomManager<Player>::GetRoom(int room_id) {
+gamer::Room<Player>* gamer::RoomManager<Player>::GetRoom(id_t room_id) {
     auto itr = rooms_.find(room_id);
     if (itr != rooms_.end()) {
         return itr->second;
@@ -76,35 +77,35 @@ gamer::Room<Player>* gamer::RoomManager<Player>::GetRoom(int room_id) {
 }
 
 template<typename Player>
-int gamer::RoomManager<Player>::GenerateRoomID() {
+id_t gamer::RoomManager<Player>::GenerateRoomID() {
     auto try_count = 5;
     auto count = 0;
     while (count < try_count) {
-        auto r = gamer::GenerateRandom<int>(0, 999999); // TODO : cfg the range
+        auto r = gamer::GenerateRandom<id_t>(0, 999999); // TODO : cfg the range
         if (rooms_.find(r) == rooms_.end()) {
             return r;
         }
         ++count;
     }
-    return -1;
+    return 0;
 }
 
 template<typename Player> 
-int RoomManager<Player>::GenerateRoundID() {
+id_t RoomManager<Player>::GenerateRoundID() {
 	auto try_count = 5;
 	auto count = 0;
 	while (count < try_count) {
-		auto r = gamer::GenerateRandom<int>(0, 999999); // TODO : cfg the range
+		auto r = gamer::GenerateRandom<id_t>(0, 999999); // TODO : cfg the range
 		if (rooms_.find(r) == rooms_.end()) {
 			return r;
 		}
 		++count;
 	}
-	return -1;
+	return 0;
 }
 
 template<typename Player>
-bool RoomManager<Player>::IsPlayerInRoom(int player_id) {
+bool RoomManager<Player>::IsPlayerInRoom(id_t player_id) {
 	for (auto itr = rooms_.begin(); itr != rooms_.end(); itr++) {
 		if (itr->second->is_player_in_room(player_id)) {
 			return true;

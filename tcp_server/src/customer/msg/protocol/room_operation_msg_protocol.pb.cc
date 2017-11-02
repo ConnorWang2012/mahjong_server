@@ -83,8 +83,8 @@ void protobuf_AddDesc_room_5foperation_5fmsg_5fprotocol_2eproto() {
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
     "\n!room_operation_msg_protocol.proto\022\016gam"
     "er.protocol\"T\n\030RoomOperationMsgProtocol\022"
-    "\021\n\tplayer_id\030\001 \002(\005\022\017\n\007room_id\030\002 \002(\005\022\024\n\014o"
-    "peration_id\030\003 \002(\005", 137);
+    "\021\n\tplayer_id\030\001 \002(\r\022\017\n\007room_id\030\002 \002(\r\022\024\n\014o"
+    "peration_id\030\003 \002(\r", 137);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "room_operation_msg_protocol.proto", &protobuf_RegisterTypes);
   RoomOperationMsgProtocol::default_instance_ = new RoomOperationMsgProtocol();
@@ -125,9 +125,9 @@ RoomOperationMsgProtocol::RoomOperationMsgProtocol(const RoomOperationMsgProtoco
 
 void RoomOperationMsgProtocol::SharedCtor() {
   _cached_size_ = 0;
-  player_id_ = 0;
-  room_id_ = 0;
-  operation_id_ = 0;
+  player_id_ = 0u;
+  room_id_ = 0u;
+  operation_id_ = 0u;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -192,11 +192,11 @@ bool RoomOperationMsgProtocol::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // required int32 player_id = 1;
+      // required uint32 player_id = 1;
       case 1: {
         if (tag == 8) {
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  input, &player_id_)));
           set_has_player_id();
         } else {
@@ -206,12 +206,12 @@ bool RoomOperationMsgProtocol::MergePartialFromCodedStream(
         break;
       }
 
-      // required int32 room_id = 2;
+      // required uint32 room_id = 2;
       case 2: {
         if (tag == 16) {
          parse_room_id:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  input, &room_id_)));
           set_has_room_id();
         } else {
@@ -221,12 +221,12 @@ bool RoomOperationMsgProtocol::MergePartialFromCodedStream(
         break;
       }
 
-      // required int32 operation_id = 3;
+      // required uint32 operation_id = 3;
       case 3: {
         if (tag == 24) {
          parse_operation_id:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  input, &operation_id_)));
           set_has_operation_id();
         } else {
@@ -261,19 +261,19 @@ failure:
 void RoomOperationMsgProtocol::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
   // @@protoc_insertion_point(serialize_start:gamer.protocol.RoomOperationMsgProtocol)
-  // required int32 player_id = 1;
+  // required uint32 player_id = 1;
   if (has_player_id()) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(1, this->player_id(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->player_id(), output);
   }
 
-  // required int32 room_id = 2;
+  // required uint32 room_id = 2;
   if (has_room_id()) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(2, this->room_id(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(2, this->room_id(), output);
   }
 
-  // required int32 operation_id = 3;
+  // required uint32 operation_id = 3;
   if (has_operation_id()) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(3, this->operation_id(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(3, this->operation_id(), output);
   }
 
   if (!unknown_fields().empty()) {
@@ -286,19 +286,19 @@ void RoomOperationMsgProtocol::SerializeWithCachedSizes(
 ::google::protobuf::uint8* RoomOperationMsgProtocol::SerializeWithCachedSizesToArray(
     ::google::protobuf::uint8* target) const {
   // @@protoc_insertion_point(serialize_to_array_start:gamer.protocol.RoomOperationMsgProtocol)
-  // required int32 player_id = 1;
+  // required uint32 player_id = 1;
   if (has_player_id()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(1, this->player_id(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(1, this->player_id(), target);
   }
 
-  // required int32 room_id = 2;
+  // required uint32 room_id = 2;
   if (has_room_id()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(2, this->room_id(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(2, this->room_id(), target);
   }
 
-  // required int32 operation_id = 3;
+  // required uint32 operation_id = 3;
   if (has_operation_id()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(3, this->operation_id(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(3, this->operation_id(), target);
   }
 
   if (!unknown_fields().empty()) {
@@ -313,24 +313,24 @@ int RoomOperationMsgProtocol::ByteSize() const {
   int total_size = 0;
 
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    // required int32 player_id = 1;
+    // required uint32 player_id = 1;
     if (has_player_id()) {
       total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::Int32Size(
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
           this->player_id());
     }
 
-    // required int32 room_id = 2;
+    // required uint32 room_id = 2;
     if (has_room_id()) {
       total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::Int32Size(
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
           this->room_id());
     }
 
-    // required int32 operation_id = 3;
+    // required uint32 operation_id = 3;
     if (has_operation_id()) {
       total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::Int32Size(
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
           this->operation_id());
     }
 

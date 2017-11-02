@@ -32,19 +32,19 @@ class DataManager : public BasicManager<DataManager> {
 
 	void CachePlayerPersonalData(const std::string& player_account, const std::string& serialized_data);
 
-	void GetCachedPlayerPersonalData(const std::string& player_account, std::string& serialized_data);
+	void GetCachedPlayerPersonalData(const std::string& player_account, std::string* serialized_data);
 
-	void CacheCreateRoomData(int room_id, const std::string& serialized_data);
+	void CacheCreateRoomData(id_t room_id, const std::string& serialized_data);
 
-	void GetCachedCreateRoomData(int room_id, std::string& serialized_data);
+	void GetCachedCreateRoomData(id_t room_id, std::string& serialized_data);
 
-	void CacheGameStartData(int room_id, const std::string& serialized_data);
+	void CacheGameStartData(id_t room_id, const std::string& serialized_data);
 
-	void GetCachedGameStartData(int room_id, std::string& serialized_data);
+	void GetCachedGameStartData(id_t room_id, std::string& serialized_data);
 
-	void CacheRoomData(int room_id, int round, const std::string& serialized_data);
+	void CacheRoomData(id_t room_id, int round, const std::string& serialized_data);
 
-	void GetCachedRoomData(int room_id, int round, std::string& serialized_data);
+	void GetCachedRoomData(id_t room_id, int round, std::string& serialized_data);
 
 	int GeneratePlayerID();
 
@@ -52,7 +52,7 @@ class DataManager : public BasicManager<DataManager> {
 
 	void CacheAccountByID(id_t player_id, const std::string& player_account);
 
-	void GetCachedAccountByID(id_t player_id, std::string* out);
+	void GetCachedAccountByID(id_t player_id, std::string* player_account);
 
     // async
 	void SetGold(id_t player_id, score_t gold);

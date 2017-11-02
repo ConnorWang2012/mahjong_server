@@ -16,6 +16,7 @@ modification:
 #define CONNOR_GAME_SRC_ROOM_PROTOCOL_H_
 
 #include <unordered_map>
+#include "framework/base/macros.h"
 
 namespace gamer {
 
@@ -24,23 +25,23 @@ class RoomProtocol {
   public:
     virtual ~RoomProtocol() {};
 
-    virtual void DissolveRoom(int room_id) = 0;
+    virtual void DissolveRoom(id_t room_id) = 0;
 
     virtual void AddPlayer(Player* player) = 0;
 
-    virtual void RomovePlayer(int player_id) = 0;    
+    virtual void RomovePlayer(id_t player_id) = 0;    
 
-	virtual inline void set_room_id(int room_id) = 0;
+	virtual inline void set_room_id(id_t room_id) = 0;
 
-	virtual inline int room_id() const = 0;
+	virtual inline id_t room_id() const = 0;
 
-	virtual inline Player* player(int player_id) = 0;
+	virtual inline Player* player(id_t player_id) = 0;
 
     virtual inline std::vector<Player*>* players() = 0;
 
-    virtual inline bool is_player_in_room(int player_id) const = 0;
+    virtual inline bool is_player_in_room(id_t player_id) const = 0;
 
-    virtual inline int cur_players_num() const = 0;
+    virtual inline size_t cur_players_num() const = 0;
 };
 
 } // namespace gamer

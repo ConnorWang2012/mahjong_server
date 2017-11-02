@@ -87,10 +87,10 @@ void protobuf_AddDesc_create_5froom_5fmsg_5fprotocol_2eproto() {
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
     "\n\036create_room_msg_protocol.proto\022\016gamer."
     "protocol\"\261\001\n\025CreateRoomMsgProtocol\022\025\n\rro"
-    "om_owner_id\030\001 \002(\005\022\022\n\nrounds_num\030\002 \002(\005\022\023\n"
-    "\013players_num\030\003 \002(\005\022\022\n\nscore_gold\030\004 \002(\005\022\025"
-    "\n\rscore_diamond\030\005 \001(\005\022\031\n\016room_cards_num\030"
-    "\006 \001(\005:\0010\022\022\n\007room_id\030\007 \001(\005:\0010", 228);
+    "om_owner_id\030\001 \002(\r\022\022\n\nrounds_num\030\002 \002(\r\022\023\n"
+    "\013players_num\030\003 \002(\r\022\022\n\nscore_gold\030\004 \002(\r\022\025"
+    "\n\rscore_diamond\030\005 \001(\r\022\031\n\016room_cards_num\030"
+    "\006 \001(\r:\0010\022\022\n\007room_id\030\007 \001(\r:\0010", 228);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "create_room_msg_protocol.proto", &protobuf_RegisterTypes);
   CreateRoomMsgProtocol::default_instance_ = new CreateRoomMsgProtocol();
@@ -135,13 +135,13 @@ CreateRoomMsgProtocol::CreateRoomMsgProtocol(const CreateRoomMsgProtocol& from)
 
 void CreateRoomMsgProtocol::SharedCtor() {
   _cached_size_ = 0;
-  room_owner_id_ = 0;
-  rounds_num_ = 0;
-  players_num_ = 0;
-  score_gold_ = 0;
-  score_diamond_ = 0;
-  room_cards_num_ = 0;
-  room_id_ = 0;
+  room_owner_id_ = 0u;
+  rounds_num_ = 0u;
+  players_num_ = 0u;
+  score_gold_ = 0u;
+  score_diamond_ = 0u;
+  room_cards_num_ = 0u;
+  room_id_ = 0u;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -208,11 +208,11 @@ bool CreateRoomMsgProtocol::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // required int32 room_owner_id = 1;
+      // required uint32 room_owner_id = 1;
       case 1: {
         if (tag == 8) {
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  input, &room_owner_id_)));
           set_has_room_owner_id();
         } else {
@@ -222,12 +222,12 @@ bool CreateRoomMsgProtocol::MergePartialFromCodedStream(
         break;
       }
 
-      // required int32 rounds_num = 2;
+      // required uint32 rounds_num = 2;
       case 2: {
         if (tag == 16) {
          parse_rounds_num:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  input, &rounds_num_)));
           set_has_rounds_num();
         } else {
@@ -237,12 +237,12 @@ bool CreateRoomMsgProtocol::MergePartialFromCodedStream(
         break;
       }
 
-      // required int32 players_num = 3;
+      // required uint32 players_num = 3;
       case 3: {
         if (tag == 24) {
          parse_players_num:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  input, &players_num_)));
           set_has_players_num();
         } else {
@@ -252,12 +252,12 @@ bool CreateRoomMsgProtocol::MergePartialFromCodedStream(
         break;
       }
 
-      // required int32 score_gold = 4;
+      // required uint32 score_gold = 4;
       case 4: {
         if (tag == 32) {
          parse_score_gold:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  input, &score_gold_)));
           set_has_score_gold();
         } else {
@@ -267,12 +267,12 @@ bool CreateRoomMsgProtocol::MergePartialFromCodedStream(
         break;
       }
 
-      // optional int32 score_diamond = 5;
+      // optional uint32 score_diamond = 5;
       case 5: {
         if (tag == 40) {
          parse_score_diamond:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  input, &score_diamond_)));
           set_has_score_diamond();
         } else {
@@ -282,12 +282,12 @@ bool CreateRoomMsgProtocol::MergePartialFromCodedStream(
         break;
       }
 
-      // optional int32 room_cards_num = 6 [default = 0];
+      // optional uint32 room_cards_num = 6 [default = 0];
       case 6: {
         if (tag == 48) {
          parse_room_cards_num:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  input, &room_cards_num_)));
           set_has_room_cards_num();
         } else {
@@ -297,12 +297,12 @@ bool CreateRoomMsgProtocol::MergePartialFromCodedStream(
         break;
       }
 
-      // optional int32 room_id = 7 [default = 0];
+      // optional uint32 room_id = 7 [default = 0];
       case 7: {
         if (tag == 56) {
          parse_room_id:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  input, &room_id_)));
           set_has_room_id();
         } else {
@@ -337,39 +337,39 @@ failure:
 void CreateRoomMsgProtocol::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
   // @@protoc_insertion_point(serialize_start:gamer.protocol.CreateRoomMsgProtocol)
-  // required int32 room_owner_id = 1;
+  // required uint32 room_owner_id = 1;
   if (has_room_owner_id()) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(1, this->room_owner_id(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->room_owner_id(), output);
   }
 
-  // required int32 rounds_num = 2;
+  // required uint32 rounds_num = 2;
   if (has_rounds_num()) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(2, this->rounds_num(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(2, this->rounds_num(), output);
   }
 
-  // required int32 players_num = 3;
+  // required uint32 players_num = 3;
   if (has_players_num()) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(3, this->players_num(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(3, this->players_num(), output);
   }
 
-  // required int32 score_gold = 4;
+  // required uint32 score_gold = 4;
   if (has_score_gold()) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(4, this->score_gold(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(4, this->score_gold(), output);
   }
 
-  // optional int32 score_diamond = 5;
+  // optional uint32 score_diamond = 5;
   if (has_score_diamond()) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(5, this->score_diamond(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(5, this->score_diamond(), output);
   }
 
-  // optional int32 room_cards_num = 6 [default = 0];
+  // optional uint32 room_cards_num = 6 [default = 0];
   if (has_room_cards_num()) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(6, this->room_cards_num(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(6, this->room_cards_num(), output);
   }
 
-  // optional int32 room_id = 7 [default = 0];
+  // optional uint32 room_id = 7 [default = 0];
   if (has_room_id()) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(7, this->room_id(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(7, this->room_id(), output);
   }
 
   if (!unknown_fields().empty()) {
@@ -382,39 +382,39 @@ void CreateRoomMsgProtocol::SerializeWithCachedSizes(
 ::google::protobuf::uint8* CreateRoomMsgProtocol::SerializeWithCachedSizesToArray(
     ::google::protobuf::uint8* target) const {
   // @@protoc_insertion_point(serialize_to_array_start:gamer.protocol.CreateRoomMsgProtocol)
-  // required int32 room_owner_id = 1;
+  // required uint32 room_owner_id = 1;
   if (has_room_owner_id()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(1, this->room_owner_id(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(1, this->room_owner_id(), target);
   }
 
-  // required int32 rounds_num = 2;
+  // required uint32 rounds_num = 2;
   if (has_rounds_num()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(2, this->rounds_num(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(2, this->rounds_num(), target);
   }
 
-  // required int32 players_num = 3;
+  // required uint32 players_num = 3;
   if (has_players_num()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(3, this->players_num(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(3, this->players_num(), target);
   }
 
-  // required int32 score_gold = 4;
+  // required uint32 score_gold = 4;
   if (has_score_gold()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(4, this->score_gold(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(4, this->score_gold(), target);
   }
 
-  // optional int32 score_diamond = 5;
+  // optional uint32 score_diamond = 5;
   if (has_score_diamond()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(5, this->score_diamond(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(5, this->score_diamond(), target);
   }
 
-  // optional int32 room_cards_num = 6 [default = 0];
+  // optional uint32 room_cards_num = 6 [default = 0];
   if (has_room_cards_num()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(6, this->room_cards_num(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(6, this->room_cards_num(), target);
   }
 
-  // optional int32 room_id = 7 [default = 0];
+  // optional uint32 room_id = 7 [default = 0];
   if (has_room_id()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(7, this->room_id(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(7, this->room_id(), target);
   }
 
   if (!unknown_fields().empty()) {
@@ -429,52 +429,52 @@ int CreateRoomMsgProtocol::ByteSize() const {
   int total_size = 0;
 
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    // required int32 room_owner_id = 1;
+    // required uint32 room_owner_id = 1;
     if (has_room_owner_id()) {
       total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::Int32Size(
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
           this->room_owner_id());
     }
 
-    // required int32 rounds_num = 2;
+    // required uint32 rounds_num = 2;
     if (has_rounds_num()) {
       total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::Int32Size(
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
           this->rounds_num());
     }
 
-    // required int32 players_num = 3;
+    // required uint32 players_num = 3;
     if (has_players_num()) {
       total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::Int32Size(
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
           this->players_num());
     }
 
-    // required int32 score_gold = 4;
+    // required uint32 score_gold = 4;
     if (has_score_gold()) {
       total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::Int32Size(
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
           this->score_gold());
     }
 
-    // optional int32 score_diamond = 5;
+    // optional uint32 score_diamond = 5;
     if (has_score_diamond()) {
       total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::Int32Size(
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
           this->score_diamond());
     }
 
-    // optional int32 room_cards_num = 6 [default = 0];
+    // optional uint32 room_cards_num = 6 [default = 0];
     if (has_room_cards_num()) {
       total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::Int32Size(
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
           this->room_cards_num());
     }
 
-    // optional int32 room_id = 7 [default = 0];
+    // optional uint32 room_id = 7 [default = 0];
     if (has_room_id()) {
       total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::Int32Size(
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
           this->room_id());
     }
 

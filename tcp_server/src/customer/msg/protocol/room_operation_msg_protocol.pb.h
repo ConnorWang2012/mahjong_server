@@ -91,26 +91,26 @@ class RoomOperationMsgProtocol : public ::google::protobuf::Message {
 
   // accessors -------------------------------------------------------
 
-  // required int32 player_id = 1;
+  // required uint32 player_id = 1;
   inline bool has_player_id() const;
   inline void clear_player_id();
   static const int kPlayerIdFieldNumber = 1;
-  inline ::google::protobuf::int32 player_id() const;
-  inline void set_player_id(::google::protobuf::int32 value);
+  inline ::google::protobuf::uint32 player_id() const;
+  inline void set_player_id(::google::protobuf::uint32 value);
 
-  // required int32 room_id = 2;
+  // required uint32 room_id = 2;
   inline bool has_room_id() const;
   inline void clear_room_id();
   static const int kRoomIdFieldNumber = 2;
-  inline ::google::protobuf::int32 room_id() const;
-  inline void set_room_id(::google::protobuf::int32 value);
+  inline ::google::protobuf::uint32 room_id() const;
+  inline void set_room_id(::google::protobuf::uint32 value);
 
-  // required int32 operation_id = 3;
+  // required uint32 operation_id = 3;
   inline bool has_operation_id() const;
   inline void clear_operation_id();
   static const int kOperationIdFieldNumber = 3;
-  inline ::google::protobuf::int32 operation_id() const;
-  inline void set_operation_id(::google::protobuf::int32 value);
+  inline ::google::protobuf::uint32 operation_id() const;
+  inline void set_operation_id(::google::protobuf::uint32 value);
 
   // @@protoc_insertion_point(class_scope:gamer.protocol.RoomOperationMsgProtocol)
  private:
@@ -125,9 +125,9 @@ class RoomOperationMsgProtocol : public ::google::protobuf::Message {
 
   ::google::protobuf::uint32 _has_bits_[1];
   mutable int _cached_size_;
-  ::google::protobuf::int32 player_id_;
-  ::google::protobuf::int32 room_id_;
-  ::google::protobuf::int32 operation_id_;
+  ::google::protobuf::uint32 player_id_;
+  ::google::protobuf::uint32 room_id_;
+  ::google::protobuf::uint32 operation_id_;
   friend void  protobuf_AddDesc_room_5foperation_5fmsg_5fprotocol_2eproto();
   friend void protobuf_AssignDesc_room_5foperation_5fmsg_5fprotocol_2eproto();
   friend void protobuf_ShutdownFile_room_5foperation_5fmsg_5fprotocol_2eproto();
@@ -142,7 +142,7 @@ class RoomOperationMsgProtocol : public ::google::protobuf::Message {
 
 // RoomOperationMsgProtocol
 
-// required int32 player_id = 1;
+// required uint32 player_id = 1;
 inline bool RoomOperationMsgProtocol::has_player_id() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
@@ -153,20 +153,20 @@ inline void RoomOperationMsgProtocol::clear_has_player_id() {
   _has_bits_[0] &= ~0x00000001u;
 }
 inline void RoomOperationMsgProtocol::clear_player_id() {
-  player_id_ = 0;
+  player_id_ = 0u;
   clear_has_player_id();
 }
-inline ::google::protobuf::int32 RoomOperationMsgProtocol::player_id() const {
+inline ::google::protobuf::uint32 RoomOperationMsgProtocol::player_id() const {
   // @@protoc_insertion_point(field_get:gamer.protocol.RoomOperationMsgProtocol.player_id)
   return player_id_;
 }
-inline void RoomOperationMsgProtocol::set_player_id(::google::protobuf::int32 value) {
+inline void RoomOperationMsgProtocol::set_player_id(::google::protobuf::uint32 value) {
   set_has_player_id();
   player_id_ = value;
   // @@protoc_insertion_point(field_set:gamer.protocol.RoomOperationMsgProtocol.player_id)
 }
 
-// required int32 room_id = 2;
+// required uint32 room_id = 2;
 inline bool RoomOperationMsgProtocol::has_room_id() const {
   return (_has_bits_[0] & 0x00000002u) != 0;
 }
@@ -177,20 +177,20 @@ inline void RoomOperationMsgProtocol::clear_has_room_id() {
   _has_bits_[0] &= ~0x00000002u;
 }
 inline void RoomOperationMsgProtocol::clear_room_id() {
-  room_id_ = 0;
+  room_id_ = 0u;
   clear_has_room_id();
 }
-inline ::google::protobuf::int32 RoomOperationMsgProtocol::room_id() const {
+inline ::google::protobuf::uint32 RoomOperationMsgProtocol::room_id() const {
   // @@protoc_insertion_point(field_get:gamer.protocol.RoomOperationMsgProtocol.room_id)
   return room_id_;
 }
-inline void RoomOperationMsgProtocol::set_room_id(::google::protobuf::int32 value) {
+inline void RoomOperationMsgProtocol::set_room_id(::google::protobuf::uint32 value) {
   set_has_room_id();
   room_id_ = value;
   // @@protoc_insertion_point(field_set:gamer.protocol.RoomOperationMsgProtocol.room_id)
 }
 
-// required int32 operation_id = 3;
+// required uint32 operation_id = 3;
 inline bool RoomOperationMsgProtocol::has_operation_id() const {
   return (_has_bits_[0] & 0x00000004u) != 0;
 }
@@ -201,14 +201,14 @@ inline void RoomOperationMsgProtocol::clear_has_operation_id() {
   _has_bits_[0] &= ~0x00000004u;
 }
 inline void RoomOperationMsgProtocol::clear_operation_id() {
-  operation_id_ = 0;
+  operation_id_ = 0u;
   clear_has_operation_id();
 }
-inline ::google::protobuf::int32 RoomOperationMsgProtocol::operation_id() const {
+inline ::google::protobuf::uint32 RoomOperationMsgProtocol::operation_id() const {
   // @@protoc_insertion_point(field_get:gamer.protocol.RoomOperationMsgProtocol.operation_id)
   return operation_id_;
 }
-inline void RoomOperationMsgProtocol::set_operation_id(::google::protobuf::int32 value) {
+inline void RoomOperationMsgProtocol::set_operation_id(::google::protobuf::uint32 value) {
   set_has_operation_id();
   operation_id_ = value;
   // @@protoc_insertion_point(field_set:gamer.protocol.RoomOperationMsgProtocol.operation_id)

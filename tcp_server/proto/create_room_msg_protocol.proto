@@ -1,11 +1,11 @@
 package gamer.protocol;
 
 message CreateRoomMsgProtocol {
-  required int32 room_owner_id  	= 1;
-  required int32 rounds_num  		= 2;
-  required int32 players_num  		= 3;
-  required int32 score_gold         = 4;
-  optional int32 score_diamond      = 5;
-  optional int32 room_cards_num 	= 6[default = 0];
-  optional int32 room_id  		    = 7[default = 0];
+  required uint32 room_owner_id  	= 1;
+  required uint32 rounds_num  		= 2;
+  required uint32 players_num  		= 3;
+  required uint32 score_gold        = 4;
+  optional uint32 score_diamond     = 5;
+  optional uint32 room_cards_num 	= 6[default = 0];
+  optional uint32 room_id  		    = 7[default = 0];
 }

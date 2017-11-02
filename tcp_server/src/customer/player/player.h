@@ -18,6 +18,7 @@ modification:
 #include "customer/msg/protocol/player_cards_msg_protocol.pb.h"
 #include "customer/msg/protocol/play_card_msg_protocol.pb.h"
 #include "customer/msg/protocol/ting_card_msg_protocol.pb.h"
+#include "framework/base/macros.h"
 #include "player_protocol.h"
 
 namespace gamer {
@@ -35,11 +36,11 @@ class Player : public PlayerProtocol {
 
 	Player();
 
-	static Player* Create(int player_id);
+	static Player* Create(id_t player_id);
 
-	virtual inline void set_player_id(int player_id) override;
+	virtual inline void set_player_id(id_t player_id) override;
 
-	virtual inline int player_id() const override;
+	virtual inline id_t player_id() const override;
 
 	virtual inline void set_is_online(bool online) override;
 
@@ -115,7 +116,7 @@ class Player : public PlayerProtocol {
     bool IsBuhua() const;
 
   private:
-	bool Init(int player_id);
+	bool Init(id_t player_id);
 
     void GetInvisibleHandCards(int* cards, int& len) const;
 
@@ -126,7 +127,7 @@ class Player : public PlayerProtocol {
     bool GetTingOrZimoOperationID(int& operation_id, PlayCardMsgProtocol* proto) const;
 
     std::string account_;
-    int player_id_;
+	id_t player_id_;
     bool is_online_;
     bool has_selected_operation_ting_;
     int cur_available_operation_id_;
@@ -134,11 +135,11 @@ class Player : public PlayerProtocol {
 	PlayerCardsMsgProtocol* cards_msg_proto_;
 };
 
-inline void Player::set_player_id(int player_id) {
+inline void Player::set_player_id(id_t player_id) {
     player_id_ = player_id;
 }
 
-inline int Player::player_id() const {
+inline id_t Player::player_id() const {
     return player_id_;
 }
 
@@ -150,7 +151,7 @@ inline bool Player::is_online() const {
     return is_online_;
 }
 
-inline void Player::set_account(const std::string & account) {
+inline void Player::set_account(const std::string& account) {
     account_ = account;
 }
 

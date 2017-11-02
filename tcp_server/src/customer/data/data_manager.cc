@@ -16,6 +16,8 @@ modification:
 
 #include "util/google/absl/strings/numbers.h"
 #include "framework/cache/cache_proxy.h"
+#include "customer/player/player.h"
+#include "customer/player/player_manager.h"
 #include "customer/msg/protocol/my_login_msg_protocol.pb.h"
 
 namespace gamer {
@@ -36,7 +38,7 @@ void DataManager::CachePlayerPersonalData(const std::string& player_account,
 }
 
 void DataManager::GetCachedPlayerPersonalData(const std::string& player_account, 
-										      std::string& serialized_data) {
+										      std::string* serialized_data) {
 	//redis_client_->get(player_account, [&](cpp_redis::reply& reply) {
 	//	if (reply.is_string()) {
 	//		serialized_data = reply.as_string();
@@ -47,19 +49,19 @@ void DataManager::GetCachedPlayerPersonalData(const std::string& player_account,
 	auto key   = "account:" + player_account;
 	auto field = "account";
 	redis_client_->hget(key, field, [&](cpp_redis::reply& rep) {
-		serialized_data = rep.as_string();
+		*serialized_data = rep.as_string();
 	});
 
 	redis_client_->sync_commit();
 }
 
-void DataManager::CacheCreateRoomData(int room_id, const std::string& serialized_data) {
+void DataManager::CacheCreateRoomData(id_t room_id, const std::string& serialized_data) {
 	auto key = "room.create:" + std::to_string(room_id);
 	redis_client_->set(key, serialized_data);
 	redis_client_->sync_commit();
 }
 
-void DataManager::GetCachedCreateRoomData(int room_id, std::string& serialized_data) {
+void DataManager::GetCachedCreateRoomData(id_t room_id, std::string& serialized_data) {
 	auto key = "room.create:" + std::to_string(room_id);
 	redis_client_->get(key, [&](cpp_redis::reply& reply) {
 		if (reply.is_string()) {
@@ -69,13 +71,13 @@ void DataManager::GetCachedCreateRoomData(int room_id, std::string& serialized_d
 	redis_client_->sync_commit();
 }
 
-void DataManager::CacheGameStartData(int room_id, const std::string& serialized_data) {
+void DataManager::CacheGameStartData(id_t room_id, const std::string& serialized_data) {
 	auto key = "room:" + std::to_string(room_id);
 	auto field = "round0";
 	redis_client_->hset(key, field, serialized_data);
 }
 
-void DataManager::GetCachedGameStartData(int room_id, std::string& serialized_data) {
+void DataManager::GetCachedGameStartData(id_t room_id, std::string& serialized_data) {
 	auto key = "room:" + std::to_string(room_id);
 	auto field = "round0";
 	redis_client_->hget(key, field, [&](cpp_redis::reply& reply) {
@@ -85,13 +87,13 @@ void DataManager::GetCachedGameStartData(int room_id, std::string& serialized_da
 	});
 }
 
-void DataManager::CacheRoomData(int room_id, int round, const std::string& serialized_data) {
+void DataManager::CacheRoomData(id_t room_id, int round, const std::string& serialized_data) {
 	auto key = "room:" + std::to_string(room_id);
 	auto field = "round:" + std::to_string(round);
 	redis_client_->hset(key, field, serialized_data);
 }
 
-void DataManager::GetCachedRoomData(int room_id, int round, std::string& serialized_data) {
+void DataManager::GetCachedRoomData(id_t room_id, int round, std::string& serialized_data) {
 	auto key = "room:" + std::to_string(room_id);
 	auto field = "round:" + std::to_string(round);
 	redis_client_->hget(key, field, [&](cpp_redis::reply& reply) {
@@ -124,11 +126,11 @@ void DataManager::CacheAccountByID(id_t player_id, const std::string& player_acc
 	}
 }
 
-void DataManager::GetCachedAccountByID(id_t player_id, std::string* out) {
+void DataManager::GetCachedAccountByID(id_t player_id, std::string* player_account) {
 	if (player_id > 0) {
 		redis_client_->get(std::to_string(player_id), [&](cpp_redis::reply& rep) {
 			if (rep.is_string()) {
-				*out = rep.as_string();
+				*player_account = rep.as_string();
 			}
 		});
 		redis_client_->sync_commit();
@@ -136,9 +138,10 @@ void DataManager::GetCachedAccountByID(id_t player_id, std::string* out) {
 }
 
 void DataManager::SetGold(id_t player_id, score_t gold) {
-	auto key   = "player:" + std::to_string(player_id);
-	auto field = "gold";
-	redis_client_->hset(key, field, std::to_string(gold));
+	auto player = PlayerManager::instance()->GetOnlinePlayer(player_id);
+	if (nullptr != player && "" != player->account()) {
+		this->SetGold(player->account(), gold);
+	}
 }
 
 void DataManager::SetGold(const std::string& player_account, score_t gold) {

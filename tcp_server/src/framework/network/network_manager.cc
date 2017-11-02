@@ -144,10 +144,12 @@ void NetworkManager::OnBuffereventReceived(struct bufferevent* bev, short event,
 		//write_cb(bev, nullptr);
 		//char msg[] = "client connected";
 		//bufferevent_write(bev, msg, sizeof(msg));
-		auto input = bufferevent_get_input(bev);
-		auto output = bufferevent_get_output(bev);
-		evbuffer_add_printf(output, "client msg : %s", "client connected");
-	} else if (event & BEV_EVENT_TIMEOUT) {
+		//auto input = bufferevent_get_input(bev);
+		//auto output = bufferevent_get_output(bev);
+		//evbuffer_add_printf(output, "client msg : %s", "client connected");
+	} 
+	
+	if (event & BEV_EVENT_TIMEOUT) {
 		LOGERROR("[NetworkManager::OnBuffereventArrive] client connect timeout");
 	}
 }

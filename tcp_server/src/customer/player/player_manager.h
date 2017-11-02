@@ -17,7 +17,8 @@ modification:
 
 #include <unordered_map>
 
-#include "base/basic_manager.h"
+#include "framework/base/basic_manager.h"
+#include "framework/base/macros.h"
 
 struct bufferevent;
 
@@ -27,24 +28,23 @@ class Player;
 
 class PlayerManager : public BasicManager<PlayerManager> {
   public:
-	bool IsPlayerOnline(int player_id) const;
+	bool IsPlayerOnline(id_t player_id) const;
 
-	void AddOnlinePlayerBufferevent(int player_id, bufferevent* bev); // not keep the ownership 
+	bufferevent* GetOnlinePlayerBufferevent(id_t player_id);
 
-	bufferevent* GetOnlinePlayerBufferevent(int player_id);
+	// keep the ownership of player, not keep the ownership of bev
+	void AddOnlinePlayer(id_t player_id, Player* player, bufferevent* bev);
 
-	void AddOnlinePlayer(int player_id, Player* player); // keep the ownership
+	Player* GetOnlinePlayer(id_t player_id); // still keep the ownership
 
-	Player* GetOnlinePlayer(int player_id); // still keep the ownership
-
-	void RemoveOnlinePlayer(int player_id);
+	void RemoveOnlinePlayer(id_t player_id);
 
     void RemoveOnlinePlayer(bufferevent* bev);
 
   private:
-	std::unordered_map<int, Player*> players_; // key is player id
+	std::unordered_map<id_t, Player*> players_; // key is player id
 
-	std::unordered_map<int, bufferevent*> bufferevents_; // key is player id
+	std::unordered_map<id_t, bufferevent*> bufferevents_; // key is player id
 };
 
 }

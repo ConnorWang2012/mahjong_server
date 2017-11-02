@@ -16,6 +16,7 @@ modification:
 #define CONNOR_GAME_SRC_PLAYER_PROTOCOL_H_
 
 #include <vector>
+#include "framework/base/macros.h"
 
 namespace gamer {
 
@@ -23,9 +24,9 @@ class PlayerProtocol {
   public:
 	virtual ~PlayerProtocol() {};
 
-	virtual inline void set_player_id(int player_id) = 0;
+	virtual inline void set_player_id(id_t player_id) = 0;
 
-	virtual inline int player_id() const = 0;
+	virtual inline id_t player_id() const = 0;
 
 	virtual inline void set_is_online(bool online) = 0;
 

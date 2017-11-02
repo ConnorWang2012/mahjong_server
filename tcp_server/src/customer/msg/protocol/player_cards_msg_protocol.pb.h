@@ -91,19 +91,19 @@ class PlayerCardsMsgProtocol : public ::google::protobuf::Message {
 
   // accessors -------------------------------------------------------
 
-  // required int32 player_id = 1;
+  // required uint32 player_id = 1;
   inline bool has_player_id() const;
   inline void clear_player_id();
   static const int kPlayerIdFieldNumber = 1;
-  inline ::google::protobuf::int32 player_id() const;
-  inline void set_player_id(::google::protobuf::int32 value);
+  inline ::google::protobuf::uint32 player_id() const;
+  inline void set_player_id(::google::protobuf::uint32 value);
 
-  // optional int32 invisible_hand_cards_num = 2 [default = 0];
+  // optional uint32 invisible_hand_cards_num = 2 [default = 0];
   inline bool has_invisible_hand_cards_num() const;
   inline void clear_invisible_hand_cards_num();
   static const int kInvisibleHandCardsNumFieldNumber = 2;
-  inline ::google::protobuf::int32 invisible_hand_cards_num() const;
-  inline void set_invisible_hand_cards_num(::google::protobuf::int32 value);
+  inline ::google::protobuf::uint32 invisible_hand_cards_num() const;
+  inline void set_invisible_hand_cards_num(::google::protobuf::uint32 value);
 
   // repeated int32 invisible_hand_cards = 3;
   inline int invisible_hand_cards_size() const;
@@ -224,8 +224,8 @@ class PlayerCardsMsgProtocol : public ::google::protobuf::Message {
 
   ::google::protobuf::uint32 _has_bits_[1];
   mutable int _cached_size_;
-  ::google::protobuf::int32 player_id_;
-  ::google::protobuf::int32 invisible_hand_cards_num_;
+  ::google::protobuf::uint32 player_id_;
+  ::google::protobuf::uint32 invisible_hand_cards_num_;
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 > invisible_hand_cards_;
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 > flower_cards_;
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 > season_cards_;
@@ -249,7 +249,7 @@ class PlayerCardsMsgProtocol : public ::google::protobuf::Message {
 
 // PlayerCardsMsgProtocol
 
-// required int32 player_id = 1;
+// required uint32 player_id = 1;
 inline bool PlayerCardsMsgProtocol::has_player_id() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
@@ -260,20 +260,20 @@ inline void PlayerCardsMsgProtocol::clear_has_player_id() {
   _has_bits_[0] &= ~0x00000001u;
 }
 inline void PlayerCardsMsgProtocol::clear_player_id() {
-  player_id_ = 0;
+  player_id_ = 0u;
   clear_has_player_id();
 }
-inline ::google::protobuf::int32 PlayerCardsMsgProtocol::player_id() const {
+inline ::google::protobuf::uint32 PlayerCardsMsgProtocol::player_id() const {
   // @@protoc_insertion_point(field_get:gamer.protocol.PlayerCardsMsgProtocol.player_id)
   return player_id_;
 }
-inline void PlayerCardsMsgProtocol::set_player_id(::google::protobuf::int32 value) {
+inline void PlayerCardsMsgProtocol::set_player_id(::google::protobuf::uint32 value) {
   set_has_player_id();
   player_id_ = value;
   // @@protoc_insertion_point(field_set:gamer.protocol.PlayerCardsMsgProtocol.player_id)
 }
 
-// optional int32 invisible_hand_cards_num = 2 [default = 0];
+// optional uint32 invisible_hand_cards_num = 2 [default = 0];
 inline bool PlayerCardsMsgProtocol::has_invisible_hand_cards_num() const {
   return (_has_bits_[0] & 0x00000002u) != 0;
 }
@@ -284,14 +284,14 @@ inline void PlayerCardsMsgProtocol::clear_has_invisible_hand_cards_num() {
   _has_bits_[0] &= ~0x00000002u;
 }
 inline void PlayerCardsMsgProtocol::clear_invisible_hand_cards_num() {
-  invisible_hand_cards_num_ = 0;
+  invisible_hand_cards_num_ = 0u;
   clear_has_invisible_hand_cards_num();
 }
-inline ::google::protobuf::int32 PlayerCardsMsgProtocol::invisible_hand_cards_num() const {
+inline ::google::protobuf::uint32 PlayerCardsMsgProtocol::invisible_hand_cards_num() const {
   // @@protoc_insertion_point(field_get:gamer.protocol.PlayerCardsMsgProtocol.invisible_hand_cards_num)
   return invisible_hand_cards_num_;
 }
-inline void PlayerCardsMsgProtocol::set_invisible_hand_cards_num(::google::protobuf::int32 value) {
+inline void PlayerCardsMsgProtocol::set_invisible_hand_cards_num(::google::protobuf::uint32 value) {
   set_has_invisible_hand_cards_num();
   invisible_hand_cards_num_ = value;
   // @@protoc_insertion_point(field_set:gamer.protocol.PlayerCardsMsgProtocol.invisible_hand_cards_num)

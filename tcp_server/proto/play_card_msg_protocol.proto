@@ -2,16 +2,16 @@ package gamer.protocol;
 import "ting_card_msg_protocol.proto";
 
 message PlayCardMsgProtocol {
-  required int32 player_id  				= 1;
-  required int32 room_id  					= 2;
-  required int32 cur_round  				= 3;
-  required int32 operation_id  				= 4;
-  optional int32 discard							= 5[default = -1];
-  optional int32 new_card							= 6[default = -1];
-  optional int32 next_operate_player_id 			= 7[default = 0];
-  optional bool  has_next_operate_player_new_card 	= 8[default = false]; // whether next operate player has new card, use to ui layout of client
-  optional int32 my_available_operation_id 			= 9[default = -1];
-  repeated int32 operating_cards    				= 10; // use for operation chi or buhua
-  repeated int32 invisible_hand_cards    			= 11; // after player hu or zimo, server send invisible hand cards of player hu or zimo to other player
-  repeated TingCardMsgProtocol ting_cards           = 12;
+  required uint32 player_id  				= 1;
+  required uint32 room_id  					= 2;
+  required uint32 cur_round  				= 3;
+  required uint32 operation_id  				           = 4;
+  optional int32 discard							             = 5[default = -1];
+  optional int32 new_card							             = 6[default = -1];
+  optional uint32 next_operate_player_id 			     = 7[default = 0];
+  optional bool   has_next_operate_player_new_card = 8[default = false]; // whether next operate player has new card, use to ui layout of client
+  optional uint32 my_available_operation_id 			 = 9[default = 0];
+  repeated int32 operating_cards    				       = 10; // use for operation chi or buhua
+  repeated int32 invisible_hand_cards    			     = 11; // after player hu or zimo, server send invisible hand cards of player hu or zimo to other player
+  repeated TingCardMsgProtocol ting_cards          = 12;
 }

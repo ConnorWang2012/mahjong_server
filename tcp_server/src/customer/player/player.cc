@@ -30,7 +30,7 @@ Player::Player()
       cards_msg_proto_(nullptr) {
 }
 
-Player* Player::Create(int player_id) {
+Player* Player::Create(id_t player_id) {
 	auto player = new Player;
 	if (nullptr != player) {
 		if (!player->Init(player_id)) {
@@ -493,7 +493,7 @@ bool Player::IsBuhua() const
     return false;
 }
 
-bool Player::Init(int player_id) {
+bool Player::Init(id_t player_id) {
 	player_id_ = player_id;
 	return true;
 }

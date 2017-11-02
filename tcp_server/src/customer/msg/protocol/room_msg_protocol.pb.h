@@ -92,75 +92,75 @@ class RoomMsgProtocol : public ::google::protobuf::Message {
 
   // accessors -------------------------------------------------------
 
-  // required int32 room_id = 1;
+  // required uint32 room_id = 1;
   inline bool has_room_id() const;
   inline void clear_room_id();
   static const int kRoomIdFieldNumber = 1;
-  inline ::google::protobuf::int32 room_id() const;
-  inline void set_room_id(::google::protobuf::int32 value);
+  inline ::google::protobuf::uint32 room_id() const;
+  inline void set_room_id(::google::protobuf::uint32 value);
 
-  // required int32 room_owner_id = 2;
+  // required uint32 room_owner_id = 2;
   inline bool has_room_owner_id() const;
   inline void clear_room_owner_id();
   static const int kRoomOwnerIdFieldNumber = 2;
-  inline ::google::protobuf::int32 room_owner_id() const;
-  inline void set_room_owner_id(::google::protobuf::int32 value);
+  inline ::google::protobuf::uint32 room_owner_id() const;
+  inline void set_room_owner_id(::google::protobuf::uint32 value);
 
-  // optional int32 players_num = 3;
+  // optional uint32 players_num = 3;
   inline bool has_players_num() const;
   inline void clear_players_num();
   static const int kPlayersNumFieldNumber = 3;
-  inline ::google::protobuf::int32 players_num() const;
-  inline void set_players_num(::google::protobuf::int32 value);
+  inline ::google::protobuf::uint32 players_num() const;
+  inline void set_players_num(::google::protobuf::uint32 value);
 
-  // optional int32 cur_round = 4;
+  // optional uint32 cur_round = 4;
   inline bool has_cur_round() const;
   inline void clear_cur_round();
   static const int kCurRoundFieldNumber = 4;
-  inline ::google::protobuf::int32 cur_round() const;
-  inline void set_cur_round(::google::protobuf::int32 value);
+  inline ::google::protobuf::uint32 cur_round() const;
+  inline void set_cur_round(::google::protobuf::uint32 value);
 
-  // optional int32 total_round = 5;
+  // optional uint32 total_round = 5;
   inline bool has_total_round() const;
   inline void clear_total_round();
   static const int kTotalRoundFieldNumber = 5;
-  inline ::google::protobuf::int32 total_round() const;
-  inline void set_total_round(::google::protobuf::int32 value);
+  inline ::google::protobuf::uint32 total_round() const;
+  inline void set_total_round(::google::protobuf::uint32 value);
 
-  // optional int32 remain_cards_num = 6;
+  // optional uint32 remain_cards_num = 6;
   inline bool has_remain_cards_num() const;
   inline void clear_remain_cards_num();
   static const int kRemainCardsNumFieldNumber = 6;
-  inline ::google::protobuf::int32 remain_cards_num() const;
-  inline void set_remain_cards_num(::google::protobuf::int32 value);
+  inline ::google::protobuf::uint32 remain_cards_num() const;
+  inline void set_remain_cards_num(::google::protobuf::uint32 value);
 
-  // optional int32 banker_id = 7;
+  // optional uint32 banker_id = 7;
   inline bool has_banker_id() const;
   inline void clear_banker_id();
   static const int kBankerIdFieldNumber = 7;
-  inline ::google::protobuf::int32 banker_id() const;
-  inline void set_banker_id(::google::protobuf::int32 value);
+  inline ::google::protobuf::uint32 banker_id() const;
+  inline void set_banker_id(::google::protobuf::uint32 value);
 
-  // optional int32 banker_is_same_time = 8;
+  // optional uint32 banker_is_same_time = 8;
   inline bool has_banker_is_same_time() const;
   inline void clear_banker_is_same_time();
   static const int kBankerIsSameTimeFieldNumber = 8;
-  inline ::google::protobuf::int32 banker_is_same_time() const;
-  inline void set_banker_is_same_time(::google::protobuf::int32 value);
+  inline ::google::protobuf::uint32 banker_is_same_time() const;
+  inline void set_banker_is_same_time(::google::protobuf::uint32 value);
 
-  // optional int32 operating_player_id = 9;
+  // optional uint32 operating_player_id = 9;
   inline bool has_operating_player_id() const;
   inline void clear_operating_player_id();
   static const int kOperatingPlayerIdFieldNumber = 9;
-  inline ::google::protobuf::int32 operating_player_id() const;
-  inline void set_operating_player_id(::google::protobuf::int32 value);
+  inline ::google::protobuf::uint32 operating_player_id() const;
+  inline void set_operating_player_id(::google::protobuf::uint32 value);
 
-  // optional int32 operation_id = 10;
+  // optional uint32 operation_id = 10;
   inline bool has_operation_id() const;
   inline void clear_operation_id();
   static const int kOperationIdFieldNumber = 10;
-  inline ::google::protobuf::int32 operation_id() const;
-  inline void set_operation_id(::google::protobuf::int32 value);
+  inline ::google::protobuf::uint32 operation_id() const;
+  inline void set_operation_id(::google::protobuf::uint32 value);
 
   // repeated int32 remain_cards = 11;
   inline int remain_cards_size() const;
@@ -213,16 +213,16 @@ class RoomMsgProtocol : public ::google::protobuf::Message {
 
   ::google::protobuf::uint32 _has_bits_[1];
   mutable int _cached_size_;
-  ::google::protobuf::int32 room_id_;
-  ::google::protobuf::int32 room_owner_id_;
-  ::google::protobuf::int32 players_num_;
-  ::google::protobuf::int32 cur_round_;
-  ::google::protobuf::int32 total_round_;
-  ::google::protobuf::int32 remain_cards_num_;
-  ::google::protobuf::int32 banker_id_;
-  ::google::protobuf::int32 banker_is_same_time_;
-  ::google::protobuf::int32 operating_player_id_;
-  ::google::protobuf::int32 operation_id_;
+  ::google::protobuf::uint32 room_id_;
+  ::google::protobuf::uint32 room_owner_id_;
+  ::google::protobuf::uint32 players_num_;
+  ::google::protobuf::uint32 cur_round_;
+  ::google::protobuf::uint32 total_round_;
+  ::google::protobuf::uint32 remain_cards_num_;
+  ::google::protobuf::uint32 banker_id_;
+  ::google::protobuf::uint32 banker_is_same_time_;
+  ::google::protobuf::uint32 operating_player_id_;
+  ::google::protobuf::uint32 operation_id_;
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 > remain_cards_;
   ::google::protobuf::RepeatedPtrField< ::gamer::protocol::PlayerCardsMsgProtocol > player_cards_;
   friend void  protobuf_AddDesc_room_5fmsg_5fprotocol_2eproto();
@@ -239,7 +239,7 @@ class RoomMsgProtocol : public ::google::protobuf::Message {
 
 // RoomMsgProtocol
 
-// required int32 room_id = 1;
+// required uint32 room_id = 1;
 inline bool RoomMsgProtocol::has_room_id() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
@@ -250,20 +250,20 @@ inline void RoomMsgProtocol::clear_has_room_id() {
   _has_bits_[0] &= ~0x00000001u;
 }
 inline void RoomMsgProtocol::clear_room_id() {
-  room_id_ = 0;
+  room_id_ = 0u;
   clear_has_room_id();
 }
-inline ::google::protobuf::int32 RoomMsgProtocol::room_id() const {
+inline ::google::protobuf::uint32 RoomMsgProtocol::room_id() const {
   // @@protoc_insertion_point(field_get:gamer.protocol.RoomMsgProtocol.room_id)
   return room_id_;
 }
-inline void RoomMsgProtocol::set_room_id(::google::protobuf::int32 value) {
+inline void RoomMsgProtocol::set_room_id(::google::protobuf::uint32 value) {
   set_has_room_id();
   room_id_ = value;
   // @@protoc_insertion_point(field_set:gamer.protocol.RoomMsgProtocol.room_id)
 }
 
-// required int32 room_owner_id = 2;
+// required uint32 room_owner_id = 2;
 inline bool RoomMsgProtocol::has_room_owner_id() const {
   return (_has_bits_[0] & 0x00000002u) != 0;
 }
@@ -274,20 +274,20 @@ inline void RoomMsgProtocol::clear_has_room_owner_id() {
   _has_bits_[0] &= ~0x00000002u;
 }
 inline void RoomMsgProtocol::clear_room_owner_id() {
-  room_owner_id_ = 0;
+  room_owner_id_ = 0u;
   clear_has_room_owner_id();
 }
-inline ::google::protobuf::int32 RoomMsgProtocol::room_owner_id() const {
+inline ::google::protobuf::uint32 RoomMsgProtocol::room_owner_id() const {
   // @@protoc_insertion_point(field_get:gamer.protocol.RoomMsgProtocol.room_owner_id)
   return room_owner_id_;
 }
-inline void RoomMsgProtocol::set_room_owner_id(::google::protobuf::int32 value) {
+inline void RoomMsgProtocol::set_room_owner_id(::google::protobuf::uint32 value) {
   set_has_room_owner_id();
   room_owner_id_ = value;
   // @@protoc_insertion_point(field_set:gamer.protocol.RoomMsgProtocol.room_owner_id)
 }
 
-// optional int32 players_num = 3;
+// optional uint32 players_num = 3;
 inline bool RoomMsgProtocol::has_players_num() const {
   return (_has_bits_[0] & 0x00000004u) != 0;
 }
@@ -298,20 +298,20 @@ inline void RoomMsgProtocol::clear_has_players_num() {
   _has_bits_[0] &= ~0x00000004u;
 }
 inline void RoomMsgProtocol::clear_players_num() {
-  players_num_ = 0;
+  players_num_ = 0u;
   clear_has_players_num();
 }
-inline ::google::protobuf::int32 RoomMsgProtocol::players_num() const {
+inline ::google::protobuf::uint32 RoomMsgProtocol::players_num() const {
   // @@protoc_insertion_point(field_get:gamer.protocol.RoomMsgProtocol.players_num)
   return players_num_;
 }
-inline void RoomMsgProtocol::set_players_num(::google::protobuf::int32 value) {
+inline void RoomMsgProtocol::set_players_num(::google::protobuf::uint32 value) {
   set_has_players_num();
   players_num_ = value;
   // @@protoc_insertion_point(field_set:gamer.protocol.RoomMsgProtocol.players_num)
 }
 
-// optional int32 cur_round = 4;
+// optional uint32 cur_round = 4;
 inline bool RoomMsgProtocol::has_cur_round() const {
   return (_has_bits_[0] & 0x00000008u) != 0;
 }
@@ -322,20 +322,20 @@ inline void RoomMsgProtocol::clear_has_cur_round() {
   _has_bits_[0] &= ~0x00000008u;
 }
 inline void RoomMsgProtocol::clear_cur_round() {
-  cur_round_ = 0;
+  cur_round_ = 0u;
   clear_has_cur_round();
 }
-inline ::google::protobuf::int32 RoomMsgProtocol::cur_round() const {
+inline ::google::protobuf::uint32 RoomMsgProtocol::cur_round() const {
   // @@protoc_insertion_point(field_get:gamer.protocol.RoomMsgProtocol.cur_round)
   return cur_round_;
 }
-inline void RoomMsgProtocol::set_cur_round(::google::protobuf::int32 value) {
+inline void RoomMsgProtocol::set_cur_round(::google::protobuf::uint32 value) {
   set_has_cur_round();
   cur_round_ = value;
   // @@protoc_insertion_point(field_set:gamer.protocol.RoomMsgProtocol.cur_round)
 }
 
-// optional int32 total_round = 5;
+// optional uint32 total_round = 5;
 inline bool RoomMsgProtocol::has_total_round() const {
   return (_has_bits_[0] & 0x00000010u) != 0;
 }
@@ -346,20 +346,20 @@ inline void RoomMsgProtocol::clear_has_total_round() {
   _has_bits_[0] &= ~0x00000010u;
 }
 inline void RoomMsgProtocol::clear_total_round() {
-  total_round_ = 0;
+  total_round_ = 0u;
   clear_has_total_round();
 }
-inline ::google::protobuf::int32 RoomMsgProtocol::total_round() const {
+inline ::google::protobuf::uint32 RoomMsgProtocol::total_round() const {
   // @@protoc_insertion_point(field_get:gamer.protocol.RoomMsgProtocol.total_round)
   return total_round_;
 }
-inline void RoomMsgProtocol::set_total_round(::google::protobuf::int32 value) {
+inline void RoomMsgProtocol::set_total_round(::google::protobuf::uint32 value) {
   set_has_total_round();
   total_round_ = value;
   // @@protoc_insertion_point(field_set:gamer.protocol.RoomMsgProtocol.total_round)
 }
 
-// optional int32 remain_cards_num = 6;
+// optional uint32 remain_cards_num = 6;
 inline bool RoomMsgProtocol::has_remain_cards_num() const {
   return (_has_bits_[0] & 0x00000020u) != 0;
 }
@@ -370,20 +370,20 @@ inline void RoomMsgProtocol::clear_has_remain_cards_num() {
   _has_bits_[0] &= ~0x00000020u;
 }
 inline void RoomMsgProtocol::clear_remain_cards_num() {
-  remain_cards_num_ = 0;
+  remain_cards_num_ = 0u;
   clear_has_remain_cards_num();
 }
-inline ::google::protobuf::int32 RoomMsgProtocol::remain_cards_num() const {
+inline ::google::protobuf::uint32 RoomMsgProtocol::remain_cards_num() const {
   // @@protoc_insertion_point(field_get:gamer.protocol.RoomMsgProtocol.remain_cards_num)
   return remain_cards_num_;
 }
-inline void RoomMsgProtocol::set_remain_cards_num(::google::protobuf::int32 value) {
+inline void RoomMsgProtocol::set_remain_cards_num(::google::protobuf::uint32 value) {
   set_has_remain_cards_num();
   remain_cards_num_ = value;
   // @@protoc_insertion_point(field_set:gamer.protocol.RoomMsgProtocol.remain_cards_num)
 }
 
-// optional int32 banker_id = 7;
+// optional uint32 banker_id = 7;
 inline bool RoomMsgProtocol::has_banker_id() const {
   return (_has_bits_[0] & 0x00000040u) != 0;
 }
@@ -394,20 +394,20 @@ inline void RoomMsgProtocol::clear_has_banker_id() {
   _has_bits_[0] &= ~0x00000040u;
 }
 inline void RoomMsgProtocol::clear_banker_id() {
-  banker_id_ = 0;
+  banker_id_ = 0u;
   clear_has_banker_id();
 }
-inline ::google::protobuf::int32 RoomMsgProtocol::banker_id() const {
+inline ::google::protobuf::uint32 RoomMsgProtocol::banker_id() const {
   // @@protoc_insertion_point(field_get:gamer.protocol.RoomMsgProtocol.banker_id)
   return banker_id_;
 }
-inline void RoomMsgProtocol::set_banker_id(::google::protobuf::int32 value) {
+inline void RoomMsgProtocol::set_banker_id(::google::protobuf::uint32 value) {
   set_has_banker_id();
   banker_id_ = value;
   // @@protoc_insertion_point(field_set:gamer.protocol.RoomMsgProtocol.banker_id)
 }
 
-// optional int32 banker_is_same_time = 8;
+// optional uint32 banker_is_same_time = 8;
 inline bool RoomMsgProtocol::has_banker_is_same_time() const {
   return (_has_bits_[0] & 0x00000080u) != 0;
 }
@@ -418,20 +418,20 @@ inline void RoomMsgProtocol::clear_has_banker_is_same_time() {
   _has_bits_[0] &= ~0x00000080u;
 }
 inline void RoomMsgProtocol::clear_banker_is_same_time() {
-  banker_is_same_time_ = 0;
+  banker_is_same_time_ = 0u;
   clear_has_banker_is_same_time();
 }
-inline ::google::protobuf::int32 RoomMsgProtocol::banker_is_same_time() const {
+inline ::google::protobuf::uint32 RoomMsgProtocol::banker_is_same_time() const {
   // @@protoc_insertion_point(field_get:gamer.protocol.RoomMsgProtocol.banker_is_same_time)
   return banker_is_same_time_;
 }
-inline void RoomMsgProtocol::set_banker_is_same_time(::google::protobuf::int32 value) {
+inline void RoomMsgProtocol::set_banker_is_same_time(::google::protobuf::uint32 value) {
   set_has_banker_is_same_time();
   banker_is_same_time_ = value;
   // @@protoc_insertion_point(field_set:gamer.protocol.RoomMsgProtocol.banker_is_same_time)
 }
 
-// optional int32 operating_player_id = 9;
+// optional uint32 operating_player_id = 9;
 inline bool RoomMsgProtocol::has_operating_player_id() const {
   return (_has_bits_[0] & 0x00000100u) != 0;
 }
@@ -442,20 +442,20 @@ inline void RoomMsgProtocol::clear_has_operating_player_id() {
   _has_bits_[0] &= ~0x00000100u;
 }
 inline void RoomMsgProtocol::clear_operating_player_id() {
-  operating_player_id_ = 0;
+  operating_player_id_ = 0u;
   clear_has_operating_player_id();
 }
-inline ::google::protobuf::int32 RoomMsgProtocol::operating_player_id() const {
+inline ::google::protobuf::uint32 RoomMsgProtocol::operating_player_id() const {
   // @@protoc_insertion_point(field_get:gamer.protocol.RoomMsgProtocol.operating_player_id)
   return operating_player_id_;
 }
-inline void RoomMsgProtocol::set_operating_player_id(::google::protobuf::int32 value) {
+inline void RoomMsgProtocol::set_operating_player_id(::google::protobuf::uint32 value) {
   set_has_operating_player_id();
   operating_player_id_ = value;
   // @@protoc_insertion_point(field_set:gamer.protocol.RoomMsgProtocol.operating_player_id)
 }
 
-// optional int32 operation_id = 10;
+// optional uint32 operation_id = 10;
 inline bool RoomMsgProtocol::has_operation_id() const {
   return (_has_bits_[0] & 0x00000200u) != 0;
 }
@@ -466,14 +466,14 @@ inline void RoomMsgProtocol::clear_has_operation_id() {
   _has_bits_[0] &= ~0x00000200u;
 }
 inline void RoomMsgProtocol::clear_operation_id() {
-  operation_id_ = 0;
+  operation_id_ = 0u;
   clear_has_operation_id();
 }
-inline ::google::protobuf::int32 RoomMsgProtocol::operation_id() const {
+inline ::google::protobuf::uint32 RoomMsgProtocol::operation_id() const {
   // @@protoc_insertion_point(field_get:gamer.protocol.RoomMsgProtocol.operation_id)
   return operation_id_;
 }
-inline void RoomMsgProtocol::set_operation_id(::google::protobuf::int32 value) {
+inline void RoomMsgProtocol::set_operation_id(::google::protobuf::uint32 value) {
   set_has_operation_id();
   operation_id_ = value;
   // @@protoc_insertion_point(field_set:gamer.protocol.RoomMsgProtocol.operation_id)

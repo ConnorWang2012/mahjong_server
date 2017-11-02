@@ -84,8 +84,8 @@ enum class CardTypes {
 };
 
 enum PlayCardOperationIDs {
-    OPERATION_UNKNOW                = -1,
-    OPERATION_DISCARD,
+    OPERATION_UNKNOW,
+    OPERATION_DISCARD,              // discard
     OPERATION_NONE,			        // just a new card, no operation(only server to client)
     OPERATION_CHI,			        // chi
     OPERATION_PENG,			        // peng
