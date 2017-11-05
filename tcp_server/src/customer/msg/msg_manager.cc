@@ -221,28 +221,33 @@ void MsgManager::DealWithCreateRoomMsg(const ClientMsg& msg, bufferevent* bev) {
 
 	// check gold cost
 
+    // check whether player online 
+    auto player = PlayerManager::instance()->GetOnlinePlayer(proto.room_owner_id());
+    if (nullptr == player) {
+        // TODO : log
+        this->SendMsgForError((msg_header_t)MsgCodes::MSG_CODE_PLAYER_OFFLINE, msg, bev);
+        return;
+    }
 
 	auto room_mgr = RoomManager<Player>::instance();
 	auto room_id = room_mgr->GenerateRoomID();
-	if (-1 == room_id) {
+	if (room_id <= 0) {
 		this->SendMsgForError((msg_header_t)MsgCodes::MSG_CODE_ROOM_GENERATE_ROOM_ID_ERR,
 			msg, bev);
 		return;
 	}
 
 	proto.set_room_id(room_id);
-	auto ret = this->SendMsg(msg.type, msg.id, (msg_header_t)MsgCodes::MSG_CODE_SUCCESS, 
-		proto, bev);
-	if ( !ret ) { 
-		// TODO : log
-		return;
-	} 
+    this->SendMsg(msg.type, msg.id, (msg_header_t)MsgCodes::MSG_CODE_SUCCESS, proto, bev);
 
-	auto room = Room<Player>::Create(room_id);
-	auto player = Player::Create(proto.room_owner_id());
+    // add player to room
+    auto room = room_mgr->GetRoom(room_id);
+    if (nullptr == room) {
+        room = Room<Player>::Create(room_id);
+        room_mgr->AddRoom(room);
+    }
 	room->AddPlayer(player);
-	room_mgr->AddRoom(room);
-
+	
     room->InitCreateRoomMsgProtocol(proto);
 }
 
@@ -289,15 +294,15 @@ void MsgManager::DealWithPlayerJoinRoomMsg(const ClientMsg& msg, bufferevent* be
 		return;
 	}
 
-	// check whether player online
+	// check whether player on line
 	auto player = PlayerManager::instance()->GetOnlinePlayer(player_id);
 	if (nullptr == player) {
 		// TODO : log
 		this->SendMsgForError((msg_header_t)MsgCodes::MSG_CODE_PLAYER_OFFLINE, msg, bev);
 		return;
-    } else {
-        room->AddPlayer(player);
     }
+
+    room->AddPlayer(player);
 
 	// send join succeed msg to all players in the room
 	auto players = room->players();

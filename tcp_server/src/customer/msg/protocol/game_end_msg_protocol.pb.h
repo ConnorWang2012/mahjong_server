@@ -284,38 +284,45 @@ class GameEndMsgProtocol : public ::google::protobuf::Message {
   inline ::google::protobuf::uint32 room_owner_id() const;
   inline void set_room_owner_id(::google::protobuf::uint32 value);
 
-  // required uint32 players_num = 3;
+  // required uint32 winner_id = 3;
+  inline bool has_winner_id() const;
+  inline void clear_winner_id();
+  static const int kWinnerIdFieldNumber = 3;
+  inline ::google::protobuf::uint32 winner_id() const;
+  inline void set_winner_id(::google::protobuf::uint32 value);
+
+  // required uint32 players_num = 4;
   inline bool has_players_num() const;
   inline void clear_players_num();
-  static const int kPlayersNumFieldNumber = 3;
+  static const int kPlayersNumFieldNumber = 4;
   inline ::google::protobuf::uint32 players_num() const;
   inline void set_players_num(::google::protobuf::uint32 value);
 
-  // required uint32 cur_round = 4;
+  // required uint32 cur_round = 5;
   inline bool has_cur_round() const;
   inline void clear_cur_round();
-  static const int kCurRoundFieldNumber = 4;
+  static const int kCurRoundFieldNumber = 5;
   inline ::google::protobuf::uint32 cur_round() const;
   inline void set_cur_round(::google::protobuf::uint32 value);
 
-  // required uint32 total_round = 5;
+  // required uint32 total_round = 6;
   inline bool has_total_round() const;
   inline void clear_total_round();
-  static const int kTotalRoundFieldNumber = 5;
+  static const int kTotalRoundFieldNumber = 6;
   inline ::google::protobuf::uint32 total_round() const;
   inline void set_total_round(::google::protobuf::uint32 value);
 
-  // required uint32 banker_id = 6;
+  // required uint32 banker_id = 7;
   inline bool has_banker_id() const;
   inline void clear_banker_id();
-  static const int kBankerIdFieldNumber = 6;
+  static const int kBankerIdFieldNumber = 7;
   inline ::google::protobuf::uint32 banker_id() const;
   inline void set_banker_id(::google::protobuf::uint32 value);
 
-  // repeated .gamer.protocol.GameEndDataMsgProtocol game_end_data = 7;
+  // repeated .gamer.protocol.GameEndDataMsgProtocol game_end_data = 8;
   inline int game_end_data_size() const;
   inline void clear_game_end_data();
-  static const int kGameEndDataFieldNumber = 7;
+  static const int kGameEndDataFieldNumber = 8;
   inline const ::gamer::protocol::GameEndDataMsgProtocol& game_end_data(int index) const;
   inline ::gamer::protocol::GameEndDataMsgProtocol* mutable_game_end_data(int index);
   inline ::gamer::protocol::GameEndDataMsgProtocol* add_game_end_data();
@@ -330,6 +337,8 @@ class GameEndMsgProtocol : public ::google::protobuf::Message {
   inline void clear_has_room_id();
   inline void set_has_room_owner_id();
   inline void clear_has_room_owner_id();
+  inline void set_has_winner_id();
+  inline void clear_has_winner_id();
   inline void set_has_players_num();
   inline void clear_has_players_num();
   inline void set_has_cur_round();
@@ -345,11 +354,12 @@ class GameEndMsgProtocol : public ::google::protobuf::Message {
   mutable int _cached_size_;
   ::google::protobuf::uint32 room_id_;
   ::google::protobuf::uint32 room_owner_id_;
+  ::google::protobuf::uint32 winner_id_;
   ::google::protobuf::uint32 players_num_;
   ::google::protobuf::uint32 cur_round_;
   ::google::protobuf::uint32 total_round_;
-  ::google::protobuf::uint32 banker_id_;
   ::google::protobuf::RepeatedPtrField< ::gamer::protocol::GameEndDataMsgProtocol > game_end_data_;
+  ::google::protobuf::uint32 banker_id_;
   friend void  protobuf_AddDesc_game_5fend_5fmsg_5fprotocol_2eproto();
   friend void protobuf_AssignDesc_game_5fend_5fmsg_5fprotocol_2eproto();
   friend void protobuf_ShutdownFile_game_5fend_5fmsg_5fprotocol_2eproto();
@@ -714,15 +724,39 @@ inline void GameEndMsgProtocol::set_room_owner_id(::google::protobuf::uint32 val
   // @@protoc_insertion_point(field_set:gamer.protocol.GameEndMsgProtocol.room_owner_id)
 }
 
-// required uint32 players_num = 3;
-inline bool GameEndMsgProtocol::has_players_num() const {
+// required uint32 winner_id = 3;
+inline bool GameEndMsgProtocol::has_winner_id() const {
   return (_has_bits_[0] & 0x00000004u) != 0;
 }
-inline void GameEndMsgProtocol::set_has_players_num() {
+inline void GameEndMsgProtocol::set_has_winner_id() {
   _has_bits_[0] |= 0x00000004u;
 }
-inline void GameEndMsgProtocol::clear_has_players_num() {
+inline void GameEndMsgProtocol::clear_has_winner_id() {
   _has_bits_[0] &= ~0x00000004u;
+}
+inline void GameEndMsgProtocol::clear_winner_id() {
+  winner_id_ = 0u;
+  clear_has_winner_id();
+}
+inline ::google::protobuf::uint32 GameEndMsgProtocol::winner_id() const {
+  // @@protoc_insertion_point(field_get:gamer.protocol.GameEndMsgProtocol.winner_id)
+  return winner_id_;
+}
+inline void GameEndMsgProtocol::set_winner_id(::google::protobuf::uint32 value) {
+  set_has_winner_id();
+  winner_id_ = value;
+  // @@protoc_insertion_point(field_set:gamer.protocol.GameEndMsgProtocol.winner_id)
+}
+
+// required uint32 players_num = 4;
+inline bool GameEndMsgProtocol::has_players_num() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+inline void GameEndMsgProtocol::set_has_players_num() {
+  _has_bits_[0] |= 0x00000008u;
+}
+inline void GameEndMsgProtocol::clear_has_players_num() {
+  _has_bits_[0] &= ~0x00000008u;
 }
 inline void GameEndMsgProtocol::clear_players_num() {
   players_num_ = 0u;
@@ -738,15 +772,15 @@ inline void GameEndMsgProtocol::set_players_num(::google::protobuf::uint32 value
   // @@protoc_insertion_point(field_set:gamer.protocol.GameEndMsgProtocol.players_num)
 }
 
-// required uint32 cur_round = 4;
+// required uint32 cur_round = 5;
 inline bool GameEndMsgProtocol::has_cur_round() const {
-  return (_has_bits_[0] & 0x00000008u) != 0;
+  return (_has_bits_[0] & 0x00000010u) != 0;
 }
 inline void GameEndMsgProtocol::set_has_cur_round() {
-  _has_bits_[0] |= 0x00000008u;
+  _has_bits_[0] |= 0x00000010u;
 }
 inline void GameEndMsgProtocol::clear_has_cur_round() {
-  _has_bits_[0] &= ~0x00000008u;
+  _has_bits_[0] &= ~0x00000010u;
 }
 inline void GameEndMsgProtocol::clear_cur_round() {
   cur_round_ = 0u;
@@ -762,15 +796,15 @@ inline void GameEndMsgProtocol::set_cur_round(::google::protobuf::uint32 value) 
   // @@protoc_insertion_point(field_set:gamer.protocol.GameEndMsgProtocol.cur_round)
 }
 
-// required uint32 total_round = 5;
+// required uint32 total_round = 6;
 inline bool GameEndMsgProtocol::has_total_round() const {
-  return (_has_bits_[0] & 0x00000010u) != 0;
+  return (_has_bits_[0] & 0x00000020u) != 0;
 }
 inline void GameEndMsgProtocol::set_has_total_round() {
-  _has_bits_[0] |= 0x00000010u;
+  _has_bits_[0] |= 0x00000020u;
 }
 inline void GameEndMsgProtocol::clear_has_total_round() {
-  _has_bits_[0] &= ~0x00000010u;
+  _has_bits_[0] &= ~0x00000020u;
 }
 inline void GameEndMsgProtocol::clear_total_round() {
   total_round_ = 0u;
@@ -786,15 +820,15 @@ inline void GameEndMsgProtocol::set_total_round(::google::protobuf::uint32 value
   // @@protoc_insertion_point(field_set:gamer.protocol.GameEndMsgProtocol.total_round)
 }
 
-// required uint32 banker_id = 6;
+// required uint32 banker_id = 7;
 inline bool GameEndMsgProtocol::has_banker_id() const {
-  return (_has_bits_[0] & 0x00000020u) != 0;
+  return (_has_bits_[0] & 0x00000040u) != 0;
 }
 inline void GameEndMsgProtocol::set_has_banker_id() {
-  _has_bits_[0] |= 0x00000020u;
+  _has_bits_[0] |= 0x00000040u;
 }
 inline void GameEndMsgProtocol::clear_has_banker_id() {
-  _has_bits_[0] &= ~0x00000020u;
+  _has_bits_[0] &= ~0x00000040u;
 }
 inline void GameEndMsgProtocol::clear_banker_id() {
   banker_id_ = 0u;
@@ -810,7 +844,7 @@ inline void GameEndMsgProtocol::set_banker_id(::google::protobuf::uint32 value) 
   // @@protoc_insertion_point(field_set:gamer.protocol.GameEndMsgProtocol.banker_id)
 }
 
-// repeated .gamer.protocol.GameEndDataMsgProtocol game_end_data = 7;
+// repeated .gamer.protocol.GameEndDataMsgProtocol game_end_data = 8;
 inline int GameEndMsgProtocol::game_end_data_size() const {
   return game_end_data_.size();
 }

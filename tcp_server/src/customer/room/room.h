@@ -28,7 +28,6 @@ modification:
 #include "msg/protocol/game_end_msg_protocol.pb.h"
 #include "room/room_protocol.h"
 
-
 namespace gamer {
 
 template<typename Player>
@@ -1132,6 +1131,7 @@ void Room<Player>::DealWithGameEnd(Player* player_win) {
     GameEndMsgProtocol proto;
     proto.set_room_id(room_id_);
     proto.set_room_owner_id(room_msg_proto_.room_owner_id());
+    proto.set_winner_id(player_win->player_id());
     proto.set_players_num(room_msg_proto_.players_num());
     proto.set_cur_round(room_msg_proto_.cur_round());
     proto.set_total_round(room_msg_proto_.total_round());
@@ -1156,7 +1156,7 @@ void Room<Player>::DealWithGameEnd(Player* player_win) {
             auto gold_old = login_proto.player().score_gold();
             int gold = create_room_msg_proto_.score_gold();
 
-            if (player->player_id() == player_win->player_id()) {
+            if (player->player_id() == player_win->player_id()) {                
                 login_proto.mutable_player()->set_score_gold(gold_old + gold);
                 game_end_data->set_diff_score_gold(gold);
             } else {

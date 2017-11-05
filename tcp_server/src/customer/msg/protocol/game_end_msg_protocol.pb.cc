@@ -62,9 +62,10 @@ void protobuf_AssignDesc_game_5fend_5fmsg_5fprotocol_2eproto() {
       ::google::protobuf::MessageFactory::generated_factory(),
       sizeof(GameEndDataMsgProtocol));
   GameEndMsgProtocol_descriptor_ = file->message_type(1);
-  static const int GameEndMsgProtocol_offsets_[7] = {
+  static const int GameEndMsgProtocol_offsets_[8] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(GameEndMsgProtocol, room_id_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(GameEndMsgProtocol, room_owner_id_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(GameEndMsgProtocol, winner_id_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(GameEndMsgProtocol, players_num_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(GameEndMsgProtocol, cur_round_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(GameEndMsgProtocol, total_round_),
@@ -126,12 +127,13 @@ void protobuf_AddDesc_game_5fend_5fmsg_5fprotocol_2eproto() {
     "amond\030\006 \001(\r\022\024\n\014rate_winning\030\007 \001(\002\022\025\n\rnum"
     "_ming_gang\030\010 \001(\r\022\023\n\013num_an_gang\030\t \001(\r\022<\n"
     "\014player_cards\030\n \003(\0132&.gamer.protocol.Pla"
-    "yerCardsMsgProtocol\"\313\001\n\022GameEndMsgProtoc"
+    "yerCardsMsgProtocol\"\336\001\n\022GameEndMsgProtoc"
     "ol\022\017\n\007room_id\030\001 \002(\r\022\025\n\rroom_owner_id\030\002 \002"
-    "(\r\022\023\n\013players_num\030\003 \002(\r\022\021\n\tcur_round\030\004 \002"
-    "(\r\022\023\n\013total_round\030\005 \002(\r\022\021\n\tbanker_id\030\006 \002"
-    "(\r\022=\n\rgame_end_data\030\007 \003(\0132&.gamer.protoc"
-    "ol.GameEndDataMsgProtocol", 585);
+    "(\r\022\021\n\twinner_id\030\003 \002(\r\022\023\n\013players_num\030\004 \002"
+    "(\r\022\021\n\tcur_round\030\005 \002(\r\022\023\n\013total_round\030\006 \002"
+    "(\r\022\021\n\tbanker_id\030\007 \002(\r\022=\n\rgame_end_data\030\010"
+    " \003(\0132&.gamer.protocol.GameEndDataMsgProt"
+    "ocol", 604);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "game_end_msg_protocol.proto", &protobuf_RegisterTypes);
   GameEndDataMsgProtocol::default_instance_ = new GameEndDataMsgProtocol();
@@ -761,6 +763,7 @@ void GameEndDataMsgProtocol::Swap(GameEndDataMsgProtocol* other) {
 #ifndef _MSC_VER
 const int GameEndMsgProtocol::kRoomIdFieldNumber;
 const int GameEndMsgProtocol::kRoomOwnerIdFieldNumber;
+const int GameEndMsgProtocol::kWinnerIdFieldNumber;
 const int GameEndMsgProtocol::kPlayersNumFieldNumber;
 const int GameEndMsgProtocol::kCurRoundFieldNumber;
 const int GameEndMsgProtocol::kTotalRoundFieldNumber;
@@ -788,6 +791,7 @@ void GameEndMsgProtocol::SharedCtor() {
   _cached_size_ = 0;
   room_id_ = 0u;
   room_owner_id_ = 0u;
+  winner_id_ = 0u;
   players_num_ = 0u;
   cur_round_ = 0u;
   total_round_ = 0u;
@@ -837,8 +841,9 @@ void GameEndMsgProtocol::Clear() {
     ::memset(&first, 0, n);                                \
   } while (0)
 
-  if (_has_bits_[0 / 32] & 63) {
-    ZR_(room_id_, banker_id_);
+  if (_has_bits_[0 / 32] & 127) {
+    ZR_(room_id_, total_round_);
+    banker_id_ = 0u;
   }
 
 #undef OFFSET_OF_FIELD_
@@ -884,13 +889,28 @@ bool GameEndMsgProtocol::MergePartialFromCodedStream(
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(24)) goto parse_players_num;
+        if (input->ExpectTag(24)) goto parse_winner_id;
         break;
       }
 
-      // required uint32 players_num = 3;
+      // required uint32 winner_id = 3;
       case 3: {
         if (tag == 24) {
+         parse_winner_id:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &winner_id_)));
+          set_has_winner_id();
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(32)) goto parse_players_num;
+        break;
+      }
+
+      // required uint32 players_num = 4;
+      case 4: {
+        if (tag == 32) {
          parse_players_num:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
@@ -899,13 +919,13 @@ bool GameEndMsgProtocol::MergePartialFromCodedStream(
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(32)) goto parse_cur_round;
+        if (input->ExpectTag(40)) goto parse_cur_round;
         break;
       }
 
-      // required uint32 cur_round = 4;
-      case 4: {
-        if (tag == 32) {
+      // required uint32 cur_round = 5;
+      case 5: {
+        if (tag == 40) {
          parse_cur_round:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
@@ -914,13 +934,13 @@ bool GameEndMsgProtocol::MergePartialFromCodedStream(
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(40)) goto parse_total_round;
+        if (input->ExpectTag(48)) goto parse_total_round;
         break;
       }
 
-      // required uint32 total_round = 5;
-      case 5: {
-        if (tag == 40) {
+      // required uint32 total_round = 6;
+      case 6: {
+        if (tag == 48) {
          parse_total_round:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
@@ -929,13 +949,13 @@ bool GameEndMsgProtocol::MergePartialFromCodedStream(
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(48)) goto parse_banker_id;
+        if (input->ExpectTag(56)) goto parse_banker_id;
         break;
       }
 
-      // required uint32 banker_id = 6;
-      case 6: {
-        if (tag == 48) {
+      // required uint32 banker_id = 7;
+      case 7: {
+        if (tag == 56) {
          parse_banker_id:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
@@ -944,20 +964,20 @@ bool GameEndMsgProtocol::MergePartialFromCodedStream(
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(58)) goto parse_game_end_data;
+        if (input->ExpectTag(66)) goto parse_game_end_data;
         break;
       }
 
-      // repeated .gamer.protocol.GameEndDataMsgProtocol game_end_data = 7;
-      case 7: {
-        if (tag == 58) {
+      // repeated .gamer.protocol.GameEndDataMsgProtocol game_end_data = 8;
+      case 8: {
+        if (tag == 66) {
          parse_game_end_data:
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
                 input, add_game_end_data()));
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(58)) goto parse_game_end_data;
+        if (input->ExpectTag(66)) goto parse_game_end_data;
         if (input->ExpectAtEnd()) goto success;
         break;
       }
@@ -997,30 +1017,35 @@ void GameEndMsgProtocol::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(2, this->room_owner_id(), output);
   }
 
-  // required uint32 players_num = 3;
+  // required uint32 winner_id = 3;
+  if (has_winner_id()) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(3, this->winner_id(), output);
+  }
+
+  // required uint32 players_num = 4;
   if (has_players_num()) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(3, this->players_num(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(4, this->players_num(), output);
   }
 
-  // required uint32 cur_round = 4;
+  // required uint32 cur_round = 5;
   if (has_cur_round()) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(4, this->cur_round(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(5, this->cur_round(), output);
   }
 
-  // required uint32 total_round = 5;
+  // required uint32 total_round = 6;
   if (has_total_round()) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(5, this->total_round(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(6, this->total_round(), output);
   }
 
-  // required uint32 banker_id = 6;
+  // required uint32 banker_id = 7;
   if (has_banker_id()) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(6, this->banker_id(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(7, this->banker_id(), output);
   }
 
-  // repeated .gamer.protocol.GameEndDataMsgProtocol game_end_data = 7;
+  // repeated .gamer.protocol.GameEndDataMsgProtocol game_end_data = 8;
   for (int i = 0; i < this->game_end_data_size(); i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      7, this->game_end_data(i), output);
+      8, this->game_end_data(i), output);
   }
 
   if (!unknown_fields().empty()) {
@@ -1043,31 +1068,36 @@ void GameEndMsgProtocol::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(2, this->room_owner_id(), target);
   }
 
-  // required uint32 players_num = 3;
+  // required uint32 winner_id = 3;
+  if (has_winner_id()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(3, this->winner_id(), target);
+  }
+
+  // required uint32 players_num = 4;
   if (has_players_num()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(3, this->players_num(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(4, this->players_num(), target);
   }
 
-  // required uint32 cur_round = 4;
+  // required uint32 cur_round = 5;
   if (has_cur_round()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(4, this->cur_round(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(5, this->cur_round(), target);
   }
 
-  // required uint32 total_round = 5;
+  // required uint32 total_round = 6;
   if (has_total_round()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(5, this->total_round(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(6, this->total_round(), target);
   }
 
-  // required uint32 banker_id = 6;
+  // required uint32 banker_id = 7;
   if (has_banker_id()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(6, this->banker_id(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(7, this->banker_id(), target);
   }
 
-  // repeated .gamer.protocol.GameEndDataMsgProtocol game_end_data = 7;
+  // repeated .gamer.protocol.GameEndDataMsgProtocol game_end_data = 8;
   for (int i = 0; i < this->game_end_data_size(); i++) {
     target = ::google::protobuf::internal::WireFormatLite::
       WriteMessageNoVirtualToArray(
-        7, this->game_end_data(i), target);
+        8, this->game_end_data(i), target);
   }
 
   if (!unknown_fields().empty()) {
@@ -1096,28 +1126,35 @@ int GameEndMsgProtocol::ByteSize() const {
           this->room_owner_id());
     }
 
-    // required uint32 players_num = 3;
+    // required uint32 winner_id = 3;
+    if (has_winner_id()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->winner_id());
+    }
+
+    // required uint32 players_num = 4;
     if (has_players_num()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::UInt32Size(
           this->players_num());
     }
 
-    // required uint32 cur_round = 4;
+    // required uint32 cur_round = 5;
     if (has_cur_round()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::UInt32Size(
           this->cur_round());
     }
 
-    // required uint32 total_round = 5;
+    // required uint32 total_round = 6;
     if (has_total_round()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::UInt32Size(
           this->total_round());
     }
 
-    // required uint32 banker_id = 6;
+    // required uint32 banker_id = 7;
     if (has_banker_id()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::UInt32Size(
@@ -1125,7 +1162,7 @@ int GameEndMsgProtocol::ByteSize() const {
     }
 
   }
-  // repeated .gamer.protocol.GameEndDataMsgProtocol game_end_data = 7;
+  // repeated .gamer.protocol.GameEndDataMsgProtocol game_end_data = 8;
   total_size += 1 * this->game_end_data_size();
   for (int i = 0; i < this->game_end_data_size(); i++) {
     total_size +=
@@ -1166,6 +1203,9 @@ void GameEndMsgProtocol::MergeFrom(const GameEndMsgProtocol& from) {
     if (from.has_room_owner_id()) {
       set_room_owner_id(from.room_owner_id());
     }
+    if (from.has_winner_id()) {
+      set_winner_id(from.winner_id());
+    }
     if (from.has_players_num()) {
       set_players_num(from.players_num());
     }
@@ -1195,7 +1235,7 @@ void GameEndMsgProtocol::CopyFrom(const GameEndMsgProtocol& from) {
 }
 
 bool GameEndMsgProtocol::IsInitialized() const {
-  if ((_has_bits_[0] & 0x0000003f) != 0x0000003f) return false;
+  if ((_has_bits_[0] & 0x0000007f) != 0x0000007f) return false;
 
   if (!::google::protobuf::internal::AllAreInitialized(this->game_end_data())) return false;
   return true;
@@ -1205,6 +1245,7 @@ void GameEndMsgProtocol::Swap(GameEndMsgProtocol* other) {
   if (other != this) {
     std::swap(room_id_, other->room_id_);
     std::swap(room_owner_id_, other->room_owner_id_);
+    std::swap(winner_id_, other->winner_id_);
     std::swap(players_num_, other->players_num_);
     std::swap(cur_round_, other->cur_round_);
     std::swap(total_round_, other->total_round_);
