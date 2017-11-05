@@ -27,7 +27,7 @@ enum CardConstants {
     INVALID_PLAYER_ID   = 0,
 
     // card index
-    INVALID_CARD_VALUE  = -1,
+    INVALID_CARD_VALUE  = 42,
     BAMBOO_1            = 0,  // bamboo
     BAMBOO_2            = 1,  
     BAMBOO_3            = 2,

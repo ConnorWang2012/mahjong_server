@@ -49,7 +49,9 @@ void DataManager::GetCachedPlayerPersonalData(const std::string& player_account,
 	auto key   = "account:" + player_account;
 	auto field = "account";
 	redis_client_->hget(key, field, [&](cpp_redis::reply& rep) {
-		*serialized_data = rep.as_string();
+        if (rep.is_string()) {
+            *serialized_data = rep.as_string();
+        }
 	});
 
 	redis_client_->sync_commit();

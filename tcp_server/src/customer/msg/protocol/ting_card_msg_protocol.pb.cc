@@ -81,8 +81,8 @@ void protobuf_AddDesc_ting_5fcard_5fmsg_5fprotocol_2eproto() {
 
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
     "\n\034ting_card_msg_protocol.proto\022\016gamer.pr"
-    "otocol\"A\n\023TingCardMsgProtocol\022\025\n\rcards_o"
-    "f_ting\030\001 \003(\005\022\023\n\007discard\030\002 \001(\005:\002-1", 113);
+    "otocol\"=\n\023TingCardMsgProtocol\022\025\n\rcards_o"
+    "f_ting\030\001 \003(\r\022\017\n\007discard\030\002 \001(\r", 109);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "ting_card_msg_protocol.proto", &protobuf_RegisterTypes);
   TingCardMsgProtocol::default_instance_ = new TingCardMsgProtocol();
@@ -122,7 +122,7 @@ TingCardMsgProtocol::TingCardMsgProtocol(const TingCardMsgProtocol& from)
 
 void TingCardMsgProtocol::SharedCtor() {
   _cached_size_ = 0;
-  discard_ = -1;
+  discard_ = 0u;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -158,7 +158,7 @@ TingCardMsgProtocol* TingCardMsgProtocol::New() const {
 }
 
 void TingCardMsgProtocol::Clear() {
-  discard_ = -1;
+  discard_ = 0u;
   cards_of_ting_.Clear();
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
   mutable_unknown_fields()->Clear();
@@ -174,16 +174,16 @@ bool TingCardMsgProtocol::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // repeated int32 cards_of_ting = 1;
+      // repeated uint32 cards_of_ting = 1;
       case 1: {
         if (tag == 8) {
          parse_cards_of_ting:
           DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  1, 8, input, this->mutable_cards_of_ting())));
         } else if (tag == 10) {
           DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitiveNoInline<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  input, this->mutable_cards_of_ting())));
         } else {
           goto handle_unusual;
@@ -193,12 +193,12 @@ bool TingCardMsgProtocol::MergePartialFromCodedStream(
         break;
       }
 
-      // optional int32 discard = 2 [default = -1];
+      // optional uint32 discard = 2;
       case 2: {
         if (tag == 16) {
          parse_discard:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  input, &discard_)));
           set_has_discard();
         } else {
@@ -233,15 +233,15 @@ failure:
 void TingCardMsgProtocol::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
   // @@protoc_insertion_point(serialize_start:gamer.protocol.TingCardMsgProtocol)
-  // repeated int32 cards_of_ting = 1;
+  // repeated uint32 cards_of_ting = 1;
   for (int i = 0; i < this->cards_of_ting_size(); i++) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(
       1, this->cards_of_ting(i), output);
   }
 
-  // optional int32 discard = 2 [default = -1];
+  // optional uint32 discard = 2;
   if (has_discard()) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(2, this->discard(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(2, this->discard(), output);
   }
 
   if (!unknown_fields().empty()) {
@@ -254,15 +254,15 @@ void TingCardMsgProtocol::SerializeWithCachedSizes(
 ::google::protobuf::uint8* TingCardMsgProtocol::SerializeWithCachedSizesToArray(
     ::google::protobuf::uint8* target) const {
   // @@protoc_insertion_point(serialize_to_array_start:gamer.protocol.TingCardMsgProtocol)
-  // repeated int32 cards_of_ting = 1;
+  // repeated uint32 cards_of_ting = 1;
   for (int i = 0; i < this->cards_of_ting_size(); i++) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteInt32ToArray(1, this->cards_of_ting(i), target);
+      WriteUInt32ToArray(1, this->cards_of_ting(i), target);
   }
 
-  // optional int32 discard = 2 [default = -1];
+  // optional uint32 discard = 2;
   if (has_discard()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(2, this->discard(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(2, this->discard(), target);
   }
 
   if (!unknown_fields().empty()) {
@@ -277,20 +277,20 @@ int TingCardMsgProtocol::ByteSize() const {
   int total_size = 0;
 
   if (_has_bits_[1 / 32] & (0xffu << (1 % 32))) {
-    // optional int32 discard = 2 [default = -1];
+    // optional uint32 discard = 2;
     if (has_discard()) {
       total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::Int32Size(
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
           this->discard());
     }
 
   }
-  // repeated int32 cards_of_ting = 1;
+  // repeated uint32 cards_of_ting = 1;
   {
     int data_size = 0;
     for (int i = 0; i < this->cards_of_ting_size(); i++) {
       data_size += ::google::protobuf::internal::WireFormatLite::
-        Int32Size(this->cards_of_ting(i));
+        UInt32Size(this->cards_of_ting(i));
     }
     total_size += 1 * this->cards_of_ting_size() + data_size;
   }

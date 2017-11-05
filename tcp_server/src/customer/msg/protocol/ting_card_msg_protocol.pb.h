@@ -91,24 +91,24 @@ class TingCardMsgProtocol : public ::google::protobuf::Message {
 
   // accessors -------------------------------------------------------
 
-  // repeated int32 cards_of_ting = 1;
+  // repeated uint32 cards_of_ting = 1;
   inline int cards_of_ting_size() const;
   inline void clear_cards_of_ting();
   static const int kCardsOfTingFieldNumber = 1;
-  inline ::google::protobuf::int32 cards_of_ting(int index) const;
-  inline void set_cards_of_ting(int index, ::google::protobuf::int32 value);
-  inline void add_cards_of_ting(::google::protobuf::int32 value);
-  inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+  inline ::google::protobuf::uint32 cards_of_ting(int index) const;
+  inline void set_cards_of_ting(int index, ::google::protobuf::uint32 value);
+  inline void add_cards_of_ting(::google::protobuf::uint32 value);
+  inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
       cards_of_ting() const;
-  inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+  inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
       mutable_cards_of_ting();
 
-  // optional int32 discard = 2 [default = -1];
+  // optional uint32 discard = 2;
   inline bool has_discard() const;
   inline void clear_discard();
   static const int kDiscardFieldNumber = 2;
-  inline ::google::protobuf::int32 discard() const;
-  inline void set_discard(::google::protobuf::int32 value);
+  inline ::google::protobuf::uint32 discard() const;
+  inline void set_discard(::google::protobuf::uint32 value);
 
   // @@protoc_insertion_point(class_scope:gamer.protocol.TingCardMsgProtocol)
  private:
@@ -119,8 +119,8 @@ class TingCardMsgProtocol : public ::google::protobuf::Message {
 
   ::google::protobuf::uint32 _has_bits_[1];
   mutable int _cached_size_;
-  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > cards_of_ting_;
-  ::google::protobuf::int32 discard_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::uint32 > cards_of_ting_;
+  ::google::protobuf::uint32 discard_;
   friend void  protobuf_AddDesc_ting_5fcard_5fmsg_5fprotocol_2eproto();
   friend void protobuf_AssignDesc_ting_5fcard_5fmsg_5fprotocol_2eproto();
   friend void protobuf_ShutdownFile_ting_5fcard_5fmsg_5fprotocol_2eproto();
@@ -135,37 +135,37 @@ class TingCardMsgProtocol : public ::google::protobuf::Message {
 
 // TingCardMsgProtocol
 
-// repeated int32 cards_of_ting = 1;
+// repeated uint32 cards_of_ting = 1;
 inline int TingCardMsgProtocol::cards_of_ting_size() const {
   return cards_of_ting_.size();
 }
 inline void TingCardMsgProtocol::clear_cards_of_ting() {
   cards_of_ting_.Clear();
 }
-inline ::google::protobuf::int32 TingCardMsgProtocol::cards_of_ting(int index) const {
+inline ::google::protobuf::uint32 TingCardMsgProtocol::cards_of_ting(int index) const {
   // @@protoc_insertion_point(field_get:gamer.protocol.TingCardMsgProtocol.cards_of_ting)
   return cards_of_ting_.Get(index);
 }
-inline void TingCardMsgProtocol::set_cards_of_ting(int index, ::google::protobuf::int32 value) {
+inline void TingCardMsgProtocol::set_cards_of_ting(int index, ::google::protobuf::uint32 value) {
   cards_of_ting_.Set(index, value);
   // @@protoc_insertion_point(field_set:gamer.protocol.TingCardMsgProtocol.cards_of_ting)
 }
-inline void TingCardMsgProtocol::add_cards_of_ting(::google::protobuf::int32 value) {
+inline void TingCardMsgProtocol::add_cards_of_ting(::google::protobuf::uint32 value) {
   cards_of_ting_.Add(value);
   // @@protoc_insertion_point(field_add:gamer.protocol.TingCardMsgProtocol.cards_of_ting)
 }
-inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
 TingCardMsgProtocol::cards_of_ting() const {
   // @@protoc_insertion_point(field_list:gamer.protocol.TingCardMsgProtocol.cards_of_ting)
   return cards_of_ting_;
 }
-inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
 TingCardMsgProtocol::mutable_cards_of_ting() {
   // @@protoc_insertion_point(field_mutable_list:gamer.protocol.TingCardMsgProtocol.cards_of_ting)
   return &cards_of_ting_;
 }
 
-// optional int32 discard = 2 [default = -1];
+// optional uint32 discard = 2;
 inline bool TingCardMsgProtocol::has_discard() const {
   return (_has_bits_[0] & 0x00000002u) != 0;
 }
@@ -176,14 +176,14 @@ inline void TingCardMsgProtocol::clear_has_discard() {
   _has_bits_[0] &= ~0x00000002u;
 }
 inline void TingCardMsgProtocol::clear_discard() {
-  discard_ = -1;
+  discard_ = 0u;
   clear_has_discard();
 }
-inline ::google::protobuf::int32 TingCardMsgProtocol::discard() const {
+inline ::google::protobuf::uint32 TingCardMsgProtocol::discard() const {
   // @@protoc_insertion_point(field_get:gamer.protocol.TingCardMsgProtocol.discard)
   return discard_;
 }
-inline void TingCardMsgProtocol::set_discard(::google::protobuf::int32 value) {
+inline void TingCardMsgProtocol::set_discard(::google::protobuf::uint32 value) {
   set_has_discard();
   discard_ = value;
   // @@protoc_insertion_point(field_set:gamer.protocol.TingCardMsgProtocol.discard)

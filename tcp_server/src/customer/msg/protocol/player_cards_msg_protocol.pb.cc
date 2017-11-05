@@ -93,11 +93,11 @@ void protobuf_AddDesc_player_5fcards_5fmsg_5fprotocol_2eproto() {
     ".protocol\"\227\002\n\026PlayerCardsMsgProtocol\022\021\n\t"
     "player_id\030\001 \002(\r\022#\n\030invisible_hand_cards_"
     "num\030\002 \001(\r:\0010\022\034\n\024invisible_hand_cards\030\003 \003"
-    "(\005\022\024\n\014flower_cards\030\004 \003(\005\022\024\n\014season_cards"
-    "\030\005 \003(\005\022\022\n\npeng_cards\030\006 \003(\005\022\021\n\tchi_cards\030"
-    "\007 \003(\005\022\027\n\017ming_gang_cards\030\010 \003(\005\022\025\n\ran_gan"
-    "g_cards\030\t \003(\005\022\020\n\010discards\030\n \003(\005\022\022\n\nting_"
-    "cards\030\013 \003(\005", 331);
+    "(\r\022\024\n\014flower_cards\030\004 \003(\r\022\024\n\014season_cards"
+    "\030\005 \003(\r\022\022\n\npeng_cards\030\006 \003(\r\022\021\n\tchi_cards\030"
+    "\007 \003(\r\022\027\n\017ming_gang_cards\030\010 \003(\r\022\025\n\ran_gan"
+    "g_cards\030\t \003(\r\022\020\n\010discards\030\n \003(\r\022\022\n\nting_"
+    "cards\030\013 \003(\r", 331);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "player_cards_msg_protocol.proto", &protobuf_RegisterTypes);
   PlayerCardsMsgProtocol::default_instance_ = new PlayerCardsMsgProtocol();
@@ -250,16 +250,16 @@ bool PlayerCardsMsgProtocol::MergePartialFromCodedStream(
         break;
       }
 
-      // repeated int32 invisible_hand_cards = 3;
+      // repeated uint32 invisible_hand_cards = 3;
       case 3: {
         if (tag == 24) {
          parse_invisible_hand_cards:
           DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  1, 24, input, this->mutable_invisible_hand_cards())));
         } else if (tag == 26) {
           DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitiveNoInline<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  input, this->mutable_invisible_hand_cards())));
         } else {
           goto handle_unusual;
@@ -269,16 +269,16 @@ bool PlayerCardsMsgProtocol::MergePartialFromCodedStream(
         break;
       }
 
-      // repeated int32 flower_cards = 4;
+      // repeated uint32 flower_cards = 4;
       case 4: {
         if (tag == 32) {
          parse_flower_cards:
           DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  1, 32, input, this->mutable_flower_cards())));
         } else if (tag == 34) {
           DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitiveNoInline<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  input, this->mutable_flower_cards())));
         } else {
           goto handle_unusual;
@@ -288,16 +288,16 @@ bool PlayerCardsMsgProtocol::MergePartialFromCodedStream(
         break;
       }
 
-      // repeated int32 season_cards = 5;
+      // repeated uint32 season_cards = 5;
       case 5: {
         if (tag == 40) {
          parse_season_cards:
           DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  1, 40, input, this->mutable_season_cards())));
         } else if (tag == 42) {
           DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitiveNoInline<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  input, this->mutable_season_cards())));
         } else {
           goto handle_unusual;
@@ -307,16 +307,16 @@ bool PlayerCardsMsgProtocol::MergePartialFromCodedStream(
         break;
       }
 
-      // repeated int32 peng_cards = 6;
+      // repeated uint32 peng_cards = 6;
       case 6: {
         if (tag == 48) {
          parse_peng_cards:
           DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  1, 48, input, this->mutable_peng_cards())));
         } else if (tag == 50) {
           DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitiveNoInline<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  input, this->mutable_peng_cards())));
         } else {
           goto handle_unusual;
@@ -326,16 +326,16 @@ bool PlayerCardsMsgProtocol::MergePartialFromCodedStream(
         break;
       }
 
-      // repeated int32 chi_cards = 7;
+      // repeated uint32 chi_cards = 7;
       case 7: {
         if (tag == 56) {
          parse_chi_cards:
           DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  1, 56, input, this->mutable_chi_cards())));
         } else if (tag == 58) {
           DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitiveNoInline<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  input, this->mutable_chi_cards())));
         } else {
           goto handle_unusual;
@@ -345,16 +345,16 @@ bool PlayerCardsMsgProtocol::MergePartialFromCodedStream(
         break;
       }
 
-      // repeated int32 ming_gang_cards = 8;
+      // repeated uint32 ming_gang_cards = 8;
       case 8: {
         if (tag == 64) {
          parse_ming_gang_cards:
           DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  1, 64, input, this->mutable_ming_gang_cards())));
         } else if (tag == 66) {
           DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitiveNoInline<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  input, this->mutable_ming_gang_cards())));
         } else {
           goto handle_unusual;
@@ -364,16 +364,16 @@ bool PlayerCardsMsgProtocol::MergePartialFromCodedStream(
         break;
       }
 
-      // repeated int32 an_gang_cards = 9;
+      // repeated uint32 an_gang_cards = 9;
       case 9: {
         if (tag == 72) {
          parse_an_gang_cards:
           DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  1, 72, input, this->mutable_an_gang_cards())));
         } else if (tag == 74) {
           DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitiveNoInline<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  input, this->mutable_an_gang_cards())));
         } else {
           goto handle_unusual;
@@ -383,16 +383,16 @@ bool PlayerCardsMsgProtocol::MergePartialFromCodedStream(
         break;
       }
 
-      // repeated int32 discards = 10;
+      // repeated uint32 discards = 10;
       case 10: {
         if (tag == 80) {
          parse_discards:
           DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  1, 80, input, this->mutable_discards())));
         } else if (tag == 82) {
           DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitiveNoInline<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  input, this->mutable_discards())));
         } else {
           goto handle_unusual;
@@ -402,16 +402,16 @@ bool PlayerCardsMsgProtocol::MergePartialFromCodedStream(
         break;
       }
 
-      // repeated int32 ting_cards = 11;
+      // repeated uint32 ting_cards = 11;
       case 11: {
         if (tag == 88) {
          parse_ting_cards:
           DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  1, 88, input, this->mutable_ting_cards())));
         } else if (tag == 90) {
           DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitiveNoInline<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  input, this->mutable_ting_cards())));
         } else {
           goto handle_unusual;
@@ -456,57 +456,57 @@ void PlayerCardsMsgProtocol::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(2, this->invisible_hand_cards_num(), output);
   }
 
-  // repeated int32 invisible_hand_cards = 3;
+  // repeated uint32 invisible_hand_cards = 3;
   for (int i = 0; i < this->invisible_hand_cards_size(); i++) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(
       3, this->invisible_hand_cards(i), output);
   }
 
-  // repeated int32 flower_cards = 4;
+  // repeated uint32 flower_cards = 4;
   for (int i = 0; i < this->flower_cards_size(); i++) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(
       4, this->flower_cards(i), output);
   }
 
-  // repeated int32 season_cards = 5;
+  // repeated uint32 season_cards = 5;
   for (int i = 0; i < this->season_cards_size(); i++) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(
       5, this->season_cards(i), output);
   }
 
-  // repeated int32 peng_cards = 6;
+  // repeated uint32 peng_cards = 6;
   for (int i = 0; i < this->peng_cards_size(); i++) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(
       6, this->peng_cards(i), output);
   }
 
-  // repeated int32 chi_cards = 7;
+  // repeated uint32 chi_cards = 7;
   for (int i = 0; i < this->chi_cards_size(); i++) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(
       7, this->chi_cards(i), output);
   }
 
-  // repeated int32 ming_gang_cards = 8;
+  // repeated uint32 ming_gang_cards = 8;
   for (int i = 0; i < this->ming_gang_cards_size(); i++) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(
       8, this->ming_gang_cards(i), output);
   }
 
-  // repeated int32 an_gang_cards = 9;
+  // repeated uint32 an_gang_cards = 9;
   for (int i = 0; i < this->an_gang_cards_size(); i++) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(
       9, this->an_gang_cards(i), output);
   }
 
-  // repeated int32 discards = 10;
+  // repeated uint32 discards = 10;
   for (int i = 0; i < this->discards_size(); i++) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(
       10, this->discards(i), output);
   }
 
-  // repeated int32 ting_cards = 11;
+  // repeated uint32 ting_cards = 11;
   for (int i = 0; i < this->ting_cards_size(); i++) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(
       11, this->ting_cards(i), output);
   }
 
@@ -530,58 +530,58 @@ void PlayerCardsMsgProtocol::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(2, this->invisible_hand_cards_num(), target);
   }
 
-  // repeated int32 invisible_hand_cards = 3;
+  // repeated uint32 invisible_hand_cards = 3;
   for (int i = 0; i < this->invisible_hand_cards_size(); i++) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteInt32ToArray(3, this->invisible_hand_cards(i), target);
+      WriteUInt32ToArray(3, this->invisible_hand_cards(i), target);
   }
 
-  // repeated int32 flower_cards = 4;
+  // repeated uint32 flower_cards = 4;
   for (int i = 0; i < this->flower_cards_size(); i++) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteInt32ToArray(4, this->flower_cards(i), target);
+      WriteUInt32ToArray(4, this->flower_cards(i), target);
   }
 
-  // repeated int32 season_cards = 5;
+  // repeated uint32 season_cards = 5;
   for (int i = 0; i < this->season_cards_size(); i++) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteInt32ToArray(5, this->season_cards(i), target);
+      WriteUInt32ToArray(5, this->season_cards(i), target);
   }
 
-  // repeated int32 peng_cards = 6;
+  // repeated uint32 peng_cards = 6;
   for (int i = 0; i < this->peng_cards_size(); i++) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteInt32ToArray(6, this->peng_cards(i), target);
+      WriteUInt32ToArray(6, this->peng_cards(i), target);
   }
 
-  // repeated int32 chi_cards = 7;
+  // repeated uint32 chi_cards = 7;
   for (int i = 0; i < this->chi_cards_size(); i++) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteInt32ToArray(7, this->chi_cards(i), target);
+      WriteUInt32ToArray(7, this->chi_cards(i), target);
   }
 
-  // repeated int32 ming_gang_cards = 8;
+  // repeated uint32 ming_gang_cards = 8;
   for (int i = 0; i < this->ming_gang_cards_size(); i++) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteInt32ToArray(8, this->ming_gang_cards(i), target);
+      WriteUInt32ToArray(8, this->ming_gang_cards(i), target);
   }
 
-  // repeated int32 an_gang_cards = 9;
+  // repeated uint32 an_gang_cards = 9;
   for (int i = 0; i < this->an_gang_cards_size(); i++) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteInt32ToArray(9, this->an_gang_cards(i), target);
+      WriteUInt32ToArray(9, this->an_gang_cards(i), target);
   }
 
-  // repeated int32 discards = 10;
+  // repeated uint32 discards = 10;
   for (int i = 0; i < this->discards_size(); i++) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteInt32ToArray(10, this->discards(i), target);
+      WriteUInt32ToArray(10, this->discards(i), target);
   }
 
-  // repeated int32 ting_cards = 11;
+  // repeated uint32 ting_cards = 11;
   for (int i = 0; i < this->ting_cards_size(); i++) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteInt32ToArray(11, this->ting_cards(i), target);
+      WriteUInt32ToArray(11, this->ting_cards(i), target);
   }
 
   if (!unknown_fields().empty()) {
@@ -611,92 +611,92 @@ int PlayerCardsMsgProtocol::ByteSize() const {
     }
 
   }
-  // repeated int32 invisible_hand_cards = 3;
+  // repeated uint32 invisible_hand_cards = 3;
   {
     int data_size = 0;
     for (int i = 0; i < this->invisible_hand_cards_size(); i++) {
       data_size += ::google::protobuf::internal::WireFormatLite::
-        Int32Size(this->invisible_hand_cards(i));
+        UInt32Size(this->invisible_hand_cards(i));
     }
     total_size += 1 * this->invisible_hand_cards_size() + data_size;
   }
 
-  // repeated int32 flower_cards = 4;
+  // repeated uint32 flower_cards = 4;
   {
     int data_size = 0;
     for (int i = 0; i < this->flower_cards_size(); i++) {
       data_size += ::google::protobuf::internal::WireFormatLite::
-        Int32Size(this->flower_cards(i));
+        UInt32Size(this->flower_cards(i));
     }
     total_size += 1 * this->flower_cards_size() + data_size;
   }
 
-  // repeated int32 season_cards = 5;
+  // repeated uint32 season_cards = 5;
   {
     int data_size = 0;
     for (int i = 0; i < this->season_cards_size(); i++) {
       data_size += ::google::protobuf::internal::WireFormatLite::
-        Int32Size(this->season_cards(i));
+        UInt32Size(this->season_cards(i));
     }
     total_size += 1 * this->season_cards_size() + data_size;
   }
 
-  // repeated int32 peng_cards = 6;
+  // repeated uint32 peng_cards = 6;
   {
     int data_size = 0;
     for (int i = 0; i < this->peng_cards_size(); i++) {
       data_size += ::google::protobuf::internal::WireFormatLite::
-        Int32Size(this->peng_cards(i));
+        UInt32Size(this->peng_cards(i));
     }
     total_size += 1 * this->peng_cards_size() + data_size;
   }
 
-  // repeated int32 chi_cards = 7;
+  // repeated uint32 chi_cards = 7;
   {
     int data_size = 0;
     for (int i = 0; i < this->chi_cards_size(); i++) {
       data_size += ::google::protobuf::internal::WireFormatLite::
-        Int32Size(this->chi_cards(i));
+        UInt32Size(this->chi_cards(i));
     }
     total_size += 1 * this->chi_cards_size() + data_size;
   }
 
-  // repeated int32 ming_gang_cards = 8;
+  // repeated uint32 ming_gang_cards = 8;
   {
     int data_size = 0;
     for (int i = 0; i < this->ming_gang_cards_size(); i++) {
       data_size += ::google::protobuf::internal::WireFormatLite::
-        Int32Size(this->ming_gang_cards(i));
+        UInt32Size(this->ming_gang_cards(i));
     }
     total_size += 1 * this->ming_gang_cards_size() + data_size;
   }
 
-  // repeated int32 an_gang_cards = 9;
+  // repeated uint32 an_gang_cards = 9;
   {
     int data_size = 0;
     for (int i = 0; i < this->an_gang_cards_size(); i++) {
       data_size += ::google::protobuf::internal::WireFormatLite::
-        Int32Size(this->an_gang_cards(i));
+        UInt32Size(this->an_gang_cards(i));
     }
     total_size += 1 * this->an_gang_cards_size() + data_size;
   }
 
-  // repeated int32 discards = 10;
+  // repeated uint32 discards = 10;
   {
     int data_size = 0;
     for (int i = 0; i < this->discards_size(); i++) {
       data_size += ::google::protobuf::internal::WireFormatLite::
-        Int32Size(this->discards(i));
+        UInt32Size(this->discards(i));
     }
     total_size += 1 * this->discards_size() + data_size;
   }
 
-  // repeated int32 ting_cards = 11;
+  // repeated uint32 ting_cards = 11;
   {
     int data_size = 0;
     for (int i = 0; i < this->ting_cards_size(); i++) {
       data_size += ::google::protobuf::internal::WireFormatLite::
-        Int32Size(this->ting_cards(i));
+        UInt32Size(this->ting_cards(i));
     }
     total_size += 1 * this->ting_cards_size() + data_size;
   }

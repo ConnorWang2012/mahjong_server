@@ -92,17 +92,17 @@ void protobuf_AddDesc_play_5fcard_5fmsg_5fprotocol_2eproto() {
   ::gamer::protocol::protobuf_AddDesc_ting_5fcard_5fmsg_5fprotocol_2eproto();
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
     "\n\034play_card_msg_protocol.proto\022\016gamer.pr"
-    "otocol\032\034ting_card_msg_protocol.proto\"\367\002\n"
+    "otocol\032\034ting_card_msg_protocol.proto\"\357\002\n"
     "\023PlayCardMsgProtocol\022\021\n\tplayer_id\030\001 \002(\r\022"
     "\017\n\007room_id\030\002 \002(\r\022\021\n\tcur_round\030\003 \002(\r\022\024\n\014o"
-    "peration_id\030\004 \002(\r\022\023\n\007discard\030\005 \001(\005:\002-1\022\024"
-    "\n\010new_card\030\006 \001(\005:\002-1\022!\n\026next_operate_pla"
-    "yer_id\030\007 \001(\r:\0010\022/\n has_next_operate_play"
-    "er_new_card\030\010 \001(\010:\005false\022$\n\031my_available"
-    "_operation_id\030\t \001(\r:\0010\022\027\n\017operating_card"
-    "s\030\n \003(\005\022\034\n\024invisible_hand_cards\030\013 \003(\005\0227\n"
-    "\nting_cards\030\014 \003(\0132#.gamer.protocol.TingC"
-    "ardMsgProtocol", 454);
+    "peration_id\030\004 \002(\r\022\017\n\007discard\030\005 \001(\r\022\020\n\010ne"
+    "w_card\030\006 \001(\r\022!\n\026next_operate_player_id\030\007"
+    " \001(\r:\0010\022/\n has_next_operate_player_new_c"
+    "ard\030\010 \001(\010:\005false\022$\n\031my_available_operati"
+    "on_id\030\t \001(\r:\0010\022\027\n\017operating_cards\030\n \003(\r\022"
+    "\034\n\024invisible_hand_cards\030\013 \003(\r\0227\n\nting_ca"
+    "rds\030\014 \003(\0132#.gamer.protocol.TingCardMsgPr"
+    "otocol", 446);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "play_card_msg_protocol.proto", &protobuf_RegisterTypes);
   PlayCardMsgProtocol::default_instance_ = new PlayCardMsgProtocol();
@@ -156,8 +156,8 @@ void PlayCardMsgProtocol::SharedCtor() {
   room_id_ = 0u;
   cur_round_ = 0u;
   operation_id_ = 0u;
-  discard_ = -1;
-  new_card_ = -1;
+  discard_ = 0u;
+  new_card_ = 0u;
   next_operate_player_id_ = 0u;
   has_next_operate_player_new_card_ = false;
   my_available_operation_id_ = 0u;
@@ -207,10 +207,7 @@ void PlayCardMsgProtocol::Clear() {
   } while (0)
 
   if (_has_bits_[0 / 32] & 255) {
-    ZR_(player_id_, operation_id_);
-    ZR_(next_operate_player_id_, has_next_operate_player_new_card_);
-    discard_ = -1;
-    new_card_ = -1;
+    ZR_(player_id_, has_next_operate_player_new_card_);
   }
   my_available_operation_id_ = 0u;
 
@@ -293,12 +290,12 @@ bool PlayCardMsgProtocol::MergePartialFromCodedStream(
         break;
       }
 
-      // optional int32 discard = 5 [default = -1];
+      // optional uint32 discard = 5;
       case 5: {
         if (tag == 40) {
          parse_discard:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  input, &discard_)));
           set_has_discard();
         } else {
@@ -308,12 +305,12 @@ bool PlayCardMsgProtocol::MergePartialFromCodedStream(
         break;
       }
 
-      // optional int32 new_card = 6 [default = -1];
+      // optional uint32 new_card = 6;
       case 6: {
         if (tag == 48) {
          parse_new_card:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  input, &new_card_)));
           set_has_new_card();
         } else {
@@ -368,16 +365,16 @@ bool PlayCardMsgProtocol::MergePartialFromCodedStream(
         break;
       }
 
-      // repeated int32 operating_cards = 10;
+      // repeated uint32 operating_cards = 10;
       case 10: {
         if (tag == 80) {
          parse_operating_cards:
           DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  1, 80, input, this->mutable_operating_cards())));
         } else if (tag == 82) {
           DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitiveNoInline<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  input, this->mutable_operating_cards())));
         } else {
           goto handle_unusual;
@@ -387,16 +384,16 @@ bool PlayCardMsgProtocol::MergePartialFromCodedStream(
         break;
       }
 
-      // repeated int32 invisible_hand_cards = 11;
+      // repeated uint32 invisible_hand_cards = 11;
       case 11: {
         if (tag == 88) {
          parse_invisible_hand_cards:
           DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  1, 88, input, this->mutable_invisible_hand_cards())));
         } else if (tag == 90) {
           DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitiveNoInline<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  input, this->mutable_invisible_hand_cards())));
         } else {
           goto handle_unusual;
@@ -465,14 +462,14 @@ void PlayCardMsgProtocol::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(4, this->operation_id(), output);
   }
 
-  // optional int32 discard = 5 [default = -1];
+  // optional uint32 discard = 5;
   if (has_discard()) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(5, this->discard(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(5, this->discard(), output);
   }
 
-  // optional int32 new_card = 6 [default = -1];
+  // optional uint32 new_card = 6;
   if (has_new_card()) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(6, this->new_card(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(6, this->new_card(), output);
   }
 
   // optional uint32 next_operate_player_id = 7 [default = 0];
@@ -490,15 +487,15 @@ void PlayCardMsgProtocol::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(9, this->my_available_operation_id(), output);
   }
 
-  // repeated int32 operating_cards = 10;
+  // repeated uint32 operating_cards = 10;
   for (int i = 0; i < this->operating_cards_size(); i++) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(
       10, this->operating_cards(i), output);
   }
 
-  // repeated int32 invisible_hand_cards = 11;
+  // repeated uint32 invisible_hand_cards = 11;
   for (int i = 0; i < this->invisible_hand_cards_size(); i++) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(
       11, this->invisible_hand_cards(i), output);
   }
 
@@ -538,14 +535,14 @@ void PlayCardMsgProtocol::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(4, this->operation_id(), target);
   }
 
-  // optional int32 discard = 5 [default = -1];
+  // optional uint32 discard = 5;
   if (has_discard()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(5, this->discard(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(5, this->discard(), target);
   }
 
-  // optional int32 new_card = 6 [default = -1];
+  // optional uint32 new_card = 6;
   if (has_new_card()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(6, this->new_card(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(6, this->new_card(), target);
   }
 
   // optional uint32 next_operate_player_id = 7 [default = 0];
@@ -563,16 +560,16 @@ void PlayCardMsgProtocol::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(9, this->my_available_operation_id(), target);
   }
 
-  // repeated int32 operating_cards = 10;
+  // repeated uint32 operating_cards = 10;
   for (int i = 0; i < this->operating_cards_size(); i++) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteInt32ToArray(10, this->operating_cards(i), target);
+      WriteUInt32ToArray(10, this->operating_cards(i), target);
   }
 
-  // repeated int32 invisible_hand_cards = 11;
+  // repeated uint32 invisible_hand_cards = 11;
   for (int i = 0; i < this->invisible_hand_cards_size(); i++) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteInt32ToArray(11, this->invisible_hand_cards(i), target);
+      WriteUInt32ToArray(11, this->invisible_hand_cards(i), target);
   }
 
   // repeated .gamer.protocol.TingCardMsgProtocol ting_cards = 12;
@@ -622,17 +619,17 @@ int PlayCardMsgProtocol::ByteSize() const {
           this->operation_id());
     }
 
-    // optional int32 discard = 5 [default = -1];
+    // optional uint32 discard = 5;
     if (has_discard()) {
       total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::Int32Size(
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
           this->discard());
     }
 
-    // optional int32 new_card = 6 [default = -1];
+    // optional uint32 new_card = 6;
     if (has_new_card()) {
       total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::Int32Size(
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
           this->new_card());
     }
 
@@ -658,22 +655,22 @@ int PlayCardMsgProtocol::ByteSize() const {
     }
 
   }
-  // repeated int32 operating_cards = 10;
+  // repeated uint32 operating_cards = 10;
   {
     int data_size = 0;
     for (int i = 0; i < this->operating_cards_size(); i++) {
       data_size += ::google::protobuf::internal::WireFormatLite::
-        Int32Size(this->operating_cards(i));
+        UInt32Size(this->operating_cards(i));
     }
     total_size += 1 * this->operating_cards_size() + data_size;
   }
 
-  // repeated int32 invisible_hand_cards = 11;
+  // repeated uint32 invisible_hand_cards = 11;
   {
     int data_size = 0;
     for (int i = 0; i < this->invisible_hand_cards_size(); i++) {
       data_size += ::google::protobuf::internal::WireFormatLite::
-        Int32Size(this->invisible_hand_cards(i));
+        UInt32Size(this->invisible_hand_cards(i));
     }
     total_size += 1 * this->invisible_hand_cards_size() + data_size;
   }

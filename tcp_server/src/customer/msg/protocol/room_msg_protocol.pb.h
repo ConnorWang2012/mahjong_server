@@ -162,16 +162,16 @@ class RoomMsgProtocol : public ::google::protobuf::Message {
   inline ::google::protobuf::uint32 operation_id() const;
   inline void set_operation_id(::google::protobuf::uint32 value);
 
-  // repeated int32 remain_cards = 11;
+  // repeated uint32 remain_cards = 11;
   inline int remain_cards_size() const;
   inline void clear_remain_cards();
   static const int kRemainCardsFieldNumber = 11;
-  inline ::google::protobuf::int32 remain_cards(int index) const;
-  inline void set_remain_cards(int index, ::google::protobuf::int32 value);
-  inline void add_remain_cards(::google::protobuf::int32 value);
-  inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+  inline ::google::protobuf::uint32 remain_cards(int index) const;
+  inline void set_remain_cards(int index, ::google::protobuf::uint32 value);
+  inline void add_remain_cards(::google::protobuf::uint32 value);
+  inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
       remain_cards() const;
-  inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+  inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
       mutable_remain_cards();
 
   // repeated .gamer.protocol.PlayerCardsMsgProtocol player_cards = 12;
@@ -223,7 +223,7 @@ class RoomMsgProtocol : public ::google::protobuf::Message {
   ::google::protobuf::uint32 banker_is_same_time_;
   ::google::protobuf::uint32 operating_player_id_;
   ::google::protobuf::uint32 operation_id_;
-  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > remain_cards_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::uint32 > remain_cards_;
   ::google::protobuf::RepeatedPtrField< ::gamer::protocol::PlayerCardsMsgProtocol > player_cards_;
   friend void  protobuf_AddDesc_room_5fmsg_5fprotocol_2eproto();
   friend void protobuf_AssignDesc_room_5fmsg_5fprotocol_2eproto();
@@ -479,31 +479,31 @@ inline void RoomMsgProtocol::set_operation_id(::google::protobuf::uint32 value) 
   // @@protoc_insertion_point(field_set:gamer.protocol.RoomMsgProtocol.operation_id)
 }
 
-// repeated int32 remain_cards = 11;
+// repeated uint32 remain_cards = 11;
 inline int RoomMsgProtocol::remain_cards_size() const {
   return remain_cards_.size();
 }
 inline void RoomMsgProtocol::clear_remain_cards() {
   remain_cards_.Clear();
 }
-inline ::google::protobuf::int32 RoomMsgProtocol::remain_cards(int index) const {
+inline ::google::protobuf::uint32 RoomMsgProtocol::remain_cards(int index) const {
   // @@protoc_insertion_point(field_get:gamer.protocol.RoomMsgProtocol.remain_cards)
   return remain_cards_.Get(index);
 }
-inline void RoomMsgProtocol::set_remain_cards(int index, ::google::protobuf::int32 value) {
+inline void RoomMsgProtocol::set_remain_cards(int index, ::google::protobuf::uint32 value) {
   remain_cards_.Set(index, value);
   // @@protoc_insertion_point(field_set:gamer.protocol.RoomMsgProtocol.remain_cards)
 }
-inline void RoomMsgProtocol::add_remain_cards(::google::protobuf::int32 value) {
+inline void RoomMsgProtocol::add_remain_cards(::google::protobuf::uint32 value) {
   remain_cards_.Add(value);
   // @@protoc_insertion_point(field_add:gamer.protocol.RoomMsgProtocol.remain_cards)
 }
-inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
 RoomMsgProtocol::remain_cards() const {
   // @@protoc_insertion_point(field_list:gamer.protocol.RoomMsgProtocol.remain_cards)
   return remain_cards_;
 }
-inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
 RoomMsgProtocol::mutable_remain_cards() {
   // @@protoc_insertion_point(field_mutable_list:gamer.protocol.RoomMsgProtocol.remain_cards)
   return &remain_cards_;

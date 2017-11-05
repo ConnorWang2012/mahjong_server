@@ -105,112 +105,112 @@ class PlayerCardsMsgProtocol : public ::google::protobuf::Message {
   inline ::google::protobuf::uint32 invisible_hand_cards_num() const;
   inline void set_invisible_hand_cards_num(::google::protobuf::uint32 value);
 
-  // repeated int32 invisible_hand_cards = 3;
+  // repeated uint32 invisible_hand_cards = 3;
   inline int invisible_hand_cards_size() const;
   inline void clear_invisible_hand_cards();
   static const int kInvisibleHandCardsFieldNumber = 3;
-  inline ::google::protobuf::int32 invisible_hand_cards(int index) const;
-  inline void set_invisible_hand_cards(int index, ::google::protobuf::int32 value);
-  inline void add_invisible_hand_cards(::google::protobuf::int32 value);
-  inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+  inline ::google::protobuf::uint32 invisible_hand_cards(int index) const;
+  inline void set_invisible_hand_cards(int index, ::google::protobuf::uint32 value);
+  inline void add_invisible_hand_cards(::google::protobuf::uint32 value);
+  inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
       invisible_hand_cards() const;
-  inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+  inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
       mutable_invisible_hand_cards();
 
-  // repeated int32 flower_cards = 4;
+  // repeated uint32 flower_cards = 4;
   inline int flower_cards_size() const;
   inline void clear_flower_cards();
   static const int kFlowerCardsFieldNumber = 4;
-  inline ::google::protobuf::int32 flower_cards(int index) const;
-  inline void set_flower_cards(int index, ::google::protobuf::int32 value);
-  inline void add_flower_cards(::google::protobuf::int32 value);
-  inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+  inline ::google::protobuf::uint32 flower_cards(int index) const;
+  inline void set_flower_cards(int index, ::google::protobuf::uint32 value);
+  inline void add_flower_cards(::google::protobuf::uint32 value);
+  inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
       flower_cards() const;
-  inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+  inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
       mutable_flower_cards();
 
-  // repeated int32 season_cards = 5;
+  // repeated uint32 season_cards = 5;
   inline int season_cards_size() const;
   inline void clear_season_cards();
   static const int kSeasonCardsFieldNumber = 5;
-  inline ::google::protobuf::int32 season_cards(int index) const;
-  inline void set_season_cards(int index, ::google::protobuf::int32 value);
-  inline void add_season_cards(::google::protobuf::int32 value);
-  inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+  inline ::google::protobuf::uint32 season_cards(int index) const;
+  inline void set_season_cards(int index, ::google::protobuf::uint32 value);
+  inline void add_season_cards(::google::protobuf::uint32 value);
+  inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
       season_cards() const;
-  inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+  inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
       mutable_season_cards();
 
-  // repeated int32 peng_cards = 6;
+  // repeated uint32 peng_cards = 6;
   inline int peng_cards_size() const;
   inline void clear_peng_cards();
   static const int kPengCardsFieldNumber = 6;
-  inline ::google::protobuf::int32 peng_cards(int index) const;
-  inline void set_peng_cards(int index, ::google::protobuf::int32 value);
-  inline void add_peng_cards(::google::protobuf::int32 value);
-  inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+  inline ::google::protobuf::uint32 peng_cards(int index) const;
+  inline void set_peng_cards(int index, ::google::protobuf::uint32 value);
+  inline void add_peng_cards(::google::protobuf::uint32 value);
+  inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
       peng_cards() const;
-  inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+  inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
       mutable_peng_cards();
 
-  // repeated int32 chi_cards = 7;
+  // repeated uint32 chi_cards = 7;
   inline int chi_cards_size() const;
   inline void clear_chi_cards();
   static const int kChiCardsFieldNumber = 7;
-  inline ::google::protobuf::int32 chi_cards(int index) const;
-  inline void set_chi_cards(int index, ::google::protobuf::int32 value);
-  inline void add_chi_cards(::google::protobuf::int32 value);
-  inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+  inline ::google::protobuf::uint32 chi_cards(int index) const;
+  inline void set_chi_cards(int index, ::google::protobuf::uint32 value);
+  inline void add_chi_cards(::google::protobuf::uint32 value);
+  inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
       chi_cards() const;
-  inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+  inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
       mutable_chi_cards();
 
-  // repeated int32 ming_gang_cards = 8;
+  // repeated uint32 ming_gang_cards = 8;
   inline int ming_gang_cards_size() const;
   inline void clear_ming_gang_cards();
   static const int kMingGangCardsFieldNumber = 8;
-  inline ::google::protobuf::int32 ming_gang_cards(int index) const;
-  inline void set_ming_gang_cards(int index, ::google::protobuf::int32 value);
-  inline void add_ming_gang_cards(::google::protobuf::int32 value);
-  inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+  inline ::google::protobuf::uint32 ming_gang_cards(int index) const;
+  inline void set_ming_gang_cards(int index, ::google::protobuf::uint32 value);
+  inline void add_ming_gang_cards(::google::protobuf::uint32 value);
+  inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
       ming_gang_cards() const;
-  inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+  inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
       mutable_ming_gang_cards();
 
-  // repeated int32 an_gang_cards = 9;
+  // repeated uint32 an_gang_cards = 9;
   inline int an_gang_cards_size() const;
   inline void clear_an_gang_cards();
   static const int kAnGangCardsFieldNumber = 9;
-  inline ::google::protobuf::int32 an_gang_cards(int index) const;
-  inline void set_an_gang_cards(int index, ::google::protobuf::int32 value);
-  inline void add_an_gang_cards(::google::protobuf::int32 value);
-  inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+  inline ::google::protobuf::uint32 an_gang_cards(int index) const;
+  inline void set_an_gang_cards(int index, ::google::protobuf::uint32 value);
+  inline void add_an_gang_cards(::google::protobuf::uint32 value);
+  inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
       an_gang_cards() const;
-  inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+  inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
       mutable_an_gang_cards();
 
-  // repeated int32 discards = 10;
+  // repeated uint32 discards = 10;
   inline int discards_size() const;
   inline void clear_discards();
   static const int kDiscardsFieldNumber = 10;
-  inline ::google::protobuf::int32 discards(int index) const;
-  inline void set_discards(int index, ::google::protobuf::int32 value);
-  inline void add_discards(::google::protobuf::int32 value);
-  inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+  inline ::google::protobuf::uint32 discards(int index) const;
+  inline void set_discards(int index, ::google::protobuf::uint32 value);
+  inline void add_discards(::google::protobuf::uint32 value);
+  inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
       discards() const;
-  inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+  inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
       mutable_discards();
 
-  // repeated int32 ting_cards = 11;
+  // repeated uint32 ting_cards = 11;
   inline int ting_cards_size() const;
   inline void clear_ting_cards();
   static const int kTingCardsFieldNumber = 11;
-  inline ::google::protobuf::int32 ting_cards(int index) const;
-  inline void set_ting_cards(int index, ::google::protobuf::int32 value);
-  inline void add_ting_cards(::google::protobuf::int32 value);
-  inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+  inline ::google::protobuf::uint32 ting_cards(int index) const;
+  inline void set_ting_cards(int index, ::google::protobuf::uint32 value);
+  inline void add_ting_cards(::google::protobuf::uint32 value);
+  inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
       ting_cards() const;
-  inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+  inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
       mutable_ting_cards();
 
   // @@protoc_insertion_point(class_scope:gamer.protocol.PlayerCardsMsgProtocol)
@@ -226,15 +226,15 @@ class PlayerCardsMsgProtocol : public ::google::protobuf::Message {
   mutable int _cached_size_;
   ::google::protobuf::uint32 player_id_;
   ::google::protobuf::uint32 invisible_hand_cards_num_;
-  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > invisible_hand_cards_;
-  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > flower_cards_;
-  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > season_cards_;
-  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > peng_cards_;
-  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > chi_cards_;
-  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > ming_gang_cards_;
-  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > an_gang_cards_;
-  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > discards_;
-  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > ting_cards_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::uint32 > invisible_hand_cards_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::uint32 > flower_cards_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::uint32 > season_cards_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::uint32 > peng_cards_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::uint32 > chi_cards_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::uint32 > ming_gang_cards_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::uint32 > an_gang_cards_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::uint32 > discards_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::uint32 > ting_cards_;
   friend void  protobuf_AddDesc_player_5fcards_5fmsg_5fprotocol_2eproto();
   friend void protobuf_AssignDesc_player_5fcards_5fmsg_5fprotocol_2eproto();
   friend void protobuf_ShutdownFile_player_5fcards_5fmsg_5fprotocol_2eproto();
@@ -297,271 +297,271 @@ inline void PlayerCardsMsgProtocol::set_invisible_hand_cards_num(::google::proto
   // @@protoc_insertion_point(field_set:gamer.protocol.PlayerCardsMsgProtocol.invisible_hand_cards_num)
 }
 
-// repeated int32 invisible_hand_cards = 3;
+// repeated uint32 invisible_hand_cards = 3;
 inline int PlayerCardsMsgProtocol::invisible_hand_cards_size() const {
   return invisible_hand_cards_.size();
 }
 inline void PlayerCardsMsgProtocol::clear_invisible_hand_cards() {
   invisible_hand_cards_.Clear();
 }
-inline ::google::protobuf::int32 PlayerCardsMsgProtocol::invisible_hand_cards(int index) const {
+inline ::google::protobuf::uint32 PlayerCardsMsgProtocol::invisible_hand_cards(int index) const {
   // @@protoc_insertion_point(field_get:gamer.protocol.PlayerCardsMsgProtocol.invisible_hand_cards)
   return invisible_hand_cards_.Get(index);
 }
-inline void PlayerCardsMsgProtocol::set_invisible_hand_cards(int index, ::google::protobuf::int32 value) {
+inline void PlayerCardsMsgProtocol::set_invisible_hand_cards(int index, ::google::protobuf::uint32 value) {
   invisible_hand_cards_.Set(index, value);
   // @@protoc_insertion_point(field_set:gamer.protocol.PlayerCardsMsgProtocol.invisible_hand_cards)
 }
-inline void PlayerCardsMsgProtocol::add_invisible_hand_cards(::google::protobuf::int32 value) {
+inline void PlayerCardsMsgProtocol::add_invisible_hand_cards(::google::protobuf::uint32 value) {
   invisible_hand_cards_.Add(value);
   // @@protoc_insertion_point(field_add:gamer.protocol.PlayerCardsMsgProtocol.invisible_hand_cards)
 }
-inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
 PlayerCardsMsgProtocol::invisible_hand_cards() const {
   // @@protoc_insertion_point(field_list:gamer.protocol.PlayerCardsMsgProtocol.invisible_hand_cards)
   return invisible_hand_cards_;
 }
-inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
 PlayerCardsMsgProtocol::mutable_invisible_hand_cards() {
   // @@protoc_insertion_point(field_mutable_list:gamer.protocol.PlayerCardsMsgProtocol.invisible_hand_cards)
   return &invisible_hand_cards_;
 }
 
-// repeated int32 flower_cards = 4;
+// repeated uint32 flower_cards = 4;
 inline int PlayerCardsMsgProtocol::flower_cards_size() const {
   return flower_cards_.size();
 }
 inline void PlayerCardsMsgProtocol::clear_flower_cards() {
   flower_cards_.Clear();
 }
-inline ::google::protobuf::int32 PlayerCardsMsgProtocol::flower_cards(int index) const {
+inline ::google::protobuf::uint32 PlayerCardsMsgProtocol::flower_cards(int index) const {
   // @@protoc_insertion_point(field_get:gamer.protocol.PlayerCardsMsgProtocol.flower_cards)
   return flower_cards_.Get(index);
 }
-inline void PlayerCardsMsgProtocol::set_flower_cards(int index, ::google::protobuf::int32 value) {
+inline void PlayerCardsMsgProtocol::set_flower_cards(int index, ::google::protobuf::uint32 value) {
   flower_cards_.Set(index, value);
   // @@protoc_insertion_point(field_set:gamer.protocol.PlayerCardsMsgProtocol.flower_cards)
 }
-inline void PlayerCardsMsgProtocol::add_flower_cards(::google::protobuf::int32 value) {
+inline void PlayerCardsMsgProtocol::add_flower_cards(::google::protobuf::uint32 value) {
   flower_cards_.Add(value);
   // @@protoc_insertion_point(field_add:gamer.protocol.PlayerCardsMsgProtocol.flower_cards)
 }
-inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
 PlayerCardsMsgProtocol::flower_cards() const {
   // @@protoc_insertion_point(field_list:gamer.protocol.PlayerCardsMsgProtocol.flower_cards)
   return flower_cards_;
 }
-inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
 PlayerCardsMsgProtocol::mutable_flower_cards() {
   // @@protoc_insertion_point(field_mutable_list:gamer.protocol.PlayerCardsMsgProtocol.flower_cards)
   return &flower_cards_;
 }
 
-// repeated int32 season_cards = 5;
+// repeated uint32 season_cards = 5;
 inline int PlayerCardsMsgProtocol::season_cards_size() const {
   return season_cards_.size();
 }
 inline void PlayerCardsMsgProtocol::clear_season_cards() {
   season_cards_.Clear();
 }
-inline ::google::protobuf::int32 PlayerCardsMsgProtocol::season_cards(int index) const {
+inline ::google::protobuf::uint32 PlayerCardsMsgProtocol::season_cards(int index) const {
   // @@protoc_insertion_point(field_get:gamer.protocol.PlayerCardsMsgProtocol.season_cards)
   return season_cards_.Get(index);
 }
-inline void PlayerCardsMsgProtocol::set_season_cards(int index, ::google::protobuf::int32 value) {
+inline void PlayerCardsMsgProtocol::set_season_cards(int index, ::google::protobuf::uint32 value) {
   season_cards_.Set(index, value);
   // @@protoc_insertion_point(field_set:gamer.protocol.PlayerCardsMsgProtocol.season_cards)
 }
-inline void PlayerCardsMsgProtocol::add_season_cards(::google::protobuf::int32 value) {
+inline void PlayerCardsMsgProtocol::add_season_cards(::google::protobuf::uint32 value) {
   season_cards_.Add(value);
   // @@protoc_insertion_point(field_add:gamer.protocol.PlayerCardsMsgProtocol.season_cards)
 }
-inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
 PlayerCardsMsgProtocol::season_cards() const {
   // @@protoc_insertion_point(field_list:gamer.protocol.PlayerCardsMsgProtocol.season_cards)
   return season_cards_;
 }
-inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
 PlayerCardsMsgProtocol::mutable_season_cards() {
   // @@protoc_insertion_point(field_mutable_list:gamer.protocol.PlayerCardsMsgProtocol.season_cards)
   return &season_cards_;
 }
 
-// repeated int32 peng_cards = 6;
+// repeated uint32 peng_cards = 6;
 inline int PlayerCardsMsgProtocol::peng_cards_size() const {
   return peng_cards_.size();
 }
 inline void PlayerCardsMsgProtocol::clear_peng_cards() {
   peng_cards_.Clear();
 }
-inline ::google::protobuf::int32 PlayerCardsMsgProtocol::peng_cards(int index) const {
+inline ::google::protobuf::uint32 PlayerCardsMsgProtocol::peng_cards(int index) const {
   // @@protoc_insertion_point(field_get:gamer.protocol.PlayerCardsMsgProtocol.peng_cards)
   return peng_cards_.Get(index);
 }
-inline void PlayerCardsMsgProtocol::set_peng_cards(int index, ::google::protobuf::int32 value) {
+inline void PlayerCardsMsgProtocol::set_peng_cards(int index, ::google::protobuf::uint32 value) {
   peng_cards_.Set(index, value);
   // @@protoc_insertion_point(field_set:gamer.protocol.PlayerCardsMsgProtocol.peng_cards)
 }
-inline void PlayerCardsMsgProtocol::add_peng_cards(::google::protobuf::int32 value) {
+inline void PlayerCardsMsgProtocol::add_peng_cards(::google::protobuf::uint32 value) {
   peng_cards_.Add(value);
   // @@protoc_insertion_point(field_add:gamer.protocol.PlayerCardsMsgProtocol.peng_cards)
 }
-inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
 PlayerCardsMsgProtocol::peng_cards() const {
   // @@protoc_insertion_point(field_list:gamer.protocol.PlayerCardsMsgProtocol.peng_cards)
   return peng_cards_;
 }
-inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
 PlayerCardsMsgProtocol::mutable_peng_cards() {
   // @@protoc_insertion_point(field_mutable_list:gamer.protocol.PlayerCardsMsgProtocol.peng_cards)
   return &peng_cards_;
 }
 
-// repeated int32 chi_cards = 7;
+// repeated uint32 chi_cards = 7;
 inline int PlayerCardsMsgProtocol::chi_cards_size() const {
   return chi_cards_.size();
 }
 inline void PlayerCardsMsgProtocol::clear_chi_cards() {
   chi_cards_.Clear();
 }
-inline ::google::protobuf::int32 PlayerCardsMsgProtocol::chi_cards(int index) const {
+inline ::google::protobuf::uint32 PlayerCardsMsgProtocol::chi_cards(int index) const {
   // @@protoc_insertion_point(field_get:gamer.protocol.PlayerCardsMsgProtocol.chi_cards)
   return chi_cards_.Get(index);
 }
-inline void PlayerCardsMsgProtocol::set_chi_cards(int index, ::google::protobuf::int32 value) {
+inline void PlayerCardsMsgProtocol::set_chi_cards(int index, ::google::protobuf::uint32 value) {
   chi_cards_.Set(index, value);
   // @@protoc_insertion_point(field_set:gamer.protocol.PlayerCardsMsgProtocol.chi_cards)
 }
-inline void PlayerCardsMsgProtocol::add_chi_cards(::google::protobuf::int32 value) {
+inline void PlayerCardsMsgProtocol::add_chi_cards(::google::protobuf::uint32 value) {
   chi_cards_.Add(value);
   // @@protoc_insertion_point(field_add:gamer.protocol.PlayerCardsMsgProtocol.chi_cards)
 }
-inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
 PlayerCardsMsgProtocol::chi_cards() const {
   // @@protoc_insertion_point(field_list:gamer.protocol.PlayerCardsMsgProtocol.chi_cards)
   return chi_cards_;
 }
-inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
 PlayerCardsMsgProtocol::mutable_chi_cards() {
   // @@protoc_insertion_point(field_mutable_list:gamer.protocol.PlayerCardsMsgProtocol.chi_cards)
   return &chi_cards_;
 }
 
-// repeated int32 ming_gang_cards = 8;
+// repeated uint32 ming_gang_cards = 8;
 inline int PlayerCardsMsgProtocol::ming_gang_cards_size() const {
   return ming_gang_cards_.size();
 }
 inline void PlayerCardsMsgProtocol::clear_ming_gang_cards() {
   ming_gang_cards_.Clear();
 }
-inline ::google::protobuf::int32 PlayerCardsMsgProtocol::ming_gang_cards(int index) const {
+inline ::google::protobuf::uint32 PlayerCardsMsgProtocol::ming_gang_cards(int index) const {
   // @@protoc_insertion_point(field_get:gamer.protocol.PlayerCardsMsgProtocol.ming_gang_cards)
   return ming_gang_cards_.Get(index);
 }
-inline void PlayerCardsMsgProtocol::set_ming_gang_cards(int index, ::google::protobuf::int32 value) {
+inline void PlayerCardsMsgProtocol::set_ming_gang_cards(int index, ::google::protobuf::uint32 value) {
   ming_gang_cards_.Set(index, value);
   // @@protoc_insertion_point(field_set:gamer.protocol.PlayerCardsMsgProtocol.ming_gang_cards)
 }
-inline void PlayerCardsMsgProtocol::add_ming_gang_cards(::google::protobuf::int32 value) {
+inline void PlayerCardsMsgProtocol::add_ming_gang_cards(::google::protobuf::uint32 value) {
   ming_gang_cards_.Add(value);
   // @@protoc_insertion_point(field_add:gamer.protocol.PlayerCardsMsgProtocol.ming_gang_cards)
 }
-inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
 PlayerCardsMsgProtocol::ming_gang_cards() const {
   // @@protoc_insertion_point(field_list:gamer.protocol.PlayerCardsMsgProtocol.ming_gang_cards)
   return ming_gang_cards_;
 }
-inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
 PlayerCardsMsgProtocol::mutable_ming_gang_cards() {
   // @@protoc_insertion_point(field_mutable_list:gamer.protocol.PlayerCardsMsgProtocol.ming_gang_cards)
   return &ming_gang_cards_;
 }
 
-// repeated int32 an_gang_cards = 9;
+// repeated uint32 an_gang_cards = 9;
 inline int PlayerCardsMsgProtocol::an_gang_cards_size() const {
   return an_gang_cards_.size();
 }
 inline void PlayerCardsMsgProtocol::clear_an_gang_cards() {
   an_gang_cards_.Clear();
 }
-inline ::google::protobuf::int32 PlayerCardsMsgProtocol::an_gang_cards(int index) const {
+inline ::google::protobuf::uint32 PlayerCardsMsgProtocol::an_gang_cards(int index) const {
   // @@protoc_insertion_point(field_get:gamer.protocol.PlayerCardsMsgProtocol.an_gang_cards)
   return an_gang_cards_.Get(index);
 }
-inline void PlayerCardsMsgProtocol::set_an_gang_cards(int index, ::google::protobuf::int32 value) {
+inline void PlayerCardsMsgProtocol::set_an_gang_cards(int index, ::google::protobuf::uint32 value) {
   an_gang_cards_.Set(index, value);
   // @@protoc_insertion_point(field_set:gamer.protocol.PlayerCardsMsgProtocol.an_gang_cards)
 }
-inline void PlayerCardsMsgProtocol::add_an_gang_cards(::google::protobuf::int32 value) {
+inline void PlayerCardsMsgProtocol::add_an_gang_cards(::google::protobuf::uint32 value) {
   an_gang_cards_.Add(value);
   // @@protoc_insertion_point(field_add:gamer.protocol.PlayerCardsMsgProtocol.an_gang_cards)
 }
-inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
 PlayerCardsMsgProtocol::an_gang_cards() const {
   // @@protoc_insertion_point(field_list:gamer.protocol.PlayerCardsMsgProtocol.an_gang_cards)
   return an_gang_cards_;
 }
-inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
 PlayerCardsMsgProtocol::mutable_an_gang_cards() {
   // @@protoc_insertion_point(field_mutable_list:gamer.protocol.PlayerCardsMsgProtocol.an_gang_cards)
   return &an_gang_cards_;
 }
 
-// repeated int32 discards = 10;
+// repeated uint32 discards = 10;
 inline int PlayerCardsMsgProtocol::discards_size() const {
   return discards_.size();
 }
 inline void PlayerCardsMsgProtocol::clear_discards() {
   discards_.Clear();
 }
-inline ::google::protobuf::int32 PlayerCardsMsgProtocol::discards(int index) const {
+inline ::google::protobuf::uint32 PlayerCardsMsgProtocol::discards(int index) const {
   // @@protoc_insertion_point(field_get:gamer.protocol.PlayerCardsMsgProtocol.discards)
   return discards_.Get(index);
 }
-inline void PlayerCardsMsgProtocol::set_discards(int index, ::google::protobuf::int32 value) {
+inline void PlayerCardsMsgProtocol::set_discards(int index, ::google::protobuf::uint32 value) {
   discards_.Set(index, value);
   // @@protoc_insertion_point(field_set:gamer.protocol.PlayerCardsMsgProtocol.discards)
 }
-inline void PlayerCardsMsgProtocol::add_discards(::google::protobuf::int32 value) {
+inline void PlayerCardsMsgProtocol::add_discards(::google::protobuf::uint32 value) {
   discards_.Add(value);
   // @@protoc_insertion_point(field_add:gamer.protocol.PlayerCardsMsgProtocol.discards)
 }
-inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
 PlayerCardsMsgProtocol::discards() const {
   // @@protoc_insertion_point(field_list:gamer.protocol.PlayerCardsMsgProtocol.discards)
   return discards_;
 }
-inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
 PlayerCardsMsgProtocol::mutable_discards() {
   // @@protoc_insertion_point(field_mutable_list:gamer.protocol.PlayerCardsMsgProtocol.discards)
   return &discards_;
 }
 
-// repeated int32 ting_cards = 11;
+// repeated uint32 ting_cards = 11;
 inline int PlayerCardsMsgProtocol::ting_cards_size() const {
   return ting_cards_.size();
 }
 inline void PlayerCardsMsgProtocol::clear_ting_cards() {
   ting_cards_.Clear();
 }
-inline ::google::protobuf::int32 PlayerCardsMsgProtocol::ting_cards(int index) const {
+inline ::google::protobuf::uint32 PlayerCardsMsgProtocol::ting_cards(int index) const {
   // @@protoc_insertion_point(field_get:gamer.protocol.PlayerCardsMsgProtocol.ting_cards)
   return ting_cards_.Get(index);
 }
-inline void PlayerCardsMsgProtocol::set_ting_cards(int index, ::google::protobuf::int32 value) {
+inline void PlayerCardsMsgProtocol::set_ting_cards(int index, ::google::protobuf::uint32 value) {
   ting_cards_.Set(index, value);
   // @@protoc_insertion_point(field_set:gamer.protocol.PlayerCardsMsgProtocol.ting_cards)
 }
-inline void PlayerCardsMsgProtocol::add_ting_cards(::google::protobuf::int32 value) {
+inline void PlayerCardsMsgProtocol::add_ting_cards(::google::protobuf::uint32 value) {
   ting_cards_.Add(value);
   // @@protoc_insertion_point(field_add:gamer.protocol.PlayerCardsMsgProtocol.ting_cards)
 }
-inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
 PlayerCardsMsgProtocol::ting_cards() const {
   // @@protoc_insertion_point(field_list:gamer.protocol.PlayerCardsMsgProtocol.ting_cards)
   return ting_cards_;
 }
-inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
 PlayerCardsMsgProtocol::mutable_ting_cards() {
   // @@protoc_insertion_point(field_mutable_list:gamer.protocol.PlayerCardsMsgProtocol.ting_cards)
   return &ting_cards_;

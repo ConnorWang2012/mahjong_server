@@ -64,12 +64,13 @@ void PlayerManager::RemoveOnlinePlayer(bufferevent* bev) {
 		// TODO : some kind of ugly
 		for (auto itr = bufferevents_.begin(); itr != bufferevents_.end(); ++itr) {
 			if (itr->second == bev) {
+                auto it = players_.find(itr->first);
+                if (it != players_.end()) {
+                    players_.erase(it);
+                }
+
 				bufferevents_.erase(itr);
 
-				auto it = players_.find(itr->first);
-				if (it != players_.end()) {
-					players_.erase(it);
-				}
 				break;
 			}
 		}

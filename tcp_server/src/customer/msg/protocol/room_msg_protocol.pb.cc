@@ -99,7 +99,7 @@ void protobuf_AddDesc_room_5fmsg_5fprotocol_2eproto() {
     "emain_cards_num\030\006 \001(\r\022\021\n\tbanker_id\030\007 \001(\r"
     "\022\033\n\023banker_is_same_time\030\010 \001(\r\022\033\n\023operati"
     "ng_player_id\030\t \001(\r\022\024\n\014operation_id\030\n \001(\r"
-    "\022\024\n\014remain_cards\030\013 \003(\005\022<\n\014player_cards\030\014"
+    "\022\024\n\014remain_cards\030\013 \003(\r\022<\n\014player_cards\030\014"
     " \003(\0132&.gamer.protocol.PlayerCardsMsgProt"
     "ocol", 404);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
@@ -379,16 +379,16 @@ bool RoomMsgProtocol::MergePartialFromCodedStream(
         break;
       }
 
-      // repeated int32 remain_cards = 11;
+      // repeated uint32 remain_cards = 11;
       case 11: {
         if (tag == 88) {
          parse_remain_cards:
           DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  1, 88, input, this->mutable_remain_cards())));
         } else if (tag == 90) {
           DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitiveNoInline<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  input, this->mutable_remain_cards())));
         } else {
           goto handle_unusual;
@@ -487,9 +487,9 @@ void RoomMsgProtocol::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(10, this->operation_id(), output);
   }
 
-  // repeated int32 remain_cards = 11;
+  // repeated uint32 remain_cards = 11;
   for (int i = 0; i < this->remain_cards_size(); i++) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(
       11, this->remain_cards(i), output);
   }
 
@@ -559,10 +559,10 @@ void RoomMsgProtocol::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(10, this->operation_id(), target);
   }
 
-  // repeated int32 remain_cards = 11;
+  // repeated uint32 remain_cards = 11;
   for (int i = 0; i < this->remain_cards_size(); i++) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteInt32ToArray(11, this->remain_cards(i), target);
+      WriteUInt32ToArray(11, this->remain_cards(i), target);
   }
 
   // repeated .gamer.protocol.PlayerCardsMsgProtocol player_cards = 12;
@@ -657,12 +657,12 @@ int RoomMsgProtocol::ByteSize() const {
     }
 
   }
-  // repeated int32 remain_cards = 11;
+  // repeated uint32 remain_cards = 11;
   {
     int data_size = 0;
     for (int i = 0; i < this->remain_cards_size(); i++) {
       data_size += ::google::protobuf::internal::WireFormatLite::
-        Int32Size(this->remain_cards(i));
+        UInt32Size(this->remain_cards(i));
     }
     total_size += 1 * this->remain_cards_size() + data_size;
   }

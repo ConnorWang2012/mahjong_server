@@ -25,10 +25,10 @@ namespace gamer {
 
 class Player : public PlayerProtocol {
   public:
-    typedef gamer::protocol::PlayerCardsMsgProtocol PlayerCardsMsgProtocol;
-    typedef gamer::protocol::PlayCardMsgProtocol PlayCardMsgProtocol;
-    typedef gamer::protocol::TingCardMsgProtocol TingCardMsgProtocol;
-    typedef google::protobuf::RepeatedField<google::protobuf::int32> RepeatedFieldInt;
+    typedef gamer::protocol::PlayerCardsMsgProtocol                     PlayerCardsMsgProtocol;
+    typedef gamer::protocol::PlayCardMsgProtocol                        PlayCardMsgProtocol;
+    typedef gamer::protocol::TingCardMsgProtocol                        TingCardMsgProtocol;
+    typedef google::protobuf::RepeatedField<google::protobuf::uint32>   RepeatedFieldInt;
 
 	Player& operator=(const Player&) = delete;
 

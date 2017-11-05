@@ -14,6 +14,6 @@ message RoomMsgProtocol {
   optional uint32 operating_player_id             = 9;
   optional uint32 operation_id 		                = 10;
   
-  repeated int32 remain_cards                     = 11; // use by server
+  repeated uint32 remain_cards                    = 11; // use by server
   repeated PlayerCardsMsgProtocol player_cards		= 12;
 }
