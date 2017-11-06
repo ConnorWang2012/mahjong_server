@@ -30,9 +30,9 @@ class DataManager : public BasicManager<DataManager> {
   public:
 	DataManager();
 
-	void CachePlayerPersonalData(const std::string& player_account, const std::string& serialized_data);
+	void CachePlayerPersonalData(id_t player_id, const std::string& serialized_data);
 
-	void GetCachedPlayerPersonalData(const std::string& player_account, std::string* serialized_data);
+	void GetCachedPlayerPersonalData(id_t player_id, std::string* serialized_data);
 
 	void CacheCreateRoomData(id_t room_id, const std::string& serialized_data);
 
@@ -46,7 +46,7 @@ class DataManager : public BasicManager<DataManager> {
 
 	void GetCachedRoomData(id_t room_id, int round, std::string& serialized_data);
 
-	int GeneratePlayerID();
+	id_t GeneratePlayerID();
 
 	void UpdateAvailablePlayerID();
 
@@ -56,8 +56,6 @@ class DataManager : public BasicManager<DataManager> {
 
     // async
 	void SetGold(id_t player_id, score_t gold);
-
-	void SetGold(const std::string& player_account, score_t gold);
 
 	void GetGold(id_t player_id, score_t& gold) const;
 
@@ -72,7 +70,7 @@ class DataManager : public BasicManager<DataManager> {
   private:
 	void Init();
 
-	id_t available_player_id_ = 10000000;
+	id_t available_player_id_ = 1000;
 
 	cpp_redis::redis_client* redis_client_;
 };

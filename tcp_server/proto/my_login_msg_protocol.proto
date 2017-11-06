@@ -4,5 +4,6 @@ import "player_msg_protocol.proto";
 message MyLoginMsgProtocol {
   required string account  				= 1;
   required string password  			= 2;
-  optional PlayerMsgProtocol player     = 3;
+  required uint32 player_id 	        = 3; // 0 means new player(first login), others mean not new player(not first login)
+  optional PlayerMsgProtocol player     = 4;
 }

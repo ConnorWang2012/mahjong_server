@@ -15,6 +15,7 @@ modification:
 #include "data_manager.h"
 
 #include "util/google/absl/strings/numbers.h"
+#include "util/google/absl/strings/str_join.h"
 #include "framework/cache/cache_proxy.h"
 #include "customer/player/player.h"
 #include "customer/player/player_manager.h"
@@ -26,27 +27,15 @@ DataManager::DataManager() {
 	this->Init();
 }
 
-void DataManager::CachePlayerPersonalData(const std::string& player_account, 
-										  const std::string& serialized_data) {
-	//redis_client_->set(player_account, serialized_data);
-	//redis_client_->sync_commit();
-
-	auto key   = "account:" + player_account;
+void DataManager::CachePlayerPersonalData(id_t player_id, const std::string& serialized_data) {
+	auto key = absl::StrJoin(std::make_tuple("account", player_id), ":");
 	auto field = "account";
 	redis_client_->hset(key, field, serialized_data);
 	redis_client_->commit();
 }
 
-void DataManager::GetCachedPlayerPersonalData(const std::string& player_account, 
-										      std::string* serialized_data) {
-	//redis_client_->get(player_account, [&](cpp_redis::reply& reply) {
-	//	if (reply.is_string()) {
-	//		serialized_data = reply.as_string();
-	//	}
-	//});
-	//redis_client_->sync_commit();
-
-	auto key   = "account:" + player_account;
+void DataManager::GetCachedPlayerPersonalData(id_t player_id, std::string* serialized_data) {
+	auto key = absl::StrJoin(std::make_tuple("account", player_id), ":");
 	auto field = "account";
 	redis_client_->hget(key, field, [&](cpp_redis::reply& rep) {
         if (rep.is_string()) {
@@ -105,7 +94,7 @@ void DataManager::GetCachedRoomData(id_t room_id, int round, std::string& serial
 	});
 }
 
-int DataManager::GeneratePlayerID() {
+id_t DataManager::GeneratePlayerID() {
 	++available_player_id_;
 	redis_client_->set("player.id:available", std::to_string(available_player_id_));
 	redis_client_->commit();
@@ -140,24 +129,18 @@ void DataManager::GetCachedAccountByID(id_t player_id, std::string* player_accou
 }
 
 void DataManager::SetGold(id_t player_id, score_t gold) {
-	auto player = PlayerManager::instance()->GetOnlinePlayer(player_id);
-	if (nullptr != player && "" != player->account()) {
-		this->SetGold(player->account(), gold);
-	}
-}
-
-void DataManager::SetGold(const std::string& player_account, score_t gold) {
-	auto key = "account:" + player_account;
+	auto key = absl::StrJoin(std::make_tuple("account", player_id), ":");
 	auto field = "account";
 	redis_client_->hget(key, field, [&](cpp_redis::reply& rep) {
-		auto data = rep.as_string();
-		protocol::MyLoginMsgProtocol proto;
-		if (proto.ParseFromString(data)) {
-			proto.mutable_player()->set_score_gold(gold);
+		if (rep.is_string()) {
+			protocol::MyLoginMsgProtocol proto;
+			if (proto.ParseFromString(rep.as_string())) {
+				proto.mutable_player()->set_score_gold(gold);
 
-			auto s = proto.SerializeAsString();
-			if ("" != s) {
-				this->CachePlayerPersonalData(player_account, s);
+				std::string s;
+				if (proto.SerializeToString(&s)) {
+					this->CachePlayerPersonalData(player_id, s);
+				}
 			}
 		}
 	});

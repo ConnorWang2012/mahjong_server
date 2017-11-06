@@ -116,10 +116,17 @@ class MyLoginMsgProtocol : public ::google::protobuf::Message {
   inline ::std::string* release_password();
   inline void set_allocated_password(::std::string* password);
 
-  // optional .gamer.protocol.PlayerMsgProtocol player = 3;
+  // required uint32 player_id = 3;
+  inline bool has_player_id() const;
+  inline void clear_player_id();
+  static const int kPlayerIdFieldNumber = 3;
+  inline ::google::protobuf::uint32 player_id() const;
+  inline void set_player_id(::google::protobuf::uint32 value);
+
+  // optional .gamer.protocol.PlayerMsgProtocol player = 4;
   inline bool has_player() const;
   inline void clear_player();
-  static const int kPlayerFieldNumber = 3;
+  static const int kPlayerFieldNumber = 4;
   inline const ::gamer::protocol::PlayerMsgProtocol& player() const;
   inline ::gamer::protocol::PlayerMsgProtocol* mutable_player();
   inline ::gamer::protocol::PlayerMsgProtocol* release_player();
@@ -131,6 +138,8 @@ class MyLoginMsgProtocol : public ::google::protobuf::Message {
   inline void clear_has_account();
   inline void set_has_password();
   inline void clear_has_password();
+  inline void set_has_player_id();
+  inline void clear_has_player_id();
   inline void set_has_player();
   inline void clear_has_player();
 
@@ -141,6 +150,7 @@ class MyLoginMsgProtocol : public ::google::protobuf::Message {
   ::std::string* account_;
   ::std::string* password_;
   ::gamer::protocol::PlayerMsgProtocol* player_;
+  ::google::protobuf::uint32 player_id_;
   friend void  protobuf_AddDesc_my_5flogin_5fmsg_5fprotocol_2eproto();
   friend void protobuf_AssignDesc_my_5flogin_5fmsg_5fprotocol_2eproto();
   friend void protobuf_ShutdownFile_my_5flogin_5fmsg_5fprotocol_2eproto();
@@ -307,15 +317,39 @@ inline void MyLoginMsgProtocol::set_allocated_password(::std::string* password) 
   // @@protoc_insertion_point(field_set_allocated:gamer.protocol.MyLoginMsgProtocol.password)
 }
 
-// optional .gamer.protocol.PlayerMsgProtocol player = 3;
-inline bool MyLoginMsgProtocol::has_player() const {
+// required uint32 player_id = 3;
+inline bool MyLoginMsgProtocol::has_player_id() const {
   return (_has_bits_[0] & 0x00000004u) != 0;
 }
-inline void MyLoginMsgProtocol::set_has_player() {
+inline void MyLoginMsgProtocol::set_has_player_id() {
   _has_bits_[0] |= 0x00000004u;
 }
-inline void MyLoginMsgProtocol::clear_has_player() {
+inline void MyLoginMsgProtocol::clear_has_player_id() {
   _has_bits_[0] &= ~0x00000004u;
+}
+inline void MyLoginMsgProtocol::clear_player_id() {
+  player_id_ = 0u;
+  clear_has_player_id();
+}
+inline ::google::protobuf::uint32 MyLoginMsgProtocol::player_id() const {
+  // @@protoc_insertion_point(field_get:gamer.protocol.MyLoginMsgProtocol.player_id)
+  return player_id_;
+}
+inline void MyLoginMsgProtocol::set_player_id(::google::protobuf::uint32 value) {
+  set_has_player_id();
+  player_id_ = value;
+  // @@protoc_insertion_point(field_set:gamer.protocol.MyLoginMsgProtocol.player_id)
+}
+
+// optional .gamer.protocol.PlayerMsgProtocol player = 4;
+inline bool MyLoginMsgProtocol::has_player() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+inline void MyLoginMsgProtocol::set_has_player() {
+  _has_bits_[0] |= 0x00000008u;
+}
+inline void MyLoginMsgProtocol::clear_has_player() {
+  _has_bits_[0] &= ~0x00000008u;
 }
 inline void MyLoginMsgProtocol::clear_player() {
   if (player_ != NULL) player_->::gamer::protocol::PlayerMsgProtocol::Clear();

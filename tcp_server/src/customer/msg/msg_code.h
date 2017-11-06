@@ -23,7 +23,8 @@ enum class MsgCodes {
 	// login
 	MSG_CODE_LOGIN_MSG_PROTO_ERR			        = 1001,
 	MSG_CODE_LOGIN_ACCOUNT_OR_PASSWORD_ERR			= 1002,
-	MSG_CODE_PLAYER_OFFLINE							= 1003,
+	MSG_CODE_LOGIN_PLAYER_ID_ERR					= 1003,
+	MSG_CODE_PLAYER_OFFLINE							= 1004,
 	
 	// room
 	// parse protocol error

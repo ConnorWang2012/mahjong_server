@@ -31,7 +31,9 @@ namespace protobuf {
 struct bufferevent;
 
 namespace gamer {
-	
+
+enum class MsgCodes;
+
 class MsgManager : public BasicManager<MsgManager> {
   public:
 	MsgManager() = default;
@@ -82,7 +84,7 @@ class MsgManager : public BasicManager<MsgManager> {
 
     bool ParseMsg(const ClientMsg& msg, google::protobuf::Message* proto);
 
-	void SendMsgForError(msg_header_t error_code, const ClientMsg& msg, bufferevent* bev);
+	void SendMsgForError(gamer::MsgCodes error_code, const ClientMsg& msg, bufferevent* bev);
 
     friend class NetworkManager;
 

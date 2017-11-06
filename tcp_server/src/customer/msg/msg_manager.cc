@@ -127,29 +127,24 @@ void MsgManager::DealWithMgLoginMsg(const ClientMsg& msg, bufferevent* bev) {
 	protocol::MyLoginMsgProtocol login_proto_client;
 	if ( !this->ParseMsg(msg, &login_proto_client )) {
 		// TODO : log
-		this->SendMsgForError((msg_header_t)MsgCodes::MSG_CODE_LOGIN_MSG_PROTO_ERR, 
-			msg, bev);
+		this->SendMsgForError(MsgCodes::MSG_CODE_LOGIN_MSG_PROTO_ERR, msg, bev);
 		return;
 	}
 
 	// check account and password
 	if ("" == login_proto_client.account() || "" == login_proto_client.password()) {
 		// TODO : log
-		this->SendMsgForError((msg_header_t)MsgCodes::MSG_CODE_LOGIN_ACCOUNT_OR_PASSWORD_ERR, 
-			msg, bev);
+		this->SendMsgForError(MsgCodes::MSG_CODE_LOGIN_ACCOUNT_OR_PASSWORD_ERR, msg, bev);
 		return;
 	}
-
-	std::string account_data = "";
-	DataManager::instance()->GetCachedPlayerPersonalData(login_proto_client.account(), 
-		&account_data);
 	
 	auto player_id = 0;
-    auto player = Player::Create(player_id);
+	Player* player = nullptr;
     protocol::MyLoginMsgProtocol login_proto_server;
 
-	if ("" == account_data) { // first login
+	if (login_proto_client.player_id() <= 0) { // first login
         player_id = DataManager::instance()->GeneratePlayerID();
+		player = Player::Create(player_id);
         player->set_account(login_proto_client.account());
         player->set_player_id(player_id);
         
@@ -171,36 +166,40 @@ void MsgManager::DealWithMgLoginMsg(const ClientMsg& msg, bufferevent* bev) {
 		auto accout_info = login_proto_server.SerializeAsString();
 		if ("" == accout_info) {
 			// TODO : log
-			this->SendMsgForError((msg_header_t)MsgCodes::MSG_CODE_LOGIN_MSG_PROTO_ERR, 
-				msg, bev);
+			this->SendMsgForError(MsgCodes::MSG_CODE_LOGIN_MSG_PROTO_ERR, msg, bev);
 			return;
 		} else {
-			DataManager::instance()->CachePlayerPersonalData(login_proto_client.account(), 
-                accout_info);
-
-			DataManager::instance()->CacheAccountByID(player_id, login_proto_client.account());
+			DataManager::instance()->CachePlayerPersonalData(player_id, accout_info);
 		}
 	} else { // not first login
+		// check cached account data
+		player_id = login_proto_client.player_id();
+		std::string account_data = "";
+		DataManager::instance()->GetCachedPlayerPersonalData(player_id, &account_data);
+
+		if ("" == account_data) {
+			this->SendMsgForError(MsgCodes::MSG_CODE_LOGIN_PLAYER_ID_ERR, msg, bev);
+			return;
+		}
+
 		if ( !login_proto_server.ParseFromString(account_data) ) {
 			// TODO : log
-			this->SendMsgForError((msg_header_t)MsgCodes::MSG_CODE_LOGIN_MSG_PROTO_ERR, msg, bev);
+			this->SendMsgForError(MsgCodes::MSG_CODE_LOGIN_MSG_PROTO_ERR, msg, bev);
 			return;
-		} else {
-			// check account and password
-			if (login_proto_server.password() != login_proto_client.password()) {
-				// TODO : log
-				this->SendMsgForError((msg_header_t)MsgCodes::MSG_CODE_LOGIN_ACCOUNT_OR_PASSWORD_ERR, 
-					msg, bev);
-				return;
-			}
+		} 
 
-            player_id = login_proto_server.player().player_id();
-            player->set_account(login_proto_server.account());
-            player->set_player_id(player_id);
+		// check account and password
+		if (login_proto_server.password() != login_proto_client.password()) {
+			// TODO : log
+			this->SendMsgForError(MsgCodes::MSG_CODE_LOGIN_ACCOUNT_OR_PASSWORD_ERR, msg, bev);
+			return;
 		}
+
+        player->set_account(login_proto_server.account());
+        player->set_player_id(player_id);
 	}
 
-	// login succeed, add online player, keep the bev for sending msg	
+	// login succeed, add on line player, keep the bev for sending msg	
 	PlayerManager::instance()->AddOnlinePlayer(player_id, player, bev);
 
 	// send login succeed msg
@@ -214,29 +213,30 @@ void MsgManager::DealWithMgLoginMsg(const ClientMsg& msg, bufferevent* bev) {
 void MsgManager::DealWithCreateRoomMsg(const ClientMsg& msg, bufferevent* bev) {
 	protocol::CreateRoomMsgProtocol proto;
 	if ( !this->ParseMsg(msg, &proto) ) {
-		this->SendMsgForError((msg_header_t)MsgCodes::MSG_CODE_ROOM_CREATE_ROOM_MSG_PROTO_ERR,
-			msg, bev);
+		this->SendMsgForError(MsgCodes::MSG_CODE_ROOM_CREATE_ROOM_MSG_PROTO_ERR, msg, bev);
 		return;
 	}
 
-	// check gold cost
+	// TODO:
+	// check gold cost, room card cost
 
-    // check whether player online 
+    // check whether player on line 
     auto player = PlayerManager::instance()->GetOnlinePlayer(proto.room_owner_id());
     if (nullptr == player) {
         // TODO : log
-        this->SendMsgForError((msg_header_t)MsgCodes::MSG_CODE_PLAYER_OFFLINE, msg, bev);
+        this->SendMsgForError(MsgCodes::MSG_CODE_PLAYER_OFFLINE, msg, bev);
         return;
     }
 
+	// generate room id
 	auto room_mgr = RoomManager<Player>::instance();
 	auto room_id = room_mgr->GenerateRoomID();
 	if (room_id <= 0) {
-		this->SendMsgForError((msg_header_t)MsgCodes::MSG_CODE_ROOM_GENERATE_ROOM_ID_ERR,
-			msg, bev);
+		this->SendMsgForError(MsgCodes::MSG_CODE_ROOM_GENERATE_ROOM_ID_ERR, msg, bev);
 		return;
 	}
 
+	// send create room success msg
 	proto.set_room_id(room_id);
     this->SendMsg(msg.type, msg.id, (msg_header_t)MsgCodes::MSG_CODE_SUCCESS, proto, bev);
 
@@ -255,8 +255,7 @@ void MsgManager::DealWithPlayerJoinRoomMsg(const ClientMsg& msg, bufferevent* be
 	gamer::protocol::RoomOperationMsgProtocol proto_client;
 	if ( !this->ParseMsg(msg, &proto_client) ) {
 		// TODO : log
-		this->SendMsgForError((msg_header_t)MsgCodes::MSG_CODE_ROOM_JOIN_ROOM_MSG_PROTO_ERR, 
-			msg, bev);
+		this->SendMsgForError(MsgCodes::MSG_CODE_ROOM_JOIN_ROOM_MSG_PROTO_ERR, msg, bev);
 		return;
 	}
 
@@ -264,8 +263,7 @@ void MsgManager::DealWithPlayerJoinRoomMsg(const ClientMsg& msg, bufferevent* be
 	auto room = RoomManager<Player>::instance()->GetRoom(proto_client.room_id());
 	if (nullptr == room) {
 		// TODO : log
-		this->SendMsgForError((msg_header_t)MsgCodes::MSG_CODE_ROOM_NOT_EXIST, 
-			msg, bev);
+		this->SendMsgForError(MsgCodes::MSG_CODE_ROOM_NOT_EXIST, msg, bev);
 		return;
 	}
 
@@ -273,24 +271,21 @@ void MsgManager::DealWithPlayerJoinRoomMsg(const ClientMsg& msg, bufferevent* be
 	auto player_id = proto_client.player_id();
 	if (room->is_player_in_room(player_id)) {
 		// TODO : log
-		this->SendMsgForError((msg_header_t)MsgCodes::MSG_CODE_ROOM_PLAYER_ALREADY_IN_THE_ROOM, 
-			msg, bev);
+		this->SendMsgForError(MsgCodes::MSG_CODE_ROOM_PLAYER_ALREADY_IN_THE_ROOM, msg, bev);
 		return;
 	}
 
 	// check whether player in any other room
 	if (RoomManager<Player>::instance()->IsPlayerInRoom(player_id)) {
 		// TODO : log
-		this->SendMsgForError((msg_header_t)MsgCodes::MSG_CODE_ROOM_PLAYER_ALREADY_IN_OTHER_ROOM,
-			msg, bev);
+		this->SendMsgForError(MsgCodes::MSG_CODE_ROOM_PLAYER_ALREADY_IN_OTHER_ROOM, msg, bev);
 		return;
 	}
 
 	// check players num
 	if (room->is_players_num_upper_limit()) {
 		// TODO : log
-		this->SendMsgForError((msg_header_t)MsgCodes::MSG_CODE_ROOM_PLAYER_NUM_LIMIT,
-			msg, bev);
+		this->SendMsgForError(MsgCodes::MSG_CODE_ROOM_PLAYER_NUM_LIMIT, msg, bev);
 		return;
 	}
 
@@ -298,7 +293,7 @@ void MsgManager::DealWithPlayerJoinRoomMsg(const ClientMsg& msg, bufferevent* be
 	auto player = PlayerManager::instance()->GetOnlinePlayer(player_id);
 	if (nullptr == player) {
 		// TODO : log
-		this->SendMsgForError((msg_header_t)MsgCodes::MSG_CODE_PLAYER_OFFLINE, msg, bev);
+		this->SendMsgForError(MsgCodes::MSG_CODE_PLAYER_OFFLINE, msg, bev);
 		return;
     }
 
@@ -322,8 +317,7 @@ void MsgManager::DealWithPlayerLeaveRoomMsg(const ClientMsg& msg, bufferevent* b
 	protocol::RoomOperationMsgProtocol proto_client;
 	if ( !this->ParseMsg(msg, &proto_client) ) {
 		// TODO : log
-		this->SendMsgForError((msg_header_t)MsgCodes::MSG_CODE_ROOM_LEAVE_ROOM_MSG_PROTO_ERR, 
-			msg, bev);
+		this->SendMsgForError(MsgCodes::MSG_CODE_ROOM_LEAVE_ROOM_MSG_PROTO_ERR, msg, bev);
 		return;
 	}
 
@@ -331,7 +325,7 @@ void MsgManager::DealWithPlayerLeaveRoomMsg(const ClientMsg& msg, bufferevent* b
 	auto room = RoomManager<Player>::instance()->GetRoom(proto_client.room_id());
 	if (nullptr == room) {
 		// TODO : log
-		this->SendMsgForError((msg_header_t)MsgCodes::MSG_CODE_ROOM_NOT_EXIST, msg, bev);
+		this->SendMsgForError(MsgCodes::MSG_CODE_ROOM_NOT_EXIST, msg, bev);
 		return;
 	}
 
@@ -339,8 +333,7 @@ void MsgManager::DealWithPlayerLeaveRoomMsg(const ClientMsg& msg, bufferevent* b
 	auto player_id = proto_client.player_id();
 	if ( !RoomManager<Player>::instance()->IsPlayerInRoom(player_id) ) {
 		// TODO : log
-		this->SendMsgForError((msg_header_t)MsgCodes::MSG_CODE_ROOM_PLAYER_NOT_IN_ROOM,
-			msg, bev);
+		this->SendMsgForError(MsgCodes::MSG_CODE_ROOM_PLAYER_NOT_IN_ROOM, msg, bev);
 		return;
 	}
 
@@ -365,7 +358,7 @@ void MsgManager::DealWithStartGameMsg(const ClientMsg& msg, bufferevent* bev) {
 	gamer::protocol::RoomMsgProtocol proto_client;
 	if ( !this->ParseMsg(msg, &proto_client) ) {
 		// TODO : log
-		this->SendMsgForError((msg_header_t)MsgCodes::MSG_CODE_ROOM_MSG_PROTO_ERR, msg, bev); 
+		this->SendMsgForError(MsgCodes::MSG_CODE_ROOM_MSG_PROTO_ERR, msg, bev); 
 		return;
 	}
 
@@ -374,21 +367,21 @@ void MsgManager::DealWithStartGameMsg(const ClientMsg& msg, bufferevent* bev) {
 	auto room = RoomManager<Player>::instance()->GetRoom(room_id);
 	if (nullptr == room) {
 		// TODO : log
-		this->SendMsgForError((msg_header_t)MsgCodes::MSG_CODE_ROOM_NOT_EXIST, msg, bev);
+		this->SendMsgForError(MsgCodes::MSG_CODE_ROOM_NOT_EXIST, msg, bev);
 		return;
 	}
 
 	// 3.verify room players num
 	if ( !room->is_players_num_upper_limit() ) {
 		// TODO : log
-		this->SendMsgForError((msg_header_t)MsgCodes::MSG_CODE_ROOM_PLAYER_NUM_LIMIT, msg, bev);
+		this->SendMsgForError(MsgCodes::MSG_CODE_ROOM_PLAYER_NUM_LIMIT, msg, bev);
 		return;
 	}
 
     // 4.deal with game start
     auto code = room->DealWithGameStart(proto_client);
     if (code != MsgCodes::MSG_CODE_SUCCESS) {
-        this->SendMsgForError((msg_header_t)code, msg, bev);
+        this->SendMsgForError(code, msg, bev);
     }
 }
 
@@ -396,7 +389,7 @@ void MsgManager::DealWithPlayCardMsg(const ClientMsg& msg, bufferevent* bev) {
 	gamer::protocol::PlayCardMsgProtocol proto_client;
 	if ( !this->ParseMsg(msg, &proto_client) ) {
 		// TODO : log
-		this->SendMsgForError((msg_header_t)MsgCodes::MSG_CODE_ROOM_PLAY_CARD_MSG_PROTO_ERR, 
+		this->SendMsgForError(MsgCodes::MSG_CODE_ROOM_PLAY_CARD_MSG_PROTO_ERR, 
 			msg, bev);
 		return;
 	}
@@ -405,14 +398,14 @@ void MsgManager::DealWithPlayCardMsg(const ClientMsg& msg, bufferevent* bev) {
 	auto room = RoomManager<Player>::instance()->GetRoom(proto_client.room_id());
 	if (nullptr == room) {
 		// TODO : log
-		this->SendMsgForError((msg_header_t)MsgCodes::MSG_CODE_ROOM_NOT_EXIST, msg, bev);
+		this->SendMsgForError(MsgCodes::MSG_CODE_ROOM_NOT_EXIST, msg, bev);
 		return;
 	}
 
     // deal with play card
     auto code = room->DealWithPlayCard(proto_client);
     if (code != MsgCodes::MSG_CODE_SUCCESS) {
-        this->SendMsgForError((msg_header_t)code, msg, bev);
+        this->SendMsgForError(code, msg, bev);
     }
 }
 
@@ -471,11 +464,12 @@ bool MsgManager::ParseMsg(const ClientMsg& msg, google::protobuf::Message* proto
     return proto->ParseFromArray(msg.context, len);
 }
 
-void MsgManager::SendMsgForError(msg_header_t error_code, const ClientMsg& msg, bufferevent* bev) {
+void MsgManager::SendMsgForError(gamer::MsgCodes error_code, 
+	const ClientMsg& msg, bufferevent* bev) {
 	gamer::ServerMsg server_msg = { gamer::server_msg_header_len(),
 									msg.type,
 									msg.id,
-									error_code,
+									(msg_header_t)error_code,
 									msg.context };
 	this->SendMsg(server_msg, bev);
 }

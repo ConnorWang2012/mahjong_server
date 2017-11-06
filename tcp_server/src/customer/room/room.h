@@ -1141,7 +1141,7 @@ void Room<Player>::DealWithGameEnd(Player* player_win) {
 
     for (auto& player : players_) {
         std::string account_data = "";
-        DataManager::instance()->GetCachedPlayerPersonalData(player->account(), &account_data);
+        DataManager::instance()->GetCachedPlayerPersonalData(player->player_id(), &account_data);
         
         if ("" != account_data) {
             if ( !login_proto.ParseFromString(account_data) ) {
@@ -1170,7 +1170,7 @@ void Room<Player>::DealWithGameEnd(Player* player_win) {
             }
 
             if (login_proto.SerializeToString(&account_data)) {
-                DataManager::instance()->CachePlayerPersonalData(player->account(), account_data);
+                DataManager::instance()->CachePlayerPersonalData(player->player_id(), account_data);
             }
         }
     }
