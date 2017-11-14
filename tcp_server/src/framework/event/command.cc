@@ -13,12 +13,11 @@
 ********************************************************************************/
 
 #include "command.h"
-#include "framework/base/macros.h"
 
 namespace gamer 
 {
 
-Command::Command(int cmd_id) {
+Command::Command(id_t cmd_id) {
     init(cmd_id);
 }
 
@@ -26,7 +25,7 @@ Command::~Command() {
 
 }
 
-bool Command::init(int cmd_id) {
+bool Command::init(id_t cmd_id) {
     event_.set_event_id(cmd_id);
     return true;
 }

@@ -23,7 +23,6 @@
 #include "event_listener.h"
 #include "event_manager.h"
 #include "framework/base/common.h"
-#include "framework/base/macros.h"
 
 namespace gamer {
 
@@ -100,11 +99,11 @@ void CommandManager::SendCmd(Command* cmd) {
     event_manager_->DispatchCommand(cmd);
 }
 
-void CommandManager::SendCmd(int cmd_id) {
+void CommandManager::SendCmd(id_t cmd_id) {
     event_manager_->DispatchCommand(cmd_id);
 }
 
-void CommandManager::SendCmd(int cmd_id, void* user_data) {
+void CommandManager::SendCmd(id_t cmd_id, void* user_data) {
     event_manager_->DispatchCommand(cmd_id, user_data);
 }
 

@@ -592,12 +592,6 @@
     <ClInclude Include="src\framework\base\macros.h">
       <Filter>src\framework\base</Filter>
     </ClInclude>
-    <ClInclude Include="src\framework\log\log.h">
-      <Filter>src\framework\log</Filter>
-    </ClInclude>
-    <ClInclude Include="src\framework\base\log_headers.h">
-      <Filter>src\framework\base</Filter>
-    </ClInclude>
     <ClInclude Include="src\framework\network\google\protobuf\io\coded_stream.h">
       <Filter>src\framework\network\protobuf\io</Filter>
     </ClInclude>
@@ -768,9 +762,6 @@
     </ClInclude>
     <ClInclude Include="src\customer\msg\protocol\my_login_msg_protocol.pb.h">
       <Filter>src\customer\msg\protocol</Filter>
-    </ClInclude>
-    <ClInclude Include="src\customer\msg\msg.h">
-      <Filter>src\customer\msg</Filter>
     </ClInclude>
     <ClInclude Include="src\customer\msg\msg_id.h">
       <Filter>src\customer\msg</Filter>
@@ -1069,6 +1060,15 @@
     <ClInclude Include="src\framework\util\google\absl\utility\utility.h">
       <Filter>src\framework\util\google\abseil\utility</Filter>
     </ClInclude>
+    <ClInclude Include="src\framework\log\mylog.h">
+      <Filter>src\framework\log</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\network_event_id.h">
+      <Filter>src\framework\network</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\base\msg.h">
+      <Filter>src\framework\base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -1100,9 +1100,6 @@
     </ClCompile>
     <ClCompile Include="src\framework\service\runtime\server.cc">
       <Filter>src\framework\service\runtime</Filter>
-    </ClCompile>
-    <ClCompile Include="src\framework\log\log.cc">
-      <Filter>src\framework\log</Filter>
     </ClCompile>
     <ClCompile Include="src\framework\network\google\protobuf\io\coded_stream.cc">
       <Filter>src\framework\network\protobuf\io</Filter>
@@ -1355,6 +1352,9 @@
     </ClCompile>
     <ClCompile Include="src\framework\util\google\absl\utility\utility.cc">
       <Filter>src\framework\util\google\abseil\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\log\mylog.cc">
+      <Filter>src\framework\log</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

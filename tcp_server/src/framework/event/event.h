@@ -17,13 +17,15 @@
 
 #include <string>
 
+#include "framework/base/macros.h"
+
 namespace gamer {
 
 class Event {
   public:
 	Event() : Event(0) {};
 
-	Event(int event_id)
+	Event(id_t event_id)
 		:event_id_(event_id)
 		,event_name_("")
 		,is_stopped_(false)
@@ -32,13 +34,13 @@ class Event {
 
 	~Event() {};
 
-    inline void set_event_id(int event_id) { event_id_ = event_id; }
+    inline void set_event_id(id_t event_id) { event_id_ = event_id; }
 
-    inline int event_id() const { return event_id_; }
+    inline id_t event_id() const { return event_id_; }
 
-    inline void set_sub_event_id(int sub_event_id) { sub_event_id_ = sub_event_id; }
+    inline void set_sub_event_id(id_t sub_event_id) { sub_event_id_ = sub_event_id; }
 
-    inline int sub_event_id() const { return sub_event_id_; }
+    inline id_t sub_event_id() const { return sub_event_id_; }
 
     inline void set_event_name(const std::string& event_name) { event_name_ = event_name; }
 
@@ -55,8 +57,8 @@ class Event {
     inline bool is_stopped() const { return is_stopped_; }
 
  private:
-    int event_id_;
-    int sub_event_id_;
+    id_t event_id_;
+    id_t sub_event_id_;
     std::string	event_name_;
     bool is_stopped_;
     void* user_data_;

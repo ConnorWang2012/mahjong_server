@@ -80,7 +80,7 @@ void EventManager::AddEventListener(EventListener* listener) {
     AddEventListener(listener, listener->priority());
 }
 
-void EventManager::DispatchEvent(Event* event) {
+void EventManager::Dispatch(Event* event) {
     assert(nullptr != event);
     assert(false != event->check_event_id());
 
@@ -98,7 +98,7 @@ void EventManager::DispatchEvent(Event* event) {
     UpdateEventListeners();
 }
 
-void EventManager::DispatchEvent(int event_id, void* optional_user_data) {
+void EventManager::Dispatch(id_t event_id, void* optional_user_data) {
     //assert(EventIDs::INVALID != event_id);
     assert(event_id > 0);
 
@@ -335,7 +335,7 @@ void EventManager::SortEventListeners(std::vector<EventListener*>* listeners) {
 	          });
 }
 
-void EventManager::SortEventListeners(int event_id) {
+void EventManager::SortEventListeners(id_t event_id) {
 	auto it = event_listener_.find(event_id);
 	if (event_listener_.end() != it) {
 		SortEventListeners(&it->second);

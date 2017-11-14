@@ -12,7 +12,7 @@ author:
 modification:
 ********************************************************************************/
 
-#include "log.h"
+#include "mylog.h"
 
 #include <chrono>
 #include <iostream>

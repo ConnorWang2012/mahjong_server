@@ -20,6 +20,8 @@
 #include <string>
 #include "event_listener.h"
 
+#include "framework/base/macros.h"
+
 namespace gamer {
 
 class Command;
@@ -32,13 +34,13 @@ class CommandListener {
     ~CommandListener();
 
     // use for c++ only.
-    static CommandListener* Create(int cmd_id, 
+    static CommandListener* Create(id_t cmd_id, 
                                    const CommandCallback& cmd_callback, 
                                    const std::string& listener_name, 
                                    int priority);
 
     // use for lua only.
-    static CommandListener* Create(int cmd_id, 
+    static CommandListener* Create(id_t cmd_id, 
                                    Listener::LuaFunction cmd_callback, 
                                    const std::string& listener_name,
                                    int priority);
@@ -74,12 +76,12 @@ class CommandListener {
   private:
     CommandListener();
     
-    bool Init(int cmd_id, 
+    bool Init(id_t cmd_id, 
               const CommandCallback& command_callback, 
               const std::string& listener_name, 
               int priority);
 
-    bool Init(int cmd_id, 
+    bool Init(id_t cmd_id, 
               Listener::LuaFunction command_callback, 
               const std::string& listener_name,
               int priority);

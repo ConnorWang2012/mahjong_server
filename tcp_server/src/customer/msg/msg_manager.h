@@ -18,14 +18,16 @@ modification:
 #include <string>
 #include <unordered_map>
 
-#include "base/basic_manager.h"
-#include "base/macros.h"
-#include "msg/msg.h"
+#include "framework/base/basic_manager.h"
+#include "framework/base/macros.h"
+#include "framework/base/msg.h"
 
 namespace google {
+
 namespace protobuf {
 	class Message;
 }
+
 }
 
 struct bufferevent;

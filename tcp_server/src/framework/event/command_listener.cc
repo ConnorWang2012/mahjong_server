@@ -25,7 +25,7 @@ CommandListener::~CommandListener() {
 }
 
 CommandListener* CommandListener::Create(
-    int cmd_id, 
+    id_t cmd_id, 
     const CommandCallback& cmd_callback, 
     const std::string& listener_name, 
     int priority) {
@@ -41,7 +41,7 @@ CommandListener* CommandListener::Create(
 }
 
 CommandListener* CommandListener::Create(
-    int cmd_id, 
+    id_t cmd_id, 
     Listener::LuaFunction cmd_callback, 
     const std::string& listener_name,
     int priority) {
@@ -57,7 +57,7 @@ CommandListener* CommandListener::Create(
     return nullptr;
 }
 
-bool CommandListener::Init(int cmd_id, 
+bool CommandListener::Init(id_t cmd_id, 
                            const CommandCallback& cmd_callback, 
                            const std::string& listener_name, 
                            int priority) {
@@ -68,7 +68,7 @@ bool CommandListener::Init(int cmd_id,
     return true;
 }
 
-bool CommandListener::Init(int cmd_id, 
+bool CommandListener::Init(id_t cmd_id, 
                            Listener::LuaFunction cmd_callback, 
                            const std::string& listener_name,
                            int priority) {

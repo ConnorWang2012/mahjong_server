@@ -23,21 +23,24 @@ modification:
 #include "event2/event.h"
 #include "event2/listener.h"
 
-#include "framework/base/log_headers.h"
+#include "framework/base/msg.h"
 #include "framework/cache/cache_proxy.h"
-#include "msg/msg.h"
+#include "framework/log/mylog.h"
+#include "framework/event/event_manager.h"
+#include "framework/network/network_event_id.h"
+
 #include "msg/msg_manager.h"
-#include "player/player_manager.h" // TODO : remove it
+
 namespace gamer {
 
 NetworkManager::NetworkManager() : NetworkManager("127.0.0.1", 4994) {
 }
 
 NetworkManager::NetworkManager(const std::string& ip, int port)
-	:ip_(ip)
-	,port_(port)
-	,evbase_(nullptr)
-	,connlistener_(nullptr) {
+	: ip_(ip),
+	  port_(port),
+	  evbase_(nullptr),
+	  connlistener_(nullptr) {
 }
 
 void NetworkManager::InitSocket() {
@@ -51,6 +54,7 @@ void NetworkManager::InitSocket() {
 #endif
 	
     CacheProxy::instance()->Init(); // TODO : do it in somewhere
+
 	if (nullptr == evbase_) {
 		evbase_ = event_base_new();
 	}
@@ -131,8 +135,8 @@ void NetworkManager::OnConnErrorOccur(struct evconnlistener* listener, void* ctx
 void NetworkManager::OnBuffereventReceived(struct bufferevent* bev, short event, void* ctx) {
 	if (event & BEV_EVENT_ERROR) {
 		LOGERROR("[NetworkManager::OnBuffereventArrive] error from bufferevent!");
-        PlayerManager::instance()->RemoveOnlinePlayer(bev); // TODO : do it somewhere
-        // TODO :
+        //PlayerManager::instance()->RemoveOnlinePlayer(bev); // TODO : do it somewhere
+		EventManager::instance()->Dispatch((id_t)NetworkEventIDs::NETWORK_EVENT_ID_SOCKET_DISCONNECTED);
 	}
 
 	if (event & (BEV_EVENT_EOF | BEV_EVENT_ERROR)) {
@@ -141,16 +145,12 @@ void NetworkManager::OnBuffereventReceived(struct bufferevent* bev, short event,
 
 	if (event & BEV_EVENT_CONNECTED) {
 		LOGGREEN("[NetworkManager::OnBuffereventArrive] client connected");
-		//write_cb(bev, nullptr);
-		//char msg[] = "client connected";
-		//bufferevent_write(bev, msg, sizeof(msg));
-		//auto input = bufferevent_get_input(bev);
-		//auto output = bufferevent_get_output(bev);
-		//evbuffer_add_printf(output, "client msg : %s", "client connected");
+		EventManager::instance()->Dispatch((id_t)NetworkEventIDs::NETWORK_EVENT_ID_SOCKET_CONNECTED);
 	} 
 	
 	if (event & BEV_EVENT_TIMEOUT) {
 		LOGERROR("[NetworkManager::OnBuffereventArrive] client connect timeout");
+		EventManager::instance()->Dispatch((id_t)NetworkEventIDs::NETWORK_EVENT_ID_SOCKET_CONNECT_TIMEOUT);
 	}
 }
 

@@ -296,7 +296,6 @@
     <ClInclude Include="..\libevent\src\include\openssl\__DECC_INCLUDE_EPILOGUE.H" />
     <ClInclude Include="..\libevent\src\include\openssl\__DECC_INCLUDE_PROLOGUE.H" />
     <ClInclude Include="src\customer\data\data_manager.h" />
-    <ClInclude Include="src\customer\msg\msg.h" />
     <ClInclude Include="src\customer\msg\msg_code.h" />
     <ClInclude Include="src\customer\msg\msg_id.h" />
     <ClInclude Include="src\customer\msg\msg_manager.h" />
@@ -321,8 +320,8 @@
     <ClInclude Include="src\customer\util\util.h" />
     <ClInclude Include="src\framework\base\basic_manager.h" />
     <ClInclude Include="src\framework\base\common.h" />
-    <ClInclude Include="src\framework\base\log_headers.h" />
     <ClInclude Include="src\framework\base\macros.h" />
+    <ClInclude Include="src\framework\base\msg.h" />
     <ClInclude Include="src\framework\cache\cache_proxy.h" />
     <ClInclude Include="src\framework\event\command.h" />
     <ClInclude Include="src\framework\event\command_listener.h" />
@@ -332,7 +331,7 @@
     <ClInclude Include="src\framework\event\event_listener.h" />
     <ClInclude Include="src\framework\event\event_manager.h" />
     <ClInclude Include="src\framework\event\listener.h" />
-    <ClInclude Include="src\framework\log\log.h" />
+    <ClInclude Include="src\framework\log\mylog.h" />
     <ClInclude Include="src\framework\network\google\protobuf\config.h" />
     <ClInclude Include="src\framework\network\google\protobuf\descriptor.h" />
     <ClInclude Include="src\framework\network\google\protobuf\descriptor.pb.h" />
@@ -389,6 +388,7 @@
     <ClInclude Include="src\framework\network\google\protobuf\wire_format.h" />
     <ClInclude Include="src\framework\network\google\protobuf\wire_format_lite.h" />
     <ClInclude Include="src\framework\network\google\protobuf\wire_format_lite_inl.h" />
+    <ClInclude Include="src\framework\network\network_event_id.h" />
     <ClInclude Include="src\framework\network\network_manager.h" />
     <ClInclude Include="src\framework\service\runtime\server.h" />
     <ClInclude Include="src\framework\service\runtime\server_protocal.h" />
@@ -491,7 +491,7 @@
     <ClCompile Include="src\framework\event\event_listener.cc" />
     <ClCompile Include="src\framework\event\event_manager.cc" />
     <ClCompile Include="src\framework\event\listener.cc" />
-    <ClCompile Include="src\framework\log\log.cc" />
+    <ClCompile Include="src\framework\log\mylog.cc" />
     <ClCompile Include="src\framework\network\google\protobuf\descriptor.cc" />
     <ClCompile Include="src\framework\network\google\protobuf\descriptor.pb.cc" />
     <ClCompile Include="src\framework\network\google\protobuf\descriptor_database.cc" />

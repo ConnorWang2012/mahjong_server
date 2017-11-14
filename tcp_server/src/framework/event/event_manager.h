@@ -20,6 +20,8 @@
 #include <string>
 #include <vector>
 
+#include "framework/base/macros.h"
+
 namespace gamer {
 
 class Command;
@@ -40,9 +42,9 @@ class EventManager {
 
 	void AddEventListener(EventListener* listener);
 
-    void DispatchEvent(Event* event);
+    void Dispatch(Event* event);
 
-    void DispatchEvent(int event_id, void* optional_user_data = nullptr);
+    void Dispatch(id_t event_id, void* optional_user_data = nullptr);
 
     // remove the event listener from the instance of event manager but do not delete it.
 	void RemoveEventListener(EventListener* listener);
@@ -69,7 +71,7 @@ class EventManager {
     inline bool enabled() const { return is_enabled_; }
 
 private:
-    typedef std::map<int, std::vector<EventListener*>>	EventListenerMap;
+    typedef std::map<id_t, std::vector<EventListener*>>	EventListenerMap;
 
     enum class DirtyFlag {
         DIRTY_FLAG_NONE                     = 0,
@@ -94,7 +96,7 @@ private:
 
 	void SortEventListeners(std::vector<EventListener*>* listeners);
 
-	void SortEventListeners(int event_id);
+	void SortEventListeners(id_t event_id);
 
 	void DispatchEvent(std::vector<EventListener*> listeners, Event* event);
 
@@ -117,7 +119,7 @@ private:
 
 	inline void set_dirty_flag(DirtyFlag flag) { dirty_flag_ = flag; }
 
-	inline void set_dirty_flag(DirtyFlag flag, int event_id) {
+	inline void set_dirty_flag(DirtyFlag flag, id_t event_id) {
         set_dirty_flag(flag);
         dirty_event_id_ = event_id;
     };

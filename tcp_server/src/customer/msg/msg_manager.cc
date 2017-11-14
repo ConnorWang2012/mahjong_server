@@ -14,12 +14,12 @@ modification:
 
 #include "msg_manager.h"
 
-#include "event2/bufferevent.h"		  // libevent
+#include "event2/bufferevent.h"
 
 #include "event/event_manager.h"
 #include "data/data_manager.h"
 #include "framework/util/chess_card_algorithm.h"
-#include "framework/base/log_headers.h"
+#include "framework/log/mylog.h"
 #include "msg/msg_type.h"
 #include "msg/msg_id.h"
 #include "msg/msg_code.h"

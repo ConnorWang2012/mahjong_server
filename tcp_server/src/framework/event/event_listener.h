@@ -17,7 +17,8 @@
 
 #include <functional>
 #include <string>
-//#include "command_listener.h"
+
+#include "framework/base/macros.h"
 #include "listener.h"
 
 namespace gamer {
@@ -32,13 +33,13 @@ class EventListener : public Listener {
 	~EventListener();
 
     // use for c++ only.
-	static EventListener* Create(int event_id, 
+	static EventListener* Create(id_t event_id, 
                                  const EventCallback& event_callback, 
                                  const std::string& listener_name, 
                                  int priority);
 
     // use for lua only.
-    static EventListener* Create(int event_id, 
+    static EventListener* Create(id_t event_id, 
                                  LuaFunction event_callback, 
                                  const std::string& listener_name,
                                  int priority);
@@ -47,7 +48,7 @@ class EventListener : public Listener {
 
     bool check_validity() const override;
 
-	inline int event_id() const { return target_id(); };
+	inline id_t event_id() const { return target_id(); };
 
     inline void set_event_callback(const EventCallback& event_callback) { 
         event_callback_ = event_callback; 
@@ -64,7 +65,7 @@ class EventListener : public Listener {
     EventListener();
 
     // use for c++ only. use for command listener.
-    static EventListener* CreateCmdListener(int event_id, 
+    static EventListener* CreateCmdListener(id_t event_id, 
 											const CommandCallback& cmd_callback,
 											const std::string& listener_name,
 											int priority);
@@ -73,19 +74,19 @@ class EventListener : public Listener {
     void Init();
 
     // use for c++ only.
-    bool Init(int event_id, 
+    bool Init(id_t event_id, 
               const EventCallback& event_callback, 
               const std::string& listener_name, 
               int priority);
 
     // use for lua only.
-    bool Init(int event_id, 
+    bool Init(id_t event_id, 
               LuaFunction event_callback, 
               const std::string& listener_name, 
               int priority);
 
     // use for c++ only.use for command listener.
-    bool Init(int event_id, 
+    bool Init(id_t event_id, 
               const CommandCallback& cmd_callback, 
               const std::string& listener_name, 
               int priority);

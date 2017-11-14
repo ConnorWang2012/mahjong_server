@@ -19,6 +19,8 @@
 #include <vector>
 #include <string>
 
+#include "framework/base/macros.h"
+
 namespace gamer {
 
 class Command;
@@ -53,10 +55,10 @@ class CommandManager {
 
     void SendCmd(Command* cmd);
 
-    void SendCmd(int cmd_id);
+    void SendCmd(id_t cmd_id);
 
     // TODO : bind to lua
-    void SendCmd(int cmd_id, void* user_data);
+    void SendCmd(id_t cmd_id, void* user_data);
 
   private:
     CommandManager();
