@@ -571,9 +571,6 @@
     <ClInclude Include="src\framework\event\event.h">
       <Filter>src\framework\event</Filter>
     </ClInclude>
-    <ClInclude Include="src\framework\event\event_define.h">
-      <Filter>src\framework\event</Filter>
-    </ClInclude>
     <ClInclude Include="src\framework\event\event_listener.h">
       <Filter>src\framework\event</Filter>
     </ClInclude>
@@ -1086,16 +1083,10 @@
     <ClCompile Include="src\framework\event\command_manager.cc">
       <Filter>src\framework\event</Filter>
     </ClCompile>
-    <ClCompile Include="src\framework\event\event.cc">
-      <Filter>src\framework\event</Filter>
-    </ClCompile>
     <ClCompile Include="src\framework\event\event_listener.cc">
       <Filter>src\framework\event</Filter>
     </ClCompile>
     <ClCompile Include="src\framework\event\event_manager.cc">
-      <Filter>src\framework\event</Filter>
-    </ClCompile>
-    <ClCompile Include="src\framework\event\listener.cc">
       <Filter>src\framework\event</Filter>
     </ClCompile>
     <ClCompile Include="src\framework\service\runtime\server.cc">

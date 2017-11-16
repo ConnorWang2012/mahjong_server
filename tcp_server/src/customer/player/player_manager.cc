@@ -16,7 +16,21 @@ modification:
 
 #include <algorithm>
 
+#include "framework/event/event.h"
+#include "framework/event/event_listener.h"
+#include "framework/event/event_manager.h"
+#include "framework/network/network_event_id.h"
+
 namespace gamer {
+	
+void PlayerManager::Init() {
+	auto listener = EventListener::Create(
+		(id_t)NetworkEventIDs::NETWORK_EVENT_ID_SOCKET_DISCONNECTED,
+		CALLBACK_SELECTOR_1(PlayerManager::OnSocketDisconnected, this),
+		"PlayerMgr::OnSocketUnconnected", 
+		(int)Listener::Priorities::SENIOR);
+	EventManager::instance()->AddEventListener(listener);
+}
 
 bool PlayerManager::IsPlayerOnline(id_t player_id) const {
 	return bufferevents_.find(player_id) != bufferevents_.end();
@@ -61,7 +75,7 @@ void PlayerManager::RemoveOnlinePlayer(id_t player_id) {
 
 void PlayerManager::RemoveOnlinePlayer(bufferevent* bev) {
 	if (nullptr != bev) {
-		// TODO : some kind of ugly
+		// ugly TODO:
 		for (auto itr = bufferevents_.begin(); itr != bufferevents_.end(); ++itr) {
 			if (itr->second == bev) {
                 auto it = players_.find(itr->first);
@@ -75,6 +89,9 @@ void PlayerManager::RemoveOnlinePlayer(bufferevent* bev) {
 			}
 		}
 	}
+}
+
+void PlayerManager::OnSocketDisconnected(const gamer::Event& event) {
 }
 
 } // namespace gamer

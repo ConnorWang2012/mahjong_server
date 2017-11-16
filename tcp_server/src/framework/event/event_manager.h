@@ -4,8 +4,9 @@
   @ author:		  Connor
   @ version:	  1.0.0
   @ date:		  2015-01-18
-  @ description:  offer function to manager events : add event listener, dispatch
-                  event, etc.
+  @ description:  1.offer function to manager events : add event listener, 
+                    dispatch event, etc.
+				  2.not support lua listener.
   @ others:  
   @ history: 
      1.date:
@@ -40,10 +41,13 @@ class EventManager {
 
 	static void DestoryInstance();
 
+	// add event listener
 	void AddEventListener(EventListener* listener);
 
-    void Dispatch(Event* event);
+	// dispatch event
+    void Dispatch(const Event& event);
 
+	// dispatch event
     void Dispatch(id_t event_id, void* optional_user_data = nullptr);
 
     // remove the event listener from the instance of event manager but do not delete it.
@@ -70,7 +74,7 @@ class EventManager {
 
     inline bool enabled() const { return is_enabled_; }
 
-private:
+  private:
     typedef std::map<id_t, std::vector<EventListener*>>	EventListenerMap;
 
     enum class DirtyFlag {
@@ -98,7 +102,7 @@ private:
 
 	void SortEventListeners(id_t event_id);
 
-	void DispatchEvent(std::vector<EventListener*> listeners, Event* event);
+	void DispatchEvent(std::vector<EventListener*> listeners, const Event& event);
 
     // use for command manager.
     void DispatchCommand(Command* cmd);

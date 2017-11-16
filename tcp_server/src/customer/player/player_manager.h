@@ -24,10 +24,13 @@ struct bufferevent;
 
 namespace gamer {
 
+class Event;
 class Player;
 
 class PlayerManager : public BasicManager<PlayerManager> {
   public:
+	void Init();
+
 	bool IsPlayerOnline(id_t player_id) const;
 
 	bufferevent* GetOnlinePlayerBufferevent(id_t player_id);
@@ -42,6 +45,8 @@ class PlayerManager : public BasicManager<PlayerManager> {
     void RemoveOnlinePlayer(bufferevent* bev);
 
   private:
+	void OnSocketDisconnected(const gamer::Event& event);
+
 	std::unordered_map<id_t, Player*> players_; // key is player id
 
 	std::unordered_map<id_t, bufferevent*> bufferevents_; // key is player id

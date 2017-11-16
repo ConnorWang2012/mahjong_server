@@ -327,7 +327,6 @@
     <ClInclude Include="src\framework\event\command_listener.h" />
     <ClInclude Include="src\framework\event\command_manager.h" />
     <ClInclude Include="src\framework\event\event.h" />
-    <ClInclude Include="src\framework\event\event_define.h" />
     <ClInclude Include="src\framework\event\event_listener.h" />
     <ClInclude Include="src\framework\event\event_manager.h" />
     <ClInclude Include="src\framework\event\listener.h" />
@@ -487,10 +486,8 @@
     <ClCompile Include="src\framework\event\command.cc" />
     <ClCompile Include="src\framework\event\command_listener.cc" />
     <ClCompile Include="src\framework\event\command_manager.cc" />
-    <ClCompile Include="src\framework\event\event.cc" />
     <ClCompile Include="src\framework\event\event_listener.cc" />
     <ClCompile Include="src\framework\event\event_manager.cc" />
-    <ClCompile Include="src\framework\event\listener.cc" />
     <ClCompile Include="src\framework\log\mylog.cc" />
     <ClCompile Include="src\framework\network\google\protobuf\descriptor.cc" />
     <ClCompile Include="src\framework\network\google\protobuf\descriptor.pb.cc" />

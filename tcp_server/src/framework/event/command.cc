@@ -14,11 +14,10 @@
 
 #include "command.h"
 
-namespace gamer 
-{
+namespace gamer {
 
 Command::Command(id_t cmd_id) {
-    init(cmd_id);
+    this->init(cmd_id);
 }
 
 Command::~Command() {

@@ -4,8 +4,9 @@
   @ author:		  Connor
   @ version:	  1.0.0
   @ date:		  2015-03-03
-  @ description:  offer function to manager commands:send cmd,response cmd,etc.
-                  it is implemented in terms of event manager.
+  @ description:  1.offer function to manager commands:send cmd,response cmd,etc.
+                    it is implemented in terms of event manager.
+				  2.not support lua listener.
   @ others:  
   @ history: 
      1.date:

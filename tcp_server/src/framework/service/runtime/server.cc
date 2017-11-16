@@ -15,6 +15,7 @@ modification:
 #include "server.h"
 
 #include "customer/msg/msg_manager.h"
+#include "customer/player/player_manager.h"
 #include "framework/log/mylog.h"
 #include "framework/network/network_manager.h"
 
@@ -27,7 +28,7 @@ Server* Server::instance() {
 
 void Server::Start() {
 	gamer::log::init();
-	WRITELOG("[Server::Start] server starting");
+	PlayerManager::instance()->Init();
     MsgManager::instance()->Init();
 	NetworkManager::instance()->InitSocket();
 }

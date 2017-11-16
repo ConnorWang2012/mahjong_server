@@ -28,7 +28,7 @@ class Event;
 
 class EventListener : public Listener {
   public:
-    typedef std::function<void(Event*)> EventCallback;
+    typedef std::function<void(const Event&)> EventCallback;
 
 	~EventListener();
 
@@ -44,7 +44,7 @@ class EventListener : public Listener {
                                  const std::string& listener_name,
                                  int priority);
 
-    void ExecuteCallback(Event* event);
+    void ExecuteCallback(const Event& event);
 
     bool check_validity() const override;
 

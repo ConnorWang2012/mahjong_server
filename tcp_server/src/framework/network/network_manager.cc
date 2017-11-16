@@ -135,7 +135,6 @@ void NetworkManager::OnConnErrorOccur(struct evconnlistener* listener, void* ctx
 void NetworkManager::OnBuffereventReceived(struct bufferevent* bev, short event, void* ctx) {
 	if (event & BEV_EVENT_ERROR) {
 		LOGERROR("[NetworkManager::OnBuffereventArrive] error from bufferevent!");
-        //PlayerManager::instance()->RemoveOnlinePlayer(bev); // TODO : do it somewhere
 		EventManager::instance()->Dispatch((id_t)NetworkEventIDs::NETWORK_EVENT_ID_SOCKET_DISCONNECTED);
 	}
 

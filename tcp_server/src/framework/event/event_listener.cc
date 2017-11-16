@@ -17,30 +17,25 @@
 #include <cassert>
 #include <stdint.h>
 
-#include "event_define.h"
-
 namespace gamer {
 
 EventListener::EventListener() {
-    Init();
+    this->Init();
 }
 
 EventListener::~EventListener() {
-	Init();
+	this->Init();
 }
 
-EventListener* EventListener::Create(
-    id_t event_id, 
-    const EventCallback& event_callback, 
-    const std::string& listener_name, 
-    int priority)
-{
+EventListener* EventListener::Create(id_t event_id, 
+                                     const EventCallback& event_callback, 
+                                     const std::string& listener_name, 
+                                     int priority) {
 	EventListener* listener = new EventListener();
 	if (listener && listener->Init(event_id, 
                                    event_callback, 
                                    listener_name, 
-                                   priority))
-	{
+                                   priority)) {
 		return listener;
 	}
 	SAFE_DELETE(listener);
@@ -50,11 +45,9 @@ EventListener* EventListener::Create(
 EventListener* EventListener::Create(id_t event_id, 
                                      LuaFunction event_callback,
                                      const std::string& listener_name,
-                                     int priority)
-{
+                                     int priority) {
     EventListener* listener = new EventListener();
-    if (listener && listener->Init(event_id, event_callback, listener_name, priority))
-    {
+    if (listener && listener->Init(event_id, event_callback, listener_name, priority)) {
         listener->is_lua_function_ = true;
         return listener;
     }
@@ -62,43 +55,36 @@ EventListener* EventListener::Create(id_t event_id,
     return nullptr;
 }
 
-void EventListener::ExecuteCallback(Event* event)
-{
-    if (nullptr != event_callback_)
-    {
+void EventListener::ExecuteCallback(const Event& event) {
+    if (nullptr != event_callback_) {
         event_callback_(event);
     }
 }
 
-bool EventListener::check_validity() const
-{
+bool EventListener::check_validity() const {
     id_t event_id = this->event_id();
-    if (is_lua_function()) 
-    {
+    if (this->is_lua_function()) {
         return 0 < event_id && "" != lua_function_id();
     }
     return 0 < event_id && (nullptr != event_callback_ || nullptr != cmd_callback_); 
 }
 
 EventListener* EventListener::CreateCmdListener(id_t event_id,
-                                     const CommandCallback& cmd_callback, 
-                                     const std::string& listener_name, 
-                                     int priority )
-{
+                                                const CommandCallback& cmd_callback, 
+                                                const std::string& listener_name, 
+                                                int priority) {
     EventListener* listener = new EventListener();
-    if (listener && listener->Init(event_id, cmd_callback, listener_name, priority))
-    {
+    if (listener && listener->Init(event_id, cmd_callback, listener_name, priority)) {
         return listener;
     }
     SAFE_DELETE(listener);
     return nullptr;
 }
 
-void EventListener::Init()
-{
+void EventListener::Init() {
     target_id_        = 0;
     listener_name_    = "";
-    priority_         = UINT32_MAX;
+    priority_         = (int)Listener::Priorities::NORMAL;
     is_enabled_       = true;
     is_lua_function_  = false;
     lua_function_     = 0;
@@ -109,8 +95,7 @@ void EventListener::Init()
 bool EventListener::Init(id_t event_id, 
                          const EventCallback& event_callback, 
                          const std::string& listener_name, 
-                         int priority)
-{
+                         int priority) {
     assert(nullptr != event_callback);
 
     set_target_id(event_id);
@@ -124,8 +109,7 @@ bool EventListener::Init(id_t event_id,
 bool EventListener::Init(id_t event_id, 
                          LuaFunction event_callback, 
                          const std::string& listener_name, 
-                         int priority)
-{
+                         int priority) {
     assert(0 < event_id);
 
     set_target_id(event_id);
@@ -138,8 +122,7 @@ bool EventListener::Init(id_t event_id,
 bool EventListener::Init(id_t event_id, 
                          const CommandCallback& cmd_callback, 
                          const std::string& listener_name, 
-                         int priority)
-{
+                         int priority) {
     assert(nullptr != cmd_callback);
 
     set_target_id(event_id);

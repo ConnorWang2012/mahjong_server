@@ -23,6 +23,12 @@ class Listener {
   public:
     typedef int LuaFunction;
 
+	enum class Priorities {
+		SENIOR,
+		JUNIOR,
+		NORMAL
+	};
+
     //Listener();
 
     virtual ~Listener() {};

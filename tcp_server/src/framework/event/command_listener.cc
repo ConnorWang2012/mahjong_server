@@ -24,11 +24,10 @@ CommandListener::CommandListener() : event_listener_(nullptr) {
 CommandListener::~CommandListener() {
 }
 
-CommandListener* CommandListener::Create(
-    id_t cmd_id, 
-    const CommandCallback& cmd_callback, 
-    const std::string& listener_name, 
-    int priority) {
+CommandListener* CommandListener::Create(id_t cmd_id,
+	                                     const CommandCallback& cmd_callback,
+	                                     const std::string& listener_name,
+	                                     int priority) {
     CommandListener* listener = new CommandListener();
     if (listener && listener->Init(cmd_id, 
                                    cmd_callback, 
@@ -40,17 +39,15 @@ CommandListener* CommandListener::Create(
     return nullptr;
 }
 
-CommandListener* CommandListener::Create(
-    id_t cmd_id, 
-    Listener::LuaFunction cmd_callback, 
-    const std::string& listener_name,
-    int priority) {
+CommandListener* CommandListener::Create(id_t cmd_id, 
+                                         Listener::LuaFunction cmd_callback, 
+                                         const std::string& listener_name,
+                                         int priority) {
     CommandListener* listener = new CommandListener();
     if (listener && listener->Init(cmd_id, 
                                    cmd_callback, 
                                    listener_name, 
-                                   priority))
-    {
+                                   priority)) {
         return listener;
     }
     SAFE_DELETE(listener);
