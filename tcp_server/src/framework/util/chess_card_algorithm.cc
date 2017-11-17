@@ -225,7 +225,7 @@ bool ChessCard::IsTing(int* hand_cards,
 bool ChessCard::IsTing(int* hand_cards, int hand_cards_len) {
     int n[34] = { 0 };
 
-    if (!ChessCard::Analyse(hand_cards, hand_cards_len, n)) {
+    if ( !ChessCard::Analyse(hand_cards, hand_cards_len, n) ) {
         // TODO : log
         return false;
     }

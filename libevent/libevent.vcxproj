@@ -116,11 +116,11 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>libcrypto.lib;libssl.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)libevent\lib\openssl\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
     <PostBuildEvent>
-      <Command>xcopy "$(OutDir)$(ProjectName).lib" "$(SolutionDir)tcp_server\lib\$(Configuration)\$(Platform)" /D /E /I /F /Y</Command>
+      <Command>xcopy "$(OutDir)$(ProjectName).lib" "$(SolutionDir)tcp_server\lib\$(ProjectName)\$(Configuration)\$(Platform)\" /D /E /I /F /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

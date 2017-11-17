@@ -17,6 +17,28 @@
 
 namespace gamer {
 
+#if defined(_WIN32)
+	typedef __int8                  int8;
+	typedef __int16                 int16;
+	typedef __int32                 int32;
+	typedef __int64                 int64;
+
+	typedef unsigned __int8         uint8;
+	typedef unsigned __int16        uint16;
+	typedef unsigned __int32        uint32;
+	typedef unsigned __int64        uint64;
+#elif defined(__linux__) || defined(__unix__)
+	typedef int8_t                  int8;
+	typedef int16_t                 int16;
+	typedef int32_t                 int32;
+	typedef int64_t                 int64;
+
+	typedef uint8_t                 uint8;
+	typedef uint16_t                uint16;
+	typedef uint32_t                uint32;
+	typedef uint64_t                uint64;
+#endif
+
 #define NS_GAMER_BEGIN				namespace gamer {
 #define NS_GAMER_END				}
 #define USING_NS_GAMER				using namespace gamer
@@ -44,6 +66,7 @@ namespace gamer {
 
 #define score_t						unsigned int
 #define id_t						unsigned int
+#define card_t						unsigned int
 } // namespace gamer
 
 #endif // CONNOR_GAME_SRC_FRAMEWORK_MACROS_H_

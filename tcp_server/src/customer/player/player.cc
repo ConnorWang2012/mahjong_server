@@ -14,6 +14,8 @@ modification:
 
 #include "player.h"
 
+#include <algorithm>
+
 #include "base/macros.h"
 #include "customer/util/util.h"
 #include "customer/room/card_constants.h"
@@ -98,8 +100,12 @@ bool Player::UpdateCardForChi(int card_of_chi, int card_match_chi_1, int card_ma
     }
 
     // check whether match chi
-    auto min = std::min(std::min(card_of_chi, card_match_chi_1), card_match_chi_2);
-    auto max = std::max(std::max(card_of_chi, card_match_chi_1), card_match_chi_2);
+	//int min = std::min(std::min(card_of_chi, card_match_chi_1), card_match_chi_2);
+    //int max = std::max(std::max(card_of_chi, card_match_chi_1), card_match_chi_2);
+	auto min1 = card_of_chi < card_match_chi_1 ? card_of_chi : card_match_chi_1;
+	auto max1 = card_of_chi > card_match_chi_1 ? card_of_chi : card_match_chi_1;
+	auto min = min1 < card_match_chi_2 ? min1 : card_match_chi_2;
+	auto max = max1 > card_match_chi_2 ? max1 : card_match_chi_2;
     if (2 != max - min) {
         return false;
     }

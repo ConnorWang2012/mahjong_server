@@ -18,6 +18,13 @@ modification:
 #include <functional>
 #include <random>
 #include <vector>
+#include <string>
+
+#if defined(_WIN32)
+#include <windows.h>
+#elif defined(__linux__)
+#elif defined(__unix__)
+#endif
 
 namespace gamer {
 
@@ -28,6 +35,20 @@ static T GenerateRandom(T min, T max) {
     std::mt19937 engine(rd());
     auto generator = std::bind(distribution, engine);
     return generator();
+}
+
+static std::string GetPathOfExecutable() {
+#if defined(_WIN32)
+	char fullpath[MAX_PATH];
+	auto total_len = GetModuleFileNameA(NULL, fullpath, MAX_PATH);
+
+	std::string s = fullpath;
+	auto i = s.find_last_of("\\");
+	return s.substr(0, i);
+#elif defined(__linux__)
+#elif defined(__unix__)
+#endif
+	return "";
 }
 
 } // namespace gamer

@@ -91,7 +91,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_WINSOCK_DEPRECATED_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS_DEBUG;_SCL_SECURE_NO_WARNINGS;CONNOR_GAME_LOG_OPENED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)cpp_redis\src\include;$(SolutionDir)libevent\src;$(SolutionDir)libevent\src\compat;$(SolutionDir)libevent\src\include;$(SolutionDir)libevent\src\include\event2;$(SolutionDir)libevent\src\include\openssl;$(SolutionDir)libevent\src\WIN32-Code;$(SolutionDir)libevent\src\WIN32-Code\nmake;$(SolutionDir)libevent\src\WIN32-Code\nmake\event2;$(SolutionDir)tcp_server\src;$(SolutionDir)tcp_server\src\customer;$(SolutionDir)tcp_server\src\framework;$(SolutionDir)tcp_server\src\framework\network;$(SolutionDir)tcp_server\src\framework\util\google;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)cpp_redis\src\include;$(SolutionDir)libevent\src;$(SolutionDir)libevent\src\compat;$(SolutionDir)libevent\src\include;$(SolutionDir)libevent\src\include\event2;$(SolutionDir)libevent\src\include\openssl;$(SolutionDir)libevent\src\WIN32-Code;$(SolutionDir)libevent\src\WIN32-Code\nmake;$(SolutionDir)libevent\src\WIN32-Code\nmake\event2;$(SolutionDir)tcp_server\src;$(SolutionDir)tcp_server\src\customer;$(SolutionDir)tcp_server\src\framework;$(SolutionDir)tcp_server\src\framework\network;$(SolutionDir)tcp_server\src\framework\util\google;$(SolutionDir)tcp_server\src\framework\network\google\protobuf\win-specific\zlib\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -109,15 +109,15 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_WINSOCK_DEPRECATED_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS_DEBUG;_SCL_SECURE_NO_WARNINGS;CONNOR_GAME_LOG_OPENED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)libevent\src;$(SolutionDir)libevent\src\compat;$(SolutionDir)libevent\src\include;$(SolutionDir)libevent\src\include\event2;$(SolutionDir)libevent\src\include\openssl;$(SolutionDir)libevent\src\WIN32-Code;$(SolutionDir)libevent\src\WIN32-Code\nmake;$(SolutionDir)libevent\src\WIN32-Code\nmake\event2;$(SolutionDir)tcp_server\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)cpp_redis\src\include;$(SolutionDir)libevent\src;$(SolutionDir)libevent\src\compat;$(SolutionDir)libevent\src\include;$(SolutionDir)libevent\src\include\event2;$(SolutionDir)libevent\src\include\openssl;$(SolutionDir)libevent\src\WIN32-Code;$(SolutionDir)libevent\src\WIN32-Code\nmake;$(SolutionDir)libevent\src\WIN32-Code\nmake\event2;$(SolutionDir)tcp_server\src;$(SolutionDir)tcp_server\src\customer;$(SolutionDir)tcp_server\src\customer\data;$(SolutionDir)tcp_server\src\framework;$(SolutionDir)tcp_server\src\framework\network;$(SolutionDir)tcp_server\src\framework\util;$(SolutionDir)tcp_server\src\framework\util\google;$(SolutionDir)tcp_server\src\framework\network\google\protobuf\win-specific\zlib\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>libevent.lib;cpp_redis.lib;ws2_32.lib;wsock32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)tcp_server\lib\$(Configuration)\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libevent.lib;cpp_redis.lib;ws2_32.lib;wsock32.lib;libzlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)tcp_server\lib\$(Configuration)\$(Platform);$(SolutionDir)tcp_server\lib\cpp_redis\$(Configuration)\$(Platform);$(SolutionDir)tcp_server\lib\libevent\$(Configuration)\$(Platform);$(SolutionDir)tcp_server\lib\zlib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PreBuildEvent>
       <Command>
@@ -295,6 +295,7 @@
     <ClInclude Include="..\libevent\src\include\openssl\x509_vfy.h" />
     <ClInclude Include="..\libevent\src\include\openssl\__DECC_INCLUDE_EPILOGUE.H" />
     <ClInclude Include="..\libevent\src\include\openssl\__DECC_INCLUDE_PROLOGUE.H" />
+    <ClInclude Include="src\customer\data\config_mgr.h" />
     <ClInclude Include="src\customer\data\data_manager.h" />
     <ClInclude Include="src\customer\msg\msg_code.h" />
     <ClInclude Include="src\customer\msg\msg_id.h" />
@@ -384,6 +385,8 @@
     <ClInclude Include="src\framework\network\google\protobuf\stubs\type_traits.h" />
     <ClInclude Include="src\framework\network\google\protobuf\text_format.h" />
     <ClInclude Include="src\framework\network\google\protobuf\unknown_field_set.h" />
+    <ClInclude Include="src\framework\network\google\protobuf\win-specific\zlib\include\zconf.h" />
+    <ClInclude Include="src\framework\network\google\protobuf\win-specific\zlib\include\zlib.h" />
     <ClInclude Include="src\framework\network\google\protobuf\wire_format.h" />
     <ClInclude Include="src\framework\network\google\protobuf\wire_format_lite.h" />
     <ClInclude Include="src\framework\network\google\protobuf\wire_format_lite_inl.h" />
@@ -465,10 +468,12 @@
     <ClInclude Include="src\framework\util\google\absl\types\optional.h" />
     <ClInclude Include="src\framework\util\google\absl\types\span.h" />
     <ClInclude Include="src\framework\util\google\absl\utility\utility.h" />
+    <ClInclude Include="src\framework\util\tinyxml\tinyxml2.h" />
     <ClInclude Include="src\framework\util\util.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\customer\data\config_mgr.cc" />
     <ClCompile Include="src\customer\data\data_manager.cc" />
     <ClCompile Include="src\customer\msg\msg_manager.cc" />
     <ClCompile Include="src\customer\msg\protocol\create_room_msg_protocol.pb.cc" />
@@ -561,6 +566,7 @@
     <ClCompile Include="src\framework\util\google\absl\types\bad_optional_access.cc" />
     <ClCompile Include="src\framework\util\google\absl\types\optional.cc" />
     <ClCompile Include="src\framework\util\google\absl\utility\utility.cc" />
+    <ClCompile Include="src\framework\util\tinyxml\tinyxml2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\cpp_redis\src\include\tacopie\tacopie" />

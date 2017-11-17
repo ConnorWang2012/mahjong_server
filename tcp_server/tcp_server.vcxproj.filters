@@ -161,6 +161,15 @@
     <Filter Include="src\framework\util\google\abseil\strings\internal">
       <UniqueIdentifier>{5d090bc4-724c-4c89-af39-a02a26364576}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\framework\util\tinyxml">
+      <UniqueIdentifier>{c605af74-cc19-4558-ac1e-e28c4a0044ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\framework\network\protobuf\win-specific">
+      <UniqueIdentifier>{2fcc56bc-1118-43df-985a-e175d78fade1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\framework\network\protobuf\win-specific\zlib">
+      <UniqueIdentifier>{c8b0cef6-1d43-409b-8838-fe2db6db2f70}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\libevent\src\include\evrpc.h">
@@ -1066,6 +1075,18 @@
     <ClInclude Include="src\framework\base\msg.h">
       <Filter>src\framework\base</Filter>
     </ClInclude>
+    <ClInclude Include="src\framework\util\tinyxml\tinyxml2.h">
+      <Filter>src\framework\util\tinyxml</Filter>
+    </ClInclude>
+    <ClInclude Include="src\customer\data\config_mgr.h">
+      <Filter>src\customer\data</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\google\protobuf\win-specific\zlib\include\zconf.h">
+      <Filter>src\framework\network\protobuf\win-specific\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\network\google\protobuf\win-specific\zlib\include\zlib.h">
+      <Filter>src\framework\network\protobuf\win-specific\zlib</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -1346,6 +1367,12 @@
     </ClCompile>
     <ClCompile Include="src\framework\log\mylog.cc">
       <Filter>src\framework\log</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\util\tinyxml\tinyxml2.cpp">
+      <Filter>src\framework\util\tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="src\customer\data\config_mgr.cc">
+      <Filter>src\customer\data</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
