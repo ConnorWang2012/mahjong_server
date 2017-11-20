@@ -29,7 +29,9 @@
 /* With glibc we need to define _GNU_SOURCE to get PTHREAD_MUTEX_RECURSIVE.
  * This comes from evconfig-private.h
  */
-//#include <pthread.h> // my modify
+#if defined(__linux__) || defined(__unix__)
+#include <pthread.h>
+#endif
 
 struct event_base;
 #include "event2/thread.h"

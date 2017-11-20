@@ -13,10 +13,8 @@ modification:
 ********************************************************************************/
 
 #include "framework/service/runtime/server.h"
-#include "customer/data/config_mgr.h"
 
 int main(int argc, char* argv[]) {
-	gamer::ConfigMgr::instance()->GetNewPlayerCfg();
-	//gamer::Server::instance()->Start();
+	gamer::Server::instance()->Start();
 	return 0;
 }

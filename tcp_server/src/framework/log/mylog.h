@@ -16,7 +16,9 @@ modification:
 #define CONNOR_GAME_SRC_FRAMEWORK_LOG_H_
 
 #include <fstream>
+#include <iostream>
 #include <string>
+#include <stdarg.h>
 
 namespace gamer {
 

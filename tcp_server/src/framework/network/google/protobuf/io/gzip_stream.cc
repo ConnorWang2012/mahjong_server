@@ -36,6 +36,7 @@
 #include "../config.h"
 
 #if HAVE_ZLIB
+#include <zlib.h>
 #include <google/protobuf/io/gzip_stream.h>
 
 #include <google/protobuf/stubs/common.h>

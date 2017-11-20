@@ -65,8 +65,11 @@ namespace {
 int close_no_eintr(int fd) {
   int result;
   do {
-    //result = close(fd);
-      result = _close(fd);
+#if defined(_WIN32)
+    result = _close(fd);
+#else
+    result = close(fd);
+#endif
   } while (result < 0 && errno == EINTR);
   return result;
 }
@@ -140,8 +143,11 @@ int FileInputStream::CopyingFileInputStream::Read(void* buffer, int size) {
 
   int result;
   do {
-    //result = read(file_, buffer, size);
-      result = _read(file_, buffer, size);
+#if defined(_WIN32)
+    result = _read(file_, buffer, size);
+#else
+    result = read(file_, buffer, size);
+#endif
   } while (result < 0 && errno == EINTR);
 
   if (result < 0) {
@@ -244,8 +250,11 @@ bool FileOutputStream::CopyingFileOutputStream::Write(
   while (total_written < size) {
     int bytes;
     do {
-      //bytes = write(file_, buffer_base + total_written, size - total_written);
-        bytes = _write(file_, buffer_base + total_written, size - total_written);
+#if defined(_WIN32)
+    bytes = _write(file_, buffer_base + total_written, size - total_written);
+#else
+    bytes = write(file_, buffer_base + total_written, size - total_written);
+#endif
     } while (bytes < 0 && errno == EINTR);
 
     if (bytes <= 0) {

@@ -16,7 +16,14 @@ modification:
 
 #ifdef _WIN32
 #include <WinSock2.h>
+#elif defined(__linux__)
+#include <arpa/inet.h>
+#include <netinet/in.h>
+#elif defined(__unix__)
+#include <sys/socket.h>
 #endif
+
+#include <memory.h>
 
 #include "event2/buffer.h"
 #include "event2/bufferevent.h"
@@ -83,7 +90,7 @@ void NetworkManager::InitSocket() {
 		return;
 	}
 
-	LOGGREEN("[NetworkManager::InitSocket] tcp listen on : %s, port : %d", ip_.c_str(), port_);
+	LOGGREEN("[NetworkManager::InitSocket] tcp listening on : %s, port : %d", ip_.c_str(), port_);
 
 	evconnlistener_set_error_cb(connlistener_, OnConnErrorOccur);
 

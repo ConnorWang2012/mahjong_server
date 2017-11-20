@@ -15,6 +15,7 @@ modification:
 #ifndef CONNOR_GAME_SRC_ROOM_H_
 #define CONNOR_GAME_SRC_ROOM_H_
 
+#include <algorithm>
 #include <unordered_map>
 #include <vector>
 

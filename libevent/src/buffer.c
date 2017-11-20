@@ -3104,8 +3104,11 @@ evbuffer_file_segment_materialize(struct evbuffer_file_segment *seg)
 			goto err;
 		}
 		while (read_so_far < length) {
-			//n = read(fd, mem+read_so_far, length-read_so_far); // my modify
-			n = _read(fd, mem+read_so_far, length-read_so_far);  // my modify
+#ifdef _WIN32
+			n = _read(fd, mem+read_so_far, length-read_so_far);
+#else
+			n = read(fd, mem+read_so_far, length-read_so_far); 
+#endif
 			if (n <= 0)
 				break;
 			read_so_far += n;
@@ -3164,8 +3167,11 @@ evbuffer_file_segment_free(struct evbuffer_file_segment *seg)
 	}
 
 	if ((seg->flags & EVBUF_FS_CLOSE_ON_FREE) && seg->fd >= 0) {
-		//close(seg->fd); // my modify
-		_close(seg->fd); // my modify
+#ifdef _WIN32
+		_close(seg->fd);
+#else
+		close(seg->fd); 
+#endif
 	}
 	
 	if (seg->cleanup_cb) {
