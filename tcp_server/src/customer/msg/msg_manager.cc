@@ -162,6 +162,7 @@ void MsgManager::DealWithMgLoginMsg(const ClientMsg& msg, bufferevent* bev) {
         login_proto_server.set_account(login_proto_client.account());
         login_proto_server.set_password(login_proto_client.password());
 		login_proto_server.set_allocated_player(player_proto);
+		login_proto_server.set_player_id(player_id);
 
 		auto accout_info = login_proto_server.SerializeAsString();
 		if ("" == accout_info) {

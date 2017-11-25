@@ -84,7 +84,12 @@
 #define HAVE_UNISTD_H 1
 
 /* Enable classes using zlib compression. */
-//#define HAVE_ZLIB 1 connor 2017-11-20
+//#define HAVE_ZLIB 1 connor 2017-11-20 TODO: fix zlib not work on linux
+//#ifdef _WIN32
+//#define HAVE_ZLIB 1
+//#else
+//
+//#endif
 
 /* Define to the sub-directory in which libtool stores uninstalled libraries.
    */

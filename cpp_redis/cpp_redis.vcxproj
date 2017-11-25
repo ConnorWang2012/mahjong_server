@@ -22,7 +22,7 @@
     <ProjectGuid>{31F96B26-CC04-422E-9117-24D68FA2D746}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>cpp_redis</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

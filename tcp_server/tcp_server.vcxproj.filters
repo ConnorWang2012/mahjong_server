@@ -23,15 +23,6 @@
     <Filter Include="src\framework\cache">
       <UniqueIdentifier>{4868ff32-7e98-4b0d-9ad2-fc08a9b6558b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\framework\network\libevent">
-      <UniqueIdentifier>{8728f027-307f-4cbf-9e51-863526893c1b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\framework\network\libevent\event">
-      <UniqueIdentifier>{2938a23a-18f8-4a83-ae18-3425fc732cd8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\framework\network\libevent\openssl">
-      <UniqueIdentifier>{ed613eb7-6409-4285-87e2-624940694360}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\framework\cache\redis">
       <UniqueIdentifier>{63a39444-a28c-4ee7-a1a8-08c9b386c725}</UniqueIdentifier>
     </Filter>
@@ -170,323 +161,17 @@
     <Filter Include="src\framework\network\protobuf\win-specific\zlib">
       <UniqueIdentifier>{c8b0cef6-1d43-409b-8838-fe2db6db2f70}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\framework\network\include">
+      <UniqueIdentifier>{185c2885-6705-43de-a788-688b3b4679a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\framework\network\include\libevent">
+      <UniqueIdentifier>{83297cd5-6ec2-4c43-b6d5-c952c8eb2cea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\framework\network\include\libevent\event2">
+      <UniqueIdentifier>{7f84b370-6b14-4f6e-ba7c-33528938c69b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\libevent\src\include\evrpc.h">
-      <Filter>src\framework\network\libevent</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\evutil.h">
-      <Filter>src\framework\network\libevent</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\evdns.h">
-      <Filter>src\framework\network\libevent</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\event.h">
-      <Filter>src\framework\network\libevent</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\evhttp.h">
-      <Filter>src\framework\network\libevent</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\event2\buffer.h">
-      <Filter>src\framework\network\libevent\event</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\event2\bufferevent.h">
-      <Filter>src\framework\network\libevent\event</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\event2\bufferevent_compat.h">
-      <Filter>src\framework\network\libevent\event</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\event2\bufferevent_ssl.h">
-      <Filter>src\framework\network\libevent\event</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\event2\bufferevent_struct.h">
-      <Filter>src\framework\network\libevent\event</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\event2\buffer_compat.h">
-      <Filter>src\framework\network\libevent\event</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\event2\dns.h">
-      <Filter>src\framework\network\libevent\event</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\event2\dns_compat.h">
-      <Filter>src\framework\network\libevent\event</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\event2\dns_struct.h">
-      <Filter>src\framework\network\libevent\event</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\event2\event.h">
-      <Filter>src\framework\network\libevent\event</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\event2\event_compat.h">
-      <Filter>src\framework\network\libevent\event</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\event2\event_struct.h">
-      <Filter>src\framework\network\libevent\event</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\event2\http.h">
-      <Filter>src\framework\network\libevent\event</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\event2\http_compat.h">
-      <Filter>src\framework\network\libevent\event</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\event2\http_struct.h">
-      <Filter>src\framework\network\libevent\event</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\event2\keyvalq_struct.h">
-      <Filter>src\framework\network\libevent\event</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\event2\listener.h">
-      <Filter>src\framework\network\libevent\event</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\event2\rpc.h">
-      <Filter>src\framework\network\libevent\event</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\event2\rpc_compat.h">
-      <Filter>src\framework\network\libevent\event</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\event2\rpc_struct.h">
-      <Filter>src\framework\network\libevent\event</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\event2\tag.h">
-      <Filter>src\framework\network\libevent\event</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\event2\tag_compat.h">
-      <Filter>src\framework\network\libevent\event</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\event2\thread.h">
-      <Filter>src\framework\network\libevent\event</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\event2\util.h">
-      <Filter>src\framework\network\libevent\event</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\event2\visibility.h">
-      <Filter>src\framework\network\libevent\event</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\aes.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\asn1.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\asn1t.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\asn1_mac.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\async.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\bio.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\blowfish.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\bn.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\buffer.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\camellia.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\cast.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\cmac.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\cms.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\comp.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\conf.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\conf_api.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\crypto.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\ct.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\des.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\dh.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\dsa.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\dtls1.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\ebcdic.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\ec.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\ecdh.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\ecdsa.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\engine.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\err.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\evp.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\e_os2.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\hmac.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\idea.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\kdf.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\lhash.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\md2.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\md4.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\md5.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\mdc2.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\modes.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\objects.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\obj_mac.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\ocsp.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\opensslconf.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\opensslv.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\ossl_typ.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\pem.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\pem2.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\pkcs12.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\pkcs7.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\rand.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\rc2.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\rc4.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\rc5.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\ripemd.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\rsa.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\safestack.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\seed.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\sha.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\srp.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\srtp.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\ssl.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\ssl2.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\ssl3.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\stack.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\symhacks.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\tls1.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\ts.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\txt_db.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\ui.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\whrlpool.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\x509.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\x509v3.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\x509_vfy.h">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\__DECC_INCLUDE_EPILOGUE.H">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libevent\src\include\openssl\__DECC_INCLUDE_PROLOGUE.H">
-      <Filter>src\framework\network\libevent\openssl</Filter>
-    </ClInclude>
     <ClInclude Include="..\cpp_redis\src\include\cpp_redis\builders\array_builder.hpp">
       <Filter>src\framework\cache\redis\cpp_redis\builders</Filter>
     </ClInclude>
@@ -1086,6 +771,99 @@
     </ClInclude>
     <ClInclude Include="src\framework\network\google\protobuf\win-specific\zlib\include\zlib.h">
       <Filter>src\framework\network\protobuf\win-specific\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="include\win32\libevent\evdns.h">
+      <Filter>src\framework\network\include\libevent</Filter>
+    </ClInclude>
+    <ClInclude Include="include\win32\libevent\event.h">
+      <Filter>src\framework\network\include\libevent</Filter>
+    </ClInclude>
+    <ClInclude Include="include\win32\libevent\evhttp.h">
+      <Filter>src\framework\network\include\libevent</Filter>
+    </ClInclude>
+    <ClInclude Include="include\win32\libevent\evrpc.h">
+      <Filter>src\framework\network\include\libevent</Filter>
+    </ClInclude>
+    <ClInclude Include="include\win32\libevent\evutil.h">
+      <Filter>src\framework\network\include\libevent</Filter>
+    </ClInclude>
+    <ClInclude Include="include\win32\libevent\event2\bufferevent_ssl.h">
+      <Filter>src\framework\network\include\libevent\event2</Filter>
+    </ClInclude>
+    <ClInclude Include="include\win32\libevent\event2\bufferevent_struct.h">
+      <Filter>src\framework\network\include\libevent\event2</Filter>
+    </ClInclude>
+    <ClInclude Include="include\win32\libevent\event2\dns.h">
+      <Filter>src\framework\network\include\libevent\event2</Filter>
+    </ClInclude>
+    <ClInclude Include="include\win32\libevent\event2\dns_compat.h">
+      <Filter>src\framework\network\include\libevent\event2</Filter>
+    </ClInclude>
+    <ClInclude Include="include\win32\libevent\event2\dns_struct.h">
+      <Filter>src\framework\network\include\libevent\event2</Filter>
+    </ClInclude>
+    <ClInclude Include="include\win32\libevent\event2\event.h">
+      <Filter>src\framework\network\include\libevent\event2</Filter>
+    </ClInclude>
+    <ClInclude Include="include\win32\libevent\event2\event_compat.h">
+      <Filter>src\framework\network\include\libevent\event2</Filter>
+    </ClInclude>
+    <ClInclude Include="include\win32\libevent\event2\event_struct.h">
+      <Filter>src\framework\network\include\libevent\event2</Filter>
+    </ClInclude>
+    <ClInclude Include="include\win32\libevent\event2\event-config.h">
+      <Filter>src\framework\network\include\libevent\event2</Filter>
+    </ClInclude>
+    <ClInclude Include="include\win32\libevent\event2\http.h">
+      <Filter>src\framework\network\include\libevent\event2</Filter>
+    </ClInclude>
+    <ClInclude Include="include\win32\libevent\event2\http_compat.h">
+      <Filter>src\framework\network\include\libevent\event2</Filter>
+    </ClInclude>
+    <ClInclude Include="include\win32\libevent\event2\http_struct.h">
+      <Filter>src\framework\network\include\libevent\event2</Filter>
+    </ClInclude>
+    <ClInclude Include="include\win32\libevent\event2\keyvalq_struct.h">
+      <Filter>src\framework\network\include\libevent\event2</Filter>
+    </ClInclude>
+    <ClInclude Include="include\win32\libevent\event2\listener.h">
+      <Filter>src\framework\network\include\libevent\event2</Filter>
+    </ClInclude>
+    <ClInclude Include="include\win32\libevent\event2\rpc.h">
+      <Filter>src\framework\network\include\libevent\event2</Filter>
+    </ClInclude>
+    <ClInclude Include="include\win32\libevent\event2\rpc_compat.h">
+      <Filter>src\framework\network\include\libevent\event2</Filter>
+    </ClInclude>
+    <ClInclude Include="include\win32\libevent\event2\rpc_struct.h">
+      <Filter>src\framework\network\include\libevent\event2</Filter>
+    </ClInclude>
+    <ClInclude Include="include\win32\libevent\event2\tag.h">
+      <Filter>src\framework\network\include\libevent\event2</Filter>
+    </ClInclude>
+    <ClInclude Include="include\win32\libevent\event2\tag_compat.h">
+      <Filter>src\framework\network\include\libevent\event2</Filter>
+    </ClInclude>
+    <ClInclude Include="include\win32\libevent\event2\thread.h">
+      <Filter>src\framework\network\include\libevent\event2</Filter>
+    </ClInclude>
+    <ClInclude Include="include\win32\libevent\event2\util.h">
+      <Filter>src\framework\network\include\libevent\event2</Filter>
+    </ClInclude>
+    <ClInclude Include="include\win32\libevent\event2\visibility.h">
+      <Filter>src\framework\network\include\libevent\event2</Filter>
+    </ClInclude>
+    <ClInclude Include="include\win32\libevent\event2\buffer.h">
+      <Filter>src\framework\network\include\libevent\event2</Filter>
+    </ClInclude>
+    <ClInclude Include="include\win32\libevent\event2\buffer_compat.h">
+      <Filter>src\framework\network\include\libevent\event2</Filter>
+    </ClInclude>
+    <ClInclude Include="include\win32\libevent\event2\bufferevent.h">
+      <Filter>src\framework\network\include\libevent\event2</Filter>
+    </ClInclude>
+    <ClInclude Include="include\win32\libevent\event2\bufferevent_compat.h">
+      <Filter>src\framework\network\include\libevent\event2</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
