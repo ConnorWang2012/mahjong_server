@@ -29,7 +29,10 @@ Player::Player()
       is_online_(false),
       cur_available_operation_id_(PlayCardOperationIDs::OPERATION_NONE),
       has_selected_operation_ting_(false),
-      cards_msg_proto_(nullptr) {
+      cards_msg_proto_(nullptr),
+	  num_ming_gang_(0),
+	  num_an_gang_(0),
+	  num_win_(0) {
 }
 
 Player* Player::Create(id_t player_id) {
@@ -41,6 +44,10 @@ Player* Player::Create(id_t player_id) {
 		}
 	}
 	return player;
+}
+
+void Player::InitForGameStart() {
+
 }
 
 void Player::InitPlayerCards(PlayerCardsMsgProtocol* proto) {
@@ -170,9 +177,11 @@ void Player::UpdateCardForMingGang(int card_of_ming_gang) {
         this->RemoveInvisibleHandCards(card_of_ming_gang, 4);
         auto size = cards_msg_proto_->ming_gang_cards_size();
         cards_msg_proto_->mutable_ming_gang_cards()->Resize(size + 4, card_of_ming_gang);
+		num_ming_gang_++;
     } else if (this->PengCardsContains(card_of_ming_gang)) {
         this->RemoveInvisibleHandCards(card_of_ming_gang, 1);
         cards_msg_proto_->mutable_ming_gang_cards()->Add(card_of_ming_gang);
+		num_ming_gang_++;
     }
 }
 
@@ -185,6 +194,7 @@ void Player::UpdateCardForAnGang(int card_of_an_gang) {
     // add 4 cards(value equal card_of_an_gang) to an gang cards
     auto size = cards_msg_proto_->an_gang_cards_size();
     cards_msg_proto_->mutable_an_gang_cards()->Resize(size + 4, card_of_an_gang);
+	num_an_gang_++;
 }
 
 void Player::UpdateInvisibleHandCard(int new_card) {

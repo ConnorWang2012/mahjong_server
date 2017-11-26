@@ -1153,13 +1153,17 @@ void Room<Player>::DealWithGameEnd(Player* player_win) {
             auto game_end_data = proto.add_game_end_data();
             game_end_data->set_player_id(player->player_id());
             game_end_data->set_nick_name(login_proto.player().nick_name());
+			game_end_data->set_num_ming_gang(player->num_ming_gang());
+			game_end_data->set_num_an_gang(player->num_an_gang());
 
             auto gold_old = login_proto.player().score_gold();
             int gold = create_room_msg_proto_.score_gold();
 
+			// score
             if (player->player_id() == player_win->player_id()) {                
                 login_proto.mutable_player()->set_score_gold(gold_old + gold);
                 game_end_data->set_diff_score_gold(gold);
+				player->set_num_win(player->num_win() + 1);
             } else {
                 int gold_new = gold_old - gold;
                 if (gold_new < 0) {
@@ -1169,6 +1173,13 @@ void Room<Player>::DealWithGameEnd(Player* player_win) {
 
                 game_end_data->set_diff_score_gold(-gold);
             }
+
+			// win rate
+			float win_rate = 0;
+			if (room_msg_proto_.total_round() > 0) {
+				win_rate = float(player->num_win()) / float(room_msg_proto_.total_round());
+			}
+			game_end_data->set_rate_winning(win_rate);
 
             if (login_proto.SerializeToString(&account_data)) {
                 DataManager::instance()->CachePlayerPersonalData(player->player_id(), account_data);

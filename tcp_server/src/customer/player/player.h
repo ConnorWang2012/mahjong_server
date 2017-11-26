@@ -58,6 +58,20 @@ class Player : public PlayerProtocol {
 
     inline bool has_selected_operation_ting() const;
 
+	inline void set_num_ming_gang(uint8 num);
+
+	inline uint8 num_ming_gang() const;
+
+	inline void set_num_an_gang(uint8 num);
+
+	inline uint8 num_an_gang() const;
+
+	inline void set_num_win(uint8 num);
+
+	inline uint8 num_win() const;
+
+	void InitForGameStart();
+
     // do not keep the ownership
     void InitPlayerCards(PlayerCardsMsgProtocol* proto);
 
@@ -130,7 +144,10 @@ class Player : public PlayerProtocol {
 	id_t player_id_;
     bool is_online_;
     bool has_selected_operation_ting_;
-    int cur_available_operation_id_;
+    id_t cur_available_operation_id_;
+	uint8 num_ming_gang_;
+	uint8 num_an_gang_;
+	uint8 num_win_;
 
 	PlayerCardsMsgProtocol* cards_msg_proto_;
 };
@@ -173,6 +190,30 @@ inline void Player::set_has_selected_operation_ting(bool selected) {
 
 inline bool Player::has_selected_operation_ting() const {
     return has_selected_operation_ting_;
+}
+
+inline void Player::set_num_ming_gang(uint8 num) {
+	num_ming_gang_ = num;
+}
+
+inline uint8 Player::num_ming_gang() const {
+	return num_ming_gang_;
+}
+
+inline void Player::set_num_an_gang(uint8 num) {
+	num_an_gang_ = num;
+}
+
+inline uint8 Player::num_an_gang() const {
+	return num_an_gang_;
+}
+
+inline void Player::set_num_win(uint8 num) {
+	num_win_ = num;
+}
+
+inline uint8 Player::num_win() const {
+	return num_win_;
 }
 
 } // namespace gamer
