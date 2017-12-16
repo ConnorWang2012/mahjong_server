@@ -44,6 +44,8 @@ class PlayerManager : public BasicManager<PlayerManager> {
 
     void RemoveOnlinePlayer(bufferevent* bev);
 
+	std::string GenerateAccountByPlayerID(id_t player_id) const;
+
   private:
 	void OnSocketDisconnected(const gamer::Event& event);
 

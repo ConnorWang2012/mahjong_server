@@ -125,7 +125,7 @@ void MsgManager::DealWithRoomMsg(const ClientMsg& msg, bufferevent* bev) {
 
 void MsgManager::DealWithMgLoginMsg(const ClientMsg& msg, bufferevent* bev) {
 	protocol::MyLoginMsgProtocol login_proto_client;
-	if ( !this->ParseMsg(msg, &login_proto_client )) {
+	if ( !this->ParseMsg(msg, &login_proto_client ) ) {
 		// TODO : log
 		this->SendMsgForError(MsgCodes::MSG_CODE_LOGIN_MSG_PROTO_ERR, msg, bev);
 		return;
@@ -138,19 +138,24 @@ void MsgManager::DealWithMgLoginMsg(const ClientMsg& msg, bufferevent* bev) {
 		return;
 	}
 	
-	auto player_id = 0;
+	auto player_id_new = 0;
 	Player* player = nullptr;
     protocol::MyLoginMsgProtocol login_proto_server;
+	auto player_proto = new protocol::PlayerMsgProtocol;
+
+	// get cached account data
+	std::string account_server  = "";
+	std::string password_server = "";
+	id_t player_id_server       = 0;
 
 	if (login_proto_client.player_id() <= 0) { // first login
-        player_id = DataManager::instance()->GeneratePlayerID();
-		player = Player::Create(player_id);
-        player->set_account(login_proto_client.account());
-        player->set_player_id(player_id);
-        
-        auto player_proto  = new protocol::PlayerMsgProtocol;
-        player_proto->set_player_id(player_id);
-        player_proto->set_nick_name(login_proto_client.account());
+        player_id_new    = DataManager::instance()->GeneratePlayerID();
+		player_id_server = player_id_new;
+		account_server   = PlayerManager::instance()->GenerateAccountByPlayerID(player_id_new);
+		password_server  = account_server; // password is account
+
+        player_proto->set_player_id(player_id_new);
+        player_proto->set_nick_name(account_server); // TODO : cfg
         player_proto->set_level(1);
         player_proto->set_level_name("junior");
         player_proto->set_score_gold(10000); // TODO : cfg
@@ -159,49 +164,60 @@ void MsgManager::DealWithMgLoginMsg(const ClientMsg& msg, bufferevent* bev) {
 		player_proto->set_num_played_games(0);
 		player_proto->set_num_win_games(0);
 
-        login_proto_server.set_account(login_proto_client.account());
-        login_proto_server.set_password(login_proto_client.password());
-		login_proto_server.set_allocated_player(player_proto);
-		login_proto_server.set_player_id(player_id);
+		// cache player data
+		// 1.account and password
+		DataManager::instance()->CacheAccountData(account_server, player_id_new, password_server);
 
-		auto accout_info = login_proto_server.SerializeAsString();
-		if ("" == accout_info) {
-			// TODO : log
+		// 2.other personal data
+		std::string player_data = "";
+		if ( !player_proto->SerializeToString(&player_data) ) {
 			this->SendMsgForError(MsgCodes::MSG_CODE_LOGIN_MSG_PROTO_ERR, msg, bev);
 			return;
-		} else {
-			DataManager::instance()->CachePlayerPersonalData(player_id, accout_info);
 		}
+		DataManager::instance()->CachePlayerPersonalData(player_id_new, player_data);
 	} else { // not first login
-		// check cached account data
-		player_id = login_proto_client.player_id();
-		std::string account_data = "";
-		DataManager::instance()->GetCachedPlayerPersonalData(player_id, &account_data);
+		DataManager::instance()->GetCacheAccountData(login_proto_client.account(),
+			&player_id_server, &password_server);
 
-		if ("" == account_data) {
-			this->SendMsgForError(MsgCodes::MSG_CODE_LOGIN_PLAYER_ID_ERR, msg, bev);
+		// check account and player id
+		if (player_id_server != login_proto_client.player_id()) {
+			this->SendMsgForError(MsgCodes::MSG_CODE_LOGIN_ACCOUNT_OR_PLAYERID_ERR, msg, bev);
 			return;
 		}
 
-		if ( !login_proto_server.ParseFromString(account_data) ) {
-			// TODO : log
-			this->SendMsgForError(MsgCodes::MSG_CODE_LOGIN_MSG_PROTO_ERR, msg, bev);
-			return;
-		} 
-
-		// check account and password
-		if (login_proto_server.password() != login_proto_client.password()) {
-			// TODO : log
+		// check password
+		if (password_server != login_proto_client.password()) {
 			this->SendMsgForError(MsgCodes::MSG_CODE_LOGIN_ACCOUNT_OR_PASSWORD_ERR, msg, bev);
 			return;
 		}
 
-        player->set_account(login_proto_server.account());
-        player->set_player_id(player_id);
+		// get cache player data
+		std::string player_data = "";
+		DataManager::instance()->GetCachedPlayerPersonalData(player_id_server, &player_data);
+
+		if ("" == player_data) {
+			this->SendMsgForError(MsgCodes::MSG_CODE_LOGIN_PLAYER_ID_ERR, msg, bev);
+			return;
+		}
+
+		if ( !player_proto->ParseFromString(player_data) ) {
+			this->SendMsgForError(MsgCodes::MSG_CODE_LOGIN_MSG_PROTO_ERR, msg, bev);
+			return;
+		}
+
+		account_server = login_proto_client.account();
 	}
 
-	// login succeed, add on line player, keep the bev for sending msg	
-	PlayerManager::instance()->AddOnlinePlayer(player_id, player, bev);
+	// add on line player, keep the bev for sending msg
+	player = Player::Create(player_id_server);
+	player->set_account(account_server);
+	PlayerManager::instance()->AddOnlinePlayer(player_id_server, player, bev);
+
+	// prepare player data for client
+	login_proto_server.set_account(account_server);
+	login_proto_server.set_password(password_server);
+	login_proto_server.set_player_id(player_id_server);
+	login_proto_server.set_allocated_player(player_proto);
 
 	// send login succeed msg
 	this->SendMsg((msg_header_t)MsgTypes::S2C_MSG_TYPE_LOGIN,

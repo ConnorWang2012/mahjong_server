@@ -91,6 +91,10 @@ void PlayerManager::RemoveOnlinePlayer(bufferevent* bev) {
 	}
 }
 
+std::string PlayerManager::GenerateAccountByPlayerID(id_t player_id) const {
+	return std::string("acc_") + std::to_string(player_id);
+}
+
 void PlayerManager::OnSocketDisconnected(const gamer::Event& event) {
 }
 

@@ -14,8 +14,11 @@ modification:
 
 #include "data_manager.h"
 
+#include <vector>
+
 #include "util/google/absl/strings/numbers.h"
 #include "util/google/absl/strings/str_join.h"
+#include "util/google/absl/strings/numbers.h"
 #include "framework/cache/cache_proxy.h"
 #include "customer/player/player.h"
 #include "customer/player/player_manager.h"
@@ -27,16 +30,54 @@ DataManager::DataManager() {
 	this->Init();
 }
 
+void DataManager::CacheAccountData(const std::string& account, 
+	                               id_t player_id, 
+	                               const std::string& password) {
+	std::string key = account;
+	//std::string field1 = "playerid";
+	//std::string field2 = "password";
+	std::vector<std::pair<std::string, std::string>> vec{ 
+		std::make_pair(std::string("playerid"), std::to_string(player_id)),
+		std::make_pair(std::string("password"), password) };
+
+	redis_client_->hmset(key, vec);
+}
+
+void DataManager::GetCacheAccountData(const std::string& account, 
+	                                 id_t* player_id,
+	                                 std::string* password) {
+	std::string key = account;
+	//std::string field1 = "playerid";
+	//std::string field2 = "password";
+	std::vector<std::string> fields{ std::string("playerid"), std::string("password") };
+	redis_client_->hmget(key, fields, [&](cpp_redis::reply& rep) {
+		if (rep.is_array()) {
+			auto arr = rep.as_array();
+			auto rep1 = arr.at(0);
+			std::string str_player_id = "";
+			if (rep1.is_string()) {
+				str_player_id = rep1.as_string();
+			}
+			if ("" != str_player_id) {
+				absl::SimpleAtoi(str_player_id, player_id);
+				*password = arr.at(1).as_string();
+			}
+		}
+	});
+
+	redis_client_->sync_commit();
+}
+
 void DataManager::CachePlayerPersonalData(id_t player_id, const std::string& serialized_data) {
-	auto key = absl::StrJoin(std::make_tuple("account", player_id), ":");
-	auto field = "account";
+	auto key = absl::StrJoin(std::make_tuple("id", player_id), ":");
+	auto field = "data";
 	redis_client_->hset(key, field, serialized_data);
 	redis_client_->commit();
 }
 
 void DataManager::GetCachedPlayerPersonalData(id_t player_id, std::string* serialized_data) {
-	auto key = absl::StrJoin(std::make_tuple("account", player_id), ":");
-	auto field = "account";
+	auto key = absl::StrJoin(std::make_tuple("id", player_id), ":");
+	auto field = "data";
 	redis_client_->hget(key, field, [&](cpp_redis::reply& rep) {
         if (rep.is_string()) {
             *serialized_data = rep.as_string();

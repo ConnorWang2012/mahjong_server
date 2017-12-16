@@ -35,7 +35,7 @@ void protobuf_AssignDesc_room_5fmsg_5fprotocol_2eproto() {
       "room_msg_protocol.proto");
   GOOGLE_CHECK(file != NULL);
   RoomMsgProtocol_descriptor_ = file->message_type(0);
-  static const int RoomMsgProtocol_offsets_[12] = {
+  static const int RoomMsgProtocol_offsets_[13] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(RoomMsgProtocol, room_id_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(RoomMsgProtocol, room_owner_id_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(RoomMsgProtocol, players_num_),
@@ -48,6 +48,7 @@ void protobuf_AssignDesc_room_5fmsg_5fprotocol_2eproto() {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(RoomMsgProtocol, operation_id_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(RoomMsgProtocol, remain_cards_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(RoomMsgProtocol, player_cards_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(RoomMsgProtocol, players_),
   };
   RoomMsgProtocol_reflection_ =
     new ::google::protobuf::internal::GeneratedMessageReflection(
@@ -90,18 +91,21 @@ void protobuf_AddDesc_room_5fmsg_5fprotocol_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   ::gamer::protocol::protobuf_AddDesc_player_5fcards_5fmsg_5fprotocol_2eproto();
+  ::gamer::protocol::protobuf_AddDesc_player_5fmsg_5fprotocol_2eproto();
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
     "\n\027room_msg_protocol.proto\022\016gamer.protoco"
-    "l\032\037player_cards_msg_protocol.proto\"\307\002\n\017R"
-    "oomMsgProtocol\022\017\n\007room_id\030\001 \002(\r\022\025\n\rroom_"
-    "owner_id\030\002 \002(\r\022\023\n\013players_num\030\003 \001(\r\022\021\n\tc"
-    "ur_round\030\004 \001(\r\022\023\n\013total_round\030\005 \001(\r\022\030\n\020r"
-    "emain_cards_num\030\006 \001(\r\022\021\n\tbanker_id\030\007 \001(\r"
-    "\022\033\n\023banker_is_same_time\030\010 \001(\r\022\033\n\023operati"
-    "ng_player_id\030\t \001(\r\022\024\n\014operation_id\030\n \001(\r"
-    "\022\024\n\014remain_cards\030\013 \003(\r\022<\n\014player_cards\030\014"
-    " \003(\0132&.gamer.protocol.PlayerCardsMsgProt"
-    "ocol", 404);
+    "l\032\037player_cards_msg_protocol.proto\032\031play"
+    "er_msg_protocol.proto\"\373\002\n\017RoomMsgProtoco"
+    "l\022\017\n\007room_id\030\001 \002(\r\022\025\n\rroom_owner_id\030\002 \002("
+    "\r\022\023\n\013players_num\030\003 \001(\r\022\021\n\tcur_round\030\004 \001("
+    "\r\022\023\n\013total_round\030\005 \001(\r\022\030\n\020remain_cards_n"
+    "um\030\006 \001(\r\022\021\n\tbanker_id\030\007 \001(\r\022\033\n\023banker_is"
+    "_same_time\030\010 \001(\r\022\033\n\023operating_player_id\030"
+    "\t \001(\r\022\024\n\014operation_id\030\n \001(\r\022\024\n\014remain_ca"
+    "rds\030\013 \003(\r\022<\n\014player_cards\030\014 \003(\0132&.gamer."
+    "protocol.PlayerCardsMsgProtocol\0222\n\007playe"
+    "rs\030\r \003(\0132!.gamer.protocol.PlayerMsgProto"
+    "col", 483);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "room_msg_protocol.proto", &protobuf_RegisterTypes);
   RoomMsgProtocol::default_instance_ = new RoomMsgProtocol();
@@ -131,6 +135,7 @@ const int RoomMsgProtocol::kOperatingPlayerIdFieldNumber;
 const int RoomMsgProtocol::kOperationIdFieldNumber;
 const int RoomMsgProtocol::kRemainCardsFieldNumber;
 const int RoomMsgProtocol::kPlayerCardsFieldNumber;
+const int RoomMsgProtocol::kPlayersFieldNumber;
 #endif  // !_MSC_VER
 
 RoomMsgProtocol::RoomMsgProtocol()
@@ -216,6 +221,7 @@ void RoomMsgProtocol::Clear() {
 
   remain_cards_.Clear();
   player_cards_.Clear();
+  players_.Clear();
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
   mutable_unknown_fields()->Clear();
 }
@@ -408,6 +414,20 @@ bool RoomMsgProtocol::MergePartialFromCodedStream(
           goto handle_unusual;
         }
         if (input->ExpectTag(98)) goto parse_player_cards;
+        if (input->ExpectTag(106)) goto parse_players;
+        break;
+      }
+
+      // repeated .gamer.protocol.PlayerMsgProtocol players = 13;
+      case 13: {
+        if (tag == 106) {
+         parse_players:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+                input, add_players()));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(106)) goto parse_players;
         if (input->ExpectAtEnd()) goto success;
         break;
       }
@@ -499,6 +519,12 @@ void RoomMsgProtocol::SerializeWithCachedSizes(
       12, this->player_cards(i), output);
   }
 
+  // repeated .gamer.protocol.PlayerMsgProtocol players = 13;
+  for (int i = 0; i < this->players_size(); i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      13, this->players(i), output);
+  }
+
   if (!unknown_fields().empty()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
@@ -570,6 +596,13 @@ void RoomMsgProtocol::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::
       WriteMessageNoVirtualToArray(
         12, this->player_cards(i), target);
+  }
+
+  // repeated .gamer.protocol.PlayerMsgProtocol players = 13;
+  for (int i = 0; i < this->players_size(); i++) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      WriteMessageNoVirtualToArray(
+        13, this->players(i), target);
   }
 
   if (!unknown_fields().empty()) {
@@ -675,6 +708,14 @@ int RoomMsgProtocol::ByteSize() const {
         this->player_cards(i));
   }
 
+  // repeated .gamer.protocol.PlayerMsgProtocol players = 13;
+  total_size += 1 * this->players_size();
+  for (int i = 0; i < this->players_size(); i++) {
+    total_size +=
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        this->players(i));
+  }
+
   if (!unknown_fields().empty()) {
     total_size +=
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
@@ -702,6 +743,7 @@ void RoomMsgProtocol::MergeFrom(const RoomMsgProtocol& from) {
   GOOGLE_CHECK_NE(&from, this);
   remain_cards_.MergeFrom(from.remain_cards_);
   player_cards_.MergeFrom(from.player_cards_);
+  players_.MergeFrom(from.players_);
   if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
     if (from.has_room_id()) {
       set_room_id(from.room_id());
@@ -755,6 +797,7 @@ bool RoomMsgProtocol::IsInitialized() const {
   if ((_has_bits_[0] & 0x00000003) != 0x00000003) return false;
 
   if (!::google::protobuf::internal::AllAreInitialized(this->player_cards())) return false;
+  if (!::google::protobuf::internal::AllAreInitialized(this->players())) return false;
   return true;
 }
 
@@ -772,6 +815,7 @@ void RoomMsgProtocol::Swap(RoomMsgProtocol* other) {
     std::swap(operation_id_, other->operation_id_);
     remain_cards_.Swap(&other->remain_cards_);
     player_cards_.Swap(&other->player_cards_);
+    players_.Swap(&other->players_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     _unknown_fields_.Swap(&other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);

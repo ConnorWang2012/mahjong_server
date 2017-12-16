@@ -19,15 +19,18 @@ modification:
 #include <unordered_map>
 #include <vector>
 
-#include "customer/room/card_constants.h"
 #include "framework/base/macros.h"
 #include "framework/util/chess_card_algorithm.h"
-#include "msg/msg_manager.h"
-#include "msg/protocol/create_room_msg_protocol.pb.h"
-#include "msg/protocol/room_msg_protocol.pb.h"
-#include "msg/protocol/play_card_msg_protocol.pb.h"
-#include "msg/protocol/game_end_msg_protocol.pb.h"
-#include "room/room_protocol.h"
+
+#include "customer/room/room_protocol.h"
+#include "customer/room/card_constants.h"
+#include "customer/msg/msg_manager.h"
+#include "customer/msg/protocol/my_login_msg_protocol.pb.h"
+#include "customer/msg/protocol/player_cards_msg_protocol.pb.h"
+#include "customer/msg/protocol/create_room_msg_protocol.pb.h"
+#include "customer/msg/protocol/room_msg_protocol.pb.h"
+#include "customer/msg/protocol/play_card_msg_protocol.pb.h"
+#include "customer/msg/protocol/game_end_msg_protocol.pb.h"
 
 namespace gamer {
 
@@ -276,17 +279,14 @@ MsgCodes Room<Player>::DealWithGameStart(RoomMsgProtocol& proto) {
         room_msg_proto_.add_remain_cards(vec.at(i)); // some kind of ugly
     }
 
-    // room player cards
+    // room player cards and player personal data
     auto card_index = remain_card_num;
     for (unsigned i = 0; i < players_.size(); i++) {
-        auto player = players_.at(i);
-        auto card_num = CardConstants::ONE_PLAYER_CARD_NUM;
-        auto player_cards = room_msg_proto_.mutable_player_cards(i);
-        auto player_cards2 = room_msg_protos.at(player->player_id())->mutable_player_cards(i);
-
-        if (player_cards2->peng_cards_size() > 0) {
-            int err = 0;
-        }
+        auto player        = players_.at(i);
+		auto room_proto    = room_msg_protos.at(player->player_id());
+        auto card_num      = CardConstants::ONE_PLAYER_CARD_NUM;
+        auto player_cards  = room_msg_proto_.mutable_player_cards(i);
+        auto player_cards2 = room_proto->mutable_player_cards(i);
 
         player_cards->set_invisible_hand_cards_num(card_num);
         player_cards2->set_invisible_hand_cards_num(card_num);
@@ -298,6 +298,19 @@ MsgCodes Room<Player>::DealWithGameStart(RoomMsgProtocol& proto) {
             // TODO : visible cards and waiting cards
             ++card_index;
         }
+
+		// player personal data
+		std::string serialized_data = "";
+		DataManager::instance()->GetCachedPlayerPersonalData(player->player_id(), &serialized_data);
+		if ("" != serialized_data) {			
+			auto player_proto = room_proto->add_players();
+			if ( !player_proto->ParseFromString(serialized_data) ) {
+				// TODO : log
+				printf("test");
+			}
+		} else {
+			// TODO : log
+		}
     }
 
     // send game start msg to all players
@@ -329,7 +342,7 @@ MsgCodes Room<Player>::DealWithGameStart(RoomMsgProtocol& proto) {
         players_.at(i)->InitPlayerCards(room_msg_proto_.mutable_player_cards(i));
     }
     
-    // send play card msg to the banker player
+    // send play card operation msg to the banker player
     if (0 != banker_player_id) {
         PlayCardMsgProtocol proto;
         proto.set_player_id(banker_player_id);

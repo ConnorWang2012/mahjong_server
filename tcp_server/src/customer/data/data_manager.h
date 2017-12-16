@@ -30,6 +30,10 @@ class DataManager : public BasicManager<DataManager> {
   public:
 	DataManager();
 
+	void CacheAccountData(const std::string& account, id_t player_id, const std::string& password);
+
+	void GetCacheAccountData(const std::string& account, id_t* player_id, std::string* password);
+
 	void CachePlayerPersonalData(id_t player_id, const std::string& serialized_data);
 
 	void GetCachedPlayerPersonalData(id_t player_id, std::string* serialized_data);

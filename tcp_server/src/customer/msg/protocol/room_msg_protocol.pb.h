@@ -25,6 +25,7 @@
 #include <google/protobuf/extension_set.h>
 #include <google/protobuf/unknown_field_set.h>
 #include "player_cards_msg_protocol.pb.h"
+#include "player_msg_protocol.pb.h"
 // @@protoc_insertion_point(includes)
 
 namespace gamer {
@@ -186,6 +187,18 @@ class RoomMsgProtocol : public ::google::protobuf::Message {
   inline ::google::protobuf::RepeatedPtrField< ::gamer::protocol::PlayerCardsMsgProtocol >*
       mutable_player_cards();
 
+  // repeated .gamer.protocol.PlayerMsgProtocol players = 13;
+  inline int players_size() const;
+  inline void clear_players();
+  static const int kPlayersFieldNumber = 13;
+  inline const ::gamer::protocol::PlayerMsgProtocol& players(int index) const;
+  inline ::gamer::protocol::PlayerMsgProtocol* mutable_players(int index);
+  inline ::gamer::protocol::PlayerMsgProtocol* add_players();
+  inline const ::google::protobuf::RepeatedPtrField< ::gamer::protocol::PlayerMsgProtocol >&
+      players() const;
+  inline ::google::protobuf::RepeatedPtrField< ::gamer::protocol::PlayerMsgProtocol >*
+      mutable_players();
+
   // @@protoc_insertion_point(class_scope:gamer.protocol.RoomMsgProtocol)
  private:
   inline void set_has_room_id();
@@ -225,6 +238,7 @@ class RoomMsgProtocol : public ::google::protobuf::Message {
   ::google::protobuf::uint32 operation_id_;
   ::google::protobuf::RepeatedField< ::google::protobuf::uint32 > remain_cards_;
   ::google::protobuf::RepeatedPtrField< ::gamer::protocol::PlayerCardsMsgProtocol > player_cards_;
+  ::google::protobuf::RepeatedPtrField< ::gamer::protocol::PlayerMsgProtocol > players_;
   friend void  protobuf_AddDesc_room_5fmsg_5fprotocol_2eproto();
   friend void protobuf_AssignDesc_room_5fmsg_5fprotocol_2eproto();
   friend void protobuf_ShutdownFile_room_5fmsg_5fprotocol_2eproto();
@@ -537,6 +551,36 @@ inline ::google::protobuf::RepeatedPtrField< ::gamer::protocol::PlayerCardsMsgPr
 RoomMsgProtocol::mutable_player_cards() {
   // @@protoc_insertion_point(field_mutable_list:gamer.protocol.RoomMsgProtocol.player_cards)
   return &player_cards_;
+}
+
+// repeated .gamer.protocol.PlayerMsgProtocol players = 13;
+inline int RoomMsgProtocol::players_size() const {
+  return players_.size();
+}
+inline void RoomMsgProtocol::clear_players() {
+  players_.Clear();
+}
+inline const ::gamer::protocol::PlayerMsgProtocol& RoomMsgProtocol::players(int index) const {
+  // @@protoc_insertion_point(field_get:gamer.protocol.RoomMsgProtocol.players)
+  return players_.Get(index);
+}
+inline ::gamer::protocol::PlayerMsgProtocol* RoomMsgProtocol::mutable_players(int index) {
+  // @@protoc_insertion_point(field_mutable:gamer.protocol.RoomMsgProtocol.players)
+  return players_.Mutable(index);
+}
+inline ::gamer::protocol::PlayerMsgProtocol* RoomMsgProtocol::add_players() {
+  // @@protoc_insertion_point(field_add:gamer.protocol.RoomMsgProtocol.players)
+  return players_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::gamer::protocol::PlayerMsgProtocol >&
+RoomMsgProtocol::players() const {
+  // @@protoc_insertion_point(field_list:gamer.protocol.RoomMsgProtocol.players)
+  return players_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::gamer::protocol::PlayerMsgProtocol >*
+RoomMsgProtocol::mutable_players() {
+  // @@protoc_insertion_point(field_mutable_list:gamer.protocol.RoomMsgProtocol.players)
+  return &players_;
 }
 
 
