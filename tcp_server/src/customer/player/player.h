@@ -30,6 +30,11 @@ class Player : public PlayerProtocol {
     typedef gamer::protocol::TingCardMsgProtocol                        TingCardMsgProtocol;
     typedef google::protobuf::RepeatedField<google::protobuf::uint32>   RepeatedFieldInt;
 
+	enum class Sex {
+		SEX_MALE,
+		SEX_FEMALE
+	};
+
 	Player& operator=(const Player&) = delete;
 
 	Player(const Player&) = delete;

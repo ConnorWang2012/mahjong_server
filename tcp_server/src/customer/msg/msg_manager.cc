@@ -70,6 +70,10 @@ void MsgManager::AddMsgDispatchers() {
 	msg_dispatchers_.insert(std::make_pair((int)MsgTypes::C2S_MSG_TYPE_LOGIN,
 		CALLBACK_SELECTOR_2(MsgManager::DealWithLoginMsg, this)));
 
+	// property
+	msg_dispatchers_.insert(std::make_pair((int)MsgTypes::C2S_MSG_TYPE_PROPERTY,
+		CALLBACK_SELECTOR_2(MsgManager::DealWithPropertyMsg, this)));
+
 	// room
 	msg_dispatchers_.insert(std::make_pair((int)MsgTypes::C2S_MSG_TYPE_ROOM,
 		CALLBACK_SELECTOR_2(MsgManager::DealWithRoomMsg, this)));
@@ -79,6 +83,10 @@ void MsgManager::AddMsgHandlers() {
 	// login
 	msg_handlers_.insert(std::make_pair((int)MsgIDs::MSG_ID_LOGIN_MY,
 		CALLBACK_SELECTOR_2(MsgManager::DealWithMgLoginMsg, this)));
+
+	// property
+	msg_handlers_.insert(std::make_pair((int)MsgIDs::MSG_ID_PROPERTY_GET_PLAYER_INFO,
+		CALLBACK_SELECTOR_2(MsgManager::DealWithGetPlayerInfoMsg, this)));
 
 	// room
 	// create room
@@ -110,6 +118,13 @@ void MsgManager::OnMsgReceived(const ClientMsg& msg, bufferevent* bev) {
 }
 
 void MsgManager::DealWithLoginMsg(const ClientMsg& msg, bufferevent* bev) {
+	auto itr = msg_handlers_.find((int)msg.id);
+	if (itr != msg_handlers_.end()) {
+		itr->second(msg, bev);
+	}
+}
+
+void MsgManager::DealWithPropertyMsg(const ClientMsg& msg, bufferevent * bev) {
 	auto itr = msg_handlers_.find((int)msg.id);
 	if (itr != msg_handlers_.end()) {
 		itr->second(msg, bev);
@@ -156,6 +171,7 @@ void MsgManager::DealWithMgLoginMsg(const ClientMsg& msg, bufferevent* bev) {
 
         player_proto->set_player_id(player_id_new);
         player_proto->set_nick_name(account_server); // TODO : cfg
+		player_proto->set_sex((int)Player::Sex::SEX_FEMALE);
         player_proto->set_level(1);
         player_proto->set_level_name("junior");
         player_proto->set_score_gold(10000); // TODO : cfg
@@ -163,6 +179,7 @@ void MsgManager::DealWithMgLoginMsg(const ClientMsg& msg, bufferevent* bev) {
 		player_proto->set_num_room_cards(10);
 		player_proto->set_num_played_games(0);
 		player_proto->set_num_win_games(0);
+		player_proto->set_num_loss_games(0);
 
 		// cache player data
 		// 1.account and password
@@ -225,6 +242,32 @@ void MsgManager::DealWithMgLoginMsg(const ClientMsg& msg, bufferevent* bev) {
 				  (msg_header_t)MsgCodes::MSG_CODE_SUCCESS,
                   login_proto_server,
 				  bev);
+}
+
+void MsgManager::DealWithGetPlayerInfoMsg(const ClientMsg& msg, bufferevent* bev) {
+	protocol::PlayerMsgProtocol proto;
+	if (!this->ParseMsg(msg, &proto)) {
+		this->SendMsgForError(MsgCodes::MSG_CODE_MSG_PROTO_ERR, msg, bev);
+		return;
+	}
+
+	std::string data = "";
+	DataManager::instance()->GetCachedPlayerPersonalData(proto.player_id(), &data);
+	if ("" == data) {
+		this->SendMsgForError(MsgCodes::MSG_CODE_GET_DATA_ERR, msg, bev);
+		return;
+	}
+
+	if ( !proto.ParseFromString(data) ) {
+		this->SendMsgForError(MsgCodes::MSG_CODE_PARSE_DATA_ERR, msg, bev);
+		return;
+	}
+
+	this->SendMsg((msg_header_t)MsgTypes::S2C_MSG_TYPE_PROPERTY,
+		(msg_header_t)MsgIDs::MSG_ID_PROPERTY_GET_PLAYER_INFO,
+		(msg_header_t)MsgCodes::MSG_CODE_SUCCESS,
+		proto,
+		bev);
 }
 
 void MsgManager::DealWithCreateRoomMsg(const ClientMsg& msg, bufferevent* bev) {

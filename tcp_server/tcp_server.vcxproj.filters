@@ -865,6 +865,15 @@
     <ClInclude Include="include\win32\libevent\event2\bufferevent_compat.h">
       <Filter>src\framework\network\include\libevent\event2</Filter>
     </ClInclude>
+    <ClInclude Include="src\customer\msg\protocol\set_property_msg_protocol.pb.h">
+      <Filter>src\customer\msg\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="src\customer\msg\protocol\property_changed_msg_protocol.pb.h">
+      <Filter>src\customer\msg\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="src\customer\msg\property_id.h">
+      <Filter>src\customer\msg</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -1151,6 +1160,12 @@
     </ClCompile>
     <ClCompile Include="src\customer\data\config_mgr.cc">
       <Filter>src\customer\data</Filter>
+    </ClCompile>
+    <ClCompile Include="src\customer\msg\protocol\set_property_msg_protocol.pb.cc">
+      <Filter>src\customer\msg\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="src\customer\msg\protocol\property_changed_msg_protocol.pb.cc">
+      <Filter>src\customer\msg\protocol</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

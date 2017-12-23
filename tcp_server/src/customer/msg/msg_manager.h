@@ -61,9 +61,13 @@ class MsgManager : public BasicManager<MsgManager> {
 
 	void DealWithLoginMsg(const ClientMsg& msg, bufferevent* bev);
 
+	void DealWithPropertyMsg(const ClientMsg& msg, bufferevent* bev);
+
 	void DealWithRoomMsg(const ClientMsg& msg, bufferevent* bev);
 
 	void DealWithMgLoginMsg(const ClientMsg& msg, bufferevent* bev);
+
+	void DealWithGetPlayerInfoMsg(const ClientMsg& msg, bufferevent* bev);
 
 	void DealWithCreateRoomMsg(const ClientMsg& msg, bufferevent* bev);
 
