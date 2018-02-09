@@ -23,7 +23,9 @@ modification:
 #include "msg/msg_type.h"
 #include "msg/msg_id.h"
 #include "msg/msg_code.h"
+#include "msg/property_id.h"
 #include "msg/protocol/my_login_msg_protocol.pb.h"
+#include "msg/protocol/set_property_msg_protocol.pb.h"
 #include "msg/protocol/create_room_msg_protocol.pb.h"
 #include "msg/protocol/room_operation_msg_protocol.pb.h"
 #include "network/network_manager.h"
@@ -70,6 +72,7 @@ void MsgManager::AddMsgDispatchers() {
 	msg_dispatchers_.insert(std::make_pair((int)MsgTypes::C2S_MSG_TYPE_LOGIN,
 		CALLBACK_SELECTOR_2(MsgManager::DealWithLoginMsg, this)));
 
+	// hall
 	// property
 	msg_dispatchers_.insert(std::make_pair((int)MsgTypes::C2S_MSG_TYPE_PROPERTY,
 		CALLBACK_SELECTOR_2(MsgManager::DealWithPropertyMsg, this)));
@@ -84,9 +87,13 @@ void MsgManager::AddMsgHandlers() {
 	msg_handlers_.insert(std::make_pair((int)MsgIDs::MSG_ID_LOGIN_MY,
 		CALLBACK_SELECTOR_2(MsgManager::DealWithMgLoginMsg, this)));
 
+	// hall
 	// property
 	msg_handlers_.insert(std::make_pair((int)MsgIDs::MSG_ID_PROPERTY_GET_PLAYER_INFO,
 		CALLBACK_SELECTOR_2(MsgManager::DealWithGetPlayerInfoMsg, this)));
+
+	msg_handlers_.insert(std::make_pair((int)MsgIDs::MSG_ID_PROPERTY_SET,
+		CALLBACK_SELECTOR_2(MsgManager::DealWithSetPropertyMsg, this)));
 
 	// room
 	// create room
@@ -171,7 +178,7 @@ void MsgManager::DealWithMgLoginMsg(const ClientMsg& msg, bufferevent* bev) {
 
         player_proto->set_player_id(player_id_new);
         player_proto->set_nick_name(account_server); // TODO : cfg
-		player_proto->set_sex((int)Player::Sex::SEX_FEMALE);
+		player_proto->set_sex((unsigned)Player::Sex::FEMALE);
         player_proto->set_level(1);
         player_proto->set_level_name("junior");
         player_proto->set_score_gold(10000); // TODO : cfg
@@ -246,7 +253,7 @@ void MsgManager::DealWithMgLoginMsg(const ClientMsg& msg, bufferevent* bev) {
 
 void MsgManager::DealWithGetPlayerInfoMsg(const ClientMsg& msg, bufferevent* bev) {
 	protocol::PlayerMsgProtocol proto;
-	if (!this->ParseMsg(msg, &proto)) {
+	if ( !this->ParseMsg(msg, &proto) ) {
 		this->SendMsgForError(MsgCodes::MSG_CODE_MSG_PROTO_ERR, msg, bev);
 		return;
 	}
@@ -267,6 +274,101 @@ void MsgManager::DealWithGetPlayerInfoMsg(const ClientMsg& msg, bufferevent* bev
 		(msg_header_t)MsgIDs::MSG_ID_PROPERTY_GET_PLAYER_INFO,
 		(msg_header_t)MsgCodes::MSG_CODE_SUCCESS,
 		proto,
+		bev);
+}
+
+void MsgManager::DealWithSetPropertyMsg(const ClientMsg& msg, bufferevent* bev) {
+	protocol::SetPropertyMsgProtocol proto;
+	if (!this->ParseMsg(msg, &proto)) {
+		this->SendMsgForError(MsgCodes::MSG_CODE_MSG_PROTO_ERR, msg, bev);
+		return;
+	}
+
+	for (auto i = 0; i < proto.property_ids_size(); i++) {
+		if (proto.property_ids(i) == (unsigned)gamer::PropertyIDs::PROP_ID_NICKNAME) {
+			this->DealWithSetNicknameMsg(msg, bev, &proto, proto.player_id(), proto.new_properties(i));
+		} else if (proto.property_ids(i) == (unsigned)gamer::PropertyIDs::PROP_ID_SEX) {
+			this->DealWithSetSexMsg(msg, bev, &proto, proto.player_id(), proto.new_properties(i));
+		}
+	}
+}
+
+void MsgManager::DealWithSetNicknameMsg(const ClientMsg& msg, bufferevent* bev,
+	google::protobuf::Message* proto, id_t player_id, const std::string& nickname) {
+	// TODO : check limit
+	
+	// get cache player data
+	std::string player_data = "";
+	DataManager::instance()->GetCachedPlayerPersonalData(player_id, &player_data);
+
+	if ("" == player_data) {
+		this->SendMsgForError(MsgCodes::MSG_CODE_GET_DATA_ERR, msg, bev);
+		return;
+	}
+
+	protocol::PlayerMsgProtocol player_proto;
+	if ( !player_proto.ParseFromString(player_data) ) {
+		this->SendMsgForError(MsgCodes::MSG_CODE_PARSE_DATA_ERR, msg, bev);
+		return;
+	}
+
+	player_proto.set_nick_name(nickname);
+
+	if ( !player_proto.SerializePartialToString(&player_data) ) {
+		this->SendMsgForError(MsgCodes::MSG_CODE_PARSE_DATA_ERR, msg, bev);
+		return;
+	}
+
+	DataManager::instance()->CachePlayerPersonalData(player_id, player_data);
+
+	this->SendMsg((msg_header_t)MsgTypes::S2C_MSG_TYPE_PROPERTY,
+		(msg_header_t)MsgIDs::MSG_ID_PROPERTY_SET,
+		(msg_header_t)MsgCodes::MSG_CODE_SUCCESS,
+		*proto,
+		bev);
+}
+
+void MsgManager::DealWithSetSexMsg(const ClientMsg& msg, bufferevent* bev, 
+	google::protobuf::Message* proto, id_t player_id, const std::string& sex) {
+	if ("" == sex) {
+		this->SendMsgForError(MsgCodes::MSG_CODE_MSG_PROTO_ERR, msg, bev);
+		return;
+	}
+
+	// TODO : check limit
+
+	// get cache player data
+	std::string player_data = "";
+	DataManager::instance()->GetCachedPlayerPersonalData(player_id, &player_data);
+
+	if ("" == player_data) {
+		this->SendMsgForError(MsgCodes::MSG_CODE_GET_DATA_ERR, msg, bev);
+		return;
+	}
+
+	protocol::PlayerMsgProtocol player_proto;
+	if (!player_proto.ParseFromString(player_data)) {
+		this->SendMsgForError(MsgCodes::MSG_CODE_PARSE_DATA_ERR, msg, bev);
+		return;
+	}
+
+	if (sex == "1") {
+		player_proto.set_sex((unsigned)Player::Sex::MALE);
+	} else {
+		player_proto.set_sex((unsigned)Player::Sex::FEMALE);
+	}
+	
+	if (!player_proto.SerializePartialToString(&player_data)) {
+		this->SendMsgForError(MsgCodes::MSG_CODE_PARSE_DATA_ERR, msg, bev);
+		return;
+	}
+
+	DataManager::instance()->CachePlayerPersonalData(player_id, player_data);
+
+	this->SendMsg((msg_header_t)MsgTypes::S2C_MSG_TYPE_PROPERTY,
+		(msg_header_t)MsgIDs::MSG_ID_PROPERTY_SET,
+		(msg_header_t)MsgCodes::MSG_CODE_SUCCESS,
+		*proto,
 		bev);
 }
 

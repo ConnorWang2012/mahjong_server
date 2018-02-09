@@ -18,7 +18,6 @@ modification:
 
 #include "util/google/absl/strings/numbers.h"
 #include "util/google/absl/strings/str_join.h"
-#include "util/google/absl/strings/numbers.h"
 #include "framework/cache/cache_proxy.h"
 #include "customer/player/player.h"
 #include "customer/player/player_manager.h"
@@ -231,6 +230,9 @@ void DataManager::AddDiamond(id_t player_id, score_t diamond) {
 		this->GetDiamond(player_id, gold_diamond);
 		this->SetDiamond(player_id, gold_diamond + diamond);
 	}
+}
+
+void DataManager::SetNickname(id_t player_id, const std::string& nickanme) {
 }
 
 void DataManager::Init() {

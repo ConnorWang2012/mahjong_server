@@ -185,6 +185,18 @@ class PlayerMsgProtocol : public ::google::protobuf::Message {
   inline ::std::string* release_nick_name();
   inline void set_allocated_nick_name(::std::string* nick_name);
 
+  // optional bytes head_portrait = 13;
+  inline bool has_head_portrait() const;
+  inline void clear_head_portrait();
+  static const int kHeadPortraitFieldNumber = 13;
+  inline const ::std::string& head_portrait() const;
+  inline void set_head_portrait(const ::std::string& value);
+  inline void set_head_portrait(const char* value);
+  inline void set_head_portrait(const void* value, size_t size);
+  inline ::std::string* mutable_head_portrait();
+  inline ::std::string* release_head_portrait();
+  inline void set_allocated_head_portrait(::std::string* head_portrait);
+
   // @@protoc_insertion_point(class_scope:gamer.protocol.PlayerMsgProtocol)
  private:
   inline void set_has_player_id();
@@ -211,6 +223,8 @@ class PlayerMsgProtocol : public ::google::protobuf::Message {
   inline void clear_has_level_name();
   inline void set_has_nick_name();
   inline void clear_has_nick_name();
+  inline void set_has_head_portrait();
+  inline void clear_has_head_portrait();
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
@@ -229,6 +243,7 @@ class PlayerMsgProtocol : public ::google::protobuf::Message {
   ::std::string* level_name_;
   static ::std::string* _default_nick_name_;
   ::std::string* nick_name_;
+  ::std::string* head_portrait_;
   friend void  protobuf_AddDesc_player_5fmsg_5fprotocol_2eproto();
   friend void protobuf_AssignDesc_player_5fmsg_5fprotocol_2eproto();
   friend void protobuf_ShutdownFile_player_5fmsg_5fprotocol_2eproto();
@@ -633,6 +648,82 @@ inline void PlayerMsgProtocol::set_allocated_nick_name(::std::string* nick_name)
     nick_name_ = const_cast< ::std::string*>(_default_nick_name_);
   }
   // @@protoc_insertion_point(field_set_allocated:gamer.protocol.PlayerMsgProtocol.nick_name)
+}
+
+// optional bytes head_portrait = 13;
+inline bool PlayerMsgProtocol::has_head_portrait() const {
+  return (_has_bits_[0] & 0x00001000u) != 0;
+}
+inline void PlayerMsgProtocol::set_has_head_portrait() {
+  _has_bits_[0] |= 0x00001000u;
+}
+inline void PlayerMsgProtocol::clear_has_head_portrait() {
+  _has_bits_[0] &= ~0x00001000u;
+}
+inline void PlayerMsgProtocol::clear_head_portrait() {
+  if (head_portrait_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    head_portrait_->clear();
+  }
+  clear_has_head_portrait();
+}
+inline const ::std::string& PlayerMsgProtocol::head_portrait() const {
+  // @@protoc_insertion_point(field_get:gamer.protocol.PlayerMsgProtocol.head_portrait)
+  return *head_portrait_;
+}
+inline void PlayerMsgProtocol::set_head_portrait(const ::std::string& value) {
+  set_has_head_portrait();
+  if (head_portrait_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    head_portrait_ = new ::std::string;
+  }
+  head_portrait_->assign(value);
+  // @@protoc_insertion_point(field_set:gamer.protocol.PlayerMsgProtocol.head_portrait)
+}
+inline void PlayerMsgProtocol::set_head_portrait(const char* value) {
+  set_has_head_portrait();
+  if (head_portrait_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    head_portrait_ = new ::std::string;
+  }
+  head_portrait_->assign(value);
+  // @@protoc_insertion_point(field_set_char:gamer.protocol.PlayerMsgProtocol.head_portrait)
+}
+inline void PlayerMsgProtocol::set_head_portrait(const void* value, size_t size) {
+  set_has_head_portrait();
+  if (head_portrait_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    head_portrait_ = new ::std::string;
+  }
+  head_portrait_->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:gamer.protocol.PlayerMsgProtocol.head_portrait)
+}
+inline ::std::string* PlayerMsgProtocol::mutable_head_portrait() {
+  set_has_head_portrait();
+  if (head_portrait_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    head_portrait_ = new ::std::string;
+  }
+  // @@protoc_insertion_point(field_mutable:gamer.protocol.PlayerMsgProtocol.head_portrait)
+  return head_portrait_;
+}
+inline ::std::string* PlayerMsgProtocol::release_head_portrait() {
+  clear_has_head_portrait();
+  if (head_portrait_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    return NULL;
+  } else {
+    ::std::string* temp = head_portrait_;
+    head_portrait_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+    return temp;
+  }
+}
+inline void PlayerMsgProtocol::set_allocated_head_portrait(::std::string* head_portrait) {
+  if (head_portrait_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    delete head_portrait_;
+  }
+  if (head_portrait) {
+    set_has_head_portrait();
+    head_portrait_ = head_portrait;
+  } else {
+    clear_has_head_portrait();
+    head_portrait_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  // @@protoc_insertion_point(field_set_allocated:gamer.protocol.PlayerMsgProtocol.head_portrait)
 }
 
 

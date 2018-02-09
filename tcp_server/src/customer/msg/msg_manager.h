@@ -69,6 +69,14 @@ class MsgManager : public BasicManager<MsgManager> {
 
 	void DealWithGetPlayerInfoMsg(const ClientMsg& msg, bufferevent* bev);
 
+	void DealWithSetPropertyMsg(const ClientMsg& msg, bufferevent* bev);
+
+	void DealWithSetNicknameMsg(const ClientMsg& msg, bufferevent* bev, 
+		google::protobuf::Message* proto, id_t player_id, const std::string& nickname); // ugly
+
+	void DealWithSetSexMsg(const ClientMsg& msg, bufferevent* bev,
+		google::protobuf::Message* proto, id_t player_id, const std::string& sex);
+
 	void DealWithCreateRoomMsg(const ClientMsg& msg, bufferevent* bev);
 
 	void DealWithPlayerJoinRoomMsg(const ClientMsg& msg, bufferevent* bev);

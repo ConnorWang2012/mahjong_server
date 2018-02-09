@@ -35,7 +35,7 @@ void protobuf_AssignDesc_player_5fmsg_5fprotocol_2eproto() {
       "player_msg_protocol.proto");
   GOOGLE_CHECK(file != NULL);
   PlayerMsgProtocol_descriptor_ = file->message_type(0);
-  static const int PlayerMsgProtocol_offsets_[12] = {
+  static const int PlayerMsgProtocol_offsets_[13] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayerMsgProtocol, player_id_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayerMsgProtocol, sex_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayerMsgProtocol, level_),
@@ -48,6 +48,7 @@ void protobuf_AssignDesc_player_5fmsg_5fprotocol_2eproto() {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayerMsgProtocol, vip_level_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayerMsgProtocol, level_name_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayerMsgProtocol, nick_name_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayerMsgProtocol, head_portrait_),
   };
   PlayerMsgProtocol_reflection_ =
     new ::google::protobuf::internal::GeneratedMessageReflection(
@@ -92,14 +93,14 @@ void protobuf_AddDesc_player_5fmsg_5fprotocol_2eproto() {
 
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
     "\n\031player_msg_protocol.proto\022\016gamer.proto"
-    "col\"\241\002\n\021PlayerMsgProtocol\022\021\n\tplayer_id\030\001"
+    "col\"\270\002\n\021PlayerMsgProtocol\022\021\n\tplayer_id\030\001"
     " \002(\r\022\016\n\003sex\030\002 \001(\r:\0011\022\020\n\005level\030\003 \001(\r:\0011\022\022"
     "\n\nscore_gold\030\004 \001(\r\022\025\n\rscore_diamond\030\005 \001("
     "\r\022\026\n\016num_room_cards\030\006 \001(\r\022\033\n\020num_played_"
     "games\030\007 \001(\r:\0010\022\030\n\rnum_win_games\030\010 \001(\r:\0010"
     "\022\031\n\016num_loss_games\030\t \001(\r:\0010\022\024\n\tvip_level"
     "\030\n \001(\r:\0010\022\022\n\nlevel_name\030\013 \001(\014\022\030\n\tnick_na"
-    "me\030\014 \001(\014:\005Young", 335);
+    "me\030\014 \001(\014:\005Young\022\025\n\rhead_portrait\030\r \001(\014", 358);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "player_msg_protocol.proto", &protobuf_RegisterTypes);
   PlayerMsgProtocol::_default_nick_name_ =
@@ -132,6 +133,7 @@ const int PlayerMsgProtocol::kNumLossGamesFieldNumber;
 const int PlayerMsgProtocol::kVipLevelFieldNumber;
 const int PlayerMsgProtocol::kLevelNameFieldNumber;
 const int PlayerMsgProtocol::kNickNameFieldNumber;
+const int PlayerMsgProtocol::kHeadPortraitFieldNumber;
 #endif  // !_MSC_VER
 
 PlayerMsgProtocol::PlayerMsgProtocol()
@@ -165,6 +167,7 @@ void PlayerMsgProtocol::SharedCtor() {
   vip_level_ = 0u;
   level_name_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   nick_name_ = const_cast< ::std::string*>(_default_nick_name_);
+  head_portrait_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -179,6 +182,9 @@ void PlayerMsgProtocol::SharedDtor() {
   }
   if (nick_name_ != _default_nick_name_) {
     delete nick_name_;
+  }
+  if (head_portrait_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    delete head_portrait_;
   }
   if (this != default_instance_) {
   }
@@ -222,7 +228,7 @@ void PlayerMsgProtocol::Clear() {
     sex_ = 1u;
     level_ = 1u;
   }
-  if (_has_bits_[8 / 32] & 3840) {
+  if (_has_bits_[8 / 32] & 7936) {
     ZR_(num_loss_games_, vip_level_);
     if (has_level_name()) {
       if (level_name_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
@@ -232,6 +238,11 @@ void PlayerMsgProtocol::Clear() {
     if (has_nick_name()) {
       if (nick_name_ != _default_nick_name_) {
         nick_name_->assign(*_default_nick_name_);
+      }
+    }
+    if (has_head_portrait()) {
+      if (head_portrait_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+        head_portrait_->clear();
       }
     }
   }
@@ -424,6 +435,19 @@ bool PlayerMsgProtocol::MergePartialFromCodedStream(
         } else {
           goto handle_unusual;
         }
+        if (input->ExpectTag(106)) goto parse_head_portrait;
+        break;
+      }
+
+      // optional bytes head_portrait = 13;
+      case 13: {
+        if (tag == 106) {
+         parse_head_portrait:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+                input, this->mutable_head_portrait()));
+        } else {
+          goto handle_unusual;
+        }
         if (input->ExpectAtEnd()) goto success;
         break;
       }
@@ -515,6 +539,12 @@ void PlayerMsgProtocol::SerializeWithCachedSizes(
       12, this->nick_name(), output);
   }
 
+  // optional bytes head_portrait = 13;
+  if (has_head_portrait()) {
+    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+      13, this->head_portrait(), output);
+  }
+
   if (!unknown_fields().empty()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
@@ -587,6 +617,13 @@ void PlayerMsgProtocol::SerializeWithCachedSizes(
     target =
       ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
         12, this->nick_name(), target);
+  }
+
+  // optional bytes head_portrait = 13;
+  if (has_head_portrait()) {
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+        13, this->head_portrait(), target);
   }
 
   if (!unknown_fields().empty()) {
@@ -687,6 +724,13 @@ int PlayerMsgProtocol::ByteSize() const {
           this->nick_name());
     }
 
+    // optional bytes head_portrait = 13;
+    if (has_head_portrait()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::BytesSize(
+          this->head_portrait());
+    }
+
   }
   if (!unknown_fields().empty()) {
     total_size +=
@@ -752,6 +796,9 @@ void PlayerMsgProtocol::MergeFrom(const PlayerMsgProtocol& from) {
     if (from.has_nick_name()) {
       set_nick_name(from.nick_name());
     }
+    if (from.has_head_portrait()) {
+      set_head_portrait(from.head_portrait());
+    }
   }
   mutable_unknown_fields()->MergeFrom(from.unknown_fields());
 }
@@ -788,6 +835,7 @@ void PlayerMsgProtocol::Swap(PlayerMsgProtocol* other) {
     std::swap(vip_level_, other->vip_level_);
     std::swap(level_name_, other->level_name_);
     std::swap(nick_name_, other->nick_name_);
+    std::swap(head_portrait_, other->head_portrait_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     _unknown_fields_.Swap(&other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);

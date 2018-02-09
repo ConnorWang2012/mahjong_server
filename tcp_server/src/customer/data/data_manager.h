@@ -71,6 +71,8 @@ class DataManager : public BasicManager<DataManager> {
 
 	void AddDiamond(id_t player_id, score_t diamond);
 
+	void SetNickname(id_t player_id, const std::string& nickanme);
+
   private:
 	void Init();
 
