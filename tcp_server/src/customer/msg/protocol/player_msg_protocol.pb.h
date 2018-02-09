@@ -161,10 +161,24 @@ class PlayerMsgProtocol : public ::google::protobuf::Message {
   inline ::google::protobuf::uint32 vip_level() const;
   inline void set_vip_level(::google::protobuf::uint32 value);
 
-  // optional bytes level_name = 11;
+  // optional uint32 head_portrait_type = 11 [default = 0];
+  inline bool has_head_portrait_type() const;
+  inline void clear_head_portrait_type();
+  static const int kHeadPortraitTypeFieldNumber = 11;
+  inline ::google::protobuf::uint32 head_portrait_type() const;
+  inline void set_head_portrait_type(::google::protobuf::uint32 value);
+
+  // optional uint32 head_portrait_id = 12 [default = 0];
+  inline bool has_head_portrait_id() const;
+  inline void clear_head_portrait_id();
+  static const int kHeadPortraitIdFieldNumber = 12;
+  inline ::google::protobuf::uint32 head_portrait_id() const;
+  inline void set_head_portrait_id(::google::protobuf::uint32 value);
+
+  // optional bytes level_name = 13;
   inline bool has_level_name() const;
   inline void clear_level_name();
-  static const int kLevelNameFieldNumber = 11;
+  static const int kLevelNameFieldNumber = 13;
   inline const ::std::string& level_name() const;
   inline void set_level_name(const ::std::string& value);
   inline void set_level_name(const char* value);
@@ -173,10 +187,10 @@ class PlayerMsgProtocol : public ::google::protobuf::Message {
   inline ::std::string* release_level_name();
   inline void set_allocated_level_name(::std::string* level_name);
 
-  // optional bytes nick_name = 12 [default = "Young"];
+  // optional bytes nick_name = 14 [default = "Young"];
   inline bool has_nick_name() const;
   inline void clear_nick_name();
-  static const int kNickNameFieldNumber = 12;
+  static const int kNickNameFieldNumber = 14;
   inline const ::std::string& nick_name() const;
   inline void set_nick_name(const ::std::string& value);
   inline void set_nick_name(const char* value);
@@ -185,10 +199,10 @@ class PlayerMsgProtocol : public ::google::protobuf::Message {
   inline ::std::string* release_nick_name();
   inline void set_allocated_nick_name(::std::string* nick_name);
 
-  // optional bytes head_portrait = 13;
+  // optional bytes head_portrait = 15;
   inline bool has_head_portrait() const;
   inline void clear_head_portrait();
-  static const int kHeadPortraitFieldNumber = 13;
+  static const int kHeadPortraitFieldNumber = 15;
   inline const ::std::string& head_portrait() const;
   inline void set_head_portrait(const ::std::string& value);
   inline void set_head_portrait(const char* value);
@@ -219,6 +233,10 @@ class PlayerMsgProtocol : public ::google::protobuf::Message {
   inline void clear_has_num_loss_games();
   inline void set_has_vip_level();
   inline void clear_has_vip_level();
+  inline void set_has_head_portrait_type();
+  inline void clear_has_head_portrait_type();
+  inline void set_has_head_portrait_id();
+  inline void clear_has_head_portrait_id();
   inline void set_has_level_name();
   inline void clear_has_level_name();
   inline void set_has_nick_name();
@@ -240,6 +258,8 @@ class PlayerMsgProtocol : public ::google::protobuf::Message {
   ::google::protobuf::uint32 num_win_games_;
   ::google::protobuf::uint32 num_loss_games_;
   ::google::protobuf::uint32 vip_level_;
+  ::google::protobuf::uint32 head_portrait_type_;
+  ::google::protobuf::uint32 head_portrait_id_;
   ::std::string* level_name_;
   static ::std::string* _default_nick_name_;
   ::std::string* nick_name_;
@@ -498,15 +518,63 @@ inline void PlayerMsgProtocol::set_vip_level(::google::protobuf::uint32 value) {
   // @@protoc_insertion_point(field_set:gamer.protocol.PlayerMsgProtocol.vip_level)
 }
 
-// optional bytes level_name = 11;
-inline bool PlayerMsgProtocol::has_level_name() const {
+// optional uint32 head_portrait_type = 11 [default = 0];
+inline bool PlayerMsgProtocol::has_head_portrait_type() const {
   return (_has_bits_[0] & 0x00000400u) != 0;
 }
-inline void PlayerMsgProtocol::set_has_level_name() {
+inline void PlayerMsgProtocol::set_has_head_portrait_type() {
   _has_bits_[0] |= 0x00000400u;
 }
-inline void PlayerMsgProtocol::clear_has_level_name() {
+inline void PlayerMsgProtocol::clear_has_head_portrait_type() {
   _has_bits_[0] &= ~0x00000400u;
+}
+inline void PlayerMsgProtocol::clear_head_portrait_type() {
+  head_portrait_type_ = 0u;
+  clear_has_head_portrait_type();
+}
+inline ::google::protobuf::uint32 PlayerMsgProtocol::head_portrait_type() const {
+  // @@protoc_insertion_point(field_get:gamer.protocol.PlayerMsgProtocol.head_portrait_type)
+  return head_portrait_type_;
+}
+inline void PlayerMsgProtocol::set_head_portrait_type(::google::protobuf::uint32 value) {
+  set_has_head_portrait_type();
+  head_portrait_type_ = value;
+  // @@protoc_insertion_point(field_set:gamer.protocol.PlayerMsgProtocol.head_portrait_type)
+}
+
+// optional uint32 head_portrait_id = 12 [default = 0];
+inline bool PlayerMsgProtocol::has_head_portrait_id() const {
+  return (_has_bits_[0] & 0x00000800u) != 0;
+}
+inline void PlayerMsgProtocol::set_has_head_portrait_id() {
+  _has_bits_[0] |= 0x00000800u;
+}
+inline void PlayerMsgProtocol::clear_has_head_portrait_id() {
+  _has_bits_[0] &= ~0x00000800u;
+}
+inline void PlayerMsgProtocol::clear_head_portrait_id() {
+  head_portrait_id_ = 0u;
+  clear_has_head_portrait_id();
+}
+inline ::google::protobuf::uint32 PlayerMsgProtocol::head_portrait_id() const {
+  // @@protoc_insertion_point(field_get:gamer.protocol.PlayerMsgProtocol.head_portrait_id)
+  return head_portrait_id_;
+}
+inline void PlayerMsgProtocol::set_head_portrait_id(::google::protobuf::uint32 value) {
+  set_has_head_portrait_id();
+  head_portrait_id_ = value;
+  // @@protoc_insertion_point(field_set:gamer.protocol.PlayerMsgProtocol.head_portrait_id)
+}
+
+// optional bytes level_name = 13;
+inline bool PlayerMsgProtocol::has_level_name() const {
+  return (_has_bits_[0] & 0x00001000u) != 0;
+}
+inline void PlayerMsgProtocol::set_has_level_name() {
+  _has_bits_[0] |= 0x00001000u;
+}
+inline void PlayerMsgProtocol::clear_has_level_name() {
+  _has_bits_[0] &= ~0x00001000u;
 }
 inline void PlayerMsgProtocol::clear_level_name() {
   if (level_name_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
@@ -574,15 +642,15 @@ inline void PlayerMsgProtocol::set_allocated_level_name(::std::string* level_nam
   // @@protoc_insertion_point(field_set_allocated:gamer.protocol.PlayerMsgProtocol.level_name)
 }
 
-// optional bytes nick_name = 12 [default = "Young"];
+// optional bytes nick_name = 14 [default = "Young"];
 inline bool PlayerMsgProtocol::has_nick_name() const {
-  return (_has_bits_[0] & 0x00000800u) != 0;
+  return (_has_bits_[0] & 0x00002000u) != 0;
 }
 inline void PlayerMsgProtocol::set_has_nick_name() {
-  _has_bits_[0] |= 0x00000800u;
+  _has_bits_[0] |= 0x00002000u;
 }
 inline void PlayerMsgProtocol::clear_has_nick_name() {
-  _has_bits_[0] &= ~0x00000800u;
+  _has_bits_[0] &= ~0x00002000u;
 }
 inline void PlayerMsgProtocol::clear_nick_name() {
   if (nick_name_ != _default_nick_name_) {
@@ -650,15 +718,15 @@ inline void PlayerMsgProtocol::set_allocated_nick_name(::std::string* nick_name)
   // @@protoc_insertion_point(field_set_allocated:gamer.protocol.PlayerMsgProtocol.nick_name)
 }
 
-// optional bytes head_portrait = 13;
+// optional bytes head_portrait = 15;
 inline bool PlayerMsgProtocol::has_head_portrait() const {
-  return (_has_bits_[0] & 0x00001000u) != 0;
+  return (_has_bits_[0] & 0x00004000u) != 0;
 }
 inline void PlayerMsgProtocol::set_has_head_portrait() {
-  _has_bits_[0] |= 0x00001000u;
+  _has_bits_[0] |= 0x00004000u;
 }
 inline void PlayerMsgProtocol::clear_has_head_portrait() {
-  _has_bits_[0] &= ~0x00001000u;
+  _has_bits_[0] &= ~0x00004000u;
 }
 inline void PlayerMsgProtocol::clear_head_portrait() {
   if (head_portrait_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {

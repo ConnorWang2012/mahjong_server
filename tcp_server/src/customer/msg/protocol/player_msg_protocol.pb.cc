@@ -35,7 +35,7 @@ void protobuf_AssignDesc_player_5fmsg_5fprotocol_2eproto() {
       "player_msg_protocol.proto");
   GOOGLE_CHECK(file != NULL);
   PlayerMsgProtocol_descriptor_ = file->message_type(0);
-  static const int PlayerMsgProtocol_offsets_[13] = {
+  static const int PlayerMsgProtocol_offsets_[15] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayerMsgProtocol, player_id_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayerMsgProtocol, sex_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayerMsgProtocol, level_),
@@ -46,6 +46,8 @@ void protobuf_AssignDesc_player_5fmsg_5fprotocol_2eproto() {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayerMsgProtocol, num_win_games_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayerMsgProtocol, num_loss_games_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayerMsgProtocol, vip_level_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayerMsgProtocol, head_portrait_type_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayerMsgProtocol, head_portrait_id_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayerMsgProtocol, level_name_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayerMsgProtocol, nick_name_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PlayerMsgProtocol, head_portrait_),
@@ -93,14 +95,16 @@ void protobuf_AddDesc_player_5fmsg_5fprotocol_2eproto() {
 
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
     "\n\031player_msg_protocol.proto\022\016gamer.proto"
-    "col\"\270\002\n\021PlayerMsgProtocol\022\021\n\tplayer_id\030\001"
+    "col\"\364\002\n\021PlayerMsgProtocol\022\021\n\tplayer_id\030\001"
     " \002(\r\022\016\n\003sex\030\002 \001(\r:\0011\022\020\n\005level\030\003 \001(\r:\0011\022\022"
     "\n\nscore_gold\030\004 \001(\r\022\025\n\rscore_diamond\030\005 \001("
     "\r\022\026\n\016num_room_cards\030\006 \001(\r\022\033\n\020num_played_"
     "games\030\007 \001(\r:\0010\022\030\n\rnum_win_games\030\010 \001(\r:\0010"
     "\022\031\n\016num_loss_games\030\t \001(\r:\0010\022\024\n\tvip_level"
-    "\030\n \001(\r:\0010\022\022\n\nlevel_name\030\013 \001(\014\022\030\n\tnick_na"
-    "me\030\014 \001(\014:\005Young\022\025\n\rhead_portrait\030\r \001(\014", 358);
+    "\030\n \001(\r:\0010\022\035\n\022head_portrait_type\030\013 \001(\r:\0010"
+    "\022\033\n\020head_portrait_id\030\014 \001(\r:\0010\022\022\n\nlevel_n"
+    "ame\030\r \001(\014\022\030\n\tnick_name\030\016 \001(\014:\005Young\022\025\n\rh"
+    "ead_portrait\030\017 \001(\014", 418);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "player_msg_protocol.proto", &protobuf_RegisterTypes);
   PlayerMsgProtocol::_default_nick_name_ =
@@ -131,6 +135,8 @@ const int PlayerMsgProtocol::kNumPlayedGamesFieldNumber;
 const int PlayerMsgProtocol::kNumWinGamesFieldNumber;
 const int PlayerMsgProtocol::kNumLossGamesFieldNumber;
 const int PlayerMsgProtocol::kVipLevelFieldNumber;
+const int PlayerMsgProtocol::kHeadPortraitTypeFieldNumber;
+const int PlayerMsgProtocol::kHeadPortraitIdFieldNumber;
 const int PlayerMsgProtocol::kLevelNameFieldNumber;
 const int PlayerMsgProtocol::kNickNameFieldNumber;
 const int PlayerMsgProtocol::kHeadPortraitFieldNumber;
@@ -165,6 +171,8 @@ void PlayerMsgProtocol::SharedCtor() {
   num_win_games_ = 0u;
   num_loss_games_ = 0u;
   vip_level_ = 0u;
+  head_portrait_type_ = 0u;
+  head_portrait_id_ = 0u;
   level_name_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   nick_name_ = const_cast< ::std::string*>(_default_nick_name_);
   head_portrait_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
@@ -228,8 +236,8 @@ void PlayerMsgProtocol::Clear() {
     sex_ = 1u;
     level_ = 1u;
   }
-  if (_has_bits_[8 / 32] & 7936) {
-    ZR_(num_loss_games_, vip_level_);
+  if (_has_bits_[8 / 32] & 32512) {
+    ZR_(num_loss_games_, head_portrait_id_);
     if (has_level_name()) {
       if (level_name_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
         level_name_->clear();
@@ -409,39 +417,69 @@ bool PlayerMsgProtocol::MergePartialFromCodedStream(
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(90)) goto parse_level_name;
+        if (input->ExpectTag(88)) goto parse_head_portrait_type;
         break;
       }
 
-      // optional bytes level_name = 11;
+      // optional uint32 head_portrait_type = 11 [default = 0];
       case 11: {
-        if (tag == 90) {
+        if (tag == 88) {
+         parse_head_portrait_type:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &head_portrait_type_)));
+          set_has_head_portrait_type();
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(96)) goto parse_head_portrait_id;
+        break;
+      }
+
+      // optional uint32 head_portrait_id = 12 [default = 0];
+      case 12: {
+        if (tag == 96) {
+         parse_head_portrait_id:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &head_portrait_id_)));
+          set_has_head_portrait_id();
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(106)) goto parse_level_name;
+        break;
+      }
+
+      // optional bytes level_name = 13;
+      case 13: {
+        if (tag == 106) {
          parse_level_name:
           DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
                 input, this->mutable_level_name()));
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(98)) goto parse_nick_name;
+        if (input->ExpectTag(114)) goto parse_nick_name;
         break;
       }
 
-      // optional bytes nick_name = 12 [default = "Young"];
-      case 12: {
-        if (tag == 98) {
+      // optional bytes nick_name = 14 [default = "Young"];
+      case 14: {
+        if (tag == 114) {
          parse_nick_name:
           DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
                 input, this->mutable_nick_name()));
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(106)) goto parse_head_portrait;
+        if (input->ExpectTag(122)) goto parse_head_portrait;
         break;
       }
 
-      // optional bytes head_portrait = 13;
-      case 13: {
-        if (tag == 106) {
+      // optional bytes head_portrait = 15;
+      case 15: {
+        if (tag == 122) {
          parse_head_portrait:
           DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
                 input, this->mutable_head_portrait()));
@@ -527,22 +565,32 @@ void PlayerMsgProtocol::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(10, this->vip_level(), output);
   }
 
-  // optional bytes level_name = 11;
+  // optional uint32 head_portrait_type = 11 [default = 0];
+  if (has_head_portrait_type()) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(11, this->head_portrait_type(), output);
+  }
+
+  // optional uint32 head_portrait_id = 12 [default = 0];
+  if (has_head_portrait_id()) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(12, this->head_portrait_id(), output);
+  }
+
+  // optional bytes level_name = 13;
   if (has_level_name()) {
     ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
-      11, this->level_name(), output);
+      13, this->level_name(), output);
   }
 
-  // optional bytes nick_name = 12 [default = "Young"];
+  // optional bytes nick_name = 14 [default = "Young"];
   if (has_nick_name()) {
     ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
-      12, this->nick_name(), output);
+      14, this->nick_name(), output);
   }
 
-  // optional bytes head_portrait = 13;
+  // optional bytes head_portrait = 15;
   if (has_head_portrait()) {
     ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
-      13, this->head_portrait(), output);
+      15, this->head_portrait(), output);
   }
 
   if (!unknown_fields().empty()) {
@@ -605,25 +653,35 @@ void PlayerMsgProtocol::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(10, this->vip_level(), target);
   }
 
-  // optional bytes level_name = 11;
+  // optional uint32 head_portrait_type = 11 [default = 0];
+  if (has_head_portrait_type()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(11, this->head_portrait_type(), target);
+  }
+
+  // optional uint32 head_portrait_id = 12 [default = 0];
+  if (has_head_portrait_id()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(12, this->head_portrait_id(), target);
+  }
+
+  // optional bytes level_name = 13;
   if (has_level_name()) {
     target =
       ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
-        11, this->level_name(), target);
+        13, this->level_name(), target);
   }
 
-  // optional bytes nick_name = 12 [default = "Young"];
+  // optional bytes nick_name = 14 [default = "Young"];
   if (has_nick_name()) {
     target =
       ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
-        12, this->nick_name(), target);
+        14, this->nick_name(), target);
   }
 
-  // optional bytes head_portrait = 13;
+  // optional bytes head_portrait = 15;
   if (has_head_portrait()) {
     target =
       ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
-        13, this->head_portrait(), target);
+        15, this->head_portrait(), target);
   }
 
   if (!unknown_fields().empty()) {
@@ -710,21 +768,35 @@ int PlayerMsgProtocol::ByteSize() const {
           this->vip_level());
     }
 
-    // optional bytes level_name = 11;
+    // optional uint32 head_portrait_type = 11 [default = 0];
+    if (has_head_portrait_type()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->head_portrait_type());
+    }
+
+    // optional uint32 head_portrait_id = 12 [default = 0];
+    if (has_head_portrait_id()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->head_portrait_id());
+    }
+
+    // optional bytes level_name = 13;
     if (has_level_name()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::BytesSize(
           this->level_name());
     }
 
-    // optional bytes nick_name = 12 [default = "Young"];
+    // optional bytes nick_name = 14 [default = "Young"];
     if (has_nick_name()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::BytesSize(
           this->nick_name());
     }
 
-    // optional bytes head_portrait = 13;
+    // optional bytes head_portrait = 15;
     if (has_head_portrait()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::BytesSize(
@@ -790,6 +862,12 @@ void PlayerMsgProtocol::MergeFrom(const PlayerMsgProtocol& from) {
     if (from.has_vip_level()) {
       set_vip_level(from.vip_level());
     }
+    if (from.has_head_portrait_type()) {
+      set_head_portrait_type(from.head_portrait_type());
+    }
+    if (from.has_head_portrait_id()) {
+      set_head_portrait_id(from.head_portrait_id());
+    }
     if (from.has_level_name()) {
       set_level_name(from.level_name());
     }
@@ -833,6 +911,8 @@ void PlayerMsgProtocol::Swap(PlayerMsgProtocol* other) {
     std::swap(num_win_games_, other->num_win_games_);
     std::swap(num_loss_games_, other->num_loss_games_);
     std::swap(vip_level_, other->vip_level_);
+    std::swap(head_portrait_type_, other->head_portrait_type_);
+    std::swap(head_portrait_id_, other->head_portrait_id_);
     std::swap(level_name_, other->level_name_);
     std::swap(nick_name_, other->nick_name_);
     std::swap(head_portrait_, other->head_portrait_);
