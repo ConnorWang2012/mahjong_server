@@ -175,7 +175,7 @@ class PlayerMsgProtocol : public ::google::protobuf::Message {
   inline ::google::protobuf::uint32 head_portrait_id() const;
   inline void set_head_portrait_id(::google::protobuf::uint32 value);
 
-  // optional bytes level_name = 13;
+  // optional bytes level_name = 13 [default = "\345\274\200\345\220\257\344\270\200\345\210\207"];
   inline bool has_level_name() const;
   inline void clear_level_name();
   static const int kLevelNameFieldNumber = 13;
@@ -260,6 +260,7 @@ class PlayerMsgProtocol : public ::google::protobuf::Message {
   ::google::protobuf::uint32 vip_level_;
   ::google::protobuf::uint32 head_portrait_type_;
   ::google::protobuf::uint32 head_portrait_id_;
+  static ::std::string* _default_level_name_;
   ::std::string* level_name_;
   static ::std::string* _default_nick_name_;
   ::std::string* nick_name_;
@@ -566,7 +567,7 @@ inline void PlayerMsgProtocol::set_head_portrait_id(::google::protobuf::uint32 v
   // @@protoc_insertion_point(field_set:gamer.protocol.PlayerMsgProtocol.head_portrait_id)
 }
 
-// optional bytes level_name = 13;
+// optional bytes level_name = 13 [default = "\345\274\200\345\220\257\344\270\200\345\210\207"];
 inline bool PlayerMsgProtocol::has_level_name() const {
   return (_has_bits_[0] & 0x00001000u) != 0;
 }
@@ -577,8 +578,8 @@ inline void PlayerMsgProtocol::clear_has_level_name() {
   _has_bits_[0] &= ~0x00001000u;
 }
 inline void PlayerMsgProtocol::clear_level_name() {
-  if (level_name_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    level_name_->clear();
+  if (level_name_ != _default_level_name_) {
+    level_name_->assign(*_default_level_name_);
   }
   clear_has_level_name();
 }
@@ -588,7 +589,7 @@ inline const ::std::string& PlayerMsgProtocol::level_name() const {
 }
 inline void PlayerMsgProtocol::set_level_name(const ::std::string& value) {
   set_has_level_name();
-  if (level_name_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+  if (level_name_ == _default_level_name_) {
     level_name_ = new ::std::string;
   }
   level_name_->assign(value);
@@ -596,7 +597,7 @@ inline void PlayerMsgProtocol::set_level_name(const ::std::string& value) {
 }
 inline void PlayerMsgProtocol::set_level_name(const char* value) {
   set_has_level_name();
-  if (level_name_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+  if (level_name_ == _default_level_name_) {
     level_name_ = new ::std::string;
   }
   level_name_->assign(value);
@@ -604,7 +605,7 @@ inline void PlayerMsgProtocol::set_level_name(const char* value) {
 }
 inline void PlayerMsgProtocol::set_level_name(const void* value, size_t size) {
   set_has_level_name();
-  if (level_name_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+  if (level_name_ == _default_level_name_) {
     level_name_ = new ::std::string;
   }
   level_name_->assign(reinterpret_cast<const char*>(value), size);
@@ -612,24 +613,24 @@ inline void PlayerMsgProtocol::set_level_name(const void* value, size_t size) {
 }
 inline ::std::string* PlayerMsgProtocol::mutable_level_name() {
   set_has_level_name();
-  if (level_name_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    level_name_ = new ::std::string;
+  if (level_name_ == _default_level_name_) {
+    level_name_ = new ::std::string(*_default_level_name_);
   }
   // @@protoc_insertion_point(field_mutable:gamer.protocol.PlayerMsgProtocol.level_name)
   return level_name_;
 }
 inline ::std::string* PlayerMsgProtocol::release_level_name() {
   clear_has_level_name();
-  if (level_name_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+  if (level_name_ == _default_level_name_) {
     return NULL;
   } else {
     ::std::string* temp = level_name_;
-    level_name_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+    level_name_ = const_cast< ::std::string*>(_default_level_name_);
     return temp;
   }
 }
 inline void PlayerMsgProtocol::set_allocated_level_name(::std::string* level_name) {
-  if (level_name_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+  if (level_name_ != _default_level_name_) {
     delete level_name_;
   }
   if (level_name) {
@@ -637,7 +638,7 @@ inline void PlayerMsgProtocol::set_allocated_level_name(::std::string* level_nam
     level_name_ = level_name;
   } else {
     clear_has_level_name();
-    level_name_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+    level_name_ = const_cast< ::std::string*>(_default_level_name_);
   }
   // @@protoc_insertion_point(field_set_allocated:gamer.protocol.PlayerMsgProtocol.level_name)
 }

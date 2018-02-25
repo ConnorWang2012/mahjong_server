@@ -84,6 +84,7 @@ void protobuf_RegisterTypes(const ::std::string&) {
 void protobuf_ShutdownFile_player_5fmsg_5fprotocol_2eproto() {
   delete PlayerMsgProtocol::default_instance_;
   delete PlayerMsgProtocol_reflection_;
+  delete PlayerMsgProtocol::_default_level_name_;
   delete PlayerMsgProtocol::_default_nick_name_;
 }
 
@@ -95,18 +96,21 @@ void protobuf_AddDesc_player_5fmsg_5fprotocol_2eproto() {
 
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
     "\n\031player_msg_protocol.proto\022\016gamer.proto"
-    "col\"\364\002\n\021PlayerMsgProtocol\022\021\n\tplayer_id\030\001"
+    "col\"\246\003\n\021PlayerMsgProtocol\022\021\n\tplayer_id\030\001"
     " \002(\r\022\016\n\003sex\030\002 \001(\r:\0011\022\020\n\005level\030\003 \001(\r:\0011\022\022"
     "\n\nscore_gold\030\004 \001(\r\022\025\n\rscore_diamond\030\005 \001("
     "\r\022\026\n\016num_room_cards\030\006 \001(\r\022\033\n\020num_played_"
     "games\030\007 \001(\r:\0010\022\030\n\rnum_win_games\030\010 \001(\r:\0010"
     "\022\031\n\016num_loss_games\030\t \001(\r:\0010\022\024\n\tvip_level"
     "\030\n \001(\r:\0010\022\035\n\022head_portrait_type\030\013 \001(\r:\0010"
-    "\022\033\n\020head_portrait_id\030\014 \001(\r:\0010\022\022\n\nlevel_n"
-    "ame\030\r \001(\014\022\030\n\tnick_name\030\016 \001(\014:\005Young\022\025\n\rh"
-    "ead_portrait\030\017 \001(\014", 418);
+    "\022\033\n\020head_portrait_id\030\014 \001(\r:\0010\022D\n\nlevel_n"
+    "ame\030\r \001(\014:0\\345\\274\\200\\345\\220\\257\\344\\"
+    "270\\200\\345\\210\\207\022\030\n\tnick_name\030\016 \001(\014:\005"
+    "Young\022\025\n\rhead_portrait\030\017 \001(\014", 468);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "player_msg_protocol.proto", &protobuf_RegisterTypes);
+  PlayerMsgProtocol::_default_level_name_ =
+      new ::std::string("\345\274\200\345\220\257\344\270\200\345\210\207", 12);
   PlayerMsgProtocol::_default_nick_name_ =
       new ::std::string("Young", 5);
   PlayerMsgProtocol::default_instance_ = new PlayerMsgProtocol();
@@ -123,6 +127,7 @@ struct StaticDescriptorInitializer_player_5fmsg_5fprotocol_2eproto {
 
 // ===================================================================
 
+::std::string* PlayerMsgProtocol::_default_level_name_ = NULL;
 ::std::string* PlayerMsgProtocol::_default_nick_name_ = NULL;
 #ifndef _MSC_VER
 const int PlayerMsgProtocol::kPlayerIdFieldNumber;
@@ -173,7 +178,7 @@ void PlayerMsgProtocol::SharedCtor() {
   vip_level_ = 0u;
   head_portrait_type_ = 0u;
   head_portrait_id_ = 0u;
-  level_name_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  level_name_ = const_cast< ::std::string*>(_default_level_name_);
   nick_name_ = const_cast< ::std::string*>(_default_nick_name_);
   head_portrait_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
@@ -185,7 +190,7 @@ PlayerMsgProtocol::~PlayerMsgProtocol() {
 }
 
 void PlayerMsgProtocol::SharedDtor() {
-  if (level_name_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+  if (level_name_ != _default_level_name_) {
     delete level_name_;
   }
   if (nick_name_ != _default_nick_name_) {
@@ -239,8 +244,8 @@ void PlayerMsgProtocol::Clear() {
   if (_has_bits_[8 / 32] & 32512) {
     ZR_(num_loss_games_, head_portrait_id_);
     if (has_level_name()) {
-      if (level_name_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-        level_name_->clear();
+      if (level_name_ != _default_level_name_) {
+        level_name_->assign(*_default_level_name_);
       }
     }
     if (has_nick_name()) {
@@ -451,7 +456,7 @@ bool PlayerMsgProtocol::MergePartialFromCodedStream(
         break;
       }
 
-      // optional bytes level_name = 13;
+      // optional bytes level_name = 13 [default = "\345\274\200\345\220\257\344\270\200\345\210\207"];
       case 13: {
         if (tag == 106) {
          parse_level_name:
@@ -575,7 +580,7 @@ void PlayerMsgProtocol::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(12, this->head_portrait_id(), output);
   }
 
-  // optional bytes level_name = 13;
+  // optional bytes level_name = 13 [default = "\345\274\200\345\220\257\344\270\200\345\210\207"];
   if (has_level_name()) {
     ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
       13, this->level_name(), output);
@@ -663,7 +668,7 @@ void PlayerMsgProtocol::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(12, this->head_portrait_id(), target);
   }
 
-  // optional bytes level_name = 13;
+  // optional bytes level_name = 13 [default = "\345\274\200\345\220\257\344\270\200\345\210\207"];
   if (has_level_name()) {
     target =
       ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
@@ -782,7 +787,7 @@ int PlayerMsgProtocol::ByteSize() const {
           this->head_portrait_id());
     }
 
-    // optional bytes level_name = 13;
+    // optional bytes level_name = 13 [default = "\345\274\200\345\220\257\344\270\200\345\210\207"];
     if (has_level_name()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::BytesSize(

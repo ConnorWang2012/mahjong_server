@@ -1,4 +1,4 @@
-/*******************************************************************************
+﻿/*******************************************************************************
 @ copyright(C), 2015-2020, ConnorAndHisFriendsCompany.Inc
 @ filename:	    msg_manager.cc
 @ author:	    Connor
@@ -176,12 +176,15 @@ void MsgManager::DealWithMgLoginMsg(const ClientMsg& msg, bufferevent* bev) {
 		account_server   = PlayerManager::instance()->GenerateAccountByPlayerID(player_id_new);
 		password_server  = account_server; // password is account
 
+		// TODO : init by cfg
         player_proto->set_player_id(player_id_new);
-        player_proto->set_nick_name(account_server); // TODO : cfg
+        player_proto->set_nick_name(account_server); 
 		player_proto->set_sex((unsigned)Player::Sex::FEMALE);
+		player_proto->set_head_portrait_type((unsigned)Player::PortraitTypes::LOCAL);
+		player_proto->set_head_portrait_id(gamer::GenerateRandom<id_t>(1, 75));
         player_proto->set_level(1);
-        player_proto->set_level_name("junior");
-        player_proto->set_score_gold(10000); // TODO : cfg
+        player_proto->set_level_name("潜力新人");
+        player_proto->set_score_gold(10000);
 		player_proto->set_score_diamond(5000);
 		player_proto->set_num_room_cards(10);
 		player_proto->set_num_played_games(0);
@@ -353,9 +356,9 @@ void MsgManager::DealWithSetSexMsg(const ClientMsg& msg, bufferevent* bev,
 	}
 
 	if (sex == "1") {
-		player_proto.set_sex((unsigned)Player::Sex::MALE);
-	} else {
 		player_proto.set_sex((unsigned)Player::Sex::FEMALE);
+	} else {
+		player_proto.set_sex((unsigned)Player::Sex::MALE);
 	}
 	
 	if (!player_proto.SerializePartialToString(&player_data)) {

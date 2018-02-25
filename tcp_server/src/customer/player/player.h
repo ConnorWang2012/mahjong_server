@@ -31,8 +31,13 @@ class Player : public PlayerProtocol {
     typedef google::protobuf::RepeatedField<google::protobuf::uint32>   RepeatedFieldInt;
 
 	enum class Sex {
-		MALE    = 1,
+		MALE,
 		FEMALE
+	};
+
+	enum class PortraitTypes {
+		LOCAL, 
+		PERSONNAL
 	};
 
 	Player& operator=(const Player&) = delete;
