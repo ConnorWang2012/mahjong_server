@@ -183,7 +183,7 @@ void MsgManager::DealWithMgLoginMsg(const ClientMsg& msg, bufferevent* bev) {
 		player_proto->set_head_portrait_type((unsigned)Player::PortraitTypes::LOCAL);
 		player_proto->set_head_portrait_id(gamer::GenerateRandom<id_t>(1, 75));
         player_proto->set_level(1);
-        player_proto->set_level_name("潜力新人");
+        player_proto->set_level_name("开启一切");
         player_proto->set_score_gold(10000);
 		player_proto->set_score_diamond(5000);
 		player_proto->set_num_room_cards(10);
