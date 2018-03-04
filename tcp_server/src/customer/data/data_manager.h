@@ -30,6 +30,8 @@ class DataManager : public BasicManager<DataManager> {
   public:
 	DataManager();
 
+	void Init();
+
 	void CacheAccountData(const std::string& account, id_t player_id, const std::string& password);
 
 	void GetCacheAccountData(const std::string& account, id_t* player_id, std::string* password);
@@ -74,7 +76,7 @@ class DataManager : public BasicManager<DataManager> {
 	void SetNickname(id_t player_id, const std::string& nickanme);
 
   private:
-	void Init();
+	//void Init();
 
 	id_t available_player_id_ = 1000;
 

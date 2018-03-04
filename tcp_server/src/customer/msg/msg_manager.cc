@@ -14,6 +14,8 @@ modification:
 
 #include "msg_manager.h"
 
+#include "framework/util/google/absl/strings/numbers.h"
+
 #include "event2/bufferevent.h"
 
 #include "event/event_manager.h"
@@ -154,7 +156,7 @@ void MsgManager::DealWithMgLoginMsg(const ClientMsg& msg, bufferevent* bev) {
 	}
 
 	// check account and password
-	if ("" == login_proto_client.account() || "" == login_proto_client.password()) {
+	if (login_proto_client.account().empty() || login_proto_client.password().empty()) {
 		// TODO : log
 		this->SendMsgForError(MsgCodes::MSG_CODE_LOGIN_ACCOUNT_OR_PASSWORD_ERR, msg, bev);
 		return;
@@ -222,7 +224,7 @@ void MsgManager::DealWithMgLoginMsg(const ClientMsg& msg, bufferevent* bev) {
 		std::string player_data = "";
 		DataManager::instance()->GetCachedPlayerPersonalData(player_id_server, &player_data);
 
-		if ("" == player_data) {
+		if (player_data.empty()) {
 			this->SendMsgForError(MsgCodes::MSG_CODE_LOGIN_PLAYER_ID_ERR, msg, bev);
 			return;
 		}
@@ -263,7 +265,7 @@ void MsgManager::DealWithGetPlayerInfoMsg(const ClientMsg& msg, bufferevent* bev
 
 	std::string data = "";
 	DataManager::instance()->GetCachedPlayerPersonalData(proto.player_id(), &data);
-	if ("" == data) {
+	if (data.empty()) {
 		this->SendMsgForError(MsgCodes::MSG_CODE_GET_DATA_ERR, msg, bev);
 		return;
 	}
@@ -292,6 +294,8 @@ void MsgManager::DealWithSetPropertyMsg(const ClientMsg& msg, bufferevent* bev) 
 			this->DealWithSetNicknameMsg(msg, bev, &proto, proto.player_id(), proto.new_properties(i));
 		} else if (proto.property_ids(i) == (unsigned)gamer::PropertyIDs::PROP_ID_SEX) {
 			this->DealWithSetSexMsg(msg, bev, &proto, proto.player_id(), proto.new_properties(i));
+		} else if (proto.property_ids(i) == (unsigned)gamer::PropertyIDs::PROP_ID_HEAD_PORTRAIT_LOCAL) {
+			this->DealWithSetLocalHeadPortraitMsg(msg, bev, &proto, proto.player_id(), proto.new_properties(i));
 		}
 	}
 }
@@ -304,7 +308,7 @@ void MsgManager::DealWithSetNicknameMsg(const ClientMsg& msg, bufferevent* bev,
 	std::string player_data = "";
 	DataManager::instance()->GetCachedPlayerPersonalData(player_id, &player_data);
 
-	if ("" == player_data) {
+	if (player_data.empty()) {
 		this->SendMsgForError(MsgCodes::MSG_CODE_GET_DATA_ERR, msg, bev);
 		return;
 	}
@@ -333,7 +337,7 @@ void MsgManager::DealWithSetNicknameMsg(const ClientMsg& msg, bufferevent* bev,
 
 void MsgManager::DealWithSetSexMsg(const ClientMsg& msg, bufferevent* bev, 
 	google::protobuf::Message* proto, id_t player_id, const std::string& sex) {
-	if ("" == sex) {
+	if (sex.empty()) {
 		this->SendMsgForError(MsgCodes::MSG_CODE_MSG_PROTO_ERR, msg, bev);
 		return;
 	}
@@ -344,7 +348,7 @@ void MsgManager::DealWithSetSexMsg(const ClientMsg& msg, bufferevent* bev,
 	std::string player_data = "";
 	DataManager::instance()->GetCachedPlayerPersonalData(player_id, &player_data);
 
-	if ("" == player_data) {
+	if (player_data.empty()) {
 		this->SendMsgForError(MsgCodes::MSG_CODE_GET_DATA_ERR, msg, bev);
 		return;
 	}
@@ -362,6 +366,50 @@ void MsgManager::DealWithSetSexMsg(const ClientMsg& msg, bufferevent* bev,
 	}
 	
 	if (!player_proto.SerializePartialToString(&player_data)) {
+		this->SendMsgForError(MsgCodes::MSG_CODE_PARSE_DATA_ERR, msg, bev);
+		return;
+	}
+
+	DataManager::instance()->CachePlayerPersonalData(player_id, player_data);
+
+	this->SendMsg((msg_header_t)MsgTypes::S2C_MSG_TYPE_PROPERTY,
+		(msg_header_t)MsgIDs::MSG_ID_PROPERTY_SET,
+		(msg_header_t)MsgCodes::MSG_CODE_SUCCESS,
+		*proto,
+		bev);
+}
+
+void MsgManager::DealWithSetLocalHeadPortraitMsg(const ClientMsg& msg, bufferevent* bev, 
+	google::protobuf::Message* proto, id_t player_id, const std::string& head_portrait_id) {
+	if (head_portrait_id.empty()) {
+		this->SendMsgForError(MsgCodes::MSG_CODE_MSG_PROTO_ERR, msg, bev);
+		return;
+	}
+
+	// TODO : check limit
+
+	// get cache player data
+	std::string player_data = "";
+	DataManager::instance()->GetCachedPlayerPersonalData(player_id, &player_data);
+
+	if (player_data.empty()) {
+		this->SendMsgForError(MsgCodes::MSG_CODE_GET_DATA_ERR, msg, bev);
+		return;
+	}
+
+	protocol::PlayerMsgProtocol player_proto;
+	if ( !player_proto.ParseFromString(player_data) ) {
+		this->SendMsgForError(MsgCodes::MSG_CODE_PARSE_DATA_ERR, msg, bev);
+		return;
+	}
+
+	unsigned portrait_id = 1;
+	absl::SimpleAtoi<unsigned>(head_portrait_id, &portrait_id);
+
+	player_proto.set_head_portrait_type((unsigned)Player::PortraitTypes::LOCAL);
+	player_proto.set_head_portrait_id(portrait_id);
+
+	if ( !player_proto.SerializePartialToString(&player_data) ) {
 		this->SendMsgForError(MsgCodes::MSG_CODE_PARSE_DATA_ERR, msg, bev);
 		return;
 	}

@@ -26,7 +26,7 @@ modification:
 namespace gamer {
 
 DataManager::DataManager() {
-	this->Init();
+	//this->Init();
 }
 
 void DataManager::CacheAccountData(const std::string& account, 
@@ -143,8 +143,8 @@ id_t DataManager::GeneratePlayerID() {
 
 void DataManager::UpdateAvailablePlayerID() {
 	redis_client_->get("player.id:available", [&](cpp_redis::reply& rep) {
-		if (rep.is_integer()) {
-			available_player_id_ = (id_t)rep.as_integer();
+		if (rep.is_string()) {
+			 absl::SimpleAtoi<id_t>(rep.as_string(), &available_player_id_);
 		}
 	});
 	redis_client_->sync_commit();
@@ -237,6 +237,7 @@ void DataManager::SetNickname(id_t player_id, const std::string& nickanme) {
 
 void DataManager::Init() {
 	redis_client_ = CacheProxy::instance()->redis_client();
+	this->UpdateAvailablePlayerID();
 }
 
 } // namespace gamer

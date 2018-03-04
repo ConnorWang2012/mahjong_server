@@ -32,6 +32,7 @@ modification:
 
 #include "framework/base/msg.h"
 #include "framework/cache/cache_proxy.h"
+#include "customer/data/data_manager.h"
 #include "framework/log/mylog.h"
 #include "framework/event/event_manager.h"
 #include "framework/network/network_event_id.h"
@@ -61,6 +62,7 @@ void NetworkManager::InitSocket() {
 #endif
 	
     CacheProxy::instance()->Init(); // TODO : do it in somewhere
+	DataManager::instance()->Init();
 
 	if (nullptr == evbase_) {
 		evbase_ = event_base_new();

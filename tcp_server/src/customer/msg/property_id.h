@@ -18,9 +18,11 @@ modification:
 namespace gamer {
 
 enum class PropertyIDs {
-	PROP_ID_UNKNOW				= 0,
-	PROP_ID_NICKNAME			= 1,
-	PROP_ID_SEX					= 2
+	PROP_ID_UNKNOW						= 0,
+	PROP_ID_NICKNAME					= 1,
+	PROP_ID_SEX							= 2,
+	PROP_ID_HEAD_PORTRAIT_LOCAL			= 3,
+	PROP_ID_HEAD_PORTRAIT_PERSONAL		= 4
 };
 
 }

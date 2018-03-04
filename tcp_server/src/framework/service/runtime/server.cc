@@ -14,8 +14,10 @@ modification:
 
 #include "server.h"
 
+#include "customer/data/data_manager.h"
 #include "customer/msg/msg_manager.h"
 #include "customer/player/player_manager.h"
+#include "framework/cache/cache_proxy.h"
 #include "framework/log/mylog.h"
 #include "framework/network/network_manager.h"
 
@@ -28,6 +30,9 @@ Server* Server::instance() {
 
 void Server::Start() {
 	gamer::log::init();
+	//NetworkManager::instance()->InitSocket();
+	//CacheProxy::instance()->Init();
+	//DataManager::instance()->Init();
 	PlayerManager::instance()->Init();
     MsgManager::instance()->Init();
 	NetworkManager::instance()->InitSocket();
