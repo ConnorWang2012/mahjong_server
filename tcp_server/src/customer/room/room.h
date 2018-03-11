@@ -1151,30 +1151,30 @@ void Room<Player>::DealWithGameEnd(Player* player_win) {
     proto.set_total_round(room_msg_proto_.total_round());
     proto.set_banker_id(room_msg_proto_.banker_id());
     
-    protocol::MyLoginMsgProtocol login_proto;
+    protocol::PlayerMsgProtocol player_proto;
 
     for (auto& player : players_) {
-        std::string account_data = "";
-        DataManager::instance()->GetCachedPlayerPersonalData(player->player_id(), &account_data);
+        std::string player_data = "";
+        DataManager::instance()->GetCachedPlayerPersonalData(player->player_id(), &player_data);
         
-        if ("" != account_data) {
-            if ( !login_proto.ParseFromString(account_data) ) {
+        if ( !player_data.empty() ) {
+            if ( !player_proto.ParseFromString(player_data) ) {
                 // TODO:log
                 continue;
             }
 
             auto game_end_data = proto.add_game_end_data();
             game_end_data->set_player_id(player->player_id());
-            game_end_data->set_nick_name(login_proto.player().nick_name());
+            game_end_data->set_nick_name(player_proto.nick_name());
 			game_end_data->set_num_ming_gang(player->num_ming_gang());
 			game_end_data->set_num_an_gang(player->num_an_gang());
 
-            auto gold_old = login_proto.player().score_gold();
+            auto gold_old = player_proto.score_gold();
             int gold = create_room_msg_proto_.score_gold();
 
 			// score
             if (player->player_id() == player_win->player_id()) {                
-                login_proto.mutable_player()->set_score_gold(gold_old + gold);
+				player_proto.set_score_gold(gold_old + gold);
                 game_end_data->set_diff_score_gold(gold);
 				player->set_num_win(player->num_win() + 1);
             } else {
@@ -1182,7 +1182,7 @@ void Room<Player>::DealWithGameEnd(Player* player_win) {
                 if (gold_new < 0) {
                     gold_new = 0;
                 }
-                login_proto.mutable_player()->set_score_gold(gold_new);
+				player_proto.set_score_gold(gold_new);
 
                 game_end_data->set_diff_score_gold(-gold);
             }
@@ -1194,8 +1194,8 @@ void Room<Player>::DealWithGameEnd(Player* player_win) {
 			}
 			game_end_data->set_rate_winning(win_rate);
 
-            if (login_proto.SerializeToString(&account_data)) {
-                DataManager::instance()->CachePlayerPersonalData(player->player_id(), account_data);
+            if (player_proto.SerializeToString(&player_data)) {
+                DataManager::instance()->CachePlayerPersonalData(player->player_id(), player_data);
             }
         }
     }
