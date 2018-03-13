@@ -877,6 +877,9 @@
     <ClInclude Include="src\customer\msg\protocol\personal_head_portrait_msg_protocol.pb.h">
       <Filter>src\customer\msg\protocol</Filter>
     </ClInclude>
+    <ClInclude Include="src\customer\msg\protocol\room_list_msg_protocol.pb.h">
+      <Filter>src\customer\msg\protocol</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -1171,6 +1174,9 @@
       <Filter>src\customer\msg\protocol</Filter>
     </ClCompile>
     <ClCompile Include="src\customer\msg\protocol\personal_head_portrait_msg_protocol.pb.cc">
+      <Filter>src\customer\msg\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="src\customer\msg\protocol\room_list_msg_protocol.pb.cc">
       <Filter>src\customer\msg\protocol</Filter>
     </ClCompile>
   </ItemGroup>

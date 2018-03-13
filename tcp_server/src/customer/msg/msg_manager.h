@@ -80,6 +80,8 @@ class MsgManager : public BasicManager<MsgManager> {
 	void DealWithSetLocalHeadPortraitMsg(const ClientMsg& msg, bufferevent* bev,
 		google::protobuf::Message* proto, id_t player_id, const std::string& head_portrait_id);
 
+	void DealWithGetRoomListMsg(const ClientMsg& msg, bufferevent* bev);
+
 	void DealWithCreateRoomMsg(const ClientMsg& msg, bufferevent* bev);
 
 	void DealWithPlayerJoinRoomMsg(const ClientMsg& msg, bufferevent* bev);
@@ -105,8 +107,8 @@ class MsgManager : public BasicManager<MsgManager> {
 
     friend class NetworkManager;
 
-    std::unordered_map<int, MsgHandler> msg_handlers_;    // key is MsgIDs
-    std::unordered_map<int, MsgHandler> msg_dispatchers_; // key is MsgTypes
+    std::unordered_map<id_t, MsgHandler> msg_handlers_;    // key is MsgIDs
+    std::unordered_map<id_t, MsgHandler> msg_dispatchers_; // key is MsgTypes
 
     static const int MAX_MSG_LEN = 4096;
 };

@@ -35,16 +35,17 @@ enum class MsgIDs {
 	MSG_ID_ROOM_PLAY_CARD			= 8,
     MSG_ID_ROOM_GAME_END            = 9, // game end for one round
     MSG_ID_ROOM_FINAL_GAME_END      = 10,
+	MSG_ID_ROOM_GET_ROOM_LIST       = 11,
 
 	// property
 	// c2s, s2c
-	MSG_ID_PROPERTY_SET				= 11,
+	MSG_ID_PROPERTY_SET				= 12,
 
 	// s2c
-	MSG_ID_PROPERTY_CHANGED			= 12,
+	MSG_ID_PROPERTY_CHANGED			= 13,
 
 	// c2s, s2c
-	MSG_ID_PROPERTY_GET_PLAYER_INFO = 13
+	MSG_ID_PROPERTY_GET_PLAYER_INFO = 14,
 };
 
 }

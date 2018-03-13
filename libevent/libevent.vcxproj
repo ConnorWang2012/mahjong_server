@@ -22,7 +22,7 @@
     <ProjectGuid>{5EB677EC-5652-4557-B7DE-BE84F1B35F75}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>libevent</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

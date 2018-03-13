@@ -28,6 +28,7 @@ modification:
 #include "msg/property_id.h"
 #include "msg/protocol/my_login_msg_protocol.pb.h"
 #include "msg/protocol/set_property_msg_protocol.pb.h"
+#include "msg/protocol/room_list_msg_protocol.pb.h"
 #include "msg/protocol/create_room_msg_protocol.pb.h"
 #include "msg/protocol/room_operation_msg_protocol.pb.h"
 #include "network/network_manager.h"
@@ -71,77 +72,81 @@ void MsgManager::Init() {
 
 void MsgManager::AddMsgDispatchers() {
 	// login
-	msg_dispatchers_.insert(std::make_pair((int)MsgTypes::C2S_MSG_TYPE_LOGIN,
+	msg_dispatchers_.insert(std::make_pair((id_t)MsgTypes::C2S_MSG_TYPE_LOGIN,
 		CALLBACK_SELECTOR_2(MsgManager::DealWithLoginMsg, this)));
 
 	// hall
 	// property
-	msg_dispatchers_.insert(std::make_pair((int)MsgTypes::C2S_MSG_TYPE_PROPERTY,
+	msg_dispatchers_.insert(std::make_pair((id_t)MsgTypes::C2S_MSG_TYPE_PROPERTY,
 		CALLBACK_SELECTOR_2(MsgManager::DealWithPropertyMsg, this)));
 
 	// room
-	msg_dispatchers_.insert(std::make_pair((int)MsgTypes::C2S_MSG_TYPE_ROOM,
+	msg_dispatchers_.insert(std::make_pair((id_t)MsgTypes::C2S_MSG_TYPE_ROOM,
 		CALLBACK_SELECTOR_2(MsgManager::DealWithRoomMsg, this)));
 }
 
 void MsgManager::AddMsgHandlers() {
 	// login
-	msg_handlers_.insert(std::make_pair((int)MsgIDs::MSG_ID_LOGIN_MY,
+	msg_handlers_.insert(std::make_pair((id_t)MsgIDs::MSG_ID_LOGIN_MY,
 		CALLBACK_SELECTOR_2(MsgManager::DealWithMgLoginMsg, this)));
 
 	// hall
 	// property
-	msg_handlers_.insert(std::make_pair((int)MsgIDs::MSG_ID_PROPERTY_GET_PLAYER_INFO,
+	msg_handlers_.insert(std::make_pair((id_t)MsgIDs::MSG_ID_PROPERTY_GET_PLAYER_INFO,
 		CALLBACK_SELECTOR_2(MsgManager::DealWithGetPlayerInfoMsg, this)));
 
-	msg_handlers_.insert(std::make_pair((int)MsgIDs::MSG_ID_PROPERTY_SET,
+	msg_handlers_.insert(std::make_pair((id_t)MsgIDs::MSG_ID_PROPERTY_SET,
 		CALLBACK_SELECTOR_2(MsgManager::DealWithSetPropertyMsg, this)));
 
 	// room
+	// get room list
+	msg_handlers_.insert(std::make_pair((id_t)MsgIDs::MSG_ID_ROOM_GET_ROOM_LIST,
+		CALLBACK_SELECTOR_2(MsgManager::DealWithGetRoomListMsg, this)));
+
 	// create room
-	msg_handlers_.insert(std::make_pair((int)MsgIDs::MSG_ID_ROOM_CREATE,
+	msg_handlers_.insert(std::make_pair((id_t)MsgIDs::MSG_ID_ROOM_CREATE,
 		CALLBACK_SELECTOR_2(MsgManager::DealWithCreateRoomMsg, this)));
 
 	// player join room
-	msg_handlers_.insert(std::make_pair((int)MsgIDs::MSG_ID_ROOM_PLAYER_JOIN,
+	msg_handlers_.insert(std::make_pair((id_t)MsgIDs::MSG_ID_ROOM_PLAYER_JOIN,
 		CALLBACK_SELECTOR_2(MsgManager::DealWithPlayerJoinRoomMsg, this)));
 
 	// player leave room
-	msg_handlers_.insert(std::make_pair((int)MsgIDs::MSG_ID_ROOM_PLAYER_LEAVE,
+	msg_handlers_.insert(std::make_pair((id_t)MsgIDs::MSG_ID_ROOM_PLAYER_LEAVE,
 		CALLBACK_SELECTOR_2(MsgManager::DealWithPlayerLeaveRoomMsg, this)));
 
 	// start game
-	msg_handlers_.insert(std::make_pair((int)MsgIDs::MSG_ID_ROOM_START_GAME,
+	msg_handlers_.insert(std::make_pair((id_t)MsgIDs::MSG_ID_ROOM_START_GAME,
 		CALLBACK_SELECTOR_2(MsgManager::DealWithStartGameMsg, this)));
 
 	// play card
-	msg_handlers_.insert(std::make_pair((int)MsgIDs::MSG_ID_ROOM_PLAY_CARD,
+	msg_handlers_.insert(std::make_pair((id_t)MsgIDs::MSG_ID_ROOM_PLAY_CARD,
 		CALLBACK_SELECTOR_2(MsgManager::DealWithPlayCardMsg, this)));
 }
 
 void MsgManager::OnMsgReceived(const ClientMsg& msg, bufferevent* bev) {
-	auto itr = msg_dispatchers_.find((int)msg.type);
+	auto itr = msg_dispatchers_.find((id_t)msg.type);
 	if (itr != msg_dispatchers_.end()) {
 		itr->second(msg, bev);
 	}
 }
 
 void MsgManager::DealWithLoginMsg(const ClientMsg& msg, bufferevent* bev) {
-	auto itr = msg_handlers_.find((int)msg.id);
+	auto itr = msg_handlers_.find((id_t)msg.id);
 	if (itr != msg_handlers_.end()) {
 		itr->second(msg, bev);
 	}
 }
 
 void MsgManager::DealWithPropertyMsg(const ClientMsg& msg, bufferevent * bev) {
-	auto itr = msg_handlers_.find((int)msg.id);
+	auto itr = msg_handlers_.find((id_t)msg.id);
 	if (itr != msg_handlers_.end()) {
 		itr->second(msg, bev);
 	}
 }
 
 void MsgManager::DealWithRoomMsg(const ClientMsg& msg, bufferevent* bev) {
-	auto itr = msg_handlers_.find((int)msg.id);
+	auto itr = msg_handlers_.find((id_t)msg.id);
 	if (itr != msg_handlers_.end()) {
 		itr->second(msg, bev);
 	}
@@ -421,6 +426,14 @@ void MsgManager::DealWithSetLocalHeadPortraitMsg(const ClientMsg& msg, buffereve
 		(msg_header_t)MsgCodes::MSG_CODE_SUCCESS,
 		*proto,
 		bev);
+}
+
+void MsgManager::DealWithGetRoomListMsg(const ClientMsg& msg, bufferevent* bev) {
+	protocol::RoomListMsgProtocol proto;
+	if ( !this->ParseMsg(msg, &proto) ) {
+		this->SendMsgForError(MsgCodes::MSG_CODE_MSG_PROTO_ERR, msg, bev);
+		return;
+	}
 }
 
 void MsgManager::DealWithCreateRoomMsg(const ClientMsg& msg, bufferevent* bev) {

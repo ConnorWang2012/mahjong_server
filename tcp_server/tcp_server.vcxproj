@@ -22,7 +22,7 @@
     <ProjectGuid>{DA00965D-35C3-47AB-82AD-422149CADE42}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>tcp_server</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
     <ProjectName>tcp_server</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -236,6 +236,7 @@
     <ClInclude Include="src\customer\msg\protocol\player_msg_protocol.pb.h" />
     <ClInclude Include="src\customer\msg\protocol\play_card_msg_protocol.pb.h" />
     <ClInclude Include="src\customer\msg\protocol\property_changed_msg_protocol.pb.h" />
+    <ClInclude Include="src\customer\msg\protocol\room_list_msg_protocol.pb.h" />
     <ClInclude Include="src\customer\msg\protocol\room_msg_protocol.pb.h" />
     <ClInclude Include="src\customer\msg\protocol\room_operation_msg_protocol.pb.h" />
     <ClInclude Include="src\customer\msg\protocol\set_property_msg_protocol.pb.h" />
@@ -414,6 +415,7 @@
     <ClCompile Include="src\customer\msg\protocol\player_msg_protocol.pb.cc" />
     <ClCompile Include="src\customer\msg\protocol\play_card_msg_protocol.pb.cc" />
     <ClCompile Include="src\customer\msg\protocol\property_changed_msg_protocol.pb.cc" />
+    <ClCompile Include="src\customer\msg\protocol\room_list_msg_protocol.pb.cc" />
     <ClCompile Include="src\customer\msg\protocol\room_msg_protocol.pb.cc" />
     <ClCompile Include="src\customer\msg\protocol\room_operation_msg_protocol.pb.cc" />
     <ClCompile Include="src\customer\msg\protocol\set_property_msg_protocol.pb.cc" />
