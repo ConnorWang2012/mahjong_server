@@ -1,0 +1,6 @@
+package gamer.protocol;
+
+message PersonalHeadPortraitMsgProtocol {
+  required uint32 player_id  	        = 1;
+  optional bytes head_portrait        = 2;
+}

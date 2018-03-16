@@ -1,13 +1,22 @@
 package gamer.protocol;
 
 message PlayerMsgProtocol {
-  required uint32 player_id  	      = 1;
-  optional string nick_name           = 2;
-  optional uint32 level  		      = 3[default = 1];
-  optional string level_name  		  = 4;
-  optional uint32 score_gold          = 5;
-  optional uint32 score_diamond       = 6;
-  optional uint32 num_room_cards 	  = 7;
-  optional uint32 num_played_games    = 8[default = 0];
-  optional uint32 num_win_games       = 9[default = 0];
+  required uint32 player_id  	        = 1;
+  optional uint32 sex  		      	    = 2[default = 1]; // MALE = 0, FEMALE = 1
+  optional uint32 level  		          = 3[default = 1];
+  optional uint32 score_gold          = 4[default = 10000];
+  optional uint32 score_diamond       = 5[default = 10];
+  optional uint32 num_room_cards 	    = 6[default = 1];
+  optional uint32 num_played_games    = 7[default = 0];
+  optional uint32 num_win_games       = 8[default = 0];
+  optional uint32 num_loss_games      = 9[default = 0];
+  optional uint32 vip_level           = 10[default = 0];
+  optional uint32 head_portrait_type  = 11[default = 0]; // LOCAL = 0, PERSONNAL = 1
+  optional uint32 head_portrait_id    = 12[default = 0];
+  //optional bytes head_portrait        = 13[default = "18"];
+  //optional string nick_name           = 14[default = "Young"];
+  //optional string level_name  		    = 15[default = "开启一切"];
+  optional bytes head_portrait       = 13;
+  optional bytes nick_name           = 14;
+  optional bytes level_name          = 15;
 }

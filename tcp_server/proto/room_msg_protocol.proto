@@ -1,5 +1,6 @@
 package gamer.protocol;
 import "player_cards_msg_protocol.proto";
+import "player_msg_protocol.proto";
 
 message RoomMsgProtocol {
   required uint32 room_id			                    = 1;
@@ -10,10 +11,9 @@ message RoomMsgProtocol {
   optional uint32 remain_cards_num	              = 6; // use by client
   optional uint32 banker_id  		                  = 7;
   optional uint32 banker_is_same_time             = 8;
-
   optional uint32 operating_player_id             = 9;
-  optional uint32 operation_id 		                = 10;
-  
+  optional uint32 operation_id 		                = 10;  
   repeated uint32 remain_cards                    = 11; // use by server
   repeated PlayerCardsMsgProtocol player_cards		= 12;
+  repeated PlayerMsgProtocol players              = 13;
 }
