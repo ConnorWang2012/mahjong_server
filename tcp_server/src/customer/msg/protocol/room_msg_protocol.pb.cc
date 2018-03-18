@@ -35,20 +35,12 @@ void protobuf_AssignDesc_room_5fmsg_5fprotocol_2eproto() {
       "room_msg_protocol.proto");
   GOOGLE_CHECK(file != NULL);
   RoomMsgProtocol_descriptor_ = file->message_type(0);
-  static const int RoomMsgProtocol_offsets_[13] = {
+  static const int RoomMsgProtocol_offsets_[5] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(RoomMsgProtocol, room_id_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(RoomMsgProtocol, room_owner_id_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(RoomMsgProtocol, room_type_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(RoomMsgProtocol, players_num_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(RoomMsgProtocol, cur_round_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(RoomMsgProtocol, total_round_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(RoomMsgProtocol, remain_cards_num_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(RoomMsgProtocol, banker_id_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(RoomMsgProtocol, banker_is_same_time_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(RoomMsgProtocol, operating_player_id_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(RoomMsgProtocol, operation_id_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(RoomMsgProtocol, remain_cards_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(RoomMsgProtocol, player_cards_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(RoomMsgProtocol, players_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(RoomMsgProtocol, table_list_),
   };
   RoomMsgProtocol_reflection_ =
     new ::google::protobuf::internal::GeneratedMessageReflection(
@@ -90,22 +82,14 @@ void protobuf_AddDesc_room_5fmsg_5fprotocol_2eproto() {
   already_here = true;
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
-  ::gamer::protocol::protobuf_AddDesc_player_5fcards_5fmsg_5fprotocol_2eproto();
-  ::gamer::protocol::protobuf_AddDesc_player_5fmsg_5fprotocol_2eproto();
+  ::gamer::protocol::protobuf_AddDesc_table_5fmsg_5fprotocol_2eproto();
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
     "\n\027room_msg_protocol.proto\022\016gamer.protoco"
-    "l\032\037player_cards_msg_protocol.proto\032\031play"
-    "er_msg_protocol.proto\"\373\002\n\017RoomMsgProtoco"
-    "l\022\017\n\007room_id\030\001 \002(\r\022\025\n\rroom_owner_id\030\002 \002("
-    "\r\022\023\n\013players_num\030\003 \001(\r\022\021\n\tcur_round\030\004 \001("
-    "\r\022\023\n\013total_round\030\005 \001(\r\022\030\n\020remain_cards_n"
-    "um\030\006 \001(\r\022\021\n\tbanker_id\030\007 \001(\r\022\033\n\023banker_is"
-    "_same_time\030\010 \001(\r\022\033\n\023operating_player_id\030"
-    "\t \001(\r\022\024\n\014operation_id\030\n \001(\r\022\024\n\014remain_ca"
-    "rds\030\013 \003(\r\022<\n\014player_cards\030\014 \003(\0132&.gamer."
-    "protocol.PlayerCardsMsgProtocol\0222\n\007playe"
-    "rs\030\r \003(\0132!.gamer.protocol.PlayerMsgProto"
-    "col", 483);
+    "l\032\030table_msg_protocol.proto\"\227\001\n\017RoomMsgP"
+    "rotocol\022\017\n\007room_id\030\001 \002(\r\022\025\n\rroom_owner_i"
+    "d\030\002 \002(\r\022\021\n\troom_type\030\003 \001(\r\022\023\n\013players_nu"
+    "m\030\004 \001(\r\0224\n\ntable_list\030\005 \003(\0132 .gamer.prot"
+    "ocol.TableMsgProtocol", 221);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "room_msg_protocol.proto", &protobuf_RegisterTypes);
   RoomMsgProtocol::default_instance_ = new RoomMsgProtocol();
@@ -125,17 +109,9 @@ struct StaticDescriptorInitializer_room_5fmsg_5fprotocol_2eproto {
 #ifndef _MSC_VER
 const int RoomMsgProtocol::kRoomIdFieldNumber;
 const int RoomMsgProtocol::kRoomOwnerIdFieldNumber;
+const int RoomMsgProtocol::kRoomTypeFieldNumber;
 const int RoomMsgProtocol::kPlayersNumFieldNumber;
-const int RoomMsgProtocol::kCurRoundFieldNumber;
-const int RoomMsgProtocol::kTotalRoundFieldNumber;
-const int RoomMsgProtocol::kRemainCardsNumFieldNumber;
-const int RoomMsgProtocol::kBankerIdFieldNumber;
-const int RoomMsgProtocol::kBankerIsSameTimeFieldNumber;
-const int RoomMsgProtocol::kOperatingPlayerIdFieldNumber;
-const int RoomMsgProtocol::kOperationIdFieldNumber;
-const int RoomMsgProtocol::kRemainCardsFieldNumber;
-const int RoomMsgProtocol::kPlayerCardsFieldNumber;
-const int RoomMsgProtocol::kPlayersFieldNumber;
+const int RoomMsgProtocol::kTableListFieldNumber;
 #endif  // !_MSC_VER
 
 RoomMsgProtocol::RoomMsgProtocol()
@@ -158,14 +134,8 @@ void RoomMsgProtocol::SharedCtor() {
   _cached_size_ = 0;
   room_id_ = 0u;
   room_owner_id_ = 0u;
+  room_type_ = 0u;
   players_num_ = 0u;
-  cur_round_ = 0u;
-  total_round_ = 0u;
-  remain_cards_num_ = 0u;
-  banker_id_ = 0u;
-  banker_is_same_time_ = 0u;
-  operating_player_id_ = 0u;
-  operation_id_ = 0u;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -211,17 +181,12 @@ void RoomMsgProtocol::Clear() {
     ::memset(&first, 0, n);                                \
   } while (0)
 
-  if (_has_bits_[0 / 32] & 255) {
-    ZR_(room_id_, banker_is_same_time_);
-  }
-  ZR_(operating_player_id_, operation_id_);
+  ZR_(room_id_, players_num_);
 
 #undef OFFSET_OF_FIELD_
 #undef ZR_
 
-  remain_cards_.Clear();
-  player_cards_.Clear();
-  players_.Clear();
+  table_list_.Clear();
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
   mutable_unknown_fields()->Clear();
 }
@@ -261,13 +226,28 @@ bool RoomMsgProtocol::MergePartialFromCodedStream(
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(24)) goto parse_players_num;
+        if (input->ExpectTag(24)) goto parse_room_type;
         break;
       }
 
-      // optional uint32 players_num = 3;
+      // optional uint32 room_type = 3;
       case 3: {
         if (tag == 24) {
+         parse_room_type:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &room_type_)));
+          set_has_room_type();
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(32)) goto parse_players_num;
+        break;
+      }
+
+      // optional uint32 players_num = 4;
+      case 4: {
+        if (tag == 32) {
          parse_players_num:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
@@ -276,158 +256,20 @@ bool RoomMsgProtocol::MergePartialFromCodedStream(
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(32)) goto parse_cur_round;
+        if (input->ExpectTag(42)) goto parse_table_list;
         break;
       }
 
-      // optional uint32 cur_round = 4;
-      case 4: {
-        if (tag == 32) {
-         parse_cur_round:
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 input, &cur_round_)));
-          set_has_cur_round();
-        } else {
-          goto handle_unusual;
-        }
-        if (input->ExpectTag(40)) goto parse_total_round;
-        break;
-      }
-
-      // optional uint32 total_round = 5;
+      // repeated .gamer.protocol.TableMsgProtocol table_list = 5;
       case 5: {
-        if (tag == 40) {
-         parse_total_round:
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 input, &total_round_)));
-          set_has_total_round();
-        } else {
-          goto handle_unusual;
-        }
-        if (input->ExpectTag(48)) goto parse_remain_cards_num;
-        break;
-      }
-
-      // optional uint32 remain_cards_num = 6;
-      case 6: {
-        if (tag == 48) {
-         parse_remain_cards_num:
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 input, &remain_cards_num_)));
-          set_has_remain_cards_num();
-        } else {
-          goto handle_unusual;
-        }
-        if (input->ExpectTag(56)) goto parse_banker_id;
-        break;
-      }
-
-      // optional uint32 banker_id = 7;
-      case 7: {
-        if (tag == 56) {
-         parse_banker_id:
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 input, &banker_id_)));
-          set_has_banker_id();
-        } else {
-          goto handle_unusual;
-        }
-        if (input->ExpectTag(64)) goto parse_banker_is_same_time;
-        break;
-      }
-
-      // optional uint32 banker_is_same_time = 8;
-      case 8: {
-        if (tag == 64) {
-         parse_banker_is_same_time:
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 input, &banker_is_same_time_)));
-          set_has_banker_is_same_time();
-        } else {
-          goto handle_unusual;
-        }
-        if (input->ExpectTag(72)) goto parse_operating_player_id;
-        break;
-      }
-
-      // optional uint32 operating_player_id = 9;
-      case 9: {
-        if (tag == 72) {
-         parse_operating_player_id:
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 input, &operating_player_id_)));
-          set_has_operating_player_id();
-        } else {
-          goto handle_unusual;
-        }
-        if (input->ExpectTag(80)) goto parse_operation_id;
-        break;
-      }
-
-      // optional uint32 operation_id = 10;
-      case 10: {
-        if (tag == 80) {
-         parse_operation_id:
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 input, &operation_id_)));
-          set_has_operation_id();
-        } else {
-          goto handle_unusual;
-        }
-        if (input->ExpectTag(88)) goto parse_remain_cards;
-        break;
-      }
-
-      // repeated uint32 remain_cards = 11;
-      case 11: {
-        if (tag == 88) {
-         parse_remain_cards:
-          DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitive<
-                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 1, 88, input, this->mutable_remain_cards())));
-        } else if (tag == 90) {
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitiveNoInline<
-                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 input, this->mutable_remain_cards())));
-        } else {
-          goto handle_unusual;
-        }
-        if (input->ExpectTag(88)) goto parse_remain_cards;
-        if (input->ExpectTag(98)) goto parse_player_cards;
-        break;
-      }
-
-      // repeated .gamer.protocol.PlayerCardsMsgProtocol player_cards = 12;
-      case 12: {
-        if (tag == 98) {
-         parse_player_cards:
+        if (tag == 42) {
+         parse_table_list:
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
-                input, add_player_cards()));
+                input, add_table_list()));
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(98)) goto parse_player_cards;
-        if (input->ExpectTag(106)) goto parse_players;
-        break;
-      }
-
-      // repeated .gamer.protocol.PlayerMsgProtocol players = 13;
-      case 13: {
-        if (tag == 106) {
-         parse_players:
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
-                input, add_players()));
-        } else {
-          goto handle_unusual;
-        }
-        if (input->ExpectTag(106)) goto parse_players;
+        if (input->ExpectTag(42)) goto parse_table_list;
         if (input->ExpectAtEnd()) goto success;
         break;
       }
@@ -467,62 +309,20 @@ void RoomMsgProtocol::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(2, this->room_owner_id(), output);
   }
 
-  // optional uint32 players_num = 3;
+  // optional uint32 room_type = 3;
+  if (has_room_type()) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(3, this->room_type(), output);
+  }
+
+  // optional uint32 players_num = 4;
   if (has_players_num()) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(3, this->players_num(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(4, this->players_num(), output);
   }
 
-  // optional uint32 cur_round = 4;
-  if (has_cur_round()) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(4, this->cur_round(), output);
-  }
-
-  // optional uint32 total_round = 5;
-  if (has_total_round()) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(5, this->total_round(), output);
-  }
-
-  // optional uint32 remain_cards_num = 6;
-  if (has_remain_cards_num()) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(6, this->remain_cards_num(), output);
-  }
-
-  // optional uint32 banker_id = 7;
-  if (has_banker_id()) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(7, this->banker_id(), output);
-  }
-
-  // optional uint32 banker_is_same_time = 8;
-  if (has_banker_is_same_time()) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(8, this->banker_is_same_time(), output);
-  }
-
-  // optional uint32 operating_player_id = 9;
-  if (has_operating_player_id()) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(9, this->operating_player_id(), output);
-  }
-
-  // optional uint32 operation_id = 10;
-  if (has_operation_id()) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(10, this->operation_id(), output);
-  }
-
-  // repeated uint32 remain_cards = 11;
-  for (int i = 0; i < this->remain_cards_size(); i++) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(
-      11, this->remain_cards(i), output);
-  }
-
-  // repeated .gamer.protocol.PlayerCardsMsgProtocol player_cards = 12;
-  for (int i = 0; i < this->player_cards_size(); i++) {
+  // repeated .gamer.protocol.TableMsgProtocol table_list = 5;
+  for (int i = 0; i < this->table_list_size(); i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      12, this->player_cards(i), output);
-  }
-
-  // repeated .gamer.protocol.PlayerMsgProtocol players = 13;
-  for (int i = 0; i < this->players_size(); i++) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      13, this->players(i), output);
+      5, this->table_list(i), output);
   }
 
   if (!unknown_fields().empty()) {
@@ -545,64 +345,21 @@ void RoomMsgProtocol::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(2, this->room_owner_id(), target);
   }
 
-  // optional uint32 players_num = 3;
+  // optional uint32 room_type = 3;
+  if (has_room_type()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(3, this->room_type(), target);
+  }
+
+  // optional uint32 players_num = 4;
   if (has_players_num()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(3, this->players_num(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(4, this->players_num(), target);
   }
 
-  // optional uint32 cur_round = 4;
-  if (has_cur_round()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(4, this->cur_round(), target);
-  }
-
-  // optional uint32 total_round = 5;
-  if (has_total_round()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(5, this->total_round(), target);
-  }
-
-  // optional uint32 remain_cards_num = 6;
-  if (has_remain_cards_num()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(6, this->remain_cards_num(), target);
-  }
-
-  // optional uint32 banker_id = 7;
-  if (has_banker_id()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(7, this->banker_id(), target);
-  }
-
-  // optional uint32 banker_is_same_time = 8;
-  if (has_banker_is_same_time()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(8, this->banker_is_same_time(), target);
-  }
-
-  // optional uint32 operating_player_id = 9;
-  if (has_operating_player_id()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(9, this->operating_player_id(), target);
-  }
-
-  // optional uint32 operation_id = 10;
-  if (has_operation_id()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(10, this->operation_id(), target);
-  }
-
-  // repeated uint32 remain_cards = 11;
-  for (int i = 0; i < this->remain_cards_size(); i++) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      WriteUInt32ToArray(11, this->remain_cards(i), target);
-  }
-
-  // repeated .gamer.protocol.PlayerCardsMsgProtocol player_cards = 12;
-  for (int i = 0; i < this->player_cards_size(); i++) {
+  // repeated .gamer.protocol.TableMsgProtocol table_list = 5;
+  for (int i = 0; i < this->table_list_size(); i++) {
     target = ::google::protobuf::internal::WireFormatLite::
       WriteMessageNoVirtualToArray(
-        12, this->player_cards(i), target);
-  }
-
-  // repeated .gamer.protocol.PlayerMsgProtocol players = 13;
-  for (int i = 0; i < this->players_size(); i++) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        13, this->players(i), target);
+        5, this->table_list(i), target);
   }
 
   if (!unknown_fields().empty()) {
@@ -631,89 +388,27 @@ int RoomMsgProtocol::ByteSize() const {
           this->room_owner_id());
     }
 
-    // optional uint32 players_num = 3;
+    // optional uint32 room_type = 3;
+    if (has_room_type()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->room_type());
+    }
+
+    // optional uint32 players_num = 4;
     if (has_players_num()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::UInt32Size(
           this->players_num());
     }
 
-    // optional uint32 cur_round = 4;
-    if (has_cur_round()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::UInt32Size(
-          this->cur_round());
-    }
-
-    // optional uint32 total_round = 5;
-    if (has_total_round()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::UInt32Size(
-          this->total_round());
-    }
-
-    // optional uint32 remain_cards_num = 6;
-    if (has_remain_cards_num()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::UInt32Size(
-          this->remain_cards_num());
-    }
-
-    // optional uint32 banker_id = 7;
-    if (has_banker_id()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::UInt32Size(
-          this->banker_id());
-    }
-
-    // optional uint32 banker_is_same_time = 8;
-    if (has_banker_is_same_time()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::UInt32Size(
-          this->banker_is_same_time());
-    }
-
   }
-  if (_has_bits_[8 / 32] & (0xffu << (8 % 32))) {
-    // optional uint32 operating_player_id = 9;
-    if (has_operating_player_id()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::UInt32Size(
-          this->operating_player_id());
-    }
-
-    // optional uint32 operation_id = 10;
-    if (has_operation_id()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::UInt32Size(
-          this->operation_id());
-    }
-
-  }
-  // repeated uint32 remain_cards = 11;
-  {
-    int data_size = 0;
-    for (int i = 0; i < this->remain_cards_size(); i++) {
-      data_size += ::google::protobuf::internal::WireFormatLite::
-        UInt32Size(this->remain_cards(i));
-    }
-    total_size += 1 * this->remain_cards_size() + data_size;
-  }
-
-  // repeated .gamer.protocol.PlayerCardsMsgProtocol player_cards = 12;
-  total_size += 1 * this->player_cards_size();
-  for (int i = 0; i < this->player_cards_size(); i++) {
+  // repeated .gamer.protocol.TableMsgProtocol table_list = 5;
+  total_size += 1 * this->table_list_size();
+  for (int i = 0; i < this->table_list_size(); i++) {
     total_size +=
       ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-        this->player_cards(i));
-  }
-
-  // repeated .gamer.protocol.PlayerMsgProtocol players = 13;
-  total_size += 1 * this->players_size();
-  for (int i = 0; i < this->players_size(); i++) {
-    total_size +=
-      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-        this->players(i));
+        this->table_list(i));
   }
 
   if (!unknown_fields().empty()) {
@@ -741,9 +436,7 @@ void RoomMsgProtocol::MergeFrom(const ::google::protobuf::Message& from) {
 
 void RoomMsgProtocol::MergeFrom(const RoomMsgProtocol& from) {
   GOOGLE_CHECK_NE(&from, this);
-  remain_cards_.MergeFrom(from.remain_cards_);
-  player_cards_.MergeFrom(from.player_cards_);
-  players_.MergeFrom(from.players_);
+  table_list_.MergeFrom(from.table_list_);
   if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
     if (from.has_room_id()) {
       set_room_id(from.room_id());
@@ -751,31 +444,11 @@ void RoomMsgProtocol::MergeFrom(const RoomMsgProtocol& from) {
     if (from.has_room_owner_id()) {
       set_room_owner_id(from.room_owner_id());
     }
+    if (from.has_room_type()) {
+      set_room_type(from.room_type());
+    }
     if (from.has_players_num()) {
       set_players_num(from.players_num());
-    }
-    if (from.has_cur_round()) {
-      set_cur_round(from.cur_round());
-    }
-    if (from.has_total_round()) {
-      set_total_round(from.total_round());
-    }
-    if (from.has_remain_cards_num()) {
-      set_remain_cards_num(from.remain_cards_num());
-    }
-    if (from.has_banker_id()) {
-      set_banker_id(from.banker_id());
-    }
-    if (from.has_banker_is_same_time()) {
-      set_banker_is_same_time(from.banker_is_same_time());
-    }
-  }
-  if (from._has_bits_[8 / 32] & (0xffu << (8 % 32))) {
-    if (from.has_operating_player_id()) {
-      set_operating_player_id(from.operating_player_id());
-    }
-    if (from.has_operation_id()) {
-      set_operation_id(from.operation_id());
     }
   }
   mutable_unknown_fields()->MergeFrom(from.unknown_fields());
@@ -796,8 +469,7 @@ void RoomMsgProtocol::CopyFrom(const RoomMsgProtocol& from) {
 bool RoomMsgProtocol::IsInitialized() const {
   if ((_has_bits_[0] & 0x00000003) != 0x00000003) return false;
 
-  if (!::google::protobuf::internal::AllAreInitialized(this->player_cards())) return false;
-  if (!::google::protobuf::internal::AllAreInitialized(this->players())) return false;
+  if (!::google::protobuf::internal::AllAreInitialized(this->table_list())) return false;
   return true;
 }
 
@@ -805,17 +477,9 @@ void RoomMsgProtocol::Swap(RoomMsgProtocol* other) {
   if (other != this) {
     std::swap(room_id_, other->room_id_);
     std::swap(room_owner_id_, other->room_owner_id_);
+    std::swap(room_type_, other->room_type_);
     std::swap(players_num_, other->players_num_);
-    std::swap(cur_round_, other->cur_round_);
-    std::swap(total_round_, other->total_round_);
-    std::swap(remain_cards_num_, other->remain_cards_num_);
-    std::swap(banker_id_, other->banker_id_);
-    std::swap(banker_is_same_time_, other->banker_is_same_time_);
-    std::swap(operating_player_id_, other->operating_player_id_);
-    std::swap(operation_id_, other->operation_id_);
-    remain_cards_.Swap(&other->remain_cards_);
-    player_cards_.Swap(&other->player_cards_);
-    players_.Swap(&other->players_);
+    table_list_.Swap(&other->table_list_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     _unknown_fields_.Swap(&other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);

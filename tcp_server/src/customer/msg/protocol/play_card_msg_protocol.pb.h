@@ -106,12 +106,12 @@ class PlayCardMsgProtocol : public ::google::protobuf::Message {
   inline ::google::protobuf::uint32 room_id() const;
   inline void set_room_id(::google::protobuf::uint32 value);
 
-  // required uint32 cur_round = 3;
-  inline bool has_cur_round() const;
-  inline void clear_cur_round();
-  static const int kCurRoundFieldNumber = 3;
-  inline ::google::protobuf::uint32 cur_round() const;
-  inline void set_cur_round(::google::protobuf::uint32 value);
+  // required uint32 table_id = 3;
+  inline bool has_table_id() const;
+  inline void clear_table_id();
+  static const int kTableIdFieldNumber = 3;
+  inline ::google::protobuf::uint32 table_id() const;
+  inline void set_table_id(::google::protobuf::uint32 value);
 
   // required uint32 operation_id = 4;
   inline bool has_operation_id() const;
@@ -120,45 +120,52 @@ class PlayCardMsgProtocol : public ::google::protobuf::Message {
   inline ::google::protobuf::uint32 operation_id() const;
   inline void set_operation_id(::google::protobuf::uint32 value);
 
-  // optional uint32 discard = 5;
+  // optional uint32 cur_round = 5;
+  inline bool has_cur_round() const;
+  inline void clear_cur_round();
+  static const int kCurRoundFieldNumber = 5;
+  inline ::google::protobuf::uint32 cur_round() const;
+  inline void set_cur_round(::google::protobuf::uint32 value);
+
+  // optional uint32 discard = 6;
   inline bool has_discard() const;
   inline void clear_discard();
-  static const int kDiscardFieldNumber = 5;
+  static const int kDiscardFieldNumber = 6;
   inline ::google::protobuf::uint32 discard() const;
   inline void set_discard(::google::protobuf::uint32 value);
 
-  // optional uint32 new_card = 6;
+  // optional uint32 new_card = 7;
   inline bool has_new_card() const;
   inline void clear_new_card();
-  static const int kNewCardFieldNumber = 6;
+  static const int kNewCardFieldNumber = 7;
   inline ::google::protobuf::uint32 new_card() const;
   inline void set_new_card(::google::protobuf::uint32 value);
 
-  // optional uint32 next_operate_player_id = 7 [default = 0];
+  // optional uint32 next_operate_player_id = 8 [default = 0];
   inline bool has_next_operate_player_id() const;
   inline void clear_next_operate_player_id();
-  static const int kNextOperatePlayerIdFieldNumber = 7;
+  static const int kNextOperatePlayerIdFieldNumber = 8;
   inline ::google::protobuf::uint32 next_operate_player_id() const;
   inline void set_next_operate_player_id(::google::protobuf::uint32 value);
 
-  // optional bool has_next_operate_player_new_card = 8 [default = false];
+  // optional bool has_next_operate_player_new_card = 9 [default = false];
   inline bool has_has_next_operate_player_new_card() const;
   inline void clear_has_next_operate_player_new_card();
-  static const int kHasNextOperatePlayerNewCardFieldNumber = 8;
+  static const int kHasNextOperatePlayerNewCardFieldNumber = 9;
   inline bool has_next_operate_player_new_card() const;
   inline void set_has_next_operate_player_new_card(bool value);
 
-  // optional uint32 my_available_operation_id = 9 [default = 0];
+  // optional uint32 my_available_operation_id = 10 [default = 0];
   inline bool has_my_available_operation_id() const;
   inline void clear_my_available_operation_id();
-  static const int kMyAvailableOperationIdFieldNumber = 9;
+  static const int kMyAvailableOperationIdFieldNumber = 10;
   inline ::google::protobuf::uint32 my_available_operation_id() const;
   inline void set_my_available_operation_id(::google::protobuf::uint32 value);
 
-  // repeated uint32 operating_cards = 10;
+  // repeated uint32 operating_cards = 11;
   inline int operating_cards_size() const;
   inline void clear_operating_cards();
-  static const int kOperatingCardsFieldNumber = 10;
+  static const int kOperatingCardsFieldNumber = 11;
   inline ::google::protobuf::uint32 operating_cards(int index) const;
   inline void set_operating_cards(int index, ::google::protobuf::uint32 value);
   inline void add_operating_cards(::google::protobuf::uint32 value);
@@ -167,10 +174,10 @@ class PlayCardMsgProtocol : public ::google::protobuf::Message {
   inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
       mutable_operating_cards();
 
-  // repeated uint32 invisible_hand_cards = 11;
+  // repeated uint32 invisible_hand_cards = 12;
   inline int invisible_hand_cards_size() const;
   inline void clear_invisible_hand_cards();
-  static const int kInvisibleHandCardsFieldNumber = 11;
+  static const int kInvisibleHandCardsFieldNumber = 12;
   inline ::google::protobuf::uint32 invisible_hand_cards(int index) const;
   inline void set_invisible_hand_cards(int index, ::google::protobuf::uint32 value);
   inline void add_invisible_hand_cards(::google::protobuf::uint32 value);
@@ -179,10 +186,10 @@ class PlayCardMsgProtocol : public ::google::protobuf::Message {
   inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
       mutable_invisible_hand_cards();
 
-  // repeated .gamer.protocol.TingCardMsgProtocol ting_cards = 12;
+  // repeated .gamer.protocol.TingCardMsgProtocol ting_cards = 13;
   inline int ting_cards_size() const;
   inline void clear_ting_cards();
-  static const int kTingCardsFieldNumber = 12;
+  static const int kTingCardsFieldNumber = 13;
   inline const ::gamer::protocol::TingCardMsgProtocol& ting_cards(int index) const;
   inline ::gamer::protocol::TingCardMsgProtocol* mutable_ting_cards(int index);
   inline ::gamer::protocol::TingCardMsgProtocol* add_ting_cards();
@@ -197,10 +204,12 @@ class PlayCardMsgProtocol : public ::google::protobuf::Message {
   inline void clear_has_player_id();
   inline void set_has_room_id();
   inline void clear_has_room_id();
-  inline void set_has_cur_round();
-  inline void clear_has_cur_round();
+  inline void set_has_table_id();
+  inline void clear_has_table_id();
   inline void set_has_operation_id();
   inline void clear_has_operation_id();
+  inline void set_has_cur_round();
+  inline void clear_has_cur_round();
   inline void set_has_discard();
   inline void clear_has_discard();
   inline void set_has_new_card();
@@ -218,16 +227,17 @@ class PlayCardMsgProtocol : public ::google::protobuf::Message {
   mutable int _cached_size_;
   ::google::protobuf::uint32 player_id_;
   ::google::protobuf::uint32 room_id_;
-  ::google::protobuf::uint32 cur_round_;
+  ::google::protobuf::uint32 table_id_;
   ::google::protobuf::uint32 operation_id_;
+  ::google::protobuf::uint32 cur_round_;
   ::google::protobuf::uint32 discard_;
   ::google::protobuf::uint32 new_card_;
   ::google::protobuf::uint32 next_operate_player_id_;
   bool has_next_operate_player_new_card_;
+  ::google::protobuf::uint32 my_available_operation_id_;
   ::google::protobuf::RepeatedField< ::google::protobuf::uint32 > operating_cards_;
   ::google::protobuf::RepeatedField< ::google::protobuf::uint32 > invisible_hand_cards_;
   ::google::protobuf::RepeatedPtrField< ::gamer::protocol::TingCardMsgProtocol > ting_cards_;
-  ::google::protobuf::uint32 my_available_operation_id_;
   friend void  protobuf_AddDesc_play_5fcard_5fmsg_5fprotocol_2eproto();
   friend void protobuf_AssignDesc_play_5fcard_5fmsg_5fprotocol_2eproto();
   friend void protobuf_ShutdownFile_play_5fcard_5fmsg_5fprotocol_2eproto();
@@ -290,28 +300,28 @@ inline void PlayCardMsgProtocol::set_room_id(::google::protobuf::uint32 value) {
   // @@protoc_insertion_point(field_set:gamer.protocol.PlayCardMsgProtocol.room_id)
 }
 
-// required uint32 cur_round = 3;
-inline bool PlayCardMsgProtocol::has_cur_round() const {
+// required uint32 table_id = 3;
+inline bool PlayCardMsgProtocol::has_table_id() const {
   return (_has_bits_[0] & 0x00000004u) != 0;
 }
-inline void PlayCardMsgProtocol::set_has_cur_round() {
+inline void PlayCardMsgProtocol::set_has_table_id() {
   _has_bits_[0] |= 0x00000004u;
 }
-inline void PlayCardMsgProtocol::clear_has_cur_round() {
+inline void PlayCardMsgProtocol::clear_has_table_id() {
   _has_bits_[0] &= ~0x00000004u;
 }
-inline void PlayCardMsgProtocol::clear_cur_round() {
-  cur_round_ = 0u;
-  clear_has_cur_round();
+inline void PlayCardMsgProtocol::clear_table_id() {
+  table_id_ = 0u;
+  clear_has_table_id();
 }
-inline ::google::protobuf::uint32 PlayCardMsgProtocol::cur_round() const {
-  // @@protoc_insertion_point(field_get:gamer.protocol.PlayCardMsgProtocol.cur_round)
-  return cur_round_;
+inline ::google::protobuf::uint32 PlayCardMsgProtocol::table_id() const {
+  // @@protoc_insertion_point(field_get:gamer.protocol.PlayCardMsgProtocol.table_id)
+  return table_id_;
 }
-inline void PlayCardMsgProtocol::set_cur_round(::google::protobuf::uint32 value) {
-  set_has_cur_round();
-  cur_round_ = value;
-  // @@protoc_insertion_point(field_set:gamer.protocol.PlayCardMsgProtocol.cur_round)
+inline void PlayCardMsgProtocol::set_table_id(::google::protobuf::uint32 value) {
+  set_has_table_id();
+  table_id_ = value;
+  // @@protoc_insertion_point(field_set:gamer.protocol.PlayCardMsgProtocol.table_id)
 }
 
 // required uint32 operation_id = 4;
@@ -338,15 +348,39 @@ inline void PlayCardMsgProtocol::set_operation_id(::google::protobuf::uint32 val
   // @@protoc_insertion_point(field_set:gamer.protocol.PlayCardMsgProtocol.operation_id)
 }
 
-// optional uint32 discard = 5;
-inline bool PlayCardMsgProtocol::has_discard() const {
+// optional uint32 cur_round = 5;
+inline bool PlayCardMsgProtocol::has_cur_round() const {
   return (_has_bits_[0] & 0x00000010u) != 0;
 }
-inline void PlayCardMsgProtocol::set_has_discard() {
+inline void PlayCardMsgProtocol::set_has_cur_round() {
   _has_bits_[0] |= 0x00000010u;
 }
-inline void PlayCardMsgProtocol::clear_has_discard() {
+inline void PlayCardMsgProtocol::clear_has_cur_round() {
   _has_bits_[0] &= ~0x00000010u;
+}
+inline void PlayCardMsgProtocol::clear_cur_round() {
+  cur_round_ = 0u;
+  clear_has_cur_round();
+}
+inline ::google::protobuf::uint32 PlayCardMsgProtocol::cur_round() const {
+  // @@protoc_insertion_point(field_get:gamer.protocol.PlayCardMsgProtocol.cur_round)
+  return cur_round_;
+}
+inline void PlayCardMsgProtocol::set_cur_round(::google::protobuf::uint32 value) {
+  set_has_cur_round();
+  cur_round_ = value;
+  // @@protoc_insertion_point(field_set:gamer.protocol.PlayCardMsgProtocol.cur_round)
+}
+
+// optional uint32 discard = 6;
+inline bool PlayCardMsgProtocol::has_discard() const {
+  return (_has_bits_[0] & 0x00000020u) != 0;
+}
+inline void PlayCardMsgProtocol::set_has_discard() {
+  _has_bits_[0] |= 0x00000020u;
+}
+inline void PlayCardMsgProtocol::clear_has_discard() {
+  _has_bits_[0] &= ~0x00000020u;
 }
 inline void PlayCardMsgProtocol::clear_discard() {
   discard_ = 0u;
@@ -362,15 +396,15 @@ inline void PlayCardMsgProtocol::set_discard(::google::protobuf::uint32 value) {
   // @@protoc_insertion_point(field_set:gamer.protocol.PlayCardMsgProtocol.discard)
 }
 
-// optional uint32 new_card = 6;
+// optional uint32 new_card = 7;
 inline bool PlayCardMsgProtocol::has_new_card() const {
-  return (_has_bits_[0] & 0x00000020u) != 0;
+  return (_has_bits_[0] & 0x00000040u) != 0;
 }
 inline void PlayCardMsgProtocol::set_has_new_card() {
-  _has_bits_[0] |= 0x00000020u;
+  _has_bits_[0] |= 0x00000040u;
 }
 inline void PlayCardMsgProtocol::clear_has_new_card() {
-  _has_bits_[0] &= ~0x00000020u;
+  _has_bits_[0] &= ~0x00000040u;
 }
 inline void PlayCardMsgProtocol::clear_new_card() {
   new_card_ = 0u;
@@ -386,15 +420,15 @@ inline void PlayCardMsgProtocol::set_new_card(::google::protobuf::uint32 value) 
   // @@protoc_insertion_point(field_set:gamer.protocol.PlayCardMsgProtocol.new_card)
 }
 
-// optional uint32 next_operate_player_id = 7 [default = 0];
+// optional uint32 next_operate_player_id = 8 [default = 0];
 inline bool PlayCardMsgProtocol::has_next_operate_player_id() const {
-  return (_has_bits_[0] & 0x00000040u) != 0;
+  return (_has_bits_[0] & 0x00000080u) != 0;
 }
 inline void PlayCardMsgProtocol::set_has_next_operate_player_id() {
-  _has_bits_[0] |= 0x00000040u;
+  _has_bits_[0] |= 0x00000080u;
 }
 inline void PlayCardMsgProtocol::clear_has_next_operate_player_id() {
-  _has_bits_[0] &= ~0x00000040u;
+  _has_bits_[0] &= ~0x00000080u;
 }
 inline void PlayCardMsgProtocol::clear_next_operate_player_id() {
   next_operate_player_id_ = 0u;
@@ -410,15 +444,15 @@ inline void PlayCardMsgProtocol::set_next_operate_player_id(::google::protobuf::
   // @@protoc_insertion_point(field_set:gamer.protocol.PlayCardMsgProtocol.next_operate_player_id)
 }
 
-// optional bool has_next_operate_player_new_card = 8 [default = false];
+// optional bool has_next_operate_player_new_card = 9 [default = false];
 inline bool PlayCardMsgProtocol::has_has_next_operate_player_new_card() const {
-  return (_has_bits_[0] & 0x00000080u) != 0;
+  return (_has_bits_[0] & 0x00000100u) != 0;
 }
 inline void PlayCardMsgProtocol::set_has_has_next_operate_player_new_card() {
-  _has_bits_[0] |= 0x00000080u;
+  _has_bits_[0] |= 0x00000100u;
 }
 inline void PlayCardMsgProtocol::clear_has_has_next_operate_player_new_card() {
-  _has_bits_[0] &= ~0x00000080u;
+  _has_bits_[0] &= ~0x00000100u;
 }
 inline void PlayCardMsgProtocol::clear_has_next_operate_player_new_card() {
   has_next_operate_player_new_card_ = false;
@@ -434,15 +468,15 @@ inline void PlayCardMsgProtocol::set_has_next_operate_player_new_card(bool value
   // @@protoc_insertion_point(field_set:gamer.protocol.PlayCardMsgProtocol.has_next_operate_player_new_card)
 }
 
-// optional uint32 my_available_operation_id = 9 [default = 0];
+// optional uint32 my_available_operation_id = 10 [default = 0];
 inline bool PlayCardMsgProtocol::has_my_available_operation_id() const {
-  return (_has_bits_[0] & 0x00000100u) != 0;
+  return (_has_bits_[0] & 0x00000200u) != 0;
 }
 inline void PlayCardMsgProtocol::set_has_my_available_operation_id() {
-  _has_bits_[0] |= 0x00000100u;
+  _has_bits_[0] |= 0x00000200u;
 }
 inline void PlayCardMsgProtocol::clear_has_my_available_operation_id() {
-  _has_bits_[0] &= ~0x00000100u;
+  _has_bits_[0] &= ~0x00000200u;
 }
 inline void PlayCardMsgProtocol::clear_my_available_operation_id() {
   my_available_operation_id_ = 0u;
@@ -458,7 +492,7 @@ inline void PlayCardMsgProtocol::set_my_available_operation_id(::google::protobu
   // @@protoc_insertion_point(field_set:gamer.protocol.PlayCardMsgProtocol.my_available_operation_id)
 }
 
-// repeated uint32 operating_cards = 10;
+// repeated uint32 operating_cards = 11;
 inline int PlayCardMsgProtocol::operating_cards_size() const {
   return operating_cards_.size();
 }
@@ -488,7 +522,7 @@ PlayCardMsgProtocol::mutable_operating_cards() {
   return &operating_cards_;
 }
 
-// repeated uint32 invisible_hand_cards = 11;
+// repeated uint32 invisible_hand_cards = 12;
 inline int PlayCardMsgProtocol::invisible_hand_cards_size() const {
   return invisible_hand_cards_.size();
 }
@@ -518,7 +552,7 @@ PlayCardMsgProtocol::mutable_invisible_hand_cards() {
   return &invisible_hand_cards_;
 }
 
-// repeated .gamer.protocol.TingCardMsgProtocol ting_cards = 12;
+// repeated .gamer.protocol.TingCardMsgProtocol ting_cards = 13;
 inline int PlayCardMsgProtocol::ting_cards_size() const {
   return ting_cards_.size();
 }

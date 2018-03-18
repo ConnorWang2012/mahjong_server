@@ -60,6 +60,10 @@ class Player : public PlayerProtocol {
 
     inline const std::string& account() const;
 
+	inline void set_cur_table_id(id_t table_id);
+
+	inline id_t cur_table_id() const;
+
     inline void set_cur_available_operation_id(int operation_id);
 
     inline int cur_available_operation_id() const;
@@ -152,6 +156,7 @@ class Player : public PlayerProtocol {
 
     std::string account_;
 	id_t player_id_;
+	id_t cur_table_id_;
     bool is_online_;
     bool has_selected_operation_ting_;
     id_t cur_available_operation_id_;
@@ -184,6 +189,14 @@ inline void Player::set_account(const std::string& account) {
 
 inline const std::string& Player::account() const {
     return account_;
+}
+
+inline void Player::set_cur_table_id(id_t table_id) {
+	cur_table_id_ = table_id;
+}
+
+inline id_t Player::cur_table_id() const {
+	return cur_table_id_;
 }
 
 inline void Player::set_cur_available_operation_id(int operation_id) {

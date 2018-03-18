@@ -240,6 +240,7 @@
     <ClInclude Include="src\customer\msg\protocol\room_msg_protocol.pb.h" />
     <ClInclude Include="src\customer\msg\protocol\room_operation_msg_protocol.pb.h" />
     <ClInclude Include="src\customer\msg\protocol\set_property_msg_protocol.pb.h" />
+    <ClInclude Include="src\customer\msg\protocol\table_msg_protocol.pb.h" />
     <ClInclude Include="src\customer\msg\protocol\ting_card_msg_protocol.pb.h" />
     <ClInclude Include="src\customer\player\player.h" />
     <ClInclude Include="src\customer\player\player_manager.h" />
@@ -419,6 +420,7 @@
     <ClCompile Include="src\customer\msg\protocol\room_msg_protocol.pb.cc" />
     <ClCompile Include="src\customer\msg\protocol\room_operation_msg_protocol.pb.cc" />
     <ClCompile Include="src\customer\msg\protocol\set_property_msg_protocol.pb.cc" />
+    <ClCompile Include="src\customer\msg\protocol\table_msg_protocol.pb.cc" />
     <ClCompile Include="src\customer\msg\protocol\ting_card_msg_protocol.pb.cc" />
     <ClCompile Include="src\customer\player\player.cc" />
     <ClCompile Include="src\customer\player\player_manager.cc" />

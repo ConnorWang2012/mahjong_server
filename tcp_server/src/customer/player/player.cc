@@ -26,6 +26,7 @@ namespace gamer {
 Player::Player()
 	: player_id_(0),
       account_(""),
+	  cur_table_id_(0),
       is_online_(false),
       cur_available_operation_id_(PlayCardOperationIDs::OPERATION_NONE),
       has_selected_operation_ting_(false),
