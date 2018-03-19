@@ -1,0 +1,17 @@
+package gamer.protocol;
+import "player_cards_msg_protocol.proto";
+import "player_msg_protocol.proto";
+
+message TableMsgProtocol {
+  required uint32 table_id			                  = 1;
+  optional uint32 cur_round			                  = 2;
+  optional uint32 total_round	                    = 3;
+  optional uint32 remain_cards_num	              = 4; // use by client
+  optional uint32 banker_id  		                  = 5;
+  optional uint32 banker_is_same_time             = 6;
+  optional uint32 operating_player_id             = 7;
+  optional uint32 operation_id 		                = 8;  
+  repeated uint32 remain_cards                    = 9; // use by server
+  repeated PlayerCardsMsgProtocol player_cards		= 10;
+  repeated PlayerMsgProtocol players              = 11;
+}

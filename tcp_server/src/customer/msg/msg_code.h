@@ -1,4 +1,4 @@
-/*******************************************************************************
+﻿/*******************************************************************************
 @ copyright(C), 2015-2020, ConnorAndHisFriendsCompany.Inc
 @ filename:	    msg_code.h
 @ author:	    Connor
@@ -48,6 +48,7 @@ enum class MsgCodes {
 	MSG_CODE_ROOM_PLAYER_NUM_LIMIT					= 2104,
 	MSG_CODE_ROOM_PLAYER_NOT_IN_ROOM				= 2105,
 	MSG_CODE_ROOM_NOT_ROOM_OWNER				    = 2106,
+	MSG_CODE_ROOM_ROOM_TYPE_INVALID                 = 2107,
 
 	MSG_CODE_OPERATION_UNKNOW						= 2201,
 	MSG_CODE_OPERATION_DISCARD_INVALID				= 2202,

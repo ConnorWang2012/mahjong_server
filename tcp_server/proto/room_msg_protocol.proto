@@ -1,19 +1,10 @@
 package gamer.protocol;
-import "player_cards_msg_protocol.proto";
-import "player_msg_protocol.proto";
+import "table_msg_protocol.proto";
 
 message RoomMsgProtocol {
   required uint32 room_id			                    = 1;
-  required uint32 room_owner_id		                = 2; 
-  optional uint32 players_num  		                = 3;
-  optional uint32 cur_round			                  = 4;
-  optional uint32 total_round	                    = 5;
-  optional uint32 remain_cards_num	              = 6; // use by client
-  optional uint32 banker_id  		                  = 7;
-  optional uint32 banker_is_same_time             = 8;
-  optional uint32 operating_player_id             = 9;
-  optional uint32 operation_id 		                = 10;  
-  repeated uint32 remain_cards                    = 11; // use by server
-  repeated PlayerCardsMsgProtocol player_cards		= 12;
-  repeated PlayerMsgProtocol players              = 13;
+  required uint32 room_owner_id		                = 2;
+  optional uint32 room_type                       = 3;
+  optional uint32 players_num  		                = 4;
+  repeated TableMsgProtocol table_list            = 5; // only send a table to client
 }

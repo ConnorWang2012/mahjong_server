@@ -4,14 +4,15 @@ import "ting_card_msg_protocol.proto";
 message PlayCardMsgProtocol {
   required uint32 player_id  				= 1;
   required uint32 room_id  					= 2;
-  required uint32 cur_round  				= 3;
-  required uint32 operation_id  				           = 4;
-  optional uint32 discard							             = 5;
-  optional uint32 new_card							           = 6;
-  optional uint32 next_operate_player_id 			     = 7[default = 0];
-  optional bool   has_next_operate_player_new_card = 8[default = false]; // whether next operate player has new card, use to ui layout of client
-  optional uint32 my_available_operation_id 			 = 9[default = 0];
-  repeated uint32 operating_cards    				       = 10; // use for operation chi or buhua
-  repeated uint32 invisible_hand_cards    			   = 11; // after player hu or zimo, server send invisible hand cards of player hu or zimo to other player
-  repeated TingCardMsgProtocol ting_cards          = 12;
+  required uint32 table_id          = 3;
+  required uint32 operation_id  		= 4;
+  optional uint32 cur_round         = 5;
+  optional uint32 discard							             = 6;
+  optional uint32 new_card							           = 7;
+  optional uint32 next_operate_player_id 			     = 8[default = 0];
+  optional bool   has_next_operate_player_new_card = 9[default = false]; // whether next operate player has new card, use to ui layout of client
+  optional uint32 my_available_operation_id 			 = 10[default = 0];
+  repeated uint32 operating_cards    				       = 11; // use for operation chi or buhua
+  repeated uint32 invisible_hand_cards    			   = 12; // after player hu or zimo, server send invisible hand cards of player hu or zimo to other player
+  repeated TingCardMsgProtocol ting_cards          = 13;
 }

@@ -1,4 +1,4 @@
-/*******************************************************************************
+﻿/*******************************************************************************
 @ copyright(C), 2015-2020, ConnorAndHisFriendsCompany.Inc
 @ filename:	    room.h
 @ author:	    Connor
@@ -24,6 +24,7 @@ modification:
 
 #include "customer/room/room_protocol.h"
 #include "customer/room/card_constants.h"
+#include "customer/room/room_constants.h"
 #include "customer/msg/msg_manager.h"
 #include "customer/msg/protocol/my_login_msg_protocol.pb.h"
 #include "customer/msg/protocol/player_cards_msg_protocol.pb.h"
@@ -74,6 +75,10 @@ class Room : public RoomProtocol<Player> {
     void InitRoomMsgProtocol(const std::string& serialized_data);
 
 	MsgCodes DealWithGameStart(RoomMsgProtocol& proto);
+
+	MsgCodes DealWithGameStartForPersonalRoom(RoomMsgProtocol& proto);
+
+	MsgCodes DealWithGameStartForCommonRoom(RoomMsgProtocol& proto);
 
     MsgCodes DealWithPlayCard(PlayCardMsgProtocol& proto);
 
@@ -223,6 +228,17 @@ void Room<Player>::InitCreateRoomMsgProtocol(const CreateRoomMsgProtocol& proto)
 
 template<typename Player>
 MsgCodes Room<Player>::DealWithGameStart(RoomMsgProtocol& proto) {
+	if (proto.room_type() == (unsigned)RoomTypes::COMMON_ROOM) {
+		return this->DealWithGameStartForCommonRoom(proto);
+	} else if (proto.room_type() == (unsigned)RoomTypes::PERSONAL_ROOM) {
+		return this->DealWithGameStartForPersonalRoom(proto);
+	} else {
+		return MsgCodes::MSG_CODE_ROOM_ROOM_TYPE_INVALID;
+	}
+}
+
+template<typename Player>
+MsgCodes Room<Player>::DealWithGameStartForPersonalRoom(RoomMsgProtocol& proto) {
     if ( !create_room_msg_proto_.IsInitialized() ) {
         // TODO : log
         return MsgCodes::MSG_CODE_ROOM_NOT_EXIST;
@@ -247,8 +263,9 @@ MsgCodes Room<Player>::DealWithGameStart(RoomMsgProtocol& proto) {
     // prepare room msg proto for each player
     std::unordered_map<int, RoomMsgProtocol*> room_msg_protos;
     for (auto& p : players_) {
-        auto room_proto = new RoomMsgProtocol(room_msg_proto_);
-		room_proto->add_table_list();
+        auto room_proto = new RoomMsgProtocol();
+		room_proto->CopyFrom(room_msg_proto_);
+		//room_proto->add_table_list();
         room_msg_protos.insert(std::make_pair(p->player_id(), room_proto));
     }
 
@@ -390,6 +407,11 @@ MsgCodes Room<Player>::DealWithGameStart(RoomMsgProtocol& proto) {
     }
 
     return MsgCodes::MSG_CODE_SUCCESS;
+}
+
+template<typename Player>
+MsgCodes Room<Player>::DealWithGameStartForCommonRoom(RoomMsgProtocol& proto) {
+	return MsgCodes::MSG_CODE_SUCCESS;
 }
 
 template<typename Player>
@@ -756,6 +778,7 @@ void Room<Player>::DealWithFirstGameStart() {
         room_msg_proto_.set_room_owner_id(room_owner_id);
 		room_msg_proto_.set_room_type(1); // TODO : personal room type
         room_msg_proto_.set_players_num(players_num);
+
 		auto table = room_msg_proto_.add_table_list();
 		table->set_table_id(1); // TODO : 
 		table->set_cur_round(1);
@@ -776,6 +799,11 @@ void Room<Player>::DealWithFirstGameStart() {
 template<typename Player>
 void Room<Player>::DealWithNonFirstGameStart() {
     if (room_msg_proto_.IsInitialized()) {
+		if (room_msg_proto_.table_list_size() <= 0) {
+			// TODO : log
+			return;
+		}
+
 		auto table = room_msg_proto_.table_list(0);
         if (table.cur_round() < table.total_round()) {
 			table.set_cur_round(table.cur_round() + 1);

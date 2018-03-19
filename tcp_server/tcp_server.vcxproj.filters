@@ -883,6 +883,9 @@
     <ClInclude Include="src\customer\msg\protocol\table_msg_protocol.pb.h">
       <Filter>src\customer\msg\protocol</Filter>
     </ClInclude>
+    <ClInclude Include="src\customer\room\room_constants.h">
+      <Filter>src\customer\room</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
