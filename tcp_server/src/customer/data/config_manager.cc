@@ -12,13 +12,16 @@ author:
 modification:
 ********************************************************************************/
 
-#include "config_mgr.h"
+#include "config_manager.h"
 
 #include "framework/util/tinyxml/tinyxml2.h"
 
 namespace gamer {
-	
-void ConfigMgr::GetNewPlayerCfg() {
+
+void ConfigManager::Init(){
+}
+
+void ConfigManager::GetNewPlayerCfg() {
 }
 
 } // namespace gamer

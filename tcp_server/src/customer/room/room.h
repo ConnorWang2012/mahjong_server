@@ -87,9 +87,9 @@ class Room : public RoomProtocol<Player> {
 
     bool Init(id_t room_id);
 
-    void DealWithFirstGameStart();
+    void DealWithFirstGameStartForPersonalRoom();
 
-    void DealWithNonFirstGameStart();
+    void DealWithNonFirstGameStartForPersonalRoom();
 
 	MsgCodes DealWithOperationDiscard(PlayCardMsgProtocol& proto, Player* player);
 
@@ -257,8 +257,8 @@ MsgCodes Room<Player>::DealWithGameStartForPersonalRoom(RoomMsgProtocol& proto) 
         return MsgCodes::MSG_CODE_ROOM_PLAYER_NUM_LIMIT;
     }
 
-    this->DealWithNonFirstGameStart();
-    this->DealWithFirstGameStart();
+    this->DealWithNonFirstGameStartForPersonalRoom();
+    this->DealWithFirstGameStartForPersonalRoom();
     
     // prepare room msg proto for each player
     std::unordered_map<int, RoomMsgProtocol*> room_msg_protos;
@@ -626,7 +626,8 @@ MsgCodes Room<Player>::DealWithPlayCard(PlayCardMsgProtocol& proto) {
 			if (playerid == player_id) { // get new card for the player of bu hua
 				PlayCardMsgProtocol proto_self;
 				auto table_id = p->cur_table_id();
-				if (0 == table_id || table_id > room_msg_proto_.table_list_size()) {
+				if (table_id == (unsigned)TableIDs::TABLE_ID_INVALID || 
+					table_id > (unsigned)TableIDs::TABLE_ID_MAX) {
 					// TODO :log
 				}
 				auto table_index = table_id - 1;
@@ -783,14 +784,14 @@ MsgCodes Room<Player>::DealWithPlayCard(PlayCardMsgProtocol& proto) {
 }
 
 template<typename Player>
-void Room<Player>::DealWithFirstGameStart() {
+void Room<Player>::DealWithFirstGameStartForPersonalRoom() {
     // room common data
     if ( !room_msg_proto_.IsInitialized() ) {
         auto room_owner_id = create_room_msg_proto_.room_owner_id();
         auto players_num = create_room_msg_proto_.players_num();
         room_msg_proto_.set_room_id(room_id_);
         room_msg_proto_.set_room_owner_id(room_owner_id);
-		room_msg_proto_.set_room_type(1); // TODO : personal room type
+		room_msg_proto_.set_room_type((unsigned)RoomTypes::PERSONAL_ROOM);
         room_msg_proto_.set_players_num(players_num);
 
 		auto table = room_msg_proto_.add_table_list();
@@ -811,7 +812,7 @@ void Room<Player>::DealWithFirstGameStart() {
 }
 
 template<typename Player>
-void Room<Player>::DealWithNonFirstGameStart() {
+void Room<Player>::DealWithNonFirstGameStartForPersonalRoom() {
     if (room_msg_proto_.IsInitialized()) {
 		if (room_msg_proto_.table_list_size() <= 0) {
 			// TODO : log

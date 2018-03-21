@@ -38,12 +38,16 @@ void init() {
 	char buf[20];
 	snprintf(buf, sizeof(buf), "log/%d-%d-%d", y, m, d);
 
-#ifdef _WIN32
+#if defined(_WIN32)
 	if (_access(buf, 0) < 0) {
 		_mkdir(buf);
 	}
-#else
-	// TODO : other platform
+#elif defined(__linux__)
+	if (access(buf, 0) < 0) {
+		mkdir(buf);
+	}
+#elif defined(__unix__)
+
 #endif
 	
 	s_log_path_ = std::string(buf) + "/mylog.dat";

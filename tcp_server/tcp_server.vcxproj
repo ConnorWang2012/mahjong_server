@@ -221,7 +221,7 @@
     <ClInclude Include="include\win32\libevent\evhttp.h" />
     <ClInclude Include="include\win32\libevent\evrpc.h" />
     <ClInclude Include="include\win32\libevent\evutil.h" />
-    <ClInclude Include="src\customer\data\config_mgr.h" />
+    <ClInclude Include="src\customer\data\config_manager.h" />
     <ClInclude Include="src\customer\data\data_manager.h" />
     <ClInclude Include="src\customer\msg\msg_code.h" />
     <ClInclude Include="src\customer\msg\msg_id.h" />
@@ -406,7 +406,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="src\customer\data\config_mgr.cc" />
+    <ClCompile Include="src\customer\data\config_manager.cc" />
     <ClCompile Include="src\customer\data\data_manager.cc" />
     <ClCompile Include="src\customer\msg\msg_manager.cc" />
     <ClCompile Include="src\customer\msg\protocol\create_room_msg_protocol.pb.cc" />

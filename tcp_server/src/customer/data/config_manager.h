@@ -26,9 +26,11 @@ class XMLDocument;
 
 namespace gamer {
 
-class ConfigMgr : public BasicManager<ConfigMgr> {
+class ConfigManager : public BasicManager<ConfigManager> {
   public:
-	ConfigMgr() = default;
+	ConfigManager() = default;
+
+	void Init();
 
 	void GetNewPlayerCfg();
 

@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <root>
-	<room room_id="" score_type="" cost_score="" min_score="" base_score="" cur_players_num="">
+	<!-- room_type 1 : common room; 2 : personal room  -->
+	<!-- score_type 1 : gold; 2 : diamond  -->
+	<room room_id="1001" room_type="1" score_type="1" cost_score="500" min_score="2000" base_score="500" cur_players_num="135">
+	<room room_id="1002" room_type="1" score_type="1" cost_score="1000" min_score="5000" base_score="1000" cur_players_num="246">
+	<room room_id="1003" room_type="1" score_type="1" cost_score="5000" min_score="20000" base_score="5000" cur_players_num="150">
+	<room room_id="1004" room_type="1" score_type="1" cost_score="8000" min_score="40000" base_score="8000" cur_players_num="311">
+	<room room_id="1005" room_type="1" score_type="1" cost_score="10000" min_score="50000" base_score="10000" cur_players_num="120">
+	<room room_id="1006" room_type="1" score_type="1" cost_score="20000" min_score="100000" base_score="20000" cur_players_num="225">
+	<room room_id="1007" room_type="1" score_type="1" cost_score="50000" min_score="500000" base_score="50000" cur_players_num="250">
+	<room room_id="1008" room_type="1" score_type="1" cost_score="500000" min_score="10000000" base_score="500000" cur_players_num="195">
+	<room room_id="1009" room_type="1" score_type="1" cost_score="1000000" min_score="100000000" base_score="1000000" cur_players_num="88">
 </root>

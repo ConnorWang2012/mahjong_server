@@ -763,9 +763,6 @@
     <ClInclude Include="src\framework\util\tinyxml\tinyxml2.h">
       <Filter>src\framework\util\tinyxml</Filter>
     </ClInclude>
-    <ClInclude Include="src\customer\data\config_mgr.h">
-      <Filter>src\customer\data</Filter>
-    </ClInclude>
     <ClInclude Include="src\framework\network\google\protobuf\win-specific\zlib\include\zconf.h">
       <Filter>src\framework\network\protobuf\win-specific\zlib</Filter>
     </ClInclude>
@@ -885,6 +882,9 @@
     </ClInclude>
     <ClInclude Include="src\customer\room\room_constants.h">
       <Filter>src\customer\room</Filter>
+    </ClInclude>
+    <ClInclude Include="src\customer\data\config_manager.h">
+      <Filter>src\customer\data</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1170,9 +1170,6 @@
     <ClCompile Include="src\framework\util\tinyxml\tinyxml2.cpp">
       <Filter>src\framework\util\tinyxml</Filter>
     </ClCompile>
-    <ClCompile Include="src\customer\data\config_mgr.cc">
-      <Filter>src\customer\data</Filter>
-    </ClCompile>
     <ClCompile Include="src\customer\msg\protocol\set_property_msg_protocol.pb.cc">
       <Filter>src\customer\msg\protocol</Filter>
     </ClCompile>
@@ -1187,6 +1184,9 @@
     </ClCompile>
     <ClCompile Include="src\customer\msg\protocol\table_msg_protocol.pb.cc">
       <Filter>src\customer\msg\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="src\customer\data\config_manager.cc">
+      <Filter>src\customer\data</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

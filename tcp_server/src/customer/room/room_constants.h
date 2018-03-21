@@ -23,6 +23,10 @@ enum class RoomTypes {
     PERSONAL_ROOM
 };
 
+enum class TableIDs {
+	TABLE_ID_INVALID,
+	TABLE_ID_MAX          = 10
+};
 
 } // namespace gamer
 
