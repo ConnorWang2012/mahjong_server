@@ -263,9 +263,22 @@ MsgCodes Room<Player>::DealWithGameStartForPersonalRoom(RoomMsgProtocol& proto) 
     // prepare room msg proto for each player
     std::unordered_map<int, RoomMsgProtocol*> room_msg_protos;
     for (auto& p : players_) {
-        auto room_proto = new RoomMsgProtocol();
-		room_proto->CopyFrom(room_msg_proto_);
-		//room_proto->add_table_list();
+        auto room_proto = new RoomMsgProtocol;
+		room_proto->set_room_id(room_msg_proto_.room_id());
+		room_proto->set_room_owner_id(room_msg_proto_.room_owner_id());
+		room_proto->set_room_type(room_msg_proto_.room_type());
+		room_proto->set_players_num(room_msg_proto_.players_num());
+		
+		auto table = room_proto->add_table_list();
+		auto tb_server = room_msg_proto_.table_list(0);
+		table->set_table_id(tb_server.table_id());
+		table->set_cur_round(tb_server.cur_round());
+		table->set_total_round(tb_server.total_round());
+		table->set_remain_cards_num(tb_server.remain_cards_num());
+		table->set_operating_player_id(tb_server.operating_player_id());
+		table->set_banker_id(tb_server.banker_id());
+		table->set_banker_is_same_time(tb_server.banker_is_same_time());
+
         room_msg_protos.insert(std::make_pair(p->player_id(), room_proto));
     }
 
@@ -399,10 +412,11 @@ MsgCodes Room<Player>::DealWithGameStartForPersonalRoom(RoomMsgProtocol& proto) 
 
     // release allocated
     for (auto itr = room_msg_protos.begin(); itr != room_msg_protos.end(); itr++) {
-		auto table = itr->second->table_list(0);
-		auto player_cards = table.mutable_player_cards();
-		player_cards->DeleteSubrange(0, table.player_cards_size());
-		delete itr->second->mutable_table_list(0);
+		auto table = itr->second->mutable_table_list(0);
+		auto table_list = itr->second->mutable_table_list();
+		auto player_cards = table->mutable_player_cards();
+		player_cards->DeleteSubrange(0, table->player_cards_size());
+		table_list->DeleteSubrange(0, itr->second->table_list_size());
         delete itr->second;
     }
 
