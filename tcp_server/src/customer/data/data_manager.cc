@@ -16,17 +16,35 @@ modification:
 
 #include <vector>
 
-#include "util/google/absl/strings/numbers.h"
-#include "util/google/absl/strings/str_join.h"
+#include "framework/util/google/absl/strings/numbers.h"
+#include "framework/util/google/absl/strings/str_join.h"
 #include "framework/cache/cache_proxy.h"
+#include "framework/util/myutil.h"
 #include "customer/player/player.h"
 #include "customer/player/player_manager.h"
 #include "customer/msg/protocol/my_login_msg_protocol.pb.h"
+
+#ifdef _WIN32
+#include <direct.h> 
+#include <io.h> 
+#include <windows.h>
+#elif defined(__linux__)
+#include <sys/stat.h>
+#elif defined(__unix__)
+
+#endif
 
 namespace gamer {
 
 DataManager::DataManager() {
 	//this->Init();
+}
+
+void DataManager::Init() {
+	redis_client_ = CacheProxy::instance()->redis_client();
+	this->UpdateAvailablePlayerID();
+
+	this->InitWritablePath();
 }
 
 void DataManager::CacheAccountData(const std::string& account, 
@@ -235,9 +253,30 @@ void DataManager::AddDiamond(id_t player_id, score_t diamond) {
 void DataManager::SetNickname(id_t player_id, const std::string& nickanme) {
 }
 
-void DataManager::Init() {
-	redis_client_ = CacheProxy::instance()->redis_client();
-	this->UpdateAvailablePlayerID();
+void DataManager::InitWritablePath() {
+	writable_path_ = gamer::GetPathOfApp();
+	if ( !writable_path_.empty() ) {
+#if defined(_WIN32)
+		cfg_file_path_ = writable_path_ + "cfg";
+		if (_access(cfg_file_path_.c_str(), 0) < 0) {
+			_mkdir(cfg_file_path_.c_str());
+		}
+#elif defined(__linux__)
+		cfg_file_path_ = writable_path_ + "cfg/";
+		/*
+		if (access(buf, 0) < 0) {
+			mkdir(buf);
+	    }
+		*/
+		struct stat st;
+		stat(cfg_file_path_.c_str(), &st);
+		if ( !S_ISDIR(st.st_mode) ) {
+			mkdir(cfg_file_path_.c_str(), 0744);
+		}
+#elif defined(__unix__)
+
+#endif
+	}
 }
 
 } // namespace gamer

@@ -20,7 +20,7 @@ modification:
 
 #include "event/event_manager.h"
 #include "data/data_manager.h"
-#include "framework/util/chess_card_algorithm.h"
+#include "framework/algorithm/chess_card_algorithm.h"
 #include "framework/log/mylog.h"
 #include "msg/msg_type.h"
 #include "msg/msg_id.h"

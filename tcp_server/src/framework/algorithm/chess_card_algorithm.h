@@ -16,7 +16,7 @@ modification:
 #define CONNOR_GAME_SRC_FRAMEWORK_ALGORITHM_H_
 
 #include "customer/room/card_constants.h"
-#include "framework/util/util.h"
+#include "framework/util/myutil.h"
 #include "customer/msg/protocol/ting_card_msg_protocol.pb.h"
 
 namespace gamer {

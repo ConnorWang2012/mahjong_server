@@ -20,7 +20,7 @@ modification:
 #include <vector>
 
 #include "framework/base/macros.h"
-#include "framework/util/chess_card_algorithm.h"
+#include "framework/algorithm/chess_card_algorithm.h"
 
 #include "customer/room/room_protocol.h"
 #include "customer/room/card_constants.h"

@@ -32,6 +32,10 @@ class DataManager : public BasicManager<DataManager> {
 
 	void Init();
 
+	inline std::string writable_path() const;
+
+	inline std::string cfg_file_path() const;
+
 	void CacheAccountData(const std::string& account, id_t player_id, const std::string& password);
 
 	void GetCacheAccountData(const std::string& account, id_t* player_id, std::string* password);
@@ -76,12 +80,23 @@ class DataManager : public BasicManager<DataManager> {
 	void SetNickname(id_t player_id, const std::string& nickanme);
 
   private:
-	//void Init();
+	void InitWritablePath();
+
+	std::string writable_path_;
+	std::string cfg_file_path_;
 
 	id_t available_player_id_ = 1000;
 
 	cpp_redis::redis_client* redis_client_;
 };
+
+inline std::string DataManager::writable_path() const {
+	return writable_path_;
+}
+
+inline std::string DataManager::cfg_file_path() const {
+	return cfg_file_path_;
+}
 
 }
 

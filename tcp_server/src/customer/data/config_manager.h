@@ -21,7 +21,9 @@ modification:
 #include "base/macros.h"
 
 namespace tinyxml2 {
+
 class XMLDocument;
+
 };
 
 namespace gamer {

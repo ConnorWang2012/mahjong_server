@@ -252,8 +252,8 @@
     <ClInclude Include="src\customer\room\room_protocol.h" />
     <ClInclude Include="src\customer\test\test_chess_card_algorithm.h" />
     <ClInclude Include="src\customer\util\util.h" />
+    <ClInclude Include="src\framework\algorithm\chess_card_algorithm.h" />
     <ClInclude Include="src\framework\base\basic_manager.h" />
-    <ClInclude Include="src\framework\base\common.h" />
     <ClInclude Include="src\framework\base\macros.h" />
     <ClInclude Include="src\framework\base\msg.h" />
     <ClInclude Include="src\framework\cache\cache_proxy.h" />
@@ -327,7 +327,6 @@
     <ClInclude Include="src\framework\network\network_manager.h" />
     <ClInclude Include="src\framework\service\runtime\server.h" />
     <ClInclude Include="src\framework\service\runtime\server_protocal.h" />
-    <ClInclude Include="src\framework\util\chess_card_algorithm.h" />
     <ClInclude Include="src\framework\util\google\absl\algorithm\algorithm.h" />
     <ClInclude Include="src\framework\util\google\absl\algorithm\container.h" />
     <ClInclude Include="src\framework\util\google\absl\base\attributes.h" />
@@ -402,7 +401,7 @@
     <ClInclude Include="src\framework\util\google\absl\types\span.h" />
     <ClInclude Include="src\framework\util\google\absl\utility\utility.h" />
     <ClInclude Include="src\framework\util\tinyxml\tinyxml2.h" />
-    <ClInclude Include="src\framework\util\util.h" />
+    <ClInclude Include="src\framework\util\myutil.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -425,6 +424,7 @@
     <ClCompile Include="src\customer\msg\protocol\ting_card_msg_protocol.pb.cc" />
     <ClCompile Include="src\customer\player\player.cc" />
     <ClCompile Include="src\customer\player\player_manager.cc" />
+    <ClCompile Include="src\framework\algorithm\chess_card_algorithm.cc" />
     <ClCompile Include="src\framework\cache\cache_proxy.cc" />
     <ClCompile Include="src\framework\event\command.cc" />
     <ClCompile Include="src\framework\event\command_listener.cc" />
@@ -467,7 +467,6 @@
     <ClCompile Include="src\framework\network\google\protobuf\wire_format_lite.cc" />
     <ClCompile Include="src\framework\network\network_manager.cc" />
     <ClCompile Include="src\framework\service\runtime\server.cc" />
-    <ClCompile Include="src\framework\util\chess_card_algorithm.cc" />
     <ClCompile Include="src\framework\util\google\absl\base\dynamic_annotations.cc" />
     <ClCompile Include="src\framework\util\google\absl\base\internal\cycleclock.cc" />
     <ClCompile Include="src\framework\util\google\absl\base\internal\log_severity.cc" />

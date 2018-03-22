@@ -170,6 +170,9 @@
     <Filter Include="src\framework\network\include\libevent\event2">
       <UniqueIdentifier>{7f84b370-6b14-4f6e-ba7c-33528938c69b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\framework\algorithm">
+      <UniqueIdentifier>{b7622cde-e6c9-4808-a556-bfa69537ee66}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\cpp_redis\src\include\cpp_redis\builders\array_builder.hpp">
@@ -276,9 +279,6 @@
     </ClInclude>
     <ClInclude Include="src\framework\service\runtime\server_protocal.h">
       <Filter>src\framework\service\runtime</Filter>
-    </ClInclude>
-    <ClInclude Include="src\framework\base\common.h">
-      <Filter>src\framework\base</Filter>
     </ClInclude>
     <ClInclude Include="src\framework\base\macros.h">
       <Filter>src\framework\base</Filter>
@@ -478,9 +478,6 @@
     <ClInclude Include="src\customer\msg\protocol\create_room_msg_protocol.pb.h">
       <Filter>src\customer\msg\protocol</Filter>
     </ClInclude>
-    <ClInclude Include="src\framework\util\util.h">
-      <Filter>src\framework\util</Filter>
-    </ClInclude>
     <ClInclude Include="src\customer\msg\msg_code.h">
       <Filter>src\customer\msg</Filter>
     </ClInclude>
@@ -522,9 +519,6 @@
     </ClInclude>
     <ClInclude Include="src\customer\test\test_chess_card_algorithm.h">
       <Filter>src\customer\test</Filter>
-    </ClInclude>
-    <ClInclude Include="src\framework\util\chess_card_algorithm.h">
-      <Filter>src\framework\util</Filter>
     </ClInclude>
     <ClInclude Include="src\customer\msg\protocol\ting_card_msg_protocol.pb.h">
       <Filter>src\customer\msg\protocol</Filter>
@@ -886,6 +880,12 @@
     <ClInclude Include="src\customer\data\config_manager.h">
       <Filter>src\customer\data</Filter>
     </ClInclude>
+    <ClInclude Include="src\framework\util\myutil.h">
+      <Filter>src\framework\util</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\algorithm\chess_card_algorithm.h">
+      <Filter>src\framework\algorithm</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -1047,9 +1047,6 @@
     <ClCompile Include="src\customer\msg\protocol\room_msg_protocol.pb.cc">
       <Filter>src\customer\msg\protocol</Filter>
     </ClCompile>
-    <ClCompile Include="src\framework\util\chess_card_algorithm.cc">
-      <Filter>src\framework\util</Filter>
-    </ClCompile>
     <ClCompile Include="src\customer\msg\protocol\ting_card_msg_protocol.pb.cc">
       <Filter>src\customer\msg\protocol</Filter>
     </ClCompile>
@@ -1187,6 +1184,9 @@
     </ClCompile>
     <ClCompile Include="src\customer\data\config_manager.cc">
       <Filter>src\customer\data</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\algorithm\chess_card_algorithm.cc">
+      <Filter>src\framework\algorithm</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
