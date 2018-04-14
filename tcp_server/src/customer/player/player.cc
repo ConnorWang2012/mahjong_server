@@ -37,7 +37,7 @@ Player::Player()
 }
 
 Player* Player::Create(id_t player_id) {
-	auto player = new Player;
+	auto player = new (std::nothrow) Player;
 	if (nullptr != player) {
 		if (!player->Init(player_id)) {
 			SAFE_DELETE(player);

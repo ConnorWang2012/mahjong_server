@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root>
+	<!-- score_type 1 : gold; 2 : diamond  -->
+	<room room_id="1001" room_type="1" sub_room_type="1" score_type="1" cost_score="0" min_score="1000" base_score="200" cur_players_num="135"></room>
+	<room room_id="1002" room_type="1" sub_room_type="1" score_type="1" cost_score="0" min_score="2000" base_score="500" cur_players_num="246"></room>
+	<room room_id="1003" room_type="1" sub_room_type="2" score_type="1" cost_score="0" min_score="5000" base_score="2500" cur_players_num="150"></room>
+
+	<room room_id="1004" room_type="2" sub_room_type="1" score_type="1" cost_score="50" min_score="10000" base_score="5000" cur_players_num="311"></room>
+	<room room_id="1005" room_type="2" sub_room_type="1" score_type="1" cost_score="100" min_score="1000000" base_score="400000" cur_players_num="120"></room>
+	<room room_id="1006" room_type="2" sub_room_type="2" score_type="1" cost_score="500" min_score="5000000" base_score="2000000" cur_players_num="80"></room>
+	<room room_id="1007" room_type="2" sub_room_type="2" score_type="2" cost_score="1" min_score="5" base_score="2" cur_players_num="250"></room>
+
+	<room room_id="1008" room_type="3" sub_room_type="2" score_type="1" cost_score="1000" min_score="50000000" base_score="5000000" cur_players_num="50"></room>
+	<room room_id="1009" room_type="3" sub_room_type="2" score_type="1" cost_score="2000" min_score="100000000" base_score="20000000" cur_players_num="45"></room>
+	<room room_id="1010" room_type="3" sub_room_type="3" score_type="2" cost_score="5" min_score="100" base_score="20" cur_players_num="36"></room>
+	<room room_id="1011" room_type="3" sub_room_type="3" score_type="2" cost_score="10" min_score="200" base_score="40" cur_players_num="28"></room>
+	<room room_id="1012" room_type="3" sub_room_type="3" score_type="2" cost_score="20" min_score="10000" base_score="2000" cur_players_num="15"></room>
+</root>

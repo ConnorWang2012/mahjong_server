@@ -274,7 +274,7 @@ void DataManager::InitWritablePath() {
 			mkdir(cfg_file_path_.c_str(), 0744);
 		}
 #elif defined(__unix__)
-
+		// TODO
 #endif
 	}
 }

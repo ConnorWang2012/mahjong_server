@@ -20,6 +20,7 @@ modification:
 
 #include "event/event_manager.h"
 #include "data/data_manager.h"
+#include "data/config_manager.h"
 #include "framework/algorithm/chess_card_algorithm.h"
 #include "framework/log/mylog.h"
 #include "msg/msg_type.h"
@@ -99,10 +100,6 @@ void MsgManager::AddMsgHandlers() {
 		CALLBACK_SELECTOR_2(MsgManager::DealWithSetPropertyMsg, this)));
 
 	// room
-	// get room list
-	msg_handlers_.insert(std::make_pair((id_t)MsgIDs::MSG_ID_ROOM_GET_ROOM_LIST,
-		CALLBACK_SELECTOR_2(MsgManager::DealWithGetRoomListMsg, this)));
-
 	// create room
 	msg_handlers_.insert(std::make_pair((id_t)MsgIDs::MSG_ID_ROOM_CREATE,
 		CALLBACK_SELECTOR_2(MsgManager::DealWithCreateRoomMsg, this)));
@@ -114,6 +111,10 @@ void MsgManager::AddMsgHandlers() {
 	// player leave room
 	msg_handlers_.insert(std::make_pair((id_t)MsgIDs::MSG_ID_ROOM_PLAYER_LEAVE,
 		CALLBACK_SELECTOR_2(MsgManager::DealWithPlayerLeaveRoomMsg, this)));
+
+	// get room list
+	msg_handlers_.insert(std::make_pair((id_t)MsgIDs::MSG_ID_ROOM_GET_ROOM_LIST,
+		CALLBACK_SELECTOR_2(MsgManager::DealWithGetRoomListMsg, this)));
 
 	// start game
 	msg_handlers_.insert(std::make_pair((id_t)MsgIDs::MSG_ID_ROOM_START_GAME,
@@ -153,7 +154,7 @@ void MsgManager::DealWithRoomMsg(const ClientMsg& msg, bufferevent* bev) {
 }
 
 void MsgManager::DealWithMgLoginMsg(const ClientMsg& msg, bufferevent* bev) {
-	protocol::MyLoginMsgProtocol login_proto_client;
+	gamer::protocol::MyLoginMsgProtocol login_proto_client;
 	if ( !this->ParseMsg(msg, &login_proto_client ) ) {
 		// TODO : log
 		this->SendMsgForError(MsgCodes::MSG_CODE_LOGIN_MSG_PROTO_ERR, msg, bev);
@@ -169,8 +170,8 @@ void MsgManager::DealWithMgLoginMsg(const ClientMsg& msg, bufferevent* bev) {
 	
 	auto player_id_new = 0;
 	Player* player = nullptr;
-    protocol::MyLoginMsgProtocol login_proto_server;
-	auto player_proto = new protocol::PlayerMsgProtocol;
+	gamer::protocol::MyLoginMsgProtocol login_proto_server;
+	auto player_proto = new (std::nothrow) gamer::protocol::PlayerMsgProtocol;
 
 	// get cached account data
 	std::string account_server  = "";
@@ -262,7 +263,7 @@ void MsgManager::DealWithMgLoginMsg(const ClientMsg& msg, bufferevent* bev) {
 }
 
 void MsgManager::DealWithGetPlayerInfoMsg(const ClientMsg& msg, bufferevent* bev) {
-	protocol::PlayerMsgProtocol proto;
+	gamer::protocol::PlayerMsgProtocol proto;
 	if ( !this->ParseMsg(msg, &proto) ) {
 		this->SendMsgForError(MsgCodes::MSG_CODE_MSG_PROTO_ERR, msg, bev);
 		return;
@@ -288,7 +289,7 @@ void MsgManager::DealWithGetPlayerInfoMsg(const ClientMsg& msg, bufferevent* bev
 }
 
 void MsgManager::DealWithSetPropertyMsg(const ClientMsg& msg, bufferevent* bev) {
-	protocol::SetPropertyMsgProtocol proto;
+	gamer::protocol::SetPropertyMsgProtocol proto;
 	if (!this->ParseMsg(msg, &proto)) {
 		this->SendMsgForError(MsgCodes::MSG_CODE_MSG_PROTO_ERR, msg, bev);
 		return;
@@ -318,7 +319,7 @@ void MsgManager::DealWithSetNicknameMsg(const ClientMsg& msg, bufferevent* bev,
 		return;
 	}
 
-	protocol::PlayerMsgProtocol player_proto;
+	gamer::protocol::PlayerMsgProtocol player_proto;
 	if ( !player_proto.ParseFromString(player_data) ) {
 		this->SendMsgForError(MsgCodes::MSG_CODE_PARSE_DATA_ERR, msg, bev);
 		return;
@@ -358,7 +359,7 @@ void MsgManager::DealWithSetSexMsg(const ClientMsg& msg, bufferevent* bev,
 		return;
 	}
 
-	protocol::PlayerMsgProtocol player_proto;
+	gamer::protocol::PlayerMsgProtocol player_proto;
 	if (!player_proto.ParseFromString(player_data)) {
 		this->SendMsgForError(MsgCodes::MSG_CODE_PARSE_DATA_ERR, msg, bev);
 		return;
@@ -402,7 +403,7 @@ void MsgManager::DealWithSetLocalHeadPortraitMsg(const ClientMsg& msg, buffereve
 		return;
 	}
 
-	protocol::PlayerMsgProtocol player_proto;
+	gamer::protocol::PlayerMsgProtocol player_proto;
 	if ( !player_proto.ParseFromString(player_data) ) {
 		this->SendMsgForError(MsgCodes::MSG_CODE_PARSE_DATA_ERR, msg, bev);
 		return;
@@ -428,16 +429,8 @@ void MsgManager::DealWithSetLocalHeadPortraitMsg(const ClientMsg& msg, buffereve
 		bev);
 }
 
-void MsgManager::DealWithGetRoomListMsg(const ClientMsg& msg, bufferevent* bev) {
-	protocol::RoomListMsgProtocol proto;
-	if ( !this->ParseMsg(msg, &proto) ) {
-		this->SendMsgForError(MsgCodes::MSG_CODE_MSG_PROTO_ERR, msg, bev);
-		return;
-	}
-}
-
 void MsgManager::DealWithCreateRoomMsg(const ClientMsg& msg, bufferevent* bev) {
-	protocol::CreateRoomMsgProtocol proto;
+	gamer::protocol::CreateRoomMsgProtocol proto;
 	if ( !this->ParseMsg(msg, &proto) ) {
 		this->SendMsgForError(MsgCodes::MSG_CODE_ROOM_CREATE_ROOM_MSG_PROTO_ERR, msg, bev);
 		return;
@@ -540,7 +533,7 @@ void MsgManager::DealWithPlayerJoinRoomMsg(const ClientMsg& msg, bufferevent* be
 }
 
 void MsgManager::DealWithPlayerLeaveRoomMsg(const ClientMsg& msg, bufferevent* bev) {
-	protocol::RoomOperationMsgProtocol proto_client;
+	gamer::protocol::RoomOperationMsgProtocol proto_client;
 	if ( !this->ParseMsg(msg, &proto_client) ) {
 		// TODO : log
 		this->SendMsgForError(MsgCodes::MSG_CODE_ROOM_LEAVE_ROOM_MSG_PROTO_ERR, msg, bev);
@@ -577,6 +570,27 @@ void MsgManager::DealWithPlayerLeaveRoomMsg(const ClientMsg& msg, bufferevent* b
 	}
 
 	room->RomovePlayer(player_id);
+}
+
+void MsgManager::DealWithGetRoomListMsg(const ClientMsg& msg, bufferevent* bev) {
+	gamer::protocol::RoomListMsgProtocol proto;
+	if ( !this->ParseMsg(msg, &proto) ) {
+		this->SendMsgForError(MsgCodes::MSG_CODE_MSG_PROTO_ERR, msg, bev);
+		return;
+	}
+
+	auto room_list_proto = ConfigManager::instance()->room_list_msg_protocol();
+	if (room_list_proto->IsInitialized()) {
+		room_list_proto->set_player_id(proto.player_id());
+		this->SendMsg((msg_header_t)MsgTypes::S2C_MSG_TYPE_ROOM,
+			          (msg_header_t)MsgIDs::MSG_ID_ROOM_GET_ROOM_LIST,
+			          (msg_header_t)MsgCodes::MSG_CODE_SUCCESS,
+			          *room_list_proto,
+			          bev);
+	} else {
+		this->SendMsgForError(MsgCodes::MSG_CODE_PARSE_DATA_ERR, msg, bev);
+		return;
+	}
 }
 
 void MsgManager::DealWithStartGameMsg(const ClientMsg& msg, bufferevent* bev) {

@@ -20,6 +20,8 @@ modification:
 #include "base/basic_manager.h"
 #include "base/macros.h"
 
+#define COMMON_ROOM_CFG_FILE "common_room_cfg.xml"
+
 namespace cpp_redis {
 	class redis_client;
 }
@@ -35,6 +37,8 @@ class DataManager : public BasicManager<DataManager> {
 	inline std::string writable_path() const;
 
 	inline std::string cfg_file_path() const;
+
+	inline std::string room_cfg_file_path() const;
 
 	void CacheAccountData(const std::string& account, id_t player_id, const std::string& password);
 
@@ -96,6 +100,16 @@ inline std::string DataManager::writable_path() const {
 
 inline std::string DataManager::cfg_file_path() const {
 	return cfg_file_path_;
+}
+
+inline std::string DataManager::room_cfg_file_path() const {
+#if defined(_WIN32)
+	return cfg_file_path_ + "/" + COMMON_ROOM_CFG_FILE;
+#elif defined(__linux__)
+	return cfg_file_path_ + COMMON_ROOM_CFG_FILE;
+#elif defined(__unix__)
+	// TODO
+#endif
 }
 
 }

@@ -2,14 +2,16 @@ package gamer.protocol;
 
 message RoomItemMsgProtocol {
   required uint32 room_id           = 1;
-  optional uint32 score_type        = 2;
-  optional uint32 cost_score        = 3;
-  optional uint32 min_score         = 4;
-  optional uint32 base_score        = 5;
-  optional uint32 cur_players_num   = 6;
+  optional uint32 room_type         = 2;
+  optional uint32 sub_room_type     = 3;
+  optional uint32 score_type        = 4;
+  optional uint32 cost_score        = 5;
+  optional uint32 min_score         = 6;
+  optional uint32 base_score        = 7;
+  optional uint32 cur_players_num   = 8;
 }
 
 message RoomListMsgProtocol {
-  required uint32 player_id              = 1;
-  repeated RoomItemMsgProtocol room_list = 2;
+  required uint32 player_id               = 1;
+  repeated RoomItemMsgProtocol room_items = 2;
 }

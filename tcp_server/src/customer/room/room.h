@@ -284,7 +284,6 @@ MsgCodes Room<Player>::DealWithGameStartForPersonalRoom(RoomMsgProtocol& proto) 
 	for (auto& player : players_) {
 		auto player_cards = table->add_player_cards();
 		player_cards->set_player_id(player->player_id());
-		player->set_cur_table_id(table->table_id());
 	}
 
     int buf[CardConstants::TOTAL_CARDS_NUM] = {
@@ -800,7 +799,7 @@ void Room<Player>::DealWithFirstGameStartForPersonalRoom() {
         room_msg_proto_.set_players_num(players_num);
 
 		auto table = room_msg_proto_.add_table_list();
-		table->set_table_id(1); // TODO : 
+		table->set_table_id((id_t)TableIDs::TABLE_ID_PERSONAL_ROOM);
 		table->set_cur_round(1);
 		table->set_total_round(create_room_msg_proto_.rounds_num());
 		table->set_remain_cards_num(CardConstants::TOTAL_CARDS_NUM -
@@ -812,6 +811,7 @@ void Room<Player>::DealWithFirstGameStartForPersonalRoom() {
         for (auto& player : players_) {
             auto player_cards = table->add_player_cards();
             player_cards->set_player_id(player->player_id());
+			player->set_cur_table_id(table->table_id());
         }
     }
 }
