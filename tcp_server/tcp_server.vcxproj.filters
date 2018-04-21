@@ -886,6 +886,12 @@
     <ClInclude Include="src\framework\algorithm\chess_card_algorithm.h">
       <Filter>src\framework\algorithm</Filter>
     </ClInclude>
+    <ClInclude Include="src\customer\room\table.h">
+      <Filter>src\customer\room</Filter>
+    </ClInclude>
+    <ClInclude Include="src\customer\room\table_protocol.h">
+      <Filter>src\customer\room</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">

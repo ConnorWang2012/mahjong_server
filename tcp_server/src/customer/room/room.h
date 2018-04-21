@@ -57,13 +57,13 @@ class Room : public RoomProtocol<Player> {
 
     virtual void RomovePlayer(id_t player_id) override;
 
+	virtual inline Player* player(id_t player_id) override;
+
+	virtual inline std::vector<Player*>* players() override;
+
 	virtual inline void set_room_id(id_t room_id) override;
 
 	virtual inline id_t room_id() const override;
-
-	virtual inline Player* player(id_t player_id) override;
-    
-    virtual inline std::vector<Player*>* players() override;
 
     virtual inline bool is_player_in_room(id_t player_id) const override;
     
@@ -83,7 +83,7 @@ class Room : public RoomProtocol<Player> {
 
     MsgCodes DealWithPlayCard(PlayCardMsgProtocol& proto);
 
-  private:   
+  private:
     Room();
 
     bool Init(id_t room_id);
@@ -178,29 +178,23 @@ void gamer::Room<Player>::RomovePlayer(id_t player_id) {
 }
 
 template<typename Player>
-inline void Room<Player>::set_room_id(id_t room_id) {
-	room_id_ = room_id;
-}
-
-template<typename Player>
-inline id_t Room<Player>::room_id() const {
-	return room_id_;
-}
-
-template<typename Player>
 inline Player* Room<Player>::player(id_t player_id) {
-    for (auto& player : players_) {
-        if (player->player_id() == player_id) {
-            return player;
-        }
-    }
+	for (auto& player : players_) {
+		if (player->player_id() == player_id) {
+			return player;
+		}
+	}
 	return nullptr;
 }
 
 template<typename Player>
-std::vector<Player*>* gamer::Room<Player>::players() {
-    return &players_;
-}
+inline std::vector<Player*>* gamer::Room<Player>::players() { return &players_; }
+
+template<typename Player>
+inline void Room<Player>::set_room_id(id_t room_id) { room_id_ = room_id; }
+
+template<typename Player>
+inline id_t Room<Player>::room_id() const { return room_id_; }
 
 template<typename Player>
 bool gamer::Room<Player>::is_player_in_room(id_t player_id) const {
@@ -213,9 +207,7 @@ bool gamer::Room<Player>::is_player_in_room(id_t player_id) const {
 }
 
 template<typename Player>
-size_t gamer::Room<Player>::cur_players_num() const {
-    return players_.size();
-}
+inline size_t gamer::Room<Player>::cur_players_num() const { return players_.size(); }
 
 template<typename Player>
 inline bool Room<Player>::is_players_num_upper_limit() const {

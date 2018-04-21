@@ -250,6 +250,8 @@
     <ClInclude Include="src\customer\room\room_constants.h" />
     <ClInclude Include="src\customer\room\room_manager.h" />
     <ClInclude Include="src\customer\room\room_protocol.h" />
+    <ClInclude Include="src\customer\room\table.h" />
+    <ClInclude Include="src\customer\room\table_protocol.h" />
     <ClInclude Include="src\customer\test\test_chess_card_algorithm.h" />
     <ClInclude Include="src\customer\util\util.h" />
     <ClInclude Include="src\framework\algorithm\chess_card_algorithm.h" />
