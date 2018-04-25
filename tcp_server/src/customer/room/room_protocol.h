@@ -19,6 +19,8 @@ modification:
 
 namespace gamer {
 
+enum class RoomTypes;
+
 template<typename Player>
 class RoomProtocol {
   public:
@@ -37,6 +39,10 @@ class RoomProtocol {
 	virtual inline void set_room_id(id_t room_id) = 0;
 
 	virtual inline id_t room_id() const = 0;
+
+	virtual inline void set_room_type(RoomTypes room_id) = 0;
+
+	virtual inline RoomTypes room_type() const = 0;
 
     virtual inline bool is_player_in_room(id_t player_id) const = 0;
 

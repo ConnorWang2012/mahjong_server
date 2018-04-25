@@ -15,11 +15,13 @@ modification:
 #ifndef CONNOR_GAME_SRC_PLAYER_H_
 #define CONNOR_GAME_SRC_PLAYER_H_
 
+#include "framework/base/macros.h"
+#include "framework/base/typedef.h"
+#include "customer/base/common_typedef.h"
+#include "customer/player/player_protocol.h"
 #include "customer/msg/protocol/player_cards_msg_protocol.pb.h"
 #include "customer/msg/protocol/play_card_msg_protocol.pb.h"
 #include "customer/msg/protocol/ting_card_msg_protocol.pb.h"
-#include "framework/base/macros.h"
-#include "player_protocol.h"
 
 namespace gamer {
 

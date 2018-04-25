@@ -16,10 +16,10 @@ modification:
 
 #include <algorithm>
 
-#include "base/macros.h"
+#include "framework/base/macros.h"
+#include "framework/algorithm/chess_card_algorithm.h"
 #include "customer/util/util.h"
 #include "customer/room/card_constants.h"
-#include "framework/algorithm/chess_card_algorithm.h"
 
 namespace gamer {
 

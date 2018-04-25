@@ -19,8 +19,8 @@ modification:
 
 #include "event2/util.h"
 
-#include "base/basic_manager.h"
-#include "base/macros.h"
+#include "framework/base/basic_manager.h"
+#include "framework/base/macros.h"
 
 struct bufferevent;
 struct event_base;

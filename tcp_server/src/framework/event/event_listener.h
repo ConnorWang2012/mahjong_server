@@ -19,7 +19,8 @@
 #include <string>
 
 #include "framework/base/macros.h"
-#include "listener.h"
+#include "framework/base/typedef.h"
+#include "framework/event/listener.h"
 
 namespace gamer {
 

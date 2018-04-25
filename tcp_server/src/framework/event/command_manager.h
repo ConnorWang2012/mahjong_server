@@ -21,6 +21,7 @@
 #include <string>
 
 #include "framework/base/macros.h"
+#include "framework/base/typedef.h"
 
 namespace gamer {
 

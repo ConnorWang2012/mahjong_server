@@ -173,6 +173,9 @@
     <Filter Include="src\framework\algorithm">
       <UniqueIdentifier>{b7622cde-e6c9-4808-a556-bfa69537ee66}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\customer\base">
+      <UniqueIdentifier>{3d3c93bc-7725-4750-8cb3-bc6cabcdbadb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\cpp_redis\src\include\cpp_redis\builders\array_builder.hpp">
@@ -891,6 +894,12 @@
     </ClInclude>
     <ClInclude Include="src\customer\room\table_protocol.h">
       <Filter>src\customer\room</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\base\typedef.h">
+      <Filter>src\framework\base</Filter>
+    </ClInclude>
+    <ClInclude Include="src\customer\base\common_typedef.h">
+      <Filter>src\customer\base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

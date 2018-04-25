@@ -34,7 +34,11 @@ class RoomManager : public BasicManager<RoomManager<Player>> {
 
     void RemoveRoom(id_t room_id);
 
-    Room<Player>* GetRoom(id_t room_id);
+	Room<Player>* GetRoom(id_t room_id);
+
+    Room<Player>* GetPersonalRoom(id_t room_id);
+
+	Room<Player>* GetCommonRoom(id_t room_id);
 
     id_t GenerateRoomID();
 
@@ -44,7 +48,6 @@ class RoomManager : public BasicManager<RoomManager<Player>> {
 
   private:
     std::unordered_map<id_t, Room<Player>*> rooms_; // key is room id
-	std::unordered_set<id_t> round_ids_; // for all room
 };
 
 template<typename Player>
@@ -68,12 +71,13 @@ void gamer::RoomManager<Player>::RemoveRoom(Room<Player>* room) {
 }
 
 template<typename Player>
-gamer::Room<Player>* gamer::RoomManager<Player>::GetRoom(id_t room_id) {
-    auto itr = rooms_.find(room_id);
-    if (itr != rooms_.end()) {
-        return itr->second;
-    }
-    return nullptr;
+gamer::Room<Player>* gamer::RoomManager<Player>::GetPersonalRoom(id_t room_id) {
+	return this->GetRoom(room_id);
+}
+
+template<typename Player>
+Room<Player>* RoomManager<Player>::GetCommonRoom(id_t room_id) {
+	return this->GetRoom(room_id);
 }
 
 template<typename Player>
@@ -112,6 +116,15 @@ bool RoomManager<Player>::IsPlayerInRoom(id_t player_id) {
 		}
 	}
 	return false;
+}
+
+template<typename Player>
+Room<Player>* RoomManager<Player>::GetRoom(id_t room_id) {
+	auto itr = rooms_.find(room_id);
+	if (itr != rooms_.end()) {
+		return itr->second;
+	}
+	return nullptr;
 }
 
 } // namespace gamer

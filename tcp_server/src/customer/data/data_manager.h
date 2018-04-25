@@ -17,8 +17,10 @@ modification:
 
 #include <string>
 
-#include "base/basic_manager.h"
-#include "base/macros.h"
+#include "framework/base/basic_manager.h"
+#include "framework/base/macros.h"
+#include "framework/base/typedef.h"
+#include "customer/base/common_typedef.h"
 
 #define COMMON_ROOM_CFG_FILE "common_room_cfg.xml"
 

@@ -20,12 +20,15 @@ modification:
 
 #include "framework/base/basic_manager.h"
 #include "framework/base/macros.h"
+#include "framework/base/typedef.h"
 #include "framework/base/msg.h"
 
 namespace google {
 
 namespace protobuf {
-	class Message;
+	
+class Message;
+
 }
 
 }
@@ -35,6 +38,11 @@ struct bufferevent;
 namespace gamer {
 
 enum class MsgCodes;
+enum class RoomTypes;
+
+//class Player;
+//template class Room<Player>;
+//template <typename> RoomManager<Player>;
 
 class MsgManager : public BasicManager<MsgManager> {
   public:
@@ -47,7 +55,7 @@ class MsgManager : public BasicManager<MsgManager> {
     bool SendMsg(msg_header_t msg_type,
                  msg_header_t msg_id,
                  msg_header_t msg_code,
-                 const google::protobuf::Message& msg, 
+                 const google::protobuf::Message& msg,
                  bufferevent* bev);
 
   private:
@@ -80,13 +88,13 @@ class MsgManager : public BasicManager<MsgManager> {
 	void DealWithSetLocalHeadPortraitMsg(const ClientMsg& msg, bufferevent* bev,
 		google::protobuf::Message* proto, id_t player_id, const std::string& head_portrait_id);
 
-	void DealWithCreateRoomMsg(const ClientMsg& msg, bufferevent* bev);
+	void DealWithCreatePersonalRoomMsg(const ClientMsg& msg, bufferevent* bev);
 
-	void DealWithPlayerJoinRoomMsg(const ClientMsg& msg, bufferevent* bev);
+	void DealWithPlayerJoinPersonalRoomMsg(const ClientMsg& msg, bufferevent* bev);
 
-	void DealWithPlayerLeaveRoomMsg(const ClientMsg& msg, bufferevent* bev);
+	void DealWithPlayerLeavePersonalRoomMsg(const ClientMsg& msg, bufferevent* bev);
 
-	void DealWithGetRoomListMsg(const ClientMsg& msg, bufferevent* bev);
+	void DealWithGetCommonRoomListMsg(const ClientMsg& msg, bufferevent* bev);
 
 	void DealWithStartGameMsg(const ClientMsg& msg, bufferevent* bev);
 

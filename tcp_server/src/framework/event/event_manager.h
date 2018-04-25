@@ -22,6 +22,7 @@
 #include <vector>
 
 #include "framework/base/macros.h"
+#include "framework/base/typedef.h"
 
 namespace gamer {
 

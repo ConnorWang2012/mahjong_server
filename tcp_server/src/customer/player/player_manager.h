@@ -19,6 +19,7 @@ modification:
 
 #include "framework/base/basic_manager.h"
 #include "framework/base/macros.h"
+#include "framework/base/typedef.h"
 
 struct bufferevent;
 

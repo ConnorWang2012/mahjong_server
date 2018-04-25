@@ -102,19 +102,19 @@ void MsgManager::AddMsgHandlers() {
 	// room
 	// create room
 	msg_handlers_.insert(std::make_pair((id_t)MsgIDs::MSG_ID_ROOM_CREATE,
-		CALLBACK_SELECTOR_2(MsgManager::DealWithCreateRoomMsg, this)));
+		CALLBACK_SELECTOR_2(MsgManager::DealWithCreatePersonalRoomMsg, this)));
 
 	// player join room
 	msg_handlers_.insert(std::make_pair((id_t)MsgIDs::MSG_ID_ROOM_PLAYER_JOIN,
-		CALLBACK_SELECTOR_2(MsgManager::DealWithPlayerJoinRoomMsg, this)));
+		CALLBACK_SELECTOR_2(MsgManager::DealWithPlayerJoinPersonalRoomMsg, this)));
 
 	// player leave room
 	msg_handlers_.insert(std::make_pair((id_t)MsgIDs::MSG_ID_ROOM_PLAYER_LEAVE,
-		CALLBACK_SELECTOR_2(MsgManager::DealWithPlayerLeaveRoomMsg, this)));
+		CALLBACK_SELECTOR_2(MsgManager::DealWithPlayerLeavePersonalRoomMsg, this)));
 
 	// get room list
 	msg_handlers_.insert(std::make_pair((id_t)MsgIDs::MSG_ID_ROOM_GET_ROOM_LIST,
-		CALLBACK_SELECTOR_2(MsgManager::DealWithGetRoomListMsg, this)));
+		CALLBACK_SELECTOR_2(MsgManager::DealWithGetCommonRoomListMsg, this)));
 
 	// start game
 	msg_handlers_.insert(std::make_pair((id_t)MsgIDs::MSG_ID_ROOM_START_GAME,
@@ -429,7 +429,7 @@ void MsgManager::DealWithSetLocalHeadPortraitMsg(const ClientMsg& msg, buffereve
 		bev);
 }
 
-void MsgManager::DealWithCreateRoomMsg(const ClientMsg& msg, bufferevent* bev) {
+void MsgManager::DealWithCreatePersonalRoomMsg(const ClientMsg& msg, bufferevent* bev) {
 	gamer::protocol::CreateRoomMsgProtocol proto;
 	if ( !this->ParseMsg(msg, &proto) ) {
 		this->SendMsgForError(MsgCodes::MSG_CODE_ROOM_CREATE_ROOM_MSG_PROTO_ERR, msg, bev);
@@ -460,9 +460,9 @@ void MsgManager::DealWithCreateRoomMsg(const ClientMsg& msg, bufferevent* bev) {
     this->SendMsg(msg.type, msg.id, (msg_header_t)MsgCodes::MSG_CODE_SUCCESS, proto, bev);
 
     // add player to room
-    auto room = room_mgr->GetRoom(room_id);
+    auto room = room_mgr->GetPersonalRoom(room_id);
     if (nullptr == room) {
-        room = Room<Player>::Create(room_id);
+        room = Room<Player>::Create(room_id, RoomTypes::PERSONAL_ROOM);
         room_mgr->AddRoom(room);
     }
 	room->AddPlayer(player);
@@ -470,18 +470,16 @@ void MsgManager::DealWithCreateRoomMsg(const ClientMsg& msg, bufferevent* bev) {
     room->InitCreateRoomMsgProtocol(proto);
 }
 
-void MsgManager::DealWithPlayerJoinRoomMsg(const ClientMsg& msg, bufferevent* bev) {
+void MsgManager::DealWithPlayerJoinPersonalRoomMsg(const ClientMsg& msg, bufferevent* bev) {
 	gamer::protocol::RoomOperationMsgProtocol proto_client;
 	if ( !this->ParseMsg(msg, &proto_client) ) {
-		// TODO : log
 		this->SendMsgForError(MsgCodes::MSG_CODE_ROOM_JOIN_ROOM_MSG_PROTO_ERR, msg, bev);
 		return;
 	}
 
 	// find room
-	auto room = RoomManager<Player>::instance()->GetRoom(proto_client.room_id());
+	auto room = RoomManager<Player>::instance()->GetPersonalRoom(proto_client.room_id());
 	if (nullptr == room) {
-		// TODO : log
 		this->SendMsgForError(MsgCodes::MSG_CODE_ROOM_NOT_EXIST, msg, bev);
 		return;
 	}
@@ -489,29 +487,25 @@ void MsgManager::DealWithPlayerJoinRoomMsg(const ClientMsg& msg, bufferevent* be
 	// check whether player in the room
 	auto player_id = proto_client.player_id();
 	if (room->is_player_in_room(player_id)) {
-		// TODO : log
 		this->SendMsgForError(MsgCodes::MSG_CODE_ROOM_PLAYER_ALREADY_IN_THE_ROOM, msg, bev);
 		return;
 	}
 
 	// check whether player in any other room
 	if (RoomManager<Player>::instance()->IsPlayerInRoom(player_id)) {
-		// TODO : log
 		this->SendMsgForError(MsgCodes::MSG_CODE_ROOM_PLAYER_ALREADY_IN_OTHER_ROOM, msg, bev);
 		return;
 	}
 
 	// check players num
-	if (room->is_players_num_upper_limit()) {
-		// TODO : log
-		this->SendMsgForError(MsgCodes::MSG_CODE_ROOM_PLAYER_NUM_LIMIT, msg, bev);
+	if (room->is_players_num_more_than_required()) {
+		this->SendMsgForError(MsgCodes::MSG_CODE_ROOM_PLAYERS_NUM_MORE_THAN_REQUIRED, msg, bev);
 		return;
 	}
 
 	// check whether player on line
 	auto player = PlayerManager::instance()->GetOnlinePlayer(player_id);
 	if (nullptr == player) {
-		// TODO : log
 		this->SendMsgForError(MsgCodes::MSG_CODE_PLAYER_OFFLINE, msg, bev);
 		return;
     }
@@ -532,7 +526,7 @@ void MsgManager::DealWithPlayerJoinRoomMsg(const ClientMsg& msg, bufferevent* be
 	}
 }
 
-void MsgManager::DealWithPlayerLeaveRoomMsg(const ClientMsg& msg, bufferevent* bev) {
+void MsgManager::DealWithPlayerLeavePersonalRoomMsg(const ClientMsg& msg, bufferevent* bev) {
 	gamer::protocol::RoomOperationMsgProtocol proto_client;
 	if ( !this->ParseMsg(msg, &proto_client) ) {
 		// TODO : log
@@ -541,7 +535,7 @@ void MsgManager::DealWithPlayerLeaveRoomMsg(const ClientMsg& msg, bufferevent* b
 	}
 
 	// find room
-	auto room = RoomManager<Player>::instance()->GetRoom(proto_client.room_id());
+	auto room = RoomManager<Player>::instance()->GetPersonalRoom(proto_client.room_id());
 	if (nullptr == room) {
 		// TODO : log
 		this->SendMsgForError(MsgCodes::MSG_CODE_ROOM_NOT_EXIST, msg, bev);
@@ -572,7 +566,7 @@ void MsgManager::DealWithPlayerLeaveRoomMsg(const ClientMsg& msg, bufferevent* b
 	room->RomovePlayer(player_id);
 }
 
-void MsgManager::DealWithGetRoomListMsg(const ClientMsg& msg, bufferevent* bev) {
+void MsgManager::DealWithGetCommonRoomListMsg(const ClientMsg& msg, bufferevent* bev) {
 	gamer::protocol::RoomListMsgProtocol proto;
 	if ( !this->ParseMsg(msg, &proto) ) {
 		this->SendMsgForError(MsgCodes::MSG_CODE_MSG_PROTO_ERR, msg, bev);
@@ -597,29 +591,37 @@ void MsgManager::DealWithStartGameMsg(const ClientMsg& msg, bufferevent* bev) {
 	// 1.verify client msg
 	gamer::protocol::RoomMsgProtocol proto_client;
 	if ( !this->ParseMsg(msg, &proto_client) ) {
-		// TODO : log
 		this->SendMsgForError(MsgCodes::MSG_CODE_ROOM_MSG_PROTO_ERR, msg, bev); 
 		return;
 	}
 
-	// 2.verify room id and room owner id
+	// 2.get room and deal with game start
 	auto room_id = proto_client.room_id();
-	auto room = RoomManager<Player>::instance()->GetRoom(room_id);
-	if (nullptr == room) {
-		// TODO : log
-		this->SendMsgForError(MsgCodes::MSG_CODE_ROOM_NOT_EXIST, msg, bev);
-		return;
+	MsgCodes code;
+    gamer::Room<Player>* room = nullptr;
+	if (proto_client.room_type() == (unsigned)RoomTypes::PERSONAL_ROOM) { // personal room
+		room = RoomManager<Player>::instance()->GetPersonalRoom(room_id);
+		if (nullptr != room) {
+			code = room->DealWithGameStartForPersonalRoom(proto_client);
+		} else {
+			code = MsgCodes::MSG_CODE_ROOM_NOT_EXIST;
+		}
+	} else if (proto_client.room_type() == (unsigned)RoomTypes::COMMON_ROOM) { // common room
+		room = RoomManager<Player>::instance()->GetCommonRoom(room_id);
+		if (nullptr == room) {
+			room = Room<Player>::Create(room_id, RoomTypes::COMMON_ROOM);
+		}
+
+		if (nullptr != room) {
+			code = room->DealWithGameStartForCommonRoom(proto_client);
+		} else {
+			code = MsgCodes::MSG_CODE_ROOM_CREATE_ROOM_FAILED;
+		}
+
+	} else {
+		code = MsgCodes::MSG_CODE_ROOM_ROOM_TYPE_INVALID;
 	}
 
-	// 3.verify room players num
-	if ( !room->is_players_num_upper_limit() ) {
-		// TODO : log
-		this->SendMsgForError(MsgCodes::MSG_CODE_ROOM_PLAYER_NUM_LIMIT, msg, bev);
-		return;
-	}
-
-    // 4.deal with game start
-    auto code = room->DealWithGameStart(proto_client);
     if (code != MsgCodes::MSG_CODE_SUCCESS) {
         this->SendMsgForError(code, msg, bev);
     }
@@ -635,7 +637,7 @@ void MsgManager::DealWithPlayCardMsg(const ClientMsg& msg, bufferevent* bev) {
 	}
 
 	// find room
-	auto room = RoomManager<Player>::instance()->GetRoom(proto_client.room_id());
+	auto room = RoomManager<Player>::instance()->GetPersonalRoom(proto_client.room_id());
 	if (nullptr == room) {
 		// TODO : log
 		this->SendMsgForError(MsgCodes::MSG_CODE_ROOM_NOT_EXIST, msg, bev);

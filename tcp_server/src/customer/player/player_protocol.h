@@ -15,8 +15,7 @@ modification:
 #ifndef CONNOR_GAME_SRC_PLAYER_PROTOCOL_H_
 #define CONNOR_GAME_SRC_PLAYER_PROTOCOL_H_
 
-#include <vector>
-#include "framework/base/macros.h"
+#include "framework/base/typedef.h"
 
 namespace gamer {
 
