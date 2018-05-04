@@ -901,6 +901,9 @@
     <ClInclude Include="src\customer\base\common_typedef.h">
       <Filter>src\customer\base</Filter>
     </ClInclude>
+    <ClInclude Include="src\customer\base\special_typedef.h">
+      <Filter>src\customer\base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">

@@ -48,7 +48,20 @@ namespace gamer {
 	typedef uint64_t                uint64;
 #endif
 
-typedef	unsigned int    id_t;
+#ifdef _WIN64
+	typedef __int64					intptr_t;
+#else
+	typedef int						intptr_t;
+#endif
+
+#ifdef _WIN32
+#define socket_t					intptr_t
+#else
+#define socket_t					int
+#endif
+
+typedef	unsigned int				id_t;
+typedef	unsigned int				msg_header_t;
 
 } // namespace gamer
 

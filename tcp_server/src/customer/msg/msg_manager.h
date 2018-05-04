@@ -15,13 +15,12 @@ modification:
 #ifndef CONNOR_GAME_SRC_MSG_MANAGER_H_
 #define CONNOR_GAME_SRC_MSG_MANAGER_H_
 
+#include <functional>
 #include <string>
 #include <unordered_map>
 
 #include "framework/base/basic_manager.h"
-#include "framework/base/macros.h"
 #include "framework/base/typedef.h"
-#include "framework/base/msg.h"
 
 namespace google {
 
@@ -39,10 +38,8 @@ namespace gamer {
 
 enum class MsgCodes;
 enum class RoomTypes;
-
-//class Player;
-//template class Room<Player>;
-//template <typename> RoomManager<Player>;
+struct ServerMsg;
+struct ClientMsg;
 
 class MsgManager : public BasicManager<MsgManager> {
   public:

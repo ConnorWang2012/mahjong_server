@@ -15,23 +15,9 @@ modification:
 #ifndef CONNOR_GAME_SRC_MSG_PROTOCOL_H_
 #define CONNOR_GAME_SRC_MSG_PROTOCOL_H_
 
-#include <functional>
+#include "framework/base/typedef.h"
 
 namespace gamer {
-
-#ifdef _WIN64
-	typedef __int64         intptr_t;
-#else
-	typedef int             intptr_t;
-#endif
-
-#ifdef _WIN32
-#define socket_t			intptr_t
-#else
-#define socket_t			int
-#endif
-
-#define msg_header_t		unsigned int
 
 // msg for client to server
 struct ClientMsg {
