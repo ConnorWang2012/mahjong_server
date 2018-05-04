@@ -3,7 +3,7 @@
  @ filename:	  special_typedef.h
  @ author:		  Connor
  @ version:	      1.0.0
- @ date:		  2018-04-23
+ @ date:		  2018-05-04
  @ description:   define special type.
  @ others:
  @ history:
@@ -16,6 +16,7 @@
 #define CONNOR_GAME_SRC_SPECIAL_TYPEDEF_H_
 
 #include "customer/player/player.h"
+#include "customer/room/table.h"
 #include "customer/room/room.h"
 #include "customer/room/room_manager.h"
 
@@ -23,6 +24,7 @@ namespace gamer {
 
 class Player;
 
+template class Table<Player>;
 template class Room<Player>;
 template class RoomManager<Player>;
 

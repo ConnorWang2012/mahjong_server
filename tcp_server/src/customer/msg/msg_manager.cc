@@ -599,6 +599,7 @@ void MsgManager::DealWithStartGameMsg(const ClientMsg& msg, bufferevent* bev) {
 	auto room_id = proto_client.room_id();
 	MsgCodes code;
     gamer::Room<Player>* room = nullptr;
+
 	if (proto_client.room_type() == (unsigned)RoomTypes::PERSONAL_ROOM) { // personal room
 		room = RoomManager<Player>::instance()->GetPersonalRoom(room_id);
 		if (nullptr != room) {

@@ -15,7 +15,6 @@ modification:
 #include <vector>
 
 #include "customer/room/table_protocol.h"
-
 #include "customer/msg/protocol/table_msg_protocol.pb.h"
 
 namespace gamer {
@@ -39,7 +38,7 @@ class Table : public TableProtocol<Player> {
 
 	virtual inline Player* player(id_t player_id) override;
 
-	virtual inline void set_table_id(id_t room_id) override;
+	virtual inline void set_table_id(id_t table_id) override;
 
 	virtual inline id_t table_id() const override;
 
@@ -108,7 +107,7 @@ template<typename Player>
 inline std::vector<Player*>* gamer::Table<Player>::players() { return &players_; }
 
 template<typename Player>
-inline void Table<Player>::set_table_id(id_t room_id) { table_msg_proto_.set_table_id(table_id); }
+inline void Table<Player>::set_table_id(id_t table_id) { table_msg_proto_.set_table_id(table_id); }
 
 template<typename Player>
 inline id_t Table<Player>::table_id() const { return table_msg_proto_.table_id(); }

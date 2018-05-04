@@ -124,6 +124,8 @@ class Room : public RoomProtocol<Player> {
 
     int GetNextNewCard();
 
+	MsgCodes GetTableForCommonRoom(Table<Player>* table);
+
 	inline void modify_available_table_id();
 
 	inline id_t available_table_id() const;
@@ -141,11 +143,14 @@ class Room : public RoomProtocol<Player> {
     std::vector<Player*>	players_sended_msg_peng_;
     std::vector<Player*>	players_selected_hu_;
     std::vector<Player*>	players_selected_giveup_;
+
+	std::unordered_map<id_t, Table<Player>*> tables_;
 };
 
 template<typename Player>
 gamer::Room<Player>::Room()
 	: room_id_(0),
+	  available_table_id_(0),
 	  room_type_(RoomTypes::UNKNOW_ROOM),
       last_discard_player_(nullptr),
       player_sended_msg_chi_(nullptr) {
@@ -1416,6 +1421,11 @@ int Room<Player>::GetNextNewCard() {
 		LOGERROR("[Room<Player>::next_one_new_card] INVALID_CARD_VALUE!");
 	}
     return card;
+}
+
+template<typename Player>
+MsgCodes Room<Player>::GetTableForCommonRoom(Table<Player>* table) {
+	return MsgCodes::MSG_CODE_SUCCESS;
 }
 
 template<typename Player>

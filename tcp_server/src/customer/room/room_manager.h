@@ -19,9 +19,9 @@ modification:
 #include <unordered_map>
 #include <unordered_set>
 
-#include "base/basic_manager.h"
+#include "framework/base/basic_manager.h"
 #include "framework/base/macros.h"
-#include "room/room.h"
+#include "customer/room/room.h"
 
 namespace gamer {
 

@@ -29,6 +29,10 @@ enum class TableIDs {
 	TABLE_ID_MAX                    = 5
 };
 
+enum class RoomConstans {
+	TABLE_NUM_MAX = 10
+};
+
 } // namespace gamer
 
 #endif // CONNOR_GAME_SRC_ROOM_CONSTANTS_H_
