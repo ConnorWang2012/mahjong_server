@@ -35,6 +35,8 @@ modification:
 #include "customer/msg/protocol/room_list_msg_protocol.pb.h"
 #include "customer/msg/protocol/create_room_msg_protocol.pb.h"
 #include "customer/msg/protocol/room_operation_msg_protocol.pb.h"
+#include "customer/player/player.h"
+#include "customer/player/player_constants.h"
 #include "customer/player/player_manager.h"
 #include "customer/room/card_constants.h"
 
@@ -181,13 +183,13 @@ void MsgManager::DealWithMgLoginMsg(const ClientMsg& msg, bufferevent* bev) {
 	if (login_proto_client.player_id() <= 0) { // first login
         player_id_new    = DataManager::instance()->GeneratePlayerID();
 		player_id_server = player_id_new;
-		account_server   = PlayerManager::instance()->GenerateAccountByPlayerID(player_id_new);
+		account_server   = PlayerManager::instance()->GenerateAccount(player_id_new);
 		password_server  = account_server; // password is account
 
 		// TODO : init by cfg
         player_proto->set_player_id(player_id_new);
         player_proto->set_nick_name(account_server); 
-		player_proto->set_sex((unsigned)Player::Sex::FEMALE);
+		player_proto->set_sex((unsigned)gamer::Sex::FEMALE);
 		player_proto->set_head_portrait_type((unsigned)Player::PortraitTypes::LOCAL);
 		player_proto->set_head_portrait_id(gamer::GenerateRandom<id_t>(1, 75));
         player_proto->set_level(1);
@@ -306,8 +308,11 @@ void MsgManager::DealWithSetPropertyMsg(const ClientMsg& msg, bufferevent* bev) 
 	}
 }
 
-void MsgManager::DealWithSetNicknameMsg(const ClientMsg& msg, bufferevent* bev,
-	google::protobuf::Message* proto, id_t player_id, const std::string& nickname) {
+void MsgManager::DealWithSetNicknameMsg(const ClientMsg& msg, 
+	                                    bufferevent* bev,
+	                                    google::protobuf::Message* proto, 
+	                                    id_t player_id, 
+	                                    const std::string& nickname) {
 	// TODO : check limit
 	
 	// get cache player data
@@ -341,8 +346,11 @@ void MsgManager::DealWithSetNicknameMsg(const ClientMsg& msg, bufferevent* bev,
 		bev);
 }
 
-void MsgManager::DealWithSetSexMsg(const ClientMsg& msg, bufferevent* bev, 
-	google::protobuf::Message* proto, id_t player_id, const std::string& sex) {
+void MsgManager::DealWithSetSexMsg(const ClientMsg& msg, 
+	                               bufferevent* bev, 
+	                               google::protobuf::Message* proto, 
+	                               id_t player_id, 
+	                               const std::string& sex) {
 	if (sex.empty()) {
 		this->SendMsgForError(MsgCodes::MSG_CODE_MSG_PROTO_ERR, msg, bev);
 		return;
@@ -366,9 +374,9 @@ void MsgManager::DealWithSetSexMsg(const ClientMsg& msg, bufferevent* bev,
 	}
 
 	if (sex == "1") {
-		player_proto.set_sex((unsigned)Player::Sex::FEMALE);
+		player_proto.set_sex((unsigned)gamer::Sex::FEMALE);
 	} else {
-		player_proto.set_sex((unsigned)Player::Sex::MALE);
+		player_proto.set_sex((unsigned)gamer::Sex::MALE);
 	}
 	
 	if (!player_proto.SerializePartialToString(&player_data)) {
@@ -385,8 +393,11 @@ void MsgManager::DealWithSetSexMsg(const ClientMsg& msg, bufferevent* bev,
 		bev);
 }
 
-void MsgManager::DealWithSetLocalHeadPortraitMsg(const ClientMsg& msg, bufferevent* bev, 
-	google::protobuf::Message* proto, id_t player_id, const std::string& head_portrait_id) {
+void MsgManager::DealWithSetLocalHeadPortraitMsg(const ClientMsg& msg, 
+	                                             bufferevent* bev, 
+	                                             google::protobuf::Message* proto, 
+	                                             id_t player_id, 
+	                                             const std::string& head_portrait_id) {
 	if (head_portrait_id.empty()) {
 		this->SendMsgForError(MsgCodes::MSG_CODE_MSG_PROTO_ERR, msg, bev);
 		return;

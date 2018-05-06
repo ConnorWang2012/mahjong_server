@@ -23,23 +23,29 @@ modification:
 
 namespace gamer {
 
-Player::Player()
-	: player_id_(0),
-      account_(""),
-	  cur_table_id_(0),
+Player::Player(id_t player_id)
+	: Player(player_id, PlayerTypes::REAL_PLAYER, Sex::FEMALE) {
+}
+
+Player::Player(id_t player_id, PlayerTypes type, Sex sex)
+    : player_id_(player_id),
+      player_type_(type),
+      sex_(sex),
+	  account_(""),
+      cur_table_id_(0),
       is_online_(false),
       cur_available_operation_id_(PlayCardOperationIDs::OPERATION_NONE),
       has_selected_operation_ting_(false),
       cards_msg_proto_(nullptr),
-	  num_ming_gang_(0),
-	  num_an_gang_(0),
-	  num_win_(0) {
+      num_ming_gang_(0),
+      num_an_gang_(0),
+      num_win_(0){
 }
 
 Player* Player::Create(id_t player_id) {
-	auto player = new (std::nothrow) Player;
+	auto player = new (std::nothrow) Player(player_id);
 	if (nullptr != player) {
-		if (!player->Init(player_id)) {
+		if ( !player->Init() ) {
 			SAFE_DELETE(player);
 			return nullptr;
 		}
@@ -510,8 +516,7 @@ bool Player::IsBuhua() const
     return false;
 }
 
-bool Player::Init(id_t player_id) {
-	player_id_ = player_id;
+bool Player::Init() {
 	return true;
 }
 
@@ -624,4 +629,4 @@ bool Player::GetTingOrZimoOperationID(int& operation_id, PlayCardMsgProtocol* pr
     return false;
 }
 
-}
+} // namespace gamer

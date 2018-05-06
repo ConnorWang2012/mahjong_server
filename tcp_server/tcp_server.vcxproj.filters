@@ -904,6 +904,12 @@
     <ClInclude Include="src\customer\base\special_typedef.h">
       <Filter>src\customer\base</Filter>
     </ClInclude>
+    <ClInclude Include="src\customer\player\player_constants.h">
+      <Filter>src\customer\player</Filter>
+    </ClInclude>
+    <ClInclude Include="src\customer\player\robot.h">
+      <Filter>src\customer\player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -1205,6 +1211,9 @@
     </ClCompile>
     <ClCompile Include="src\framework\algorithm\chess_card_algorithm.cc">
       <Filter>src\framework\algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="src\customer\player\robot.cc">
+      <Filter>src\customer\player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

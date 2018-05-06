@@ -19,6 +19,7 @@ modification:
 #include "framework/base/typedef.h"
 #include "customer/base/common_typedef.h"
 #include "customer/player/player_protocol.h"
+#include "customer/player/player_constants.h"
 #include "customer/msg/protocol/player_cards_msg_protocol.pb.h"
 #include "customer/msg/protocol/play_card_msg_protocol.pb.h"
 #include "customer/msg/protocol/ting_card_msg_protocol.pb.h"
@@ -32,11 +33,6 @@ class Player : public PlayerProtocol {
     typedef gamer::protocol::TingCardMsgProtocol                        TingCardMsgProtocol;
     typedef google::protobuf::RepeatedField<google::protobuf::uint32>   RepeatedFieldInt;
 
-	enum class Sex {
-		MALE,
-		FEMALE
-	};
-
 	enum class PortraitTypes {
 		LOCAL, 
 		PERSONNAL
@@ -46,7 +42,9 @@ class Player : public PlayerProtocol {
 
 	Player(const Player&) = delete;
 
-	Player();
+	Player(id_t player_id);
+
+	Player(id_t player_id, PlayerTypes type, Sex sex);
 
 	static Player* Create(id_t player_id);
 
@@ -57,6 +55,14 @@ class Player : public PlayerProtocol {
 	virtual inline void set_is_online(bool online) override;
 
     virtual inline bool is_online() const override;
+
+	virtual inline void set_player_type(PlayerTypes player_type) override;
+
+	virtual inline PlayerTypes player_type() const override;
+
+	virtual inline void set_sex(Sex sex) override;
+
+	virtual inline Sex sex() const override;
 
     inline void set_account(const std::string& account);
 
@@ -145,8 +151,12 @@ class Player : public PlayerProtocol {
 
     bool IsBuhua() const;
 
+  protected:
+	PlayerTypes		player_type_;
+	Sex				sex_;
+
   private:
-	bool Init(id_t player_id);
+	bool Init();
 
     void GetInvisibleHandCards(int* cards, int& len) const;
 
@@ -156,15 +166,15 @@ class Player : public PlayerProtocol {
 
     bool GetTingOrZimoOperationID(int& operation_id, PlayCardMsgProtocol* proto) const;
 
-    std::string account_;
-	id_t player_id_;
-	id_t cur_table_id_;
-    bool is_online_;
-    bool has_selected_operation_ting_;
-    id_t cur_available_operation_id_;
-	uint8 num_ming_gang_;
-	uint8 num_an_gang_;
-	uint8 num_win_;
+    std::string		account_;
+	id_t			player_id_;
+	id_t			cur_table_id_;
+    bool			is_online_;
+    bool			has_selected_operation_ting_;
+    id_t			cur_available_operation_id_;
+	uint8			num_ming_gang_;
+	uint8			num_an_gang_;
+	uint8			num_win_;
 
 	PlayerCardsMsgProtocol* cards_msg_proto_;
 };
@@ -183,6 +193,22 @@ inline void Player::set_is_online(bool online) {
 
 inline bool Player::is_online() const {
     return is_online_;
+}
+
+inline void Player::set_player_type(PlayerTypes player_type) {
+	player_type_ = player_type;
+}
+
+inline PlayerTypes Player::player_type() const {
+	return player_type_;
+}
+
+inline void Player::set_sex(Sex sex) {
+	sex_ = sex;
+}
+
+inline Sex Player::sex() const {
+	return sex_;
 }
 
 inline void Player::set_account(const std::string& account) {

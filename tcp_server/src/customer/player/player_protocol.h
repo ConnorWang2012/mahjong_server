@@ -19,6 +19,9 @@ modification:
 
 namespace gamer {
 
+enum class PlayerTypes;
+enum class Sex;
+
 class PlayerProtocol {
   public:
 	virtual ~PlayerProtocol() {};
@@ -30,6 +33,14 @@ class PlayerProtocol {
 	virtual inline void set_is_online(bool online) = 0;
 
 	virtual inline bool is_online() const = 0;
+
+	virtual inline void set_player_type(PlayerTypes player_type) = 0;
+
+	virtual inline PlayerTypes player_type() const = 0;
+
+	virtual inline void set_sex(Sex sex) = 0;
+
+	virtual inline Sex sex() const = 0;
 };
 
 } // namespace gamer
