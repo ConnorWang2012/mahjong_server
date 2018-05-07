@@ -1,10 +1,9 @@
 package gamer.protocol;
-import "table_msg_protocol.proto";
 
 message RoomMsgProtocol {
-  required uint32 room_id			                    = 1;
-  required uint32 room_owner_id		                = 2;
-  optional uint32 room_type                       = 3;
-  optional uint32 players_num  		                = 4;
-  repeated TableMsgProtocol table_list            = 5; // only send a table to client
+  required uint32 room_id                          = 1;
+  required uint32 room_owner_id                    = 2;
+  optional uint32 room_type                        = 3;
+  optional uint32 cur_players_num                  = 4;
+  optional uint32 max_players_num                  = 5;
 }

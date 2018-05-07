@@ -29,8 +29,12 @@ enum class TableIDs {
 	TABLE_ID_MAX                    = 5
 };
 
-enum class RoomConstans {
-	TABLE_NUM_MAX = 10
+enum class RoomConstants {
+	ROOM_OWNER_ID_COMMON           = 8888,
+	REQUIRED_PLAYERS_NUM_2         = 2,
+	REQUIRED_PLAYERS_NUM_3         = 3,
+	REQUIRED_PLAYERS_NUM_4         = 4,
+	TABLE_NUM_MAX                  = 10
 };
 
 } // namespace gamer

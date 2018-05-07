@@ -31,21 +31,25 @@ enum class MsgIDs {
 	MSG_ID_ROOM_PLAYER_JOIN			= 2002,
 	MSG_ID_ROOM_PLAYER_LEAVE		= 2003,
 	MSG_ID_ROOM_DISSOLVE			= 2004,
-    MSG_ID_ROOM_START_GAME          = 2005,
-	MSG_ID_ROOM_PLAY_CARD			= 2006,
-    MSG_ID_ROOM_GAME_END            = 2007, // game end for one round
-    MSG_ID_ROOM_FINAL_GAME_END      = 2008,
-	MSG_ID_ROOM_GET_ROOM_LIST       = 2009,
+	MSG_ID_ROOM_PLAY_CARD			= 2005,
+    MSG_ID_ROOM_GAME_END            = 2006, // game end for one round
+    MSG_ID_ROOM_FINAL_GAME_END      = 2007,
+	MSG_ID_ROOM_GET_ROOM_LIST       = 2008,
+
+	// c2s
+	MSG_ID_ROOM_START_GAME          = 3001,
 
 	// property
 	// c2s, s2c
-	MSG_ID_PROPERTY_SET				= 3001,
+	MSG_ID_PROPERTY_SET				= 4001,
 
 	// s2c
-	MSG_ID_PROPERTY_CHANGED			= 4001,
+	MSG_ID_PROPERTY_CHANGED			= 5001,
+	MSG_ID_ROOM_INFO                = 5002, // send after start game msg
+	MSG_ID_ROOM_TABLE               = 5003, // send after start game msg
 
 	// c2s, s2c
-	MSG_ID_PROPERTY_GET_PLAYER_INFO = 5001
+	MSG_ID_PROPERTY_GET_PLAYER_INFO = 6001
 };
 
 }

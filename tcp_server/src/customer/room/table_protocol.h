@@ -39,6 +39,8 @@ class TableProtocol {
     virtual inline bool is_player_in_table(id_t player_id) const = 0;
 
     virtual inline size_t cur_players_num() const = 0;
+
+	virtual inline size_t required_players_num() const = 0;
 };
 
 } // namespace gamer

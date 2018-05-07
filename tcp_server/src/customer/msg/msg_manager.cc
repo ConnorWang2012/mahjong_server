@@ -39,6 +39,7 @@ modification:
 #include "customer/player/player_constants.h"
 #include "customer/player/player_manager.h"
 #include "customer/room/card_constants.h"
+#include "customer/room/room_constants.h"
 
 namespace gamer {
 
@@ -473,7 +474,9 @@ void MsgManager::DealWithCreatePersonalRoomMsg(const ClientMsg& msg, bufferevent
     // add player to room
     auto room = room_mgr->GetPersonalRoom(room_id);
     if (nullptr == room) {
-        room = Room<Player>::Create(room_id, RoomTypes::PERSONAL_ROOM);
+        room = Room<Player>::Create(room_id, 
+			                        RoomTypes::PERSONAL_ROOM, 
+			                        (size_t)RoomConstants::TABLE_NUM_MAX);
         room_mgr->AddRoom(room);
     }
 	room->AddPlayer(player);
@@ -621,7 +624,9 @@ void MsgManager::DealWithStartGameMsg(const ClientMsg& msg, bufferevent* bev) {
 	} else if (proto_client.room_type() == (unsigned)RoomTypes::COMMON_ROOM) { // common room
 		room = RoomManager<Player>::instance()->GetCommonRoom(room_id);
 		if (nullptr == room) {
-			room = Room<Player>::Create(room_id, RoomTypes::COMMON_ROOM);
+			room = Room<Player>::Create(room_id, 
+				                        RoomTypes::COMMON_ROOM, 
+				                        (size_t)RoomConstants::TABLE_NUM_MAX);
 		}
 
 		if (nullptr != room) {

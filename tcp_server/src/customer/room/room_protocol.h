@@ -46,6 +46,14 @@ class RoomProtocol {
 
     virtual inline bool is_player_in_room(id_t player_id) const = 0;
 
+	virtual inline size_t cur_tables_num() const = 0;
+
+	virtual inline size_t max_tables_num() const = 0;
+
+	virtual inline void set_cur_table_id(id_t table_id) = 0;
+
+	virtual inline id_t cur_table_id() const = 0;
+
     virtual inline size_t cur_players_num() const = 0;
 };
 

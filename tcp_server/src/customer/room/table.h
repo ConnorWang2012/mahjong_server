@@ -28,7 +28,9 @@ class Table : public TableProtocol<Player> {
 
 	Table(const Table&) = delete;
 
-	static Table* Create(id_t table_id);
+	Table();
+
+	static Table* Create(id_t table_id, size_t max_players_num);
 
 	virtual void AddPlayer(Player* player) override;
 
@@ -46,10 +48,15 @@ class Table : public TableProtocol<Player> {
 
 	virtual inline size_t cur_players_num() const override;
 
-  private:
-	Table();
+	virtual inline size_t required_players_num() const override;
 
-	bool Init(id_t table_id);
+	inline bool can_player_join() const;
+
+	inline TableMsgProtocol* table_msg_protocol();
+
+  private:
+
+	bool Init(id_t table_id, size_t required_players_num);
 
 	TableMsgProtocol table_msg_proto_;
 
@@ -58,14 +65,13 @@ class Table : public TableProtocol<Player> {
 
 template<typename Player>
 gamer::Table<Player>::Table() {
-	table_msg_proto_.set_table_id(0);
 }
 
 template<typename Player>
-gamer::Table<Player>* Table<Player>::Create(id_t table_id) {
+gamer::Table<Player>* Table<Player>::Create(id_t table_id, size_t required_players_num) {
 	auto table = new Table<Player>();
 	if (nullptr != table) {
-		if ( !table->Init(table_id) ) {
+		if ( !table->Init(table_id, required_players_num) ) {
 			SAFE_DELETE(table);
 			return nullptr;
 		}
@@ -126,8 +132,22 @@ template<typename Player>
 inline size_t gamer::Table<Player>::cur_players_num() const { return players_.size(); }
 
 template<typename Player>
-bool Table<Player>::Init(id_t table_id) {
+inline size_t gamer::Table<Player>::required_players_num() const { 
+	return table_msg_proto_.required_players_num(); 
+}
+
+template<typename Player>
+inline bool Table<Player>::can_player_join() const { 
+	return this->cur_players_num() < this->required_players_num();
+}
+
+template<typename Player>
+inline gamer::protocol::TableMsgProtocol* Table<Player>::table_msg_protocol() { return &table_msg_proto_; }
+
+template<typename Player>
+bool Table<Player>::Init(id_t table_id, size_t required_players_num) {
 	table_msg_proto_.set_table_id(table_id);
+	table_msg_proto_.set_required_players_num(required_players_num);
 	return true;
 }
 

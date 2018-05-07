@@ -24,6 +24,7 @@ enum class MsgCodes {
 	MSG_CODE_MSG_PROTO_ERR							= 1000,
 	MSG_CODE_GET_DATA_ERR							= 1001,
 	MSG_CODE_PARSE_DATA_ERR							= 1002,
+	MSG_CODE_BUFFEREVENT_ERR                        = 1003,
 
 	// login
 	MSG_CODE_LOGIN_MSG_PROTO_ERR			        = 1201,
