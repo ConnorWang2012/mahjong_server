@@ -37,12 +37,14 @@ struct delete_vector_obj {
 };
 
 // use for deleting std::map object in std::for_each.
+/*
 struct delete_map_obj {
 	template <typename T1, typename T2>
 	void operator() (const T1, const T2* ptr) const {
 		SAFE_DELETE(ptr);
 	}
 };
+*/
 
 template<typename T>
 static T GenerateRandom(T min, T max) {

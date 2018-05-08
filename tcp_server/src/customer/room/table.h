@@ -28,8 +28,6 @@ class Table : public TableProtocol<Player> {
 
 	Table(const Table&) = delete;
 
-	Table();
-
 	static Table* Create(id_t table_id, size_t max_players_num);
 
 	virtual void AddPlayer(Player* player) override;
@@ -55,6 +53,7 @@ class Table : public TableProtocol<Player> {
 	inline TableMsgProtocol* table_msg_protocol();
 
   private:
+	Table();
 
 	bool Init(id_t table_id, size_t required_players_num);
 

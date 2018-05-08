@@ -70,7 +70,7 @@ void NetworkManager::InitSocket() {
 		evbase_ = event_base_new();
 	}
 	if (nullptr == evbase_) {
-		LOGERROR("[NetworkManager::InitSocket] event_base_new failed!");
+		PRINTF_ERROR("[NetworkManager::InitSocket] event_base_new failed!");
 		return;
 	}
 
@@ -90,11 +90,11 @@ void NetworkManager::InitSocket() {
 			sizeof(sin));
 	}
 	if (nullptr == connlistener_) {
-		LOGERROR("[NetworkManager::InitSocket] evconnlistener_new_bind failed!");
+		PRINTF_ERROR("[NetworkManager::InitSocket] evconnlistener_new_bind failed!");
 		return;
 	}
 
-	LOGGREEN("[NetworkManager::InitSocket] tcp listening on : %s, port : %d", ip_.c_str(), port_);
+	PRINTF_GREEN("[NetworkManager::InitSocket] tcp listening on : %s, port : %d", ip_.c_str(), port_);
 
 	evconnlistener_set_error_cb(connlistener_, OnConnErrorOccur);
 
@@ -128,7 +128,7 @@ void NetworkManager::OnConnAccepted(struct evconnlistener* listener,
 								    int socklen,
                                     void* ctx) {
 	// We got a new connection! Set up a bufferevent for it.
-	LOGGREEN("[NetworkManager::InitSocket] one client connected");	
+	PRINTF_GREEN("[NetworkManager::InitSocket] one client connected");	
 	auto base = evconnlistener_get_base(listener);
 	auto bev = bufferevent_socket_new(base, fd, BEV_OPT_CLOSE_ON_FREE);
 	bufferevent_setcb(bev, OnBuffereventRead, OnBuffereventWrite, OnBuffereventReceived, nullptr);
@@ -145,7 +145,7 @@ void NetworkManager::OnConnErrorOccur(struct evconnlistener* listener, void* ctx
 
 void NetworkManager::OnBuffereventReceived(struct bufferevent* bev, short event, void* ctx) {
 	if (event & BEV_EVENT_ERROR) {
-		LOGERROR("[NetworkManager::OnBuffereventArrive] error from bufferevent!");
+		PRINTF_ERROR("[NetworkManager::OnBuffereventArrive] error from bufferevent!");
 		EventManager::instance()->Dispatch((id_t)NetworkEventIDs::NETWORK_EVENT_ID_SOCKET_DISCONNECTED);
 	}
 
@@ -154,12 +154,12 @@ void NetworkManager::OnBuffereventReceived(struct bufferevent* bev, short event,
 	}
 
 	if (event & BEV_EVENT_CONNECTED) {
-		LOGGREEN("[NetworkManager::OnBuffereventArrive] client connected");
+		PRINTF_GREEN("[NetworkManager::OnBuffereventArrive] client connected");
 		EventManager::instance()->Dispatch((id_t)NetworkEventIDs::NETWORK_EVENT_ID_SOCKET_CONNECTED);
 	} 
 	
 	if (event & BEV_EVENT_TIMEOUT) {
-		LOGERROR("[NetworkManager::OnBuffereventArrive] client connect timeout");
+		PRINTF_ERROR("[NetworkManager::OnBuffereventArrive] client connect timeout");
 		EventManager::instance()->Dispatch((id_t)NetworkEventIDs::NETWORK_EVENT_ID_SOCKET_CONNECT_TIMEOUT);
 	}
 }
@@ -170,13 +170,13 @@ void NetworkManager::OnBuffereventRead(struct bufferevent* bev, void* ctx) {
 
     auto buf_len = evbuffer_get_length(input);
     if (buf_len <= 0 || buf_len > NetworkManager::MAX_BUFFER_LEN) {
-        LOGERROR("[NetworkManager::onBufferRead] buffer len is invalid");
+        PRINTF_ERROR("[NetworkManager::onBufferRead] buffer len is invalid");
         return;
     }
 
     char buf[NetworkManager::MAX_BUFFER_LEN] = { 0 };
     if (evbuffer_remove(input, buf, buf_len) <= 0) {
-        LOGERROR("[NetworkManager::onBufferRead] read buffer failed");
+        PRINTF_ERROR("[NetworkManager::onBufferRead] read buffer failed");
         return;
     }
 

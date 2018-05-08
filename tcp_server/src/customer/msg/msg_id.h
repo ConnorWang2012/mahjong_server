@@ -46,7 +46,7 @@ enum class MsgIDs {
 	// s2c
 	MSG_ID_PROPERTY_CHANGED			= 5001,
 	MSG_ID_ROOM_INFO                = 5002, // send after start game msg
-	MSG_ID_ROOM_TABLE               = 5003, // send after start game msg
+	MSG_ID_ROOM_TABLE_INFO          = 5003, // send after start game msg
 
 	// c2s, s2c
 	MSG_ID_PROPERTY_GET_PLAYER_INFO = 6001

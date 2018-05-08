@@ -50,6 +50,8 @@ class Room : public RoomProtocol<Player> {
 
     Room(const Room&) = delete;
 
+	~Room();
+
     static Room* Create(id_t room_id, RoomTypes room_type, size_t max_tables_num);
 
     virtual void DissolveRoom(id_t room_id) override; // TODO :
@@ -90,11 +92,11 @@ class Room : public RoomProtocol<Player> {
 
 	Table<Player>* GetCurTable() const;
 
+	gamer::protocol::TableMsgProtocol* GetCurTableMsgProtocol() const;
+
     void InitCreateRoomMsgProtocol(const CreateRoomMsgProtocol& proto);
 
     void InitRoomMsgProtocol(const std::string& serialized_data);
-
-	//MsgCodes DealWithGameStart(RoomMsgProtocol& proto);
 
 	MsgCodes DealWithGameStartForPersonalRoom(RoomMsgProtocol& proto);
 
@@ -107,13 +109,9 @@ class Room : public RoomProtocol<Player> {
 
     bool Init(id_t room_id, RoomTypes room_type, size_t max_tables_num);
 
-    void DealWithFirstGameStartForPersonalRoom();
+    void InitPersonalRoomForGameStart();
 
-    void DealWithNonFirstGameStartForPersonalRoom();
-
-	void DealWithFirstGameStartForCommonRoom();
-
-	void DealWithNonFirstGameStartForCommonRoom();
+	void InitCommonRoomForGameStart();
 
 	MsgCodes DealWithOperationDiscard(PlayCardMsgProtocol& proto, Player* player);
 
@@ -141,12 +139,16 @@ class Room : public RoomProtocol<Player> {
 
 	MsgCodes FindTable(Table<Player>* table);
 
+	Table<Player>* CreateTable(size_t players_num);
+
+	void InitTable(TableMsgProtocol* table_proto, size_t required_players_num);
+
 	inline void modify_available_table_id();
 
 	inline id_t available_table_id() const;
 
-    CreateRoomMsgProtocol create_room_msg_proto_;
-    RoomMsgProtocol room_msg_proto_;
+    CreateRoomMsgProtocol   create_room_msg_proto_;
+    RoomMsgProtocol         room_msg_proto_;
 
 	id_t					room_id_;
 	RoomTypes				room_type_;
@@ -174,6 +176,13 @@ gamer::Room<Player>::Room()
       last_discard_player_(nullptr),
       player_sended_msg_chi_(nullptr) {
 
+}
+
+template<typename Player>
+gamer::Room<Player>::~Room() {
+	for (auto it = tables_.begin(); it != tables_.end(); it++) {
+		SAFE_DELETE(it->second);
+	}
 }
 
 template<typename Player>
@@ -285,22 +294,18 @@ Table<Player>* Room<Player>::GetCurTable() const {
 }
 
 template<typename Player>
+gamer::protocol::TableMsgProtocol* Room<Player>::GetCurTableMsgProtocol() const {
+	auto tb = this->GetCurTable();
+	if (nullptr != tb) {
+		return tb->table_msg_protocol();
+	}
+	return nullptr;
+}
+
+template<typename Player>
 void Room<Player>::InitCreateRoomMsgProtocol(const CreateRoomMsgProtocol& proto) {
     create_room_msg_proto_.CopyFrom(proto);
 }
-
-/*
-template<typename Player>
-MsgCodes Room<Player>::DealWithGameStart(RoomMsgProtocol& proto) {
-	if (proto.room_type() == (unsigned)RoomTypes::COMMON_ROOM) {
-		return this->DealWithGameStartForCommonRoom(proto);
-	} else if (proto.room_type() == (unsigned)RoomTypes::PERSONAL_ROOM) {
-		return this->DealWithGameStartForPersonalRoom(proto);
-	} else {
-		return MsgCodes::MSG_CODE_ROOM_ROOM_TYPE_INVALID;
-	}
-}
-*/
 
 template<typename Player>
 MsgCodes Room<Player>::DealWithGameStartForPersonalRoom(RoomMsgProtocol& proto) {
@@ -320,12 +325,13 @@ MsgCodes Room<Player>::DealWithGameStartForPersonalRoom(RoomMsgProtocol& proto) 
         return code;
     }
 
-    this->DealWithNonFirstGameStartForPersonalRoom();
-    this->DealWithFirstGameStartForPersonalRoom();
+    this->InitPersonalRoomForGameStart();
     
     // prepare table msg proto for each player
-	auto table_server = this->GetCurTable();
-	auto table_proto_server = table_server->table_msg_protocol();
+	auto table_proto_server = this->GetCurTableMsgProtocol();
+	if (nullptr == table_proto_server) {
+		return MsgCodes::MSG_CODE_ROOM_TABLE_NOT_EXIST;
+	}
 
 	std::unordered_map<id_t, TableMsgProtocol*> map_table_proto;
 	for (auto& player : players_) {
@@ -449,7 +455,7 @@ MsgCodes Room<Player>::DealWithGameStartForPersonalRoom(RoomMsgProtocol& proto) 
 		auto bev = PlayerManager::instance()->GetOnlinePlayerBufferevent(player->player_id());
 		if (nullptr != bev) {
 			MsgManager::instance()->SendMsg((msg_header_t)MsgTypes::S2C_MSG_TYPE_ROOM,
-				(msg_header_t)MsgIDs::MSG_ID_ROOM_TABLE,
+				(msg_header_t)MsgIDs::MSG_ID_ROOM_TABLE_INFO,
 				(msg_header_t)MsgCodes::MSG_CODE_SUCCESS,
 				*table_proto,
 				bev);
@@ -487,21 +493,16 @@ MsgCodes Room<Player>::DealWithGameStartForPersonalRoom(RoomMsgProtocol& proto) 
     }
 	
     // release allocated
-	//auto table_list = room_proto.mutable_table_list();
-	//auto table1 = room_proto.mutable_table_list(0);
-	//auto player_cards = table1->mutable_player_cards();
-	//player_cards->DeleteSubrange(0, table1->player_cards_size());
-	//table_list->DeleteSubrange(0, room_proto.table_list_size());
 	for (auto& player : players_) {
-		auto table_proto = map_table_proto.at(player->player_id());
-		auto player_cards = table_proto->mutable_player_cards();
-		auto players = table_proto->mutable_players();
-		player_cards->DeleteSubrange(0, table_proto->player_cards_size());
-		players->DeleteSubrange(0, table_proto->players_size());
+		auto table_proto          = map_table_proto.at(player->player_id());
+		auto mutable_player_cards = table_proto->mutable_player_cards();
+		auto mutable_players      = table_proto->mutable_players();
+		mutable_player_cards->DeleteSubrange(0, table_proto->player_cards_size());
+		mutable_players->DeleteSubrange(0, table_proto->players_size());
 	}
 
 	for (auto it = map_table_proto.begin(); it != map_table_proto.end(); it++) {
-		delete it->second;
+		SAFE_DELETE(it->second);
 	}
 
     return MsgCodes::MSG_CODE_SUCCESS;
@@ -509,6 +510,43 @@ MsgCodes Room<Player>::DealWithGameStartForPersonalRoom(RoomMsgProtocol& proto) 
 
 template<typename Player>
 MsgCodes Room<Player>::DealWithGameStartForCommonRoom(RoomMsgProtocol& proto) {
+	// verify room data
+	
+	// find available table
+	Table<Player>* table = nullptr;
+	auto code = this->FindTable(table);
+	if (code != MsgCodes::MSG_CODE_SUCCESS) {
+		return code;
+	}
+
+	this->set_cur_table_id(table->table_id());
+
+	this->InitCommonRoomForGameStart();
+
+	// prepare robot and table msg proto
+	auto table_proto_server = table->table_msg_protocol();
+	if (nullptr == table_proto_server) {
+		return MsgCodes::MSG_CODE_ROOM_TABLE_NOT_EXIST;
+	}
+
+	std::unordered_map<id_t, TableMsgProtocol*> map_table_proto;
+	if (0 == table->cur_players_num()) {
+		// prepare robot
+
+		// prepare table msg proto
+		for (unsigned i = 0; i < table->required_players_num(); i++) {
+			auto table_proto = new TableMsgProtocol;
+			this->InitTable(table_proto, table->required_players_num());
+
+			auto player_cards = table_proto->add_player_cards();
+			player_cards->set_player_id(player->player_id());
+
+			// TODO: init player info
+
+			map_table_proto.insert(std::make_pair(player->player_id(), table_proto));
+		}
+	}
+
 	return MsgCodes::MSG_CODE_SUCCESS;
 }
 
@@ -696,7 +734,7 @@ MsgCodes Room<Player>::DealWithPlayCard(PlayCardMsgProtocol& proto) {
 		proto_other.set_room_id(room_id_);
 		proto_other.set_table_id(proto.table_id());
 		proto_other.set_player_id(player_id);
-		proto_other.set_cur_round(this->GetCurTable()->table_msg_protocol()->cur_round()); // TODO: 0 not right for common room
+		proto_other.set_cur_round(this->GetCurTableMsgProtocol()->cur_round());
 		proto_other.set_operation_id(PlayCardOperationIDs::OPERATION_BU_HUA);
 		proto_other.set_my_available_operation_id(PlayCardOperationIDs::OPERATION_NONE);
 		proto_other.set_new_card(CardConstants::INVALID_CARD_VALUE);
@@ -714,13 +752,13 @@ MsgCodes Room<Player>::DealWithPlayCard(PlayCardMsgProtocol& proto) {
 				if (table_id == (unsigned)TableIDs::TABLE_ID_INVALID || 
 					table_id > (unsigned)TableIDs::TABLE_ID_MAX) {
 					// TODO :log
-					LOGERROR("[Room<Player>::DealWithPlayCard] TABLE_ID_INVALID!");
+					PRINTF_ERROR("[Room<Player>::DealWithPlayCard] TABLE_ID_INVALID!");
 				}
 
 				proto_self.set_room_id(room_id_);
 				proto_self.set_table_id(proto.table_id());
 				proto_self.set_player_id(player_id);				
-				proto_self.set_cur_round(this->GetCurTable()->table_msg_protocol()->cur_round()); // TODO : 0 not right for common room
+				proto_self.set_cur_round(this->GetCurTableMsgProtocol()->cur_round());
 				proto_self.set_operation_id(PlayCardOperationIDs::OPERATION_BU_HUA);
 				proto_self.set_next_operate_player_id(player_id);
 				proto_self.set_has_next_operate_player_new_card(false);
@@ -870,57 +908,52 @@ MsgCodes Room<Player>::DealWithPlayCard(PlayCardMsgProtocol& proto) {
 }
 
 template<typename Player>
-void Room<Player>::DealWithFirstGameStartForPersonalRoom() {
+void Room<Player>::InitPersonalRoomForGameStart() {
     // room common data
-    if ( !room_msg_proto_.IsInitialized() ) {
-        // room data
+	if ( !room_msg_proto_.IsInitialized() ) {
+		// room data
 		auto room_owner_id = create_room_msg_proto_.room_owner_id();
-        auto players_num = create_room_msg_proto_.players_num();
-        room_msg_proto_.set_room_id(room_id_);
-        room_msg_proto_.set_room_owner_id(room_owner_id);
+		auto players_num = create_room_msg_proto_.players_num();
+		room_msg_proto_.set_room_id(room_id_);
+		room_msg_proto_.set_room_owner_id(room_owner_id);
 		room_msg_proto_.set_room_type((unsigned)RoomTypes::PERSONAL_ROOM);
-        room_msg_proto_.set_max_players_num(players_num);
+		room_msg_proto_.set_max_players_num(players_num);
 
 		// table data
-		auto table = gamer::Table<gamer::Player>::Create((id_t)TableIDs::TABLE_ID_1, players_num);
-		tables_.insert(std::make_pair((id_t)TableIDs::TABLE_ID_1, table));
+		auto table = this->CreateTable(players_num);
 		this->set_cur_table_id(table->table_id());
 
 		auto table_proto = table->table_msg_protocol();
 		table_proto->set_cur_round(1);
 		table_proto->set_total_round(create_room_msg_proto_.rounds_num());
 		table_proto->set_remain_cards_num(CardConstants::TOTAL_CARDS_NUM -
-            players_num * CardConstants::ONE_PLAYER_CARD_NUM);
+			players_num * CardConstants::ONE_PLAYER_CARD_NUM);
 		table_proto->mutable_remain_cards()->Reserve(table_proto->remain_cards_num());
 		table_proto->set_operating_player_id(room_owner_id);
 		table_proto->set_banker_id(room_owner_id);
 		table_proto->set_banker_is_same_time(0);
 
+
 		// cards data
-        for (auto& player : players_) {
-            auto player_cards = table_proto->add_player_cards();
-            player_cards->set_player_id(player->player_id());
+		for (auto& player : players_) {
+			auto player_cards = table_proto->add_player_cards();
+			player_cards->set_player_id(player->player_id());
 			player->set_cur_table_id(table_proto->table_id());
-        }
-    }
-}
+		}
+	} else {
+		auto table_proto = this->GetCurTableMsgProtocol();
 
-template<typename Player>
-void Room<Player>::DealWithNonFirstGameStartForPersonalRoom() {
-    if (room_msg_proto_.IsInitialized()) {
-		auto table = this->GetCurTable()->table_msg_protocol();
-
-		if (nullptr == table) {
-			// TODO: log
+		if (nullptr == table_proto) {
+			PRINTF_ERROR("[Room<Player>::InitPersonalRoomForGameStart] nullptr == table_proto");
 			return;
 		}
 
-		if (table->cur_round() < table->total_round()) {
-			table->set_cur_round(table->cur_round() + 1);
+		if (table_proto->cur_round() < table_proto->total_round()) {
+			table_proto->set_cur_round(table_proto->cur_round() + 1);
 		}
 
-		for (auto i = 0; i < table->player_cards_size(); i++) {
-			auto player_card = table->mutable_player_cards(i);
+		for (auto i = 0; i < table_proto->player_cards_size(); i++) {
+			auto player_card = table_proto->mutable_player_cards(i);
 			player_card->clear_invisible_hand_cards();
 			player_card->clear_flower_cards();
 			player_card->clear_season_cards();
@@ -932,49 +965,18 @@ void Room<Player>::DealWithNonFirstGameStartForPersonalRoom() {
 			player_card->clear_ting_cards();
 		}
 
-		table->clear_remain_cards();
-    }
-}
-
-template<typename Player>
-void Room<Player>::DealWithFirstGameStartForCommonRoom() {
-	// room common data
-	if ( !room_msg_proto_.IsInitialized() ) {
-		room_msg_proto_.set_room_id(this->available_table_id());
-		room_msg_proto_.set_room_owner_id((unsigned)RoomConstants::ROOM_OWNER_ID_COMMON);
-		room_msg_proto_.set_room_type((unsigned)RoomTypes::COMMON_ROOM);
-		room_msg_proto_.set_cur_players_num(0);
+		table_proto->clear_remain_cards();
 	}
 }
 
 template<typename Player>
-void Room<Player>::DealWithNonFirstGameStartForCommonRoom() {
-	if (room_msg_proto_.IsInitialized()) {
-		auto table = this->GetCurTable()->table_msg_protocol();
-
-		if (nullptr == table) {
-			// TODO: log
-			return;
-		}
-
-		if (table->cur_round() < table->total_round()) {
-			table->set_cur_round(table->cur_round() + 1);
-		}
-
-		for (auto i = 0; i < table->player_cards_size(); i++) {
-			auto player_card = table->mutable_player_cards(i);
-			player_card->clear_invisible_hand_cards();
-			player_card->clear_flower_cards();
-			player_card->clear_season_cards();
-			player_card->clear_peng_cards();
-			player_card->clear_chi_cards();
-			player_card->clear_ming_gang_cards();
-			player_card->clear_an_gang_cards();
-			player_card->clear_discards();
-			player_card->clear_ting_cards();
-		}
-
-		table->clear_remain_cards();
+void Room<Player>::InitCommonRoomForGameStart() {
+	// room common data
+	if ( !room_msg_proto_.IsInitialized() ) {
+		room_msg_proto_.set_room_id(this->cur_table_id());
+		room_msg_proto_.set_room_owner_id((unsigned)RoomConstants::ROOM_OWNER_ID_COMMON);
+		room_msg_proto_.set_room_type((unsigned)RoomTypes::COMMON_ROOM);
+		room_msg_proto_.set_cur_players_num(0);
 	}
 }
 
@@ -1342,14 +1344,14 @@ void Room<Player>::DealWithOperationGiveUpPengOrPengGang(PlayCardMsgProtocol& pr
 template<typename Player>
 void Room<Player>::DealWithGameEnd(Player* player_win) {
     GameEndMsgProtocol proto;
-	auto table = this->GetCurTable()->table_msg_protocol(); // TODO: 0 not right for common room
+	auto table_proto = this->GetCurTableMsgProtocol();
     proto.set_room_id(room_id_);
     proto.set_room_owner_id(room_msg_proto_.room_owner_id());
     proto.set_winner_id(player_win->player_id());
     proto.set_players_num(room_msg_proto_.max_players_num());
-    proto.set_cur_round(table->cur_round());
-    proto.set_total_round(table->total_round());
-    proto.set_banker_id(table->banker_id());
+    proto.set_cur_round(table_proto->cur_round());
+    proto.set_total_round(table_proto->total_round());
+    proto.set_banker_id(table_proto->banker_id());
     
     protocol::PlayerMsgProtocol player_proto;
 
@@ -1389,8 +1391,8 @@ void Room<Player>::DealWithGameEnd(Player* player_win) {
 
 			// win rate
 			float win_rate = 0;
-			if (table->total_round() > 0) {
-				win_rate = float(player->num_win()) / float(table->total_round());
+			if (table_proto->total_round() > 0) {
+				win_rate = float(player->num_win()) / float(table_proto->total_round());
 			}
 			game_end_data->set_rate_winning(win_rate);
 
@@ -1497,17 +1499,20 @@ void gamer::Room<Player>::RemovePlayerOfSendedMsgPeng(id_t player_id) {
 
 template<typename Player>
 Player* Room<Player>::GetPlayerOfHigherPriorityForHu() {
-    if (players_selected_hu_.size() > 0 && nullptr != last_discard_player_) {
-        auto right_player = last_discard_player_;
-        for (unsigned i = 0; i < players_.size(); i++) {
-            right_player = this->GetTheRightPlayer(right_player->player_id());
-            for (auto& player : players_selected_hu_) {
-                if (right_player->player_id() == player->player_id()) {
-                    return player;
-                }
-            }
-        }
-    }
+	if (0 == players_selected_hu_.size() || nullptr == last_discard_player_) {
+		return nullptr;
+	}
+
+	auto right_player = last_discard_player_;
+	for (unsigned i = 0; i < players_.size(); i++) {
+		right_player = this->GetTheRightPlayer(right_player->player_id());
+		for (auto& player : players_selected_hu_) {
+			if (right_player->player_id() == player->player_id()) {
+				return player;
+			}
+		}
+	}
+
     return nullptr;
 }
 
@@ -1522,31 +1527,60 @@ bool gamer::Room<Player>::Init(id_t room_id, RoomTypes room_type, size_t max_tab
 template<typename Player>
 int Room<Player>::GetNextNewCard() {
     int card = CardConstants::INVALID_CARD_VALUE;
-	auto table = this->GetCurTable()->table_msg_protocol();
-    auto size = table->remain_cards_size();
+	auto table_proto = this->GetCurTableMsgProtocol();
+    auto size = table_proto->remain_cards_size();
     if (size > 0) {
-        card = table->remain_cards(size - 1);
-		table->mutable_remain_cards()->RemoveLast();
+        card = table_proto->remain_cards(size - 1);
+		table_proto->mutable_remain_cards()->RemoveLast();
 	}
 
 	if (card == (int)CardConstants::INVALID_CARD_VALUE) {
-		LOGERROR("[Room<Player>::next_one_new_card] INVALID_CARD_VALUE!");
+		PRINTF_ERROR("[Room<Player>::next_one_new_card] INVALID_CARD_VALUE!");
 	}
     return card;
 }
 
 template<typename Player>
 MsgCodes Room<Player>::FindTable(Table<Player>* table) {
-	if (0 == tables_.size()) {
-		auto table = gamer::Table<gamer::Player>::Create(this->available_table_id(), 
-			                                             (size_t)RoomConstants::REQUIRED_PLAYERS_NUM_2); // TODO : cfg
-		tables_.insert(std::make_pair(table->table_id(), table));
+	if (0 == this->cur_tables_num()) {
+		table = this->CreateTable((size_t)RoomConstants::REQUIRED_PLAYERS_NUM_2); // TODO : players num
+		return MsgCodes::MSG_CODE_SUCCESS;
+	} else if (this->cur_tables_num() <= this->max_tables_num()) {
+		for (auto it = tables_.begin(); it != tables_.end(); it++) {
+			if (it->second->can_player_join()) {
+				table = it->second;
+				return MsgCodes::MSG_CODE_SUCCESS;
+			}
+		}
 
-		this->set_cur_table_id(table->table_id());
-	} else if (tables_.size() <= this->max_tables_num()) {
-
+		if (this->cur_tables_num() < this->max_tables_num()) {
+			table = this->CreateTable((size_t)RoomConstants::REQUIRED_PLAYERS_NUM_2); // TODO : players num
+			return MsgCodes::MSG_CODE_SUCCESS;
+		}
 	}
-	return MsgCodes::MSG_CODE_SUCCESS;
+	return MsgCodes::MSG_CODE_ROOM_GET_TABLE_FAILED;
+}
+
+template<typename Player>
+Table<Player>* Room<Player>::CreateTable(size_t players_num) {
+	auto tb = gamer::Table<gamer::Player>::Create(this->available_table_id(), players_num);
+	tables_.insert(std::make_pair(tb->table_id(), tb));
+	return tb;
+}
+
+template<typename Player>
+void Room<Player>::InitTable(TableMsgProtocol* table_proto, size_t required_players_num) {
+	table_proto->set_table_id(this->cur_table_id());
+	table_proto->set_cur_round(1);
+	if (RoomTypes::PERSONAL_ROOM == this->room_type()) {
+		table_proto->set_total_round(create_room_msg_proto_.rounds_num());
+	}
+	table_proto->set_remain_cards_num(CardConstants::TOTAL_CARDS_NUM -
+		required_players_num * CardConstants::ONE_PLAYER_CARD_NUM);
+	table_proto->mutable_remain_cards()->Reserve(table_proto->remain_cards_num());
+	//table_proto->set_operating_player_id(room_owner_id);
+	//table_proto->set_banker_id(room_owner_id);
+	table_proto->set_banker_is_same_time(0);
 }
 
 template<typename Player>
